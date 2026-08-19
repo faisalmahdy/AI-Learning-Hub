@@ -2,7 +2,7 @@
 
 **A personal (soon shareable) curriculum for maximizing the potential of AI — for general purpose use, science & development, coding, and beyond — grounded in evidence from 16 of my own repositories.**
 
-> Status: **DRAFT v0.1** — the curriculum is live but its open decisions are being resolved through a grill-me session. See [BRAINSTORM.md](BRAINSTORM.md).
+> Status: **DRAFT v0.2** — Round 1 of the grill-me session settled the shape: a **public, English-first monorepo of leveled learning modules (basic → intermediate → advanced), readable as an interactive website**, absorbing teaching material from my labs plus curated external resources, gated by a dated-recall ledger. Round 2 decisions are pending in [BRAINSTORM.md](BRAINSTORM.md).
 
 ## Contents
 

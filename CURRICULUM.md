@@ -1,8 +1,15 @@
 # AI-Learning-Hub — The Curriculum
 
-> **Status: DRAFT v0.1** — built from a deep scan of all 16 AI-related repos + prior research artifacts.
-> Open decisions live in [BRAINSTORM.md](BRAINSTORM.md) and are being resolved through a grill-me session.
+> **Status: DRAFT v0.2** — built from a deep scan of all 16 AI-related repos + prior research artifacts.
+> Round 1 decisions settled (see [BRAINSTORM.md](BRAINSTORM.md)): self-first · 8–12 h/week · public monorepo of topic modules · interactive web surface · recall-ledger gate.
 > Evidence: [docs/repo-map.md](docs/repo-map.md) · [docs/skills-matrix.md](docs/skills-matrix.md)
+
+## How this curriculum becomes the Hub
+
+- A **track** below = a **topic folder** in the monorepo (e.g. `modules/evals-and-statistics/`). There are 7 tracks + 1 cross-cutting ops track.
+- Each track's modules get a **level tag** — `basic` / `intermediate` / `advanced` — so the web surface can be browsed either by topic or by level.
+- The Hub **absorbs** teaching material from the labs (de-personalized) and curates reliable **external resources** per topic (links + own summaries).
+- Everything is rendered as an **interactive, visualized website** (tech decision pending in Round 2); markdown stays the source of truth, views are generated.
 
 ## Who this is for
 
@@ -123,7 +130,8 @@ These rules come from `second-brain-through-agents` and are adopted hub-wide:
 | 6.3 | Experiment design & uncertainty | 150-case retrieval benchmark results | Variance across runs; which differences are real? | Intervals on your own benchmark |
 | 6.4 | Personal data science | Garmin series (personal-command-center) | Validate the future-self projection against actuals | Projection error quantified |
 | 6.5 | **Capstone** | any of the above | One defensible empirical claim about your own systems, stated with uncertainty, reproducible from a committed notebook | The format a scientific collaborator would accept |
-| 6.6 | (bridge) Dicoding ML submissions | Dicoding priority plan (Tier S → C) | The 8 submissions double as externally-graded exercises for this track | Certificates as external validation |
+| 6.6 | Dicoding-derived modules | Dicoding priority plan (Tier S → C) | The 8 submission *tasks* (deep learning, MLOps, GenAI fine-tuning + RAG, Flutter ML, cloud deploy) are mined as raw material for hub modules — the submissions themselves are not tracked here | Each mined task becomes a leveled module with its own recall gate |
+| 6.7 | External scientific domain (parallel) | greenfield — chosen domain TBD in grill session | Alongside own-systems work, develop one external scientific domain (e.g. bio/health data via Garmin experience, or physics/simulation) | One external-domain analysis meeting the 6.5 standard |
 
 ## Track 7 — Teaching, portability, and the compounding loop
 
@@ -150,11 +158,11 @@ These rules come from `second-brain-through-agents` and are adopted hub-wide:
 
 ---
 
-## Sequencing (proposal — to be settled in the grill session)
+## Sequencing (8–12 h/week, settled in Round 1; ordering still open in Round 2)
 
-**Phase 1 (weeks 1–4): Measurement + closure.** Track 1 modules 1.1–1.2, quick last-mile wins (wire the `--check` gate, fix README drift, rotate the token), start the recall ledger with dated passes.
-**Phase 2 (weeks 5–8): Retrieval head-to-head + orchestration instrumentation.** Track 3.1–3.2, Track 4.1–4.2, continue Track 1.
-**Phase 3 (weeks 9–12): Below the prompt.** Track 5.1–5.3, Track 6.1–6.3, SWE-bench capstone.
-**Phase 4 (weeks 13+): Science capstone + teaching.** Track 6.5, Track 7, first external learner.
+**Phase 1 (weeks 1–4): Measurement + closure + hub skeleton.** Track 1 modules 1.1–1.2 at `basic` level, quick last-mile wins (wire the `--check` gate, fix README drift, rotate the committed token), start the recall ledger with dated passes, and stand up the interactive web surface with the first topic rendered.
+**Phase 2 (weeks 5–8): Retrieval head-to-head + orchestration instrumentation.** Track 3.1–3.2, Track 4.1–4.2, continue Track 1 at `intermediate`.
+**Phase 3 (weeks 9–12): Below the prompt + quantitative spine.** Track 5.1–5.3, Track 6.1–6.3 (own-systems data science), SWE-bench capstone.
+**Phase 4 (weeks 13+): Science capstones + teaching.** Track 6.5 + 6.7 (external scientific domain), Track 7, first external learner.
 
 Model-usage doctrine for the Hub itself (your stated preference, now written down): **Fable 5 plans, evaluates, and monitors; task-optimized workers (Opus/Sonnet/Haiku, or Codex/Gemini via councils) execute.** Every phase runs as: plan (Fable) → fan-out build (workers) → adversarial verify (mixed) → dated artifact.
