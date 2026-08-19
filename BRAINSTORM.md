@@ -37,13 +37,17 @@ Drift risk accepted knowingly: absorbing content means lab copies and hub copies
 
 ## Open decisions (grill-me design tree)
 
-### Round 2 — asked 2026-08-19 (answers pending)
+### Frontier: EMPTY as of Round 2 (2026-08-19)
 
-- **Q9 Web surface tech** — how the interactive hub is served (static site generated from the monorepo vs app framework)?
-- **Q10 Module taxonomy** — the top-level topic list for the monorepo modules?
-- **Q11 Topics × levels** — confirm: modules organized by topic, each tagged basic/intermediate/advanced, web UI navigable both ways?
-- **Q12 Absorption policy** — what may be absorbed into a public monorepo (own private-repo material? external resources: links+summaries vs copies)?
-- **Q13 First module** — which module gets built first as the template for all others?
+Shared understanding reached; building started per the Q13 directive. Remaining deferred-by-choice items (not blockers): choice of external scientific domain (Track 6.7), Indonesian-track timing, module-by-module cuts for Phases 2–4.
+
+### Settled (Round 2 — 2026-08-19)
+
+- **Q9 Web surface**: GitHub Pages + a generated, self-contained HTML explorer. Markdown is the source of truth; views are generated (stdlib-only `tools/build_site.py`).
+- **Q10 Taxonomy**: the 8 tracks + **generative-media** as a 9th topic folder (seeded from ai-studio pipeline/provenance + arena-ai verification work).
+- **Q11 Levels**: **basic** = understand + reproduce a worked example from the labs; **intermediate** = build a variation with a measured result; **advanced** = original work meeting the "defensible claim with uncertainty" standard. Boss-fight recall required at every level.
+- **Q12 Absorption policy**: own material absorbed as de-personalized copies (paths/names/personal content scrubbed); external resources as **link + own summary only**, never full copies; every absorbed page carries a source line.
+- **Q13 First module**: *Evals & Statistics — basic*, built together with the explorer skeleton.
 
 ### Settled (Round 1 — 2026-08-19)
 
