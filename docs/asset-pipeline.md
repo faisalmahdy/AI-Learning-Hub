@@ -52,11 +52,12 @@ Every generated asset gets a manifest entry **in the same commit**:
 
 GitHub Pages serves the repo directly: keep images ≤300KB (1600px max edge, prefer WebP/optimized PNG) and loops ≤3MB (720p, H.264). Downsample before committing.
 
-## Connecting Higgsfield
+## Connecting Higgsfield (decided 2026-08-19)
 
-Either lane works; MCP is preferred:
+Three lanes exist; the first is the chosen one:
 
-- **MCP**: add the Higgsfield MCP server as a claude.ai connector, or in Claude Code: `claude mcp add higgsfield -- <server command>` — then the generation tools appear in-session and batches run straight from the briefs.
-- **CLI**: install the CLI in the environment and provide its auth (env var or config file). Generation then runs through Bash with the same briefs.
+1. **Hosted MCP (chosen for interactive generation).** Official server at `https://mcp.higgsfield.ai` (30+ models, images to 4K, video to 15s, OAuth — no API key). One-time setup, done by the owner in a browser: claude.ai → Settings → Connectors → Add custom connector → `https://mcp.higgsfield.ai` → sign in → enable for Claude Code sessions. Agent sessions then call the `mcp__higgsfield__*` tools directly.
+2. **Direct API (reserved for CI).** Bearer token from docs.higgsfield.ai stored as the `HIGGSFIELD_API_KEY` environment secret — never committed. Submit-then-poll, same pattern as `muapi.js` in the open-generative-ai fork. `tools/generate_assets.py` gets written only after observing one real request/response (never a guessed schema).
+3. **CLI (laptop only).** `npm i -g @higgsfield/cli` + `higgsfield auth login` — browser login, so it does not work inside headless cloud containers.
 
 First batch to generate once connected: see [asset-briefs.md](asset-briefs.md).
