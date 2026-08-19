@@ -61,3 +61,15 @@ Three lanes exist; the first is the chosen one:
 3. **CLI (laptop only).** `npm i -g @higgsfield/cli` + `higgsfield auth login` — browser login, so it does not work inside headless cloud containers.
 
 First batch to generate once connected: see [asset-briefs.md](asset-briefs.md).
+
+### Known constraint — remote sessions cannot retrieve generated files (verified 2026-08-19)
+
+The MCP connector works from a Claude Code **web/cloud** session: generation submits and completes normally (verified: recraft_v4_1, 1344×768, 1.25 credits/image). But the session's container sits behind an egress policy that **denies Higgsfield hosts** — `d8j0ntlcm91z4.cloudfront.net` (result CDN), `higgsfield.ai`, `docs.higgsfield.ai` all return `403` on CONNECT. So a cloud session can *create* assets but cannot download them to commit into this repo.
+
+Working retrieval lanes:
+
+1. **Allowlist the CDN host** in the environment's egress policy (`d8j0ntlcm91z4.cloudfront.net`) → cloud sessions then run the whole batch end-to-end, unattended.
+2. **Local Claude Code session** on a machine without that policy → MCP or CLI, generate + download + commit in one pass. Works today, no admin needed.
+3. **Manual**: download from the Higgsfield gallery/widget, drop the files into `modules/<topic>/assets/`, then a session wires them up and writes the manifest entries.
+
+Do NOT hot-link CDN URLs from the site as a substitute: result URLs are account-scoped and may rotate, which would silently break the published page.
