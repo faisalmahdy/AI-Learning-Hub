@@ -24,6 +24,16 @@ summary: One-sentence card text for the explorer.
 - `status` — `draft` | `ready`
 - `time` — honest estimate at 8–12 h/week pace
 
+## Visual-first rules
+
+Modules are infographic-first, text-second:
+
+- **Inline `<svg>` blocks** pass straight through as themed figures — use the site's CSS variables (`var(--ink)`, `var(--acc)`, `var(--s1)`/`var(--s2)` for chart series — a colorblind-validated pair) so figures follow light/dark automatically. Data charts follow the dataviz rules: one axis, series colors validated, text in text tokens.
+- **Images/videos**: `![alt](file.png "caption")` — bare filenames resolve to this topic's `assets/` folder; `.mp4`/`.webm` become muted looping players. A `^ caption` line after any figure becomes its caption.
+- **`hero:` frontmatter** (optional) puts a thumbnail on the module card.
+- Generated media follows [../docs/asset-pipeline.md](../docs/asset-pipeline.md): provenance manifest entry required, assets illustrate but never carry data.
+- Every module should teach its core mechanism with at least one figure a learner could redraw from memory — the figure *is* boss-fight material.
+
 ## Body sections (in this order)
 
 1. `## Why this module` — what gap it closes, with evidence

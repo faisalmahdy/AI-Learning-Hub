@@ -10,6 +10,7 @@ data actually contains (modules/, ledger/recall-ledger.json, data/*.json).
 import html
 import json
 import re
+import shutil
 import sys
 from pathlib import Path
 
@@ -54,11 +55,50 @@ def inline_md(s: str) -> str:
     return s
 
 
-def md_to_html(body: str) -> str:
+IMG_LINE = re.compile(r'^!\[([^\]]*)\]\(([^)\s"]+)(?:\s+"([^"]*)")?\)\s*$')
+VIDEO_EXT = (".mp4", ".webm")
+
+
+def asset_url(src: str, topic: str) -> str:
+    if src.startswith(("http://", "https://", "assets/")):
+        return src
+    return f"assets/{topic}/{src}"
+
+
+def md_to_html(body: str, topic: str = "", asset_refs=None) -> str:
     out, i = [], 0
     lines = body.splitlines()
     while i < len(lines):
         line = lines[i]
+        if line.lstrip().startswith("<svg"):
+            svg = []
+            while i < len(lines):
+                svg.append(lines[i])
+                if "</svg>" in lines[i]:
+                    break
+                i += 1
+            i += 1
+            cap = ""
+            if i < len(lines) and lines[i].startswith("^ "):
+                cap = f"<figcaption>{inline_md(lines[i][2:])}</figcaption>"
+                i += 1
+            out.append("<figure class='fig'>" + "\n".join(svg) + cap + "</figure>")
+            continue
+        m = IMG_LINE.match(line)
+        if m:
+            alt, src, cap = m.group(1), m.group(2), m.group(3) or ""
+            if asset_refs is not None and not src.startswith(("http://", "https://")):
+                asset_refs.append(src)
+            url = asset_url(src, topic)
+            if src.lower().endswith(VIDEO_EXT):
+                tag = (f"<video src='{url}' controls muted loop playsinline "
+                       f"aria-label='{html.escape(alt)}'></video>")
+            else:
+                tag = f"<img src='{url}' alt='{html.escape(alt)}' loading='lazy'>"
+            capel = f"<figcaption>{inline_md(cap)}</figcaption>" if cap else ""
+            out.append(f"<figure class='fig media'>{tag}{capel}</figure>")
+            i += 1
+            continue
         if line.startswith("```"):
             code = []
             i += 1
@@ -146,7 +186,15 @@ def load():
             errors.append(f"{path}: level must be one of {LEVELS}")
         if meta.get("status") not in STATUSES:
             errors.append(f"{path}: status must be one of {STATUSES}")
-        modules.append({**meta, "html": md_to_html(body),
+        refs = []
+        rendered = md_to_html(body, topic=path.parent.name, asset_refs=refs)
+        assets_dir = path.parent / "assets"
+        for r in refs:
+            if not r.startswith("assets/") and not (assets_dir / r).exists():
+                errors.append(f"{path}: referenced asset '{r}' not found in {assets_dir}")
+        if meta.get("hero") and not (assets_dir / meta["hero"]).exists():
+            errors.append(f"{path}: hero asset '{meta['hero']}' not found in {assets_dir}")
+        modules.append({**meta, "html": rendered,
                         "text": re.sub(r"\s+", " ", body).lower()})
     ledger = json.loads(LEDGER.read_text()) if LEDGER.exists() else {"passes": []}
     for entry in ledger.get("passes", []):
@@ -161,6 +209,16 @@ def load():
     for c in skills.get("clusters", []):
         if not (0 <= c.get("score", -1) <= 1):
             errors.append(f"skills.json: cluster '{c.get('id')}' score must be 0..1")
+    manifest_path = DATA / "assets-manifest.json"
+    if manifest_path.exists():
+        manifest = json.loads(manifest_path.read_text())
+        for a in manifest.get("assets", []):
+            f = ROOT / a.get("file", "")
+            if not f.exists():
+                errors.append(f"assets-manifest: file '{a.get('file')}' does not exist")
+            for key in ("file", "kind", "prompt", "model", "date"):
+                if not a.get(key):
+                    errors.append(f"assets-manifest: entry '{a.get('file', '?')}' missing '{key}'")
     return topics, modules, ledger, hub, skills, errors
 
 
@@ -178,6 +236,7 @@ TEMPLATE = """<!doctype html>
   --acc:#f97316; --acc-ink:#c2410c; --acc-soft:#fff7ed; --acc-line:#fed7aa; --acc-hi:#fdba74;
   --basic:#15803d; --basic-soft:#dcfce7; --inter:#b45309; --inter-soft:#fef3c7;
   --adv:#7c3aed; --adv-soft:#ede9fe;
+  --s1:#ea580c; --s2:#2563eb; /* chart series — validated pair, light surface */
   --mono:'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace;
   --sans:'IBM Plex Sans',system-ui,-apple-system,sans-serif;
   --shadow:0 1px 2px rgba(26,32,40,.05),0 6px 18px rgba(26,32,40,.06);
@@ -189,6 +248,7 @@ TEMPLATE = """<!doctype html>
   --acc:#fb923c; --acc-ink:#fdba74; --acc-soft:#2a1a0c; --acc-line:#7c3a12; --acc-hi:#fdba74;
   --basic:#4ade80; --basic-soft:#0d2818; --inter:#fbbf24; --inter-soft:#2a2108;
   --adv:#a78bfa; --adv-soft:#1e1633;
+  --s1:#e06a10; --s2:#4278d6; /* chart series — validated pair, dark surface */
   --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 22px rgba(0,0,0,.35);}}
 :root[data-theme="dark"]{
   --bg:#0d1117; --panel:#161c24; --sunk:#10151c; --grid:#232c37; --line:#2a3542;
@@ -197,6 +257,7 @@ TEMPLATE = """<!doctype html>
   --acc:#fb923c; --acc-ink:#fdba74; --acc-soft:#2a1a0c; --acc-line:#7c3a12; --acc-hi:#fdba74;
   --basic:#4ade80; --basic-soft:#0d2818; --inter:#fbbf24; --inter-soft:#2a2108;
   --adv:#a78bfa; --adv-soft:#1e1633;
+  --s1:#e06a10; --s2:#4278d6;
   --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 22px rgba(0,0,0,.35);}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 var(--sans);display:flex;min-height:100vh}
@@ -274,6 +335,7 @@ section.topic{margin-bottom:26px}
 .mcard{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:14px 16px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:8px;font:inherit;color:inherit}
 .mcard:hover{border-color:var(--acc)}
 .mcard.building{border-color:var(--acc);box-shadow:0 2px 10px rgba(249,115,22,.12)}
+.mcard img.hero{width:100%;max-height:140px;object-fit:cover;border-radius:6px;border:1px solid var(--grid)}
 .mcard h3{margin:0;font-size:14.5px;font-weight:600;line-height:1.35}
 .mcard p{margin:0;font-size:12px;color:var(--muted);line-height:1.5}
 .mcard .meta{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
@@ -317,6 +379,11 @@ section.topic{margin-bottom:26px}
 #reader ul.checks li{display:flex;gap:9px;align-items:flex-start}
 #reader .ckbox{width:14px;height:14px;border:1.5px solid var(--faint);border-radius:4px;flex-shrink:0;margin-top:4px}
 #reader ul.checks li.done .ckbox{background:var(--basic);border-color:var(--basic)}
+#reader figure.fig{margin:14px 0;background:var(--sunk);border:1px solid var(--grid);border-radius:8px;padding:16px 18px;overflow-x:auto}
+#reader figure.fig svg{display:block;width:100%;height:auto}
+#reader figure.fig.media{padding:10px}
+#reader figure.fig img,#reader figure.fig video{display:block;max-width:100%;border-radius:6px}
+#reader figcaption{font:11px var(--mono);color:var(--muted);margin-top:10px;letter-spacing:.03em}
 #close{float:right;font:13px var(--mono);background:var(--sunk);border:1px solid var(--grid);border-radius:7px;padding:5px 12px}
 footer{margin-top:44px;border-top:1px solid var(--line);padding-top:14px;font:11.5px var(--mono);color:var(--faint);display:flex;gap:14px;flex-wrap:wrap;justify-content:space-between}
 </style>
@@ -479,7 +546,8 @@ let lv="all",q="";
 function card(m){
  const st=passes[m.id]?'<span class="recall pass">RECALL ✓ '+passes[m.id].slice(-1)[0]+'</span>':'<span class="recall pending">RECALL PENDING</span>';
  const building=(m===firstOpen);
- return `<button class="mcard ${building?"building":""}" data-id="${m.id}"><h3>${m.title}</h3><p>${m.summary}</p>`+
+ const hero=m.hero?`<img class="hero" src="assets/${m.topic}/${m.hero}" alt="" loading="lazy">`:"";
+ return `<button class="mcard ${building?"building":""}" data-id="${m.id}">${hero}<h3>${m.title}</h3><p>${m.summary}</p>`+
   `<div class="meta"><span class="lv ${m.level}">${m.level}</span><span class="tm">${m.time.toUpperCase()}</span>`+
   (building?'<span class="stc building">● BUILDING</span>':'')+st+`</div></button>`;
 }
@@ -522,7 +590,7 @@ function open(id){
   `</div><h2>${m.title}</h2>${m.html}`;
  document.getElementById("reader").classList.add("open");document.body.style.overflow="hidden";
 }
-function close(){document.getElementById("reader").classList.remove("open");document.body.style.overflow=""}
+function close(){document.getElementById("reader").classList.remove("open");document.body.style.overflow="";if(location.hash.startsWith("#m="))history.replaceState(null,"",location.pathname)}
 document.getElementById("close").addEventListener("click",close);
 document.getElementById("reader").addEventListener("click",e=>{if(e.target.id==="reader")close()});
 addEventListener("keydown",e=>{if(e.key==="Escape")close()});
@@ -544,6 +612,9 @@ document.getElementById("theme").addEventListener("click",()=>{
  const r=document.documentElement,cur=r.dataset.theme;
  r.dataset.theme=cur==="dark"?"light":cur==="light"?"":"dark";
 });
+
+/* deep link: #m=<module-id> opens the reader directly */
+(function(){const h=location.hash.match(/^#m=(.+)$/);if(h)open(decodeURIComponent(h[1]))})();
 </script>
 </body>
 </html>
@@ -566,9 +637,15 @@ def main():
                        "hub": hub, "skills": skills},
                       ensure_ascii=False).replace("</", "<\\/")
     SITE.mkdir(exist_ok=True)
+    copied = 0
+    for tdir in sorted(MODULES.iterdir()):
+        adir = tdir / "assets"
+        if adir.is_dir():
+            shutil.copytree(adir, SITE / "assets" / tdir.name, dirs_exist_ok=True)
+            copied += sum(1 for f in adir.iterdir() if f.is_file())
     (SITE / "index.html").write_text(TEMPLATE.replace("__DATA__", data))
     print(f"built site/index.html — {len(modules)} modules, {len(topics)} topics, "
-          f"{len(ledger.get('passes', []))} ledger entries")
+          f"{len(ledger.get('passes', []))} ledger entries, {copied} assets")
 
 
 if __name__ == "__main__":
