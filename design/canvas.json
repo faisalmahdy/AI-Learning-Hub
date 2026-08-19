@@ -1,0 +1,15 @@
+{
+  "artboards": [
+    { "file": "Main.dc.html", "x": 0, "y": 0, "w": 1280, "h": 980, "title": "Option A — Skill Constellation" },
+    { "file": "OptionB.dc.html", "x": 1380, "y": 0, "w": 1280, "h": 1040, "title": "Option B — The AI Atlas" },
+    { "file": "OptionC.dc.html", "x": 2760, "y": 0, "w": 1280, "h": 960, "title": "Option C — Mission Control" }
+  ],
+  "annotations": [
+    { "id": "brief-pick", "x": 0, "y": -210, "w": 560, "text": "AI-Learning-Hub redesign — pick a direction.\nThree genuinely different takes on the same content (your real 9 topics, first module, empty recall ledger). Choose one and the full screen set (module reader, ledger, topic pages) gets built in that language, then implemented as the real GitHub Pages site." },
+    { "id": "note-option-a", "x": 620, "y": -170, "w": 320, "text": "A — Skill Constellation. Explore-by-map: topics are stars, progress is light, prerequisites are lines.\nMotivation: the whole curriculum visible as one sky; progress feels like igniting a galaxy.\nTradeoff: the map needs care as modules grow; least conventional to navigate." },
+    { "id": "note-option-b", "x": 1380, "y": -170, "w": 320, "text": "B — The AI Atlas. Warm editorial expedition: camp → ridge → summit per territory, a route map for the phases, flags for recall passes.\nMotivation: strongest storytelling; makes learning feel like a journey, very approachable for future learners.\nTradeoff: least dense — more scrolling to see everything." },
+    { "id": "note-option-c", "x": 2760, "y": -170, "w": 320, "text": "C — Mission Control. Measurement-first dashboard: skill radar, recall heat, topic ladders, module queue.\nMotivation: embodies the hub doctrine (measure or it didn't happen); densest at-a-glance state.\nTradeoff: most tool-like, least narrative warmth." },
+    { "id": "note-data", "x": 620, "y": 20, "w": 300, "text": "Progress visuals show illustrative future state (bars, radar, one heat cell) — the real site renders only what the ledger actually contains." }
+  ],
+  "launch": { "view": "canvas" }
+}
