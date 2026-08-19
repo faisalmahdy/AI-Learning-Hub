@@ -1,17 +1,31 @@
 # Asset briefs — batch 1 (ready for Higgsfield)
 
-Run these the moment the Higgsfield MCP/CLI is connected. Every output gets a
-manifest entry per [asset-pipeline.md](asset-pipeline.md) and is downsampled to the
-size caps before committing.
+**Run these in the Higgsfield web app, not over MCP.** Two reasons, both verified 2026-08-19 (see [asset-pipeline.md](asset-pipeline.md)): the unlimited entitlements on this account are web-only, so the web app costs **0 credits** where MCP bills 1.25/image and 39/video; and cloud sessions cannot download from the Higgsfield CDN, so the files have to be saved from a browser anyway.
+
+Every output gets a manifest entry per [asset-pipeline.md](asset-pipeline.md) and is downsampled to the size caps before committing.
+
+## Which model to use (free lane, in preference order)
+
+| Use | Model | Setting | Why |
+|---|---|---|---|
+| Topic + module heroes | **Seedream 4.5** | 4K, 16:9 | 365-day unlimited, highest resolution of the free set |
+| Fallback / faster heroes | **Flux.2 Pro** | 1K, 16:9 | 365-day unlimited, strong prompt adherence |
+| Line-art / icon work | **Kling O1 Image** or **GPT Image** | 16:9 or 1:1 | 365-day unlimited |
+| The loop video | **Kling 3.0** (720p/5s) or **Seedance 2.0** | 16:9, sound off | 7-day unlimited / full access on Max |
+
+Confirm in the web app which allowances are still live before starting — the MCP cannot see web-side entitlements.
 
 ## Shared style block (append to every image prompt)
 
-> technical blueprint illustration, mission-control aesthetic, dark slate background
-> (#10151c), a single signal-orange accent (#f97316), thin precise linework, subtle
-> grid, isometric or orthographic viewpoint, high contrast, clean negative space,
+> technical blueprint illustration, mission-control aesthetic, near-black slate
+> background (hex #10151c), one single signal-orange accent (hex #f97316) and cool
+> off-white linework, thin precise lines, subtle background grid, isometric or
+> orthographic viewpoint, high contrast, clean negative space,
 > no text, no letters, no numbers, no watermarks, no people's faces
 
-Negative prompt: `text, typography, numbers, watermark, logo, photorealistic faces, clutter, gradients of many colors`
+Negative prompt: `text, typography, numbers, watermark, logo, photorealistic faces, clutter, rainbow colors, multiple accent colors`
+
+> Note: unlike Recraft, the free-lane models take no palette parameter — the hex values must stay in the prompt text, so check the output actually lands on slate + orange and re-roll if it drifts. (Re-rolls are free on the unlimited models.)
 
 ## A. Topic hero images — 9 images, 16:9, 1600×900
 
@@ -37,9 +51,9 @@ Filename `modules/evals-and-statistics/assets/evals-basic-01-hero.png`, role `mo
 > lifted and glowing under the lens, a rubber stamp waiting beside it
 > (+ shared style block)
 
-## C. Hub hero loop — one video, 6–8s, 720p, ≤3MB
+## C. Hub hero loop — one video, 5–8s, 720p, ≤3MB
 
-Filename `modules/evals-and-statistics/assets/hub-hero-loop.mp4` (mounts on the dashboard later), role `hub-hero`.
+Filename `modules/evals-and-statistics/assets/hub-hero-loop.mp4` (mounts on the dashboard later), role `hub-hero`. Generate with **sound off** — the site plays it muted. Free on the web app via Kling 3.0 (720p/5s) or Seedance 2.0; over MCP this single clip would cost 39 credits.
 
 > Subject: slow camera drift across a dark mission-control wall of thin orange
 > telemetry lines that pulse once per second; a single radar sweep completes one

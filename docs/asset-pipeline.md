@@ -73,3 +73,15 @@ Working retrieval lanes:
 3. **Manual**: download from the Higgsfield gallery/widget, drop the files into `modules/<topic>/assets/`, then a session wires them up and writes the manifest entries.
 
 Do NOT hot-link CDN URLs from the site as a substitute: result URLs are account-scoped and may rotate, which would silently break the published page.
+
+### Known constraint — unlimited/promo generations are WEB-ONLY, MCP always bills credits (verified 2026-08-19)
+
+The account holds substantial unlimited entitlements on its `max` plan — 365-day unlimited on Seedream 4.5 (2K/4K), Seedream 5.0 Lite, Flux.2 Pro (1K), Nano Banana, Kling O1 Image, GPT Image; thousands of free Soul V2 / Cinema gens; 7-day unlimited on Nano Banana Pro, Nano Banana 2, Kling 3.0; full access to Seedance 2.0 / 2.0 Fast. **Every one of those entries is annotated "Available on web"** in the live pricing config.
+
+Through the MCP the same account reports no spendable allowance — `unlim_trial_in_mcp_active: false`, `trial_status.eligible: false`, and `unlim: {available: false}` on every model including `seedance_2_5` and `seedance_2_0`. So MCP generation is **credits-only**, whatever the web app shows.
+
+Measured MCP prices (preflight, 2026-08-19): image `recraft_v4_1` 1k 16:9 = **1.25 credits**; video `seedance_2_5` 6s 720p silent = **39 credits**. Images are cheap enough to ignore; video is not.
+
+**Consequence — generate the committed assets in the web app, not over MCP.** It is free there *and* it is where the files can actually be downloaded, so it clears the egress blocker in the same motion. Reserve MCP for fast style exploration and one-offs whose files never need to reach the repo.
+
+Whether a specific 7-day or 365-day allowance is still live is visible only in the web app; the MCP cannot see web-side entitlements, so check there rather than inferring from this doc.
