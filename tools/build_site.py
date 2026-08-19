@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 """Build the AI-Learning-Hub explorer: modules/*.md -> site/index.html.
 
+Mission Control design (chosen in the 2026-08-19 design round).
 Stdlib only. Markdown is the source of truth; this generates the view.
-`--check` validates the corpus and exits non-zero on any violation, so CI
-can gate on it (the hub doctrine: a check gate that actually runs).
+Honest-data rule: every progress visual renders only what the repo's
+data actually contains (modules/, ledger/recall-ledger.json, data/*.json).
+`--check` validates the corpus and exits non-zero on any violation.
 """
 import html
 import json
@@ -14,6 +16,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 MODULES = ROOT / "modules"
 LEDGER = ROOT / "ledger" / "recall-ledger.json"
+DATA = ROOT / "data"
 SITE = ROOT / "site"
 
 LEVELS = ("basic", "intermediate", "advanced")
@@ -73,8 +76,8 @@ def md_to_html(body: str) -> str:
             items = []
             while i < len(lines) and re.match(r"^\s*[-*] \[[ x]\] ", lines[i]):
                 m = re.match(r"^\s*[-*] \[([ x])\] (.*)", lines[i])
-                mark = "☑" if m.group(1) == "x" else "☐"
-                items.append(f"<li><span class='ck'>{mark}</span> {inline_md(m.group(2))}</li>")
+                cls = "done" if m.group(1) == "x" else "todo"
+                items.append(f"<li class='{cls}'><span class='ckbox'></span><span>{inline_md(m.group(2))}</span></li>")
                 i += 1
             out.append("<ul class='checks'>" + "".join(items) + "</ul>")
             continue
@@ -151,7 +154,14 @@ def load():
             errors.append(f"ledger: pass references unknown module '{entry.get('module')}'")
         if not re.match(r"^\d{4}-\d{2}-\d{2}$", entry.get("date", "")):
             errors.append(f"ledger: entry for '{entry.get('module')}' has invalid date")
-    return topics, modules, ledger, errors
+        if entry.get("result") not in ("pass", "fail"):
+            errors.append(f"ledger: entry for '{entry.get('module')}' result must be pass|fail")
+    hub = json.loads((DATA / "hub.json").read_text()) if (DATA / "hub.json").exists() else {}
+    skills = json.loads((DATA / "skills.json").read_text()) if (DATA / "skills.json").exists() else {"clusters": []}
+    for c in skills.get("clusters", []):
+        if not (0 <= c.get("score", -1) <= 1):
+            errors.append(f"skills.json: cluster '{c.get('id')}' score must be 0..1")
+    return topics, modules, ledger, hub, skills, errors
 
 
 TEMPLATE = """<!doctype html>
@@ -159,171 +169,374 @@ TEMPLATE = """<!doctype html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>AI-Learning-Hub</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
 <style>
 :root{
-  --bg:#f2f0ea; --panel:#fbfaf6; --sunk:#e6e3d9; --ink:#1c1a15; --muted:#6c6557;
-  --line:#dcd8cc; --acc:#0d8a94; --acc-soft:#0d8a9418;
-  --basic:#2f8f4e; --inter:#b0731e; --adv:#7a3aed;
-  --mono:ui-monospace,"SF Mono","Cascadia Code",Menlo,Consolas,monospace;
-  --sans:system-ui,-apple-system,"Segoe UI",sans-serif;
-  --shadow:0 1px 2px rgba(28,26,21,.05),0 8px 24px rgba(28,26,21,.07);
+  --bg:#eceff3; --panel:#ffffff; --sunk:#f6f8fa; --grid:#e3e9ef; --line:#d6dde5;
+  --ink:#1a2028; --mid:#4d5a68; --muted:#6b7a8c; --faint:#9aa8b8;
+  --rail:#10151c; --rail-line:#2a323d; --rail-dim:#5d6b7c; --rail-lit:#e8edf4;
+  --acc:#f97316; --acc-ink:#c2410c; --acc-soft:#fff7ed; --acc-line:#fed7aa; --acc-hi:#fdba74;
+  --basic:#15803d; --basic-soft:#dcfce7; --inter:#b45309; --inter-soft:#fef3c7;
+  --adv:#7c3aed; --adv-soft:#ede9fe;
+  --mono:'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace;
+  --sans:'IBM Plex Sans',system-ui,-apple-system,sans-serif;
+  --shadow:0 1px 2px rgba(26,32,40,.05),0 6px 18px rgba(26,32,40,.06);
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
-  --bg:#12100b; --panel:#1b1811; --sunk:#0c0a06; --ink:#eae6db; --muted:#a49a87;
-  --line:#2b2619; --acc:#28c3cf; --acc-soft:#28c3cf1c;
-  --basic:#5fc27e; --inter:#e0a44e; --adv:#a78bfa;
-  --shadow:0 1px 2px rgba(0,0,0,.45),0 12px 30px rgba(0,0,0,.4);}}
+  --bg:#0d1117; --panel:#161c24; --sunk:#10151c; --grid:#232c37; --line:#2a3542;
+  --ink:#e8edf4; --mid:#b9c4d1; --muted:#8b99aa; --faint:#5d6b7c;
+  --rail:#0a0e13; --rail-line:#232c37;
+  --acc:#fb923c; --acc-ink:#fdba74; --acc-soft:#2a1a0c; --acc-line:#7c3a12; --acc-hi:#fdba74;
+  --basic:#4ade80; --basic-soft:#0d2818; --inter:#fbbf24; --inter-soft:#2a2108;
+  --adv:#a78bfa; --adv-soft:#1e1633;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 22px rgba(0,0,0,.35);}}
 :root[data-theme="dark"]{
-  --bg:#12100b; --panel:#1b1811; --sunk:#0c0a06; --ink:#eae6db; --muted:#a49a87;
-  --line:#2b2619; --acc:#28c3cf; --acc-soft:#28c3cf1c;
-  --basic:#5fc27e; --inter:#e0a44e; --adv:#a78bfa;
-  --shadow:0 1px 2px rgba(0,0,0,.45),0 12px 30px rgba(0,0,0,.4);}
+  --bg:#0d1117; --panel:#161c24; --sunk:#10151c; --grid:#232c37; --line:#2a3542;
+  --ink:#e8edf4; --mid:#b9c4d1; --muted:#8b99aa; --faint:#5d6b7c;
+  --rail:#0a0e13; --rail-line:#232c37;
+  --acc:#fb923c; --acc-ink:#fdba74; --acc-soft:#2a1a0c; --acc-line:#7c3a12; --acc-hi:#fdba74;
+  --basic:#4ade80; --basic-soft:#0d2818; --inter:#fbbf24; --inter-soft:#2a2108;
+  --adv:#a78bfa; --adv-soft:#1e1633;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 22px rgba(0,0,0,.35);}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 var(--sans)}
-main{max-width:1080px;margin:0 auto;padding:34px 18px 90px}
-h1{font-family:var(--mono);font-size:clamp(1.5rem,4vw,2.2rem);letter-spacing:-.02em;margin:.1em 0 .2em}
-.eyebrow{font-family:var(--mono);font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--acc)}
-.dek{color:var(--muted);max-width:74ch;margin:.4em 0 0}
-code{font-family:var(--mono);font-size:.85em;background:var(--sunk);border:1px solid var(--line);border-radius:5px;padding:.03em .35em}
-pre{background:var(--sunk);border:1px solid var(--line);border-radius:10px;padding:12px 14px;overflow-x:auto}
-pre code{background:none;border:none;padding:0}
-.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin:22px 0 0}
-.tile{border:1px solid var(--line);border-radius:11px;background:var(--panel);box-shadow:var(--shadow);padding:11px 13px}
-.tile b{font-family:var(--mono);font-size:1.3rem;color:var(--acc);display:block}
-.tile span{font-size:.72rem;color:var(--muted)}
-.bar{position:sticky;top:0;z-index:9;background:var(--bg);border-bottom:1px solid var(--line);
-  padding:12px 0;margin-top:26px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-.chip{font-family:var(--mono);font-size:.78rem;cursor:pointer;background:var(--panel);color:var(--muted);
-  border:1px solid var(--line);border-radius:999px;padding:.4em .9em}
-.chip[aria-pressed="true"]{background:var(--acc);color:#fff;border-color:transparent}
-#q{flex:1 1 180px;min-width:140px;font:.85rem var(--mono);color:var(--ink);background:var(--panel);
-  border:1px solid var(--line);border-radius:8px;padding:.5em .8em}
-#theme{margin-left:auto}
-section.topic{margin-top:30px}
-.thead{display:flex;align-items:baseline;gap:12px;border-bottom:2px solid var(--acc);padding-bottom:6px;flex-wrap:wrap}
-.thead h2{font-family:var(--mono);font-size:1.05rem;margin:0}
-.thead .n{font-family:var(--mono);font-size:.7rem;color:var(--muted)}
-.tdesc{color:var(--muted);font-size:.88rem;max-width:80ch;margin:.5em 0 0}
-.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;margin-top:12px}
-.card{border:1px solid var(--line);border-radius:12px;background:var(--panel);box-shadow:var(--shadow);
-  padding:13px 15px;cursor:pointer;text-align:left;font:inherit;color:inherit}
-.card:hover{border-color:var(--acc)}
-.card h3{margin:0;font-size:.95rem;line-height:1.3}
-.card .meta{display:flex;gap:6px;flex-wrap:wrap;margin:.5em 0}
-.card p{margin:0;font-size:.8rem;color:var(--muted)}
-.lv{font-family:var(--mono);font-size:.64rem;letter-spacing:.05em;text-transform:uppercase;
-  border-radius:5px;padding:.18em .55em;color:#fff}
-.lv.basic{background:var(--basic)}.lv.intermediate{background:var(--inter)}.lv.advanced{background:var(--adv)}
-.st,.tm{font-family:var(--mono);font-size:.64rem;color:var(--muted);background:var(--sunk);
-  border-radius:5px;padding:.18em .55em}
-.recall{font-family:var(--mono);font-size:.64rem;border-radius:5px;padding:.18em .55em}
-.recall.pass{color:var(--basic);background:color-mix(in srgb,var(--basic) 14%,transparent)}
-.recall.pending{color:var(--muted);background:var(--sunk)}
-.empty{color:var(--muted);font-size:.84rem;font-style:italic;border:1px dashed var(--line);
-  border-radius:10px;padding:12px 15px;margin-top:12px}
-#reader{position:fixed;inset:0;background:color-mix(in srgb,var(--bg) 55%,transparent);
-  display:none;align-items:flex-start;justify-content:center;overflow-y:auto;z-index:20;padding:4vh 14px}
-#reader.open{display:flex}
-#reader .paper{background:var(--panel);border:1px solid var(--line);border-radius:14px;
-  box-shadow:var(--shadow);max-width:840px;width:100%;padding:26px 30px 40px;margin-bottom:6vh}
-#reader h2{font-family:var(--mono);margin:.2em 0;letter-spacing:-.01em}
-#reader h3{font-family:var(--mono);font-size:1.02rem;margin:1.4em 0 .4em;color:var(--acc)}
-#reader h4{font-family:var(--mono);font-size:.9rem;margin:1.1em 0 .3em}
-#reader .tblwrap{overflow-x:auto;border:1px solid var(--line);border-radius:9px;margin:.6em 0}
-#reader table{border-collapse:collapse;width:100%;font-size:.85rem}
-#reader th,#reader td{text-align:left;padding:7px 11px;border-top:1px solid var(--line);vertical-align:top}
-#reader thead th{border-top:none;font-family:var(--mono);font-size:.7rem;color:var(--muted)}
-#reader ul.checks{list-style:none;padding-left:0}
-#reader ul.checks .ck{color:var(--acc);margin-right:.4em}
-#close{float:right;font:1rem var(--mono);cursor:pointer;background:var(--sunk);color:var(--ink);
-  border:1px solid var(--line);border-radius:8px;padding:.3em .8em}
-footer{margin-top:56px;border-top:1px solid var(--line);padding-top:14px;
-  font:.74rem var(--mono);color:var(--muted);display:flex;gap:14px;flex-wrap:wrap;justify-content:space-between}
-a{color:var(--acc)}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 var(--sans);display:flex;min-height:100vh}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer;padding:0;text-align:left}
 button:focus-visible,input:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+code{font-family:var(--mono);font-size:.85em;background:var(--sunk);border:1px solid var(--grid);border-radius:4px;padding:.05em .35em}
+pre{background:var(--sunk);border:1px solid var(--grid);border-radius:8px;padding:12px 14px;overflow-x:auto}
+pre code{background:none;border:none;padding:0}
+a{color:var(--acc-ink)}
+.klabel{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+
+nav.rail{width:60px;flex-shrink:0;background:var(--rail);display:flex;flex-direction:column;align-items:center;gap:8px;padding:18px 0;position:sticky;top:0;height:100vh}
+nav.rail .logo{margin-bottom:6px}
+nav.rail .sep{width:26px;height:1px;background:var(--rail-line);margin:4px 0}
+nav.rail button{width:40px;height:40px;border-radius:9px;display:flex;align-items:center;justify-content:center}
+nav.rail button svg{stroke:var(--rail-dim)}
+nav.rail button[aria-pressed="true"]{background:#f9731622}
+nav.rail button[aria-pressed="true"] svg{stroke:var(--acc-hi, #fdba74)}
+nav.rail button:hover svg{stroke:var(--rail-lit)}
+nav.rail .theme{margin-top:auto}
+
+main{flex:1;padding:22px 30px 70px;max-width:1200px}
+header.top{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:16px}
+header.top .brand{font-family:var(--mono);font-weight:600;font-size:15px;letter-spacing:.06em}
+header.top .brand b{color:var(--acc);font-weight:600}
+header.top .chip{font-family:var(--mono);font-size:11px;color:var(--muted);background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:4px 10px}
+header.top .doctrine{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--muted)}
+
+.view{display:none}.view.active{display:block}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:14px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:14px 16px;box-shadow:var(--shadow)}
+.kpi b{font-family:var(--mono);font-size:26px;font-weight:600;display:block;line-height:1.1}
+.kpi b small{color:var(--faint);font-size:15px;font-weight:400}
+.kpi span{font-size:11px;color:var(--muted);letter-spacing:.05em;text-transform:uppercase}
+.kpi.dark{background:var(--rail);border-color:var(--rail)}
+.kpi.dark b{font-size:15px;color:var(--acc-hi, #fdba74);font-weight:500;padding-top:5px}
+.kpi.dark span{color:#8b99aa}
+
+.grid3{display:grid;grid-template-columns:1.15fr 1fr 1.25fr;gap:12px;align-items:stretch;margin-bottom:14px}
+@media(max-width:1020px){.grid3{grid-template-columns:1fr}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:16px 18px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:10px}
+.card .foot{font-size:11px;color:var(--muted);line-height:1.5}
+.heat{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:4px}
+.heat i{aspect-ratio:1;border-radius:2px;background:var(--grid)}
+.heat i.pass{background:var(--acc-hi, #fdba74)}
+.heat i.due{background:var(--acc-soft);border:1.5px dashed var(--acc-hi, #fdba74)}
+.callout{margin-top:auto;background:var(--acc-soft);border:1px solid var(--acc-line);border-radius:6px;padding:10px 12px;display:flex;gap:10px;align-items:center;font-size:12px;color:var(--acc-ink);line-height:1.45}
+.ladders{display:flex;flex-direction:column;gap:7px;font-size:12.5px}
+.ladders .row{display:grid;grid-template-columns:150px 1fr;gap:10px;align-items:center}
+.ladders .row .nm{color:var(--mid)}
+.ladders .row.hot .nm{color:var(--ink);font-weight:500}
+.ladders .segs{display:flex;gap:3px}
+.ladders .segs i{flex:1;height:9px;border-radius:2px;background:var(--grid)}
+.ladders .segs i.present{background:var(--acc-soft);border:1.5px solid var(--acc-hi, #fdba74)}
+.ladders .segs i.passed{background:var(--acc)}
+.queue{display:flex;flex-direction:column;gap:8px}
+.qhead,.qrow{display:grid;grid-template-columns:2.4fr 1.2fr .7fr .6fr 1fr;gap:10px;align-items:center}
+.qhead{font-family:var(--mono);font-size:10.5px;color:var(--faint);text-transform:uppercase;letter-spacing:.05em;border-bottom:1px solid var(--grid);padding-bottom:6px}
+.qrow{font-size:13px}
+.qrow .t{font-weight:500;cursor:pointer}
+.qrow .t:hover{color:var(--acc-ink)}
+.qrow .mono{font-family:var(--mono);font-size:11px}
+.st-building{color:var(--acc-ink)}.st-passed{color:var(--basic)}.st-queued{color:var(--faint)}
+
+.bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:16px}
+.fchip{font-family:var(--mono);font-size:12px;background:var(--panel);color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:6px 14px}
+.fchip[aria-pressed="true"]{background:var(--rail);color:#fdba74;border-color:var(--rail)}
+#q{flex:1 1 200px;min-width:150px;font:13px var(--mono);color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:8px 12px}
+section.topic{margin-bottom:26px}
+.thead{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.thead h2{font-family:var(--mono);font-size:15px;letter-spacing:.02em;margin:0}
+.thead .n{font-family:var(--mono);font-size:10.5px;color:var(--faint)}
+.tdesc{color:var(--muted);font-size:12.5px;max-width:86ch;margin:4px 0 10px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.mcard{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:14px 16px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:8px;font:inherit;color:inherit}
+.mcard:hover{border-color:var(--acc)}
+.mcard.building{border-color:var(--acc);box-shadow:0 2px 10px rgba(249,115,22,.12)}
+.mcard h3{margin:0;font-size:14.5px;font-weight:600;line-height:1.35}
+.mcard p{margin:0;font-size:12px;color:var(--muted);line-height:1.5}
+.mcard .meta{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.lv{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.05em;border-radius:4px;padding:2px 8px;text-transform:uppercase}
+.lv.basic{background:var(--basic-soft);color:var(--basic)}
+.lv.intermediate{background:var(--inter-soft);color:var(--inter)}
+.lv.advanced{background:var(--adv-soft);color:var(--adv)}
+.tm,.stc{font-family:var(--mono);font-size:10px;border-radius:4px;padding:2px 8px;background:var(--sunk);color:var(--mid);border:1px solid var(--grid)}
+.stc.building{background:var(--acc-soft);border-color:var(--acc-line);color:var(--acc-ink)}
+.recall{font-family:var(--mono);font-size:10px;border-radius:4px;padding:2px 8px;margin-left:auto}
+.recall.pass{background:var(--basic-soft);color:var(--basic)}
+.recall.pending{background:var(--sunk);color:var(--faint);border:1px solid var(--grid)}
+.empty{color:var(--faint);font-size:12.5px;font-style:italic;border:1px dashed var(--line);border-radius:8px;padding:11px 14px}
+
+.ltable{display:flex;flex-direction:column;gap:8px}
+.lhead,.lrow{display:grid;grid-template-columns:1fr 2.2fr 1.2fr .8fr 1.6fr;gap:10px}
+.lhead{font-family:var(--mono);font-size:10.5px;color:var(--faint);text-transform:uppercase;letter-spacing:.05em;border-bottom:1px solid var(--grid);padding-bottom:6px}
+.lrow{font-size:13px;align-items:center}
+.lempty{display:flex;flex-direction:column;align-items:center;gap:10px;padding:34px 20px;text-align:center}
+.lempty .big{font-size:14px;font-weight:500;color:var(--mid)}
+.lempty .why{font-size:12.5px;color:var(--faint);max-width:54ch;line-height:1.6}
+.rules{background:var(--rail);border-radius:8px;padding:16px 18px;color:#b9c4d1;display:flex;flex-direction:column;gap:9px}
+.rules .klabel{color:#fdba74}
+.rules .r{display:flex;gap:9px;font-size:12.5px;line-height:1.55}
+.rules .r b{font-family:var(--mono);color:#fdba74;font-weight:500}
+.rules code{background:#1a222c;border-color:#2a3542;color:#9fb3c8}
+
+#reader{position:fixed;inset:0;background:rgba(10,14,19,.45);display:none;align-items:flex-start;justify-content:center;overflow-y:auto;z-index:20;padding:4vh 14px}
+#reader.open{display:flex}
+#reader .paper{background:var(--panel);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);max-width:860px;width:100%;padding:28px 34px 44px;margin-bottom:6vh}
+#reader h2{font-size:22px;letter-spacing:-.01em;margin:.4em 0 .5em;line-height:1.3}
+#reader h3{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--acc-ink);margin:1.8em 0 .5em;padding-bottom:5px;border-bottom:1px solid var(--grid)}
+#reader h4{font-family:var(--mono);font-size:13px;margin:1.2em 0 .3em}
+#reader p{color:var(--mid);font-size:14px;line-height:1.7}
+#reader li{color:var(--mid);font-size:13.5px;line-height:1.65;margin:.25em 0}
+#reader .tblwrap{overflow-x:auto;border:1px solid var(--grid);border-radius:8px;margin:.6em 0}
+#reader table{border-collapse:collapse;width:100%;font-size:13px}
+#reader th,#reader td{text-align:left;padding:7px 11px;border-top:1px solid var(--grid);vertical-align:top}
+#reader thead th{border-top:none;font-family:var(--mono);font-size:10.5px;color:var(--faint);text-transform:uppercase;letter-spacing:.05em}
+#reader ul.checks{list-style:none;padding-left:0}
+#reader ul.checks li{display:flex;gap:9px;align-items:flex-start}
+#reader .ckbox{width:14px;height:14px;border:1.5px solid var(--faint);border-radius:4px;flex-shrink:0;margin-top:4px}
+#reader ul.checks li.done .ckbox{background:var(--basic);border-color:var(--basic)}
+#close{float:right;font:13px var(--mono);background:var(--sunk);border:1px solid var(--grid);border-radius:7px;padding:5px 12px}
+footer{margin-top:44px;border-top:1px solid var(--line);padding-top:14px;font:11.5px var(--mono);color:var(--faint);display:flex;gap:14px;flex-wrap:wrap;justify-content:space-between}
 </style>
 <body>
+<nav class="rail" aria-label="views">
+  <span class="logo"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2"><path d="M3 20 L3 11 M9 20 L9 5 M15 20 L15 14 M21 20 L21 9"></path></svg></span>
+  <span class="sep"></span>
+  <button data-view="dash" aria-pressed="true" title="Dashboard"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke-width="1.8"><rect x="3" y="3" width="8" height="8" rx="1.5"></rect><rect x="13" y="3" width="8" height="8" rx="1.5"></rect><rect x="3" y="13" width="8" height="8" rx="1.5"></rect><rect x="13" y="13" width="8" height="8" rx="1.5"></rect></svg></button>
+  <button data-view="mods" aria-pressed="false" title="Modules"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M12 3 L20 7.5 V16.5 L12 21 L4 16.5 V7.5 Z"></path><path d="M12 12 L20 7.5 M12 12 V21 M12 12 L4 7.5"></path></svg></button>
+  <button data-view="ledger" aria-pressed="false" title="Recall ledger"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke-width="1.8"><rect x="4" y="5" width="16" height="15" rx="1.5"></rect><path d="M4 9.5 H20 M8 3 V6.5 M16 3 V6.5"></path></svg></button>
+  <button class="theme" id="theme" title="Theme"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="1.8"><circle cx="12" cy="12" r="8"></circle><path d="M12 4 A8 8 0 0 1 12 20 Z" fill="currentColor" stroke="none" opacity=".55"></path></svg></button>
+</nav>
 <main>
-  <div class="eyebrow">AI-Learning-Hub · learning in the open</div>
-  <h1>Maximize the potential of AI</h1>
-  <p class="dek">A curriculum of leveled modules — <b>basic → intermediate → advanced</b> — for general
-  purpose use, science &amp; development, coding, and beyond. Every module anchors to real work,
-  ends in a runnable artifact, and is gated by a dated recall pass. Generated from
-  <code>modules/*.md</code> by <code>tools/build_site.py</code>.</p>
-  <div class="tiles" id="tiles"></div>
-  <div class="bar">
-    <button class="chip" data-lv="all" aria-pressed="true">All levels</button>
-    <button class="chip" data-lv="basic" aria-pressed="false">Basic</button>
-    <button class="chip" data-lv="intermediate" aria-pressed="false">Intermediate</button>
-    <button class="chip" data-lv="advanced" aria-pressed="false">Advanced</button>
-    <input id="q" type="search" placeholder="search modules…" autocomplete="off">
-    <button class="chip" id="theme">◐ theme</button>
+  <header class="top">
+    <span class="brand">AI-LEARNING-HUB <b>/ CONTROL</b></span>
+    <span class="chip" id="phase-chip"></span>
+    <span class="doctrine" id="doctrine"></span>
+  </header>
+
+  <div class="view active" id="view-dash">
+    <div class="kpis" id="kpis"></div>
+    <div class="grid3">
+      <div class="card">
+        <div class="klabel">Skill coverage — clusters of the 35-skill matrix</div>
+        <svg id="radar" width="100%" height="256" viewBox="0 0 320 256"></svg>
+        <div class="foot" id="radar-foot"></div>
+      </div>
+      <div class="card">
+        <div class="klabel">Recall heat — last 12 weeks</div>
+        <div class="heat" id="heat"></div>
+        <div class="foot">one cell per week · fills with dated passes · dashed = this week, no pass yet</div>
+        <div class="callout" id="next-callout"></div>
+      </div>
+      <div class="card">
+        <div class="klabel">Topic ladders · basic / inter / adv</div>
+        <div class="ladders" id="ladders"></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="klabel">Module queue</div>
+      <div class="queue" id="queue"></div>
+    </div>
   </div>
-  <div id="topics"></div>
+
+  <div class="view" id="view-mods">
+    <div class="bar">
+      <button class="fchip" data-lv="all" aria-pressed="true">ALL</button>
+      <button class="fchip" data-lv="basic" aria-pressed="false">BASIC</button>
+      <button class="fchip" data-lv="intermediate" aria-pressed="false">INTERMEDIATE</button>
+      <button class="fchip" data-lv="advanced" aria-pressed="false">ADVANCED</button>
+      <input id="q" type="search" placeholder="search modules…" autocomplete="off">
+    </div>
+    <div id="topics"></div>
+  </div>
+
+  <div class="view" id="view-ledger">
+    <div class="grid3" style="grid-template-columns:2.2fr 1fr">
+      <div class="card">
+        <div class="lhead"><span>date</span><span>module</span><span>topic</span><span>result</span><span>notes</span></div>
+        <div class="ltable" id="ledger-rows"></div>
+      </div>
+      <div class="rules">
+        <div class="klabel">Rules of the ledger</div>
+        <div class="r"><b>01</b><span>From memory, no notes — the boss fight is closed-book.</span></div>
+        <div class="r"><b>02</b><span>A pass is a dated commit to <code>ledger/recall-ledger.json</code>; this page renders only what that file contains.</span></div>
+        <div class="r"><b>03</b><span>A fail is logged too, with notes — it schedules a retry, never a shortcut.</span></div>
+        <div class="r"><b>04</b><span>No pass, no done. The module stays open whatever else shipped.</span></div>
+      </div>
+    </div>
+  </div>
+
   <footer>
-    <span>faisalmahdy/AI-Learning-Hub</span>
-    <span>markdown is the source of truth — this page is generated</span>
+    <span>faisalmahdy/AI-Learning-Hub · Mission Control</span>
+    <span>markdown is the source of truth — this page is generated by tools/build_site.py</span>
   </footer>
 </main>
-<div id="reader" role="dialog" aria-modal="true">
-  <div class="paper">
-    <button id="close">✕ close</button>
-    <div id="rbody"></div>
-  </div>
-</div>
+<div id="reader" role="dialog" aria-modal="true"><div class="paper"><button id="close">✕ CLOSE</button><div id="rbody"></div></div></div>
 <script id="data" type="application/json">__DATA__</script>
 <script>
 "use strict";
 const D=JSON.parse(document.getElementById("data").textContent);
 const passes={};(D.ledger.passes||[]).forEach(p=>{if(p.result==="pass")(passes[p.module]=passes[p.module]||[]).push(p.date)});
+const passCount=(D.ledger.passes||[]).filter(p=>p.result==="pass").length;
+const topicsById={};D.topics.forEach(t=>topicsById[t.id]=t);
+D.topics.sort((a,b)=>a.order-b.order);
+const LV=["basic","intermediate","advanced"];
+
+function state(m){
+  if(passes[m.id]) return "passed";
+  return "building";
+}
+const firstOpen=D.modules.find(m=>!passes[m.id]);
+
+/* header */
+const hub=D.hub||{};
+document.getElementById("phase-chip").textContent=hub.phase?("phase "+hub.phase.number+" · "+hub.phase.name.toLowerCase()+" · weeks "+hub.phase.weeks):"";
+document.getElementById("doctrine").textContent=hub.doctrine_line?("doctrine: "+hub.doctrine_line):"";
+
+/* KPIs */
+const started=new Set(D.modules.map(m=>m.topic)).size;
+document.getElementById("kpis").innerHTML=
+ `<div class="kpi"><b>${D.modules.length}</b><span>module${D.modules.length===1?"":"s"} in flight</span></div>`+
+ `<div class="kpi"><b style="color:var(--acc-ink)">${passCount}</b><span>recall passes</span></div>`+
+ `<div class="kpi"><b>${started}<small>/${D.topics.length}</small></b><span>topics started</span></div>`+
+ (firstOpen?`<div class="kpi dark"><b>${firstOpen.id}</b><span>next action · ${passes[firstOpen.id]?"review":"resume build"}</span></div>`:`<div class="kpi dark"><b>all clear</b><span>next action</span></div>`);
+
+/* radar */
+(function(){
+  const cs=(D.skills.clusters||[]);const svg=document.getElementById("radar");
+  if(!cs.length){svg.outerHTML="<div class='empty'>no skills data</div>";return}
+  const cx=160,cy=128,R=102,n=cs.length;
+  const axis=i=>{const a=-Math.PI/2+i*2*Math.PI/n;return [cx+R*Math.cos(a),cy+R*Math.sin(a)]};
+  const at=(i,t)=>{const [x,y]=axis(i);return [cx+(x-cx)*t,cy+(y-cy)*t]};
+  let g="";
+  [1,.667,.333].forEach(t=>{g+=`<polygon points="${cs.map((_,i)=>at(i,t).map(v=>v.toFixed(1)).join(",")).join(" ")}" fill="none" stroke="var(--grid)"/>`});
+  cs.forEach((_,i)=>{const [x,y]=axis(i);g+=`<line x1="${cx}" y1="${cy}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" stroke="var(--grid)"/>`});
+  g+=`<polygon points="${cs.map((c,i)=>at(i,Math.max(c.score,.03)).map(v=>v.toFixed(1)).join(",")).join(" ")}" fill="var(--acc)" fill-opacity=".16" stroke="var(--acc)" stroke-width="2"/>`;
+  cs.forEach((c,i)=>{const [x,y]=at(i,1.16);g+=`<text x="${x.toFixed(1)}" y="${(y+3).toFixed(1)}" font-family="var(--mono)" font-size="10" fill="var(--mid)" text-anchor="middle">${c.label}</text>`});
+  svg.innerHTML=g;
+  document.getElementById("radar-foot").textContent=(D.skills.scale_note||"")+" · source: docs/skills-matrix.md";
+})();
+
+/* heat: last 12 weeks from today */
+(function(){
+  const el=document.getElementById("heat");const now=new Date();
+  const week=d=>{const x=new Date(d);x.setHours(0,0,0,0);x.setDate(x.getDate()-((x.getDay()+6)%7));return x.getTime()};
+  const weeks=[];for(let i=11;i>=0;i--){weeks.push(week(new Date(now-i*7*864e5)))}
+  const byWeek={};(D.ledger.passes||[]).forEach(p=>{if(p.result!=="pass")return;const w=week(p.date+"T12:00:00");byWeek[w]=(byWeek[w]||0)+1});
+  el.innerHTML=weeks.map((w,i)=>{
+    if(byWeek[w])return '<i class="pass" title="'+byWeek[w]+' pass(es)"></i>';
+    if(i===11)return '<i class="due" title="this week — no pass yet"></i>';
+    return '<i></i>';
+  }).join("");
+  const co=document.getElementById("next-callout");
+  co.innerHTML='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0"><path d="M12 3 L14.5 9 L21 9.5 L16 13.8 L17.8 20.5 L12 16.8 L6.2 20.5 L8 13.8 L3 9.5 L9.5 9 Z"></path></svg><span>'+
+    (firstOpen?('<b>Next flag:</b> finish <b>'+firstOpen.title+'</b>, then take its boss fight.'):'<b>All modules passed.</b> Author the next one.')+'</span>';
+})();
+
+/* ladders */
+document.getElementById("ladders").innerHTML=D.topics.map(t=>{
+  const ms=D.modules.filter(m=>m.topic===t.id);
+  const segs=LV.map(lv=>{
+    const has=ms.some(m=>m.level===lv);
+    const done=ms.some(m=>m.level===lv&&passes[m.id]);
+    return `<i class="${done?"passed":has?"present":""}" title="${lv}"></i>`;
+  }).join("");
+  return `<div class="row ${ms.length?"hot":""}"><span class="nm">${t.name}</span><span class="segs">${segs}</span></div>`;
+}).join("");
+
+/* queue */
+document.getElementById("queue").innerHTML=
+ '<div class="qhead"><span>module</span><span>topic</span><span>level</span><span>est.</span><span>state</span></div>'+
+ D.modules.map(m=>{
+   const s=passes[m.id]?["st-passed","✓ PASSED "+passes[m.id].slice(-1)[0]]:(m===firstOpen?["st-building","● BUILDING"]:["st-queued","○ QUEUED"]);
+   return `<div class="qrow"><span class="t" data-id="${m.id}">${m.title}</span><span style="color:var(--mid)">${(topicsById[m.topic]||{}).name||m.topic}</span><span class="mono lv ${m.level}" style="justify-self:start">${m.level.slice(0,5).toUpperCase()}</span><span style="color:var(--mid)">${m.time}</span><span class="mono ${s[0]}">${s[1]}</span></div>`;
+ }).join("");
+
+/* modules view */
 let lv="all",q="";
-const counts={basic:0,intermediate:0,advanced:0};
-D.modules.forEach(m=>counts[m.level]++);
-document.getElementById("tiles").innerHTML=[
- [D.modules.length,"modules"],[D.topics.length,"topics"],
- [counts.basic+" / "+counts.intermediate+" / "+counts.advanced,"basic / inter / adv"],
- [(D.ledger.passes||[]).filter(p=>p.result==="pass").length,"recall passes"]
-].map(t=>`<div class="tile"><b>${t[0]}</b><span>${t[1]}</span></div>`).join("");
 function card(m){
- const r=passes[m.id]?`<span class="recall pass">recall ✓ ${passes[m.id].slice(-1)[0]}</span>`
-   :`<span class="recall pending">recall pending</span>`;
- return `<button class="card" data-id="${m.id}"><h3>${m.title}</h3>
-  <div class="meta"><span class="lv ${m.level}">${m.level}</span>
-  <span class="tm">${m.time}</span><span class="st">${m.status}</span>${r}</div>
-  <p>${m.summary}</p></button>`;
+ const st=passes[m.id]?'<span class="recall pass">RECALL ✓ '+passes[m.id].slice(-1)[0]+'</span>':'<span class="recall pending">RECALL PENDING</span>';
+ const building=(m===firstOpen);
+ return `<button class="mcard ${building?"building":""}" data-id="${m.id}"><h3>${m.title}</h3><p>${m.summary}</p>`+
+  `<div class="meta"><span class="lv ${m.level}">${m.level}</span><span class="tm">${m.time.toUpperCase()}</span>`+
+  (building?'<span class="stc building">● BUILDING</span>':'')+st+`</div></button>`;
 }
 function render(){
  const root=document.getElementById("topics");root.innerHTML="";
- D.topics.sort((a,b)=>a.order-b.order).forEach(t=>{
+ D.topics.forEach(t=>{
   const ms=D.modules.filter(m=>m.topic===t.id)
    .filter(m=>lv==="all"||m.level===lv)
    .filter(m=>!q||m.title.toLowerCase().includes(q)||m.text.includes(q)||m.summary.toLowerCase().includes(q));
   if(q&&!ms.length)return;
   const sec=document.createElement("section");sec.className="topic";
-  sec.innerHTML=`<div class="thead"><h2>${t.order}. ${t.name}</h2>
-   <span class="n">${ms.length} module${ms.length===1?"":"s"}</span></div>
-   <p class="tdesc">${t.description}</p>`+
-   (ms.length?`<div class="cards">${ms.map(card).join("")}</div>`
-    :`<div class="empty">No modules at this filter yet — planned in CURRICULUM.md.</div>`);
+  sec.innerHTML=`<div class="thead"><h2>${t.order}. ${t.name.toUpperCase()}</h2><span class="n">${ms.length} MODULE${ms.length===1?"":"S"}</span></div><p class="tdesc">${t.description}</p>`+
+   (ms.length?`<div class="cards">${ms.map(card).join("")}</div>`:`<div class="empty">No modules at this filter yet — planned in CURRICULUM.md.</div>`);
   root.appendChild(sec);
  });
- root.querySelectorAll(".card").forEach(c=>c.addEventListener("click",()=>open(c.dataset.id)));
+ root.querySelectorAll(".mcard").forEach(c=>c.addEventListener("click",()=>open(c.dataset.id)));
 }
+render();
+
+/* ledger view */
+(function(){
+  const rows=document.getElementById("ledger-rows");const entries=D.ledger.passes||[];
+  if(!entries.length){
+    rows.innerHTML=`<div class="lempty">
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--faint)" stroke-width="1.4"><rect x="4" y="5" width="16" height="15" rx="1.5"></rect><path d="M4 9.5 H20 M8 3 V6.5 M16 3 V6.5"></path><path d="M9 14 L11 16 L15 12" stroke="var(--acc)" stroke-width="1.8"></path></svg>
+      <div class="big">No entries yet — the ledger starts empty on purpose.</div>
+      <div class="why">The 2026-08 scan found recall machinery built across the labs but never run: zero dated passes. This page exists so that stops being true.${firstOpen?" First candidate: the boss fight at the end of <b>"+firstOpen.id+"</b>.":""}</div>
+    </div>`;
+    return;
+  }
+  rows.innerHTML=entries.slice().reverse().map(e=>`<div class="lrow"><span class="mono">${e.date}</span><span>${e.module}</span><span style="color:var(--mid)">${(topicsById[(D.modules.find(m=>m.id===e.module)||{}).topic]||{}).name||""}</span><span class="mono ${e.result==="pass"?"st-passed":"st-building"}">${e.result.toUpperCase()}</span><span style="color:var(--muted);font-size:12px">${e.notes||""}</span></div>`).join("");
+})();
+
+/* reader */
 function open(id){
  const m=D.modules.find(x=>x.id===id);if(!m)return;
  document.getElementById("rbody").innerHTML=
-  `<span class="lv ${m.level}">${m.level}</span> <span class="tm">${m.time}</span>
-   <h2>${m.title}</h2>${m.html}`;
- document.getElementById("reader").classList.add("open");
- document.body.style.overflow="hidden";
+  `<div style="display:flex;gap:6px;align-items:center"><span class="lv ${m.level}">${m.level}</span><span class="tm">${m.time.toUpperCase()}</span>`+
+  (passes[m.id]?'<span class="recall pass">RECALL ✓ '+passes[m.id].slice(-1)[0]+'</span>':'<span class="recall pending">RECALL PENDING</span>')+
+  `</div><h2>${m.title}</h2>${m.html}`;
+ document.getElementById("reader").classList.add("open");document.body.style.overflow="hidden";
 }
 function close(){document.getElementById("reader").classList.remove("open");document.body.style.overflow=""}
 document.getElementById("close").addEventListener("click",close);
 document.getElementById("reader").addEventListener("click",e=>{if(e.target.id==="reader")close()});
 addEventListener("keydown",e=>{if(e.key==="Escape")close()});
-document.querySelectorAll(".chip[data-lv]").forEach(c=>c.addEventListener("click",()=>{
+document.querySelectorAll(".qrow .t").forEach(t=>t.addEventListener("click",()=>open(t.dataset.id)));
+
+/* view switching */
+document.querySelectorAll("nav.rail button[data-view]").forEach(b=>b.addEventListener("click",()=>{
+ document.querySelectorAll("nav.rail button[data-view]").forEach(x=>x.setAttribute("aria-pressed",x===b?"true":"false"));
+ document.querySelectorAll(".view").forEach(v=>v.classList.remove("active"));
+ document.getElementById("view-"+b.dataset.view).classList.add("active");
+}));
+document.querySelectorAll(".fchip[data-lv]").forEach(c=>c.addEventListener("click",()=>{
  lv=c.dataset.lv;
- document.querySelectorAll(".chip[data-lv]").forEach(x=>x.setAttribute("aria-pressed",x===c?"true":"false"));
+ document.querySelectorAll(".fchip[data-lv]").forEach(x=>x.setAttribute("aria-pressed",x===c?"true":"false"));
  render();
 }));
 document.getElementById("q").addEventListener("input",e=>{q=e.target.value.trim().toLowerCase();render()});
@@ -331,7 +544,6 @@ document.getElementById("theme").addEventListener("click",()=>{
  const r=document.documentElement,cur=r.dataset.theme;
  r.dataset.theme=cur==="dark"?"light":cur==="light"?"":"dark";
 });
-render();
 </script>
 </body>
 </html>
@@ -339,7 +551,7 @@ render();
 
 
 def main():
-    topics, modules, ledger, errors = load()
+    topics, modules, ledger, hub, skills, errors = load()
     if "--check" in sys.argv:
         for e in errors:
             print("ERROR:", e)
@@ -350,11 +562,13 @@ def main():
         for e in errors:
             print("ERROR:", e)
         sys.exit(1)
-    data = json.dumps({"topics": topics, "modules": modules, "ledger": ledger},
+    data = json.dumps({"topics": topics, "modules": modules, "ledger": ledger,
+                       "hub": hub, "skills": skills},
                       ensure_ascii=False).replace("</", "<\\/")
     SITE.mkdir(exist_ok=True)
     (SITE / "index.html").write_text(TEMPLATE.replace("__DATA__", data))
-    print(f"built site/index.html — {len(modules)} modules, {len(topics)} topics")
+    print(f"built site/index.html — {len(modules)} modules, {len(topics)} topics, "
+          f"{len(ledger.get('passes', []))} ledger entries")
 
 
 if __name__ == "__main__":

@@ -1,0 +1,12 @@
+{
+  "source": "docs/skills-matrix.md — 16-repo scan, 2026-08-19. Score = (solid + 0.5*developing + 0.25*touched) / skills in cluster. Radar covers 32 of 35 matrix rows; teaching/portability and writing rows are tracked outside the radar.",
+  "scale_note": "evidence of existing competence, not curriculum progress — progress lives in the recall ledger",
+  "clusters": [
+    { "id": "agents", "label": "agents", "skills": 8, "solid": 7, "developing": 1, "touched": 0, "score": 0.94 },
+    { "id": "memory", "label": "memory", "skills": 6, "solid": 5, "developing": 0, "touched": 1, "score": 0.88 },
+    { "id": "security", "label": "security", "skills": 4, "solid": 3, "developing": 0, "touched": 1, "score": 0.81 },
+    { "id": "evals", "label": "evals", "skills": 6, "solid": 3, "developing": 1, "touched": 0, "score": 0.58 },
+    { "id": "science", "label": "science", "skills": 4, "solid": 0, "developing": 1, "touched": 0, "score": 0.13 },
+    { "id": "internals", "label": "internals", "skills": 4, "solid": 0, "developing": 0, "touched": 1, "score": 0.06 }
+  ]
+}
