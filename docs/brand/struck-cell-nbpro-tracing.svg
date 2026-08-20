@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <!-- Exact geometric reconstruction of the winning NB Pro rendition of the
+       Off-Register Strike (struck-cell) direction, traced from pixel
+       measurements of job 032b914c-d01e-419c-8cff-5b03bbae92af.
+       Not a Recraft output. Outline: axis-aligned square, side 557 (54% of
+       canvas), 6px hairline. Orange square: side 510 (~92% of outline),
+       rotated 22 degrees, concentric; each corner overshoots a different
+       edge by ~9% of the outline side (4-fold pinwheel symmetry). -->
+  <rect width="1024" height="1024" fill="#ffffff"/>
+  <rect x="233.5" y="233.5" width="557" height="557" fill="none" stroke="#1a2028" stroke-width="6"/>
+  <rect x="257" y="257" width="510" height="510" fill="#f97316" transform="rotate(22 512 512)"/>
+</svg>
