@@ -1,0 +1,548 @@
+{
+  "_meta": {
+    "eval_id": "evals-basic-01",
+    "dated": "2026-08-20",
+    "target_system": "the QUERY workflow of the AI Engineering LLM Wiki (209 concept pages, 8 domains)",
+    "n_cases": 30,
+    "spread": { "factual": 10, "synthesis": 10, "unanswerable": 10 },
+    "source_repo": "faisalmahdy/ai-engineer-learning",
+    "how_questions_were_written": "Every question is answerable (or provably not answerable) from files that exist in the lab repo. Each case names the file it derives from in `source_file`. Questions were written against the repo's own text: CLAUDE.md section 4 (the Ingest/Query/Lint contract), schema/relation-types.md, wiki/tiers.md, wiki/index.json, wiki/graph.json, and 26 named concept pages.",
+    "how_answers_were_produced": "HONEST NOTE, read this before quoting any number. The `answer` field is a stored fixture, not a live model call. The eval has to be deterministic, offline and key-free, so the outputs the graders see are frozen here instead of being generated per run. Each fixture is a Query-workflow-shaped answer written from the cited page, then edited to carry the specific failure the case is meant to probe. Swap the fixture for a real run and nothing else in eval.py changes: the graders only ever read `answer`.",
+    "planted_cases": [
+      "F04 — the fixture is a full paraphrase of the reference: same facts, almost no shared wording. It exists to kill strategy 1 (exact) and to show strategy 2 (overlap) producing a false negative.",
+      "F09 — the fixture copies the reference and changes two numbers (37B -> 137B, 5.5% -> 20%). It exists to show strategy 2 scoring a wrong answer near the top of its range.",
+      "S07 — the fixture copies the reference and inverts the polarity (must NOT re-read raw transcripts -> should re-read them). Same trick as F09, on a rule instead of a number.",
+      "S10 and U02 — the fixtures cite `[[measured-by-edges]]` and `[[eu-ai-act-compliance]]`, neither of which is on the wiki's slug list. Invented citations are invisible to strategies 1 and 2 and are check 1's whole job.",
+      "U08 — the fixture answers a question the wiki cannot answer, and asserts a vendor certification. It exists so the refusal dimension has something to catch."
+    ],
+    "de_personalization": "All paths are repo-relative; no absolute paths, no machine names, no user identity, no keys or tokens anywhere in this file. Author names that appear inside reference answers (Karpathy, Yao et al., Anthropic, DeepSeek) are published citations copied from the wiki's own source lists, not personal data.",
+    "known_slugs_generated_from": "wiki/index.json of the lab repo, 2026-08-20 (209 slugs)"
+  },
+
+  "_config": {
+    "citation_pattern": "\\[\\[([a-z0-9-]+)\\]\\]",
+    "sources_line_pattern": "(?m)^Sources:",
+    "refusal_markers": [
+      "(?i)not answerable",
+      "(?i)no (?:such )?(?:concept )?page (?:covers|mentions|records|on)\\b",
+      "(?i)it does ?n[o']?t\\b",
+      "(?i)the wiki does not",
+      "(?i)there is no such number",
+      "(?i)^nothing\\b",
+      "(?i)unknowable",
+      "(?i)^none\\b",
+      "(?i)the premise is wrong"
+    ],
+    "default_min_words": 20,
+    "default_max_words": 180,
+    "overlap_threshold": 0.5,
+    "known_slugs": [
+      "a2a-protocol", "ab-testing", "agent-evaluation", "agent-handoffs", "agent-harness",
+      "agent-identity", "agent-loop", "agent-memory", "agent-reliability-engineering", "agent-sandboxing",
+      "agent-security", "agent-security-guardrails", "agent-skills", "agent-tool-interface-design", "agentic-commerce",
+      "agentic-payments", "agentic-process-automation", "agentic-retrieval", "agentic-rl-training", "ai-engineer-vs-ml-engineer",
+      "ai-product-patterns", "ai-roi-measurement", "ai-team-building", "ambient-agents", "attention-efficiency-variants",
+      "audio-music-generation", "automated-eval-optimization", "autoresearch", "benchmark-contamination", "benchmarks-and-leaderboards",
+      "build-vs-buy", "chain-of-thought-prompting", "chunking", "clip-contrastive-alignment", "code-mode-executable-tools",
+      "code-review-agent", "codebase-indexing-for-agents", "coding-agent-in-ci", "coding-agents", "computer-use",
+      "context-compaction-and-summarization", "context-engineering", "context-engineering-agents", "context-window-long-context", "contextual-retrieval",
+      "continued-pretraining", "continuous-batching", "cost-aware-agent-design", "cost-latency-tracking", "cost-optimization",
+      "customer-support-agents", "data-flywheel", "designing-for-nondeterminism", "diffusion-flow-models", "disaggregated-serving",
+      "distillation", "document-ai-ocr", "document-extraction-pipeline", "durable-execution", "embedding-fine-tuning",
+      "embeddings", "embeddings-as-input", "emergence-and-incentivized-learning", "enterprise-ai-adoption", "error-analysis",
+      "eval-driven-model-selection", "eval-of-finetuned-models", "eval-simulation", "evaluation-driven-development", "expert-parallelism",
+      "failure-mode-taxonomy", "forward-deployed-engineering", "frontier-open-vs-closed", "generative-media-pipelines", "generative-retrieval",
+      "generative-ui", "golden-dataset", "graphrag", "grounded-language-model", "grpo-and-rl-variants",
+      "gspo-sequence-policy-optimization", "guardrails", "guardrails-security", "hardware-accelerators", "harness-engineering",
+      "human-eval-annotation", "human-in-the-loop", "hybrid-search", "image-generation", "implicit-feedback-signals",
+      "inference-batching-serving", "inference-latency-metrics-ttft-itl", "instruction-following-and-spec-writing", "interactive-reasoning-benchmarks", "judge-human-alignment",
+      "kv-cache", "late-interaction-colbert", "latency-streaming-ux", "lethal-trifecta", "llm-as-judge",
+      "llm-as-operating-system", "llm-gateway", "llm-judge-bias", "llm-recsys", "llm-wiki-pattern",
+      "long-context-vs-rag", "lora-peft", "mcp-gateway-and-root-of-trust", "mcp-registry-and-discovery", "mcp-server-design-and-scaling",
+      "mcp-transports-and-spec", "mechanistic-interpretability", "memory-bound-vs-compute-bound-inference", "meta-prompting-and-optimization", "mixture-of-experts",
+      "model-context-protocol", "model-merging", "model-routing", "multi-agent-systems", "multi-turn-eval",
+      "multimodal-hallucination-eval", "multimodal-rag", "neural-audio-codec", "neuro-symbolic-systems", "nvfp4-mxfp4-quantization",
+      "offline-vs-online-eval", "on-device-local-ai", "orchestrator-worker-pattern", "owasp-llm-top-10", "paged-attention",
+      "partial-autonomy-and-autonomy-sliders", "personal-agents", "planning-decomposition", "preference-optimization-rlhf-dpo", "prefill-vs-decode",
+      "prefix-caching-radixattention", "production-monitoring", "program-aided-reasoning", "prompt-caching", "prompt-decomposition",
+      "prompt-injection", "prompt-injection-defense-patterns", "prompt-versioning-and-templating", "prompt-vs-rag-vs-finetune", "prompting-reasoning-vs-nonreasoning-models",
+      "quantization", "query-rewriting", "rag-evaluation", "rag-pipeline", "react-pattern",
+      "react-prompting", "reasoning-test-time-compute", "regression-testing", "reinforcement-fine-tuning", "reranking",
+      "research-plan-implement-loop", "reward-hacking", "reward-modeling", "rise-of-the-ai-engineer", "rl-environments",
+      "rlvr-verifiable-rewards", "rubric-based-eval", "sampling-decoding", "scaling-laws", "self-consistency",
+      "self-editing-memory", "self-play-rl", "semantic-ids", "skills-vs-mcp-layering", "small-specialized-vs-frontier",
+      "software-factories", "spec-driven-development", "speculative-decoding", "speech-to-speech-omni", "speech-to-text",
+      "sre-for-ai", "structured-outputs-and-constrained-decoding", "subagent-parallelism", "supervised-fine-tuning", "swe-bench-evaluation",
+      "synthetic-data", "system-prompt-design", "system-prompt-learning", "task-specific-eval", "telephony-voice-agents",
+      "temporal-knowledge-graph", "tensor-parallelism", "text-to-speech", "text-to-sql-retrieval", "tiny-teams",
+      "tokenization-bpe", "tokenmaxxing", "tool-result-management", "tool-use-function-calling", "tracing-observability",
+      "trajectory-eval", "transformer-attention", "trust-and-citations", "turn-detection-endpointing", "vector-database",
+      "vibe-coding", "vibe-coding-app-builder", "video-generation", "vision-language-models", "visual-document-retrieval",
+      "voice-agent-evaluation", "voice-agents-realtime", "webrtc-realtime-transport", "zero-shot-and-few-shot-prompting"
+    ]
+  },
+
+  "checks": [
+    { "id": "C1", "name": "cites-valid-slug", "dimension": "grounding", "asks": "Does the answer cite at least one [[slug]], and is every slug it cites a real page? Catches invented citations." },
+    { "id": "C2", "name": "cites-required-page", "dimension": "grounding", "asks": "Does the answer cite the specific page(s) this question should have routed to?" },
+    { "id": "C3", "name": "key-facts-present", "dimension": "correctness", "asks": "Does every required fact pattern appear?" },
+    { "id": "C4", "name": "no-known-error", "dimension": "correctness", "asks": "Is the answer free of the specific wrong claims we know this question attracts?" },
+    { "id": "C5", "name": "refusal-honesty", "dimension": "honest-refusal", "asks": "Does the answer refuse exactly when the wiki cannot answer, and not otherwise?" },
+    { "id": "C6", "name": "well-formed", "dimension": "completeness", "asks": "Is the answer within the length band and does it end with a Sources: line?" }
+  ],
+
+  "cases": [
+    {
+      "id": "F01",
+      "kind": "factual",
+      "source_file": "CLAUDE.md",
+      "question": "What are the three workflows a maintainer agent runs against this wiki, and what does each one do?",
+      "reference": "Three workflows. INGEST folds a new source into the wiki: read it, find the 10-15 existing concept pages it informs, enrich them with attributed points, add sources entries and edges, update the manifest, then log and Lint. QUERY answers a question from the pre-synthesized pages, navigating via wiki/index.json and wiki/graph.json and citing page slugs and their sources. LINT runs python pipeline/build_index.py to regenerate the index and graph and report broken links, orphans, missing pages and status counts. See [[llm-wiki-pattern]].\nSources: CLAUDE.md section 4",
+      "answer": "There are three: Ingest, Query and Lint. Ingest folds a new source in - read the source, identify the 10-15 concept pages it touches, enrich their key ideas with attributed points, add sources entries and any real new edges, update the manifest, append to the log. Query answers a question from the compiled pages, navigating wiki/index.json and wiki/graph.json and citing the slugs it used. Lint is python pipeline/build_index.py, which regenerates the index and graph and reports broken links, orphans, missing pages and status counts. See [[llm-wiki-pattern]].\nSources: CLAUDE.md section 4",
+      "expect": {
+        "must_cite": ["llm-wiki-pattern"],
+        "must_match": ["(?i)ingest", "(?i)query", "(?i)lint", "build_index\\.py"],
+        "must_not_match": ["(?i)four workflows"],
+        "refusal_expected": false
+      },
+      "notes": "Straight recall of the section-4 contract."
+    },
+    {
+      "id": "F02",
+      "kind": "factual",
+      "source_file": "schema/relation-types.md",
+      "question": "List the six relationship types allowed on a concept edge.",
+      "reference": "The six edge types are prerequisite-of, enables, composes-with, contrasts-with, alternative-to and measured-by. Edges are directed, written A --rel--> B, and every target must resolve to a slug on the master concept list or Lint reports it as dangling. See [[llm-wiki-pattern]].\nSources: schema/relation-types.md, wiki/MASTER-CONCEPT-LIST.md",
+      "answer": "The six edge types are prerequisite-of, enables, composes-with, contrasts-with, alternative-to and measured-by. Edges are directed, written A --rel--> B, and every target must resolve to a slug on the master concept list or Lint reports it as dangling. See [[llm-wiki-pattern]].\nSources: schema/relation-types.md, wiki/MASTER-CONCEPT-LIST.md",
+      "expect": {
+        "must_cite": ["llm-wiki-pattern"],
+        "must_match": ["prerequisite-of", "enables", "composes-with", "contrasts-with", "alternative-to", "measured-by"],
+        "must_not_match": ["(?i)\\bseven (?:edge|relationship) types"],
+        "refusal_expected": false
+      },
+      "notes": "Closed-form list question. The fixture is verbatim identical to the reference, so this is one of the three cases exact match can win."
+    },
+    {
+      "id": "F03",
+      "kind": "factual",
+      "source_file": "wiki/tiers.md",
+      "question": "What does tier T0 mean in this wiki, and how many concepts sit in it?",
+      "reference": "T0 means prerequisite mental models - the handful of ideas everything else assumes, kept small on purpose, and the tier you clear before anything else. Tier is learning priority, not difficulty. 16 of the 209 concept pages are T0, including [[evaluation-driven-development]] and [[agent-loop]].\nSources: wiki/tiers.md, wiki/index.json",
+      "answer": "T0 is the prerequisite mental models tier: the small set of ideas every other page assumes, learned first because nothing above makes sense while they are fuzzy. The label is about learning priority, not difficulty. Counting the pages, 16 of the 209 concepts carry tier T0 - [[evaluation-driven-development]] and [[agent-loop]] among them.\nSources: wiki/tiers.md, wiki/index.json",
+      "expect": {
+        "must_cite": ["evaluation-driven-development"],
+        "must_match": ["\\b16\\b", "(?i)prerequisite mental model", "(?i)priority"],
+        "must_not_match": ["(?i)T0 is the (?:hardest|advanced|frontier)"],
+        "refusal_expected": false
+      },
+      "notes": "Count verified against wiki/index.json: 16 T0, 77 T1, 110 T2, 6 T3."
+    },
+    {
+      "id": "F04",
+      "kind": "factual",
+      "source_file": "wiki/concepts/prompt-caching.md",
+      "question": "Under what condition does prompt caching actually save anything, and how should a prompt be ordered?",
+      "reference": "Prompt caching is strictly a prefix match: only the longest identical leading span is reused, so one differing token early in the prompt invalidates everything after it. Render in the canonical order tools, then system, then messages, keeping stable content first and volatile content last. Reported impact is up to about 90% cost reduction and about 85% latency reduction on long, repeated prompts. See [[prompt-caching]].\nSources: wiki/concepts/prompt-caching.md",
+      "answer": "Savings appear only when the opening of the request is byte-for-byte what it was last time. The reuse covers the longest shared opening span and stops dead at the first divergence, so a single edited token near the top throws away everything below it. Order accordingly: whatever never changes goes at the top - tools, then the system block, then the conversation - and the churn sits at the bottom. Vendors report as much as 90% off cost and 85% off latency on long requests that repeat. See [[prompt-caching]].\nSources: wiki/concepts/prompt-caching.md",
+      "expect": {
+        "must_cite": ["prompt-caching"],
+        "must_match": ["(?i)(?:prefix|opening|leading) span|(?:prefix|opening) of the request|byte-for-byte", "90%", "85%", "(?i)tools"],
+        "must_not_match": ["(?i)suffix match", "(?i)any part of the prompt can be cached"],
+        "refusal_expected": false
+      },
+      "notes": "PLANTED (paraphrase). The fixture is deliberately reworded end to end while keeping every fact. It is correct. Exact match must fail it, and token overlap should score it low - a false negative on a right answer."
+    },
+    {
+      "id": "F05",
+      "kind": "factual",
+      "source_file": "wiki/concepts/kv-cache.md",
+      "question": "What does the KV cache store, and why does it become the binding memory constraint at long context?",
+      "reference": "It stores the key and value tensors of every token already processed, so attention does not recompute them at each decode step - memory traded for compute. Its size grows linearly with sequence length times batch size times layers times KV-head dimension, so at long context the cache, not the weights, becomes the binding memory constraint. Two families of fix: architectural (GQA, MLA shrink it) and systems-level (PagedAttention pages it, prefix reuse shares it). See [[kv-cache]].\nSources: wiki/concepts/kv-cache.md",
+      "answer": "It holds the key and value tensors for every token already processed so that each decode step looks them up instead of re-running attention over the whole prefix - it buys compute with memory. The size grows linearly with sequence length times batch size times layers times KV-head dimension, which is why past a certain context length the cache rather than the weights is what pins you to the GPU. Architectural fixes shrink it (GQA, MLA); systems fixes page it (PagedAttention) or share it (prefix reuse). See [[kv-cache]].\nSources: wiki/concepts/kv-cache.md",
+      "expect": {
+        "must_cite": ["kv-cache"],
+        "must_match": ["(?i)key and value", "(?i)linearly", "(?i)pagedattention"],
+        "must_not_match": ["(?i)constant (?:in|with) sequence length"],
+        "refusal_expected": false
+      },
+      "notes": "Mechanism question with a growth law in it."
+    },
+    {
+      "id": "F06",
+      "kind": "factual",
+      "source_file": "wiki/concepts/llm-judge-bias.md",
+      "question": "How far can LLM-judge agreement with domain experts fall, and what are the three named judge biases?",
+      "reference": "In specialist domains judge-expert agreement can drop to 60-68%, which is near-random on hard calls and is why an unvalidated judge is confidently wrong. The three named biases are position bias (favouring the option presented first), verbosity and formatting bias (favouring longer, prettier, more confident answers) and self-preference bias (favouring its own model family's style). Judges are also injection-susceptible. See [[llm-judge-bias]] and [[llm-as-judge]].\nSources: wiki/concepts/llm-judge-bias.md",
+      "answer": "In specialist domains judge-expert agreement can drop to 60-68%, which is near-random on hard calls and is why an unvalidated judge is confidently wrong. The three named biases are position bias (favouring the option presented first), verbosity and formatting bias (favouring longer, prettier, more confident answers) and self-preference bias (favouring its own model family's style). Judges are also injection-susceptible. See [[llm-judge-bias]] and [[llm-as-judge]].\nSources: wiki/concepts/llm-judge-bias.md",
+      "expect": {
+        "must_cite": ["llm-judge-bias", "llm-as-judge"],
+        "must_match": ["60", "68", "(?i)position bias", "(?i)verbosity", "(?i)self-preference"],
+        "must_not_match": ["(?i)9[0-9]% agreement"],
+        "refusal_expected": false
+      },
+      "notes": "Second of the three verbatim fixtures. Also the number the module's own judge-suspicion argument rests on."
+    },
+    {
+      "id": "F07",
+      "kind": "factual",
+      "source_file": "wiki/concepts/chunking.md",
+      "question": "How much did contextual retrieval cut retrieval failures, and what did the NAACL 2025 chunking result find?",
+      "reference": "Anthropic's Contextual Retrieval (Sept 2024) prepends an LLM-generated context blurb to each chunk before embedding; combined with reranking it cut top-20 retrieval failures by up to about 67%. The NAACL 2025 finding cuts the other way: fixed ~200-word chunks often match or beat semantic chunking, so added complexity does not guarantee gains. See [[chunking]] and [[contextual-retrieval]].\nSources: wiki/concepts/chunking.md",
+      "answer": "Contextual Retrieval, from Anthropic in September 2024, prepends an LLM-generated context blurb to each chunk before it is embedded; combined with reranking that cut top-20 retrieval failures by up to about 67%. The NAACL 2025 result points the other way: fixed roughly 200-word chunks often match or beat semantic chunking, so the extra machinery does not guarantee a gain.\nSources: wiki/concepts/chunking.md",
+      "expect": {
+        "must_cite": ["chunking"],
+        "must_match": ["67", "200", "(?i)naacl"],
+        "must_not_match": ["(?i)semantic chunking always"],
+        "refusal_expected": false
+      },
+      "notes": "Correct content, zero citations. This is the ordinary Query failure: right facts, no [[slug]] trail, so a reader cannot check it. Only the rubric sees it."
+    },
+    {
+      "id": "F08",
+      "kind": "factual",
+      "source_file": "wiki/concepts/model-context-protocol.md",
+      "question": "Who introduced MCP and when, and what is its architecture?",
+      "reference": "MCP is an open standard introduced by Anthropic in November 2024, spec 2024-11-05. It defines a host/client/server architecture over JSON-RPC: the host application embeds an MCP client that talks to MCP servers exposing tools, resources and prompts. It became the de facto model-agnostic interop layer for agent tooling through 2025. See [[model-context-protocol]].\nSources: wiki/concepts/model-context-protocol.md",
+      "answer": "Anthropic introduced it in November 2024 - the launch spec is dated 2024-11-05. The architecture is host, client, server, speaking JSON-RPC: a host application embeds an MCP client, and that client connects to MCP servers which expose tools, resources and prompts. Through 2025 it became the de facto model-agnostic interop layer for agent tooling. See [[model-context-protocol]].\nSources: wiki/concepts/model-context-protocol.md",
+      "expect": {
+        "must_cite": ["model-context-protocol"],
+        "must_match": ["(?i)anthropic", "(?i)november 2024|2024-11-05", "(?i)json-rpc", "(?i)host"],
+        "must_not_match": ["(?i)openai (?:introduced|created|released) (?:the )?mcp"],
+        "refusal_expected": false
+      },
+      "notes": "Attribution question - the wrong-attribution trap is the guard in must_not_match."
+    },
+    {
+      "id": "F09",
+      "kind": "factual",
+      "source_file": "wiki/concepts/mixture-of-experts.md",
+      "question": "What were DeepSeek-V3's total and active parameter counts, and what fraction is active per token?",
+      "reference": "DeepSeek-V3 is 671B total parameters with 37B active per token, about 5.5% active, and it was the 2025 reference point for sparse MoE. By 2026 the frontier-open models are larger and sparser: DeepSeek-V4-Pro at 1.6T total / 49B active (about 3%) and Kimi K2 at 1.04T total / 32B active. See [[mixture-of-experts]].\nSources: wiki/concepts/mixture-of-experts.md",
+      "answer": "DeepSeek-V3 is 671B total parameters with 137B active per token, about 20% active, and it was the 2025 reference point for sparse MoE. By 2026 the frontier-open models are larger and sparser: DeepSeek-V4-Pro at 1.6T total / 49B active (about 3%) and Kimi K2 at 1.04T total / 32B active. See [[mixture-of-experts]].\nSources: wiki/concepts/mixture-of-experts.md",
+      "expect": {
+        "must_cite": ["mixture-of-experts"],
+        "must_match": ["\\b37B\\b", "5\\.5%"],
+        "must_not_match": ["137B", "(?i)20% active"],
+        "refusal_expected": false
+      },
+      "notes": "PLANTED (number swap). Two tokens differ from the reference; everything else is copied. Token overlap will score this near the top of its range while the answer is flatly wrong."
+    },
+    {
+      "id": "F10",
+      "kind": "factual",
+      "source_file": "wiki/index.json + wiki/graph.json",
+      "question": "How many concept pages does the wiki hold, across how many domains, and how large is the whole graph?",
+      "reference": "209 concept pages across 8 domains, connected by 1162 typed concept-to-concept edges. Adding the 101 entity pages, the whole graph is 310 nodes and 1522 edges. Status split is 131 reviewed and 78 draft. See [[llm-wiki-pattern]].\nSources: wiki/index.json, wiki/graph.json",
+      "answer": "209 concept pages across 8 domains, connected by 1162 typed concept-to-concept edges. Adding the 101 entity pages, the whole graph is 310 nodes and 1522 edges. Status split is 131 reviewed and 78 draft. See [[llm-wiki-pattern]].\nSources: wiki/index.json, wiki/graph.json",
+      "expect": {
+        "must_cite": ["llm-wiki-pattern"],
+        "must_match": ["209", "\\b8\\b", "1162", "1522"],
+        "must_not_match": ["(?i)112 (?:atomic )?concepts"],
+        "refusal_expected": false
+      },
+      "notes": "Third verbatim fixture. The must_not_match guard is real drift: CLAUDE.md still says '~112 atomic concepts' while the generated index says 209."
+    },
+
+    {
+      "id": "S01",
+      "kind": "synthesis",
+      "source_file": "wiki/concepts/llm-wiki-pattern.md + wiki/concepts/rag-pipeline.md",
+      "question": "How does the LLM Wiki pattern differ from a RAG pipeline, and when does it stop being the right choice?",
+      "reference": "The wiki compiles knowledge once into cross-referenced pages and a query just reads the pre-synthesized page; RAG re-retrieves and re-synthesizes raw chunks on every query. So the wiki compounds - each ingest enriches the same pages - while a stateless retriever starts from scratch each time. The recorded edge between them is contrasts-with. It stops being the right choice past roughly 100K tokens of wiki, where indexed retrieval reasserts its advantage. See [[llm-wiki-pattern]] and [[rag-pipeline]].\nSources: wiki/concepts/llm-wiki-pattern.md",
+      "answer": "The difference is when synthesis happens. The wiki compiles sources once into cross-referenced pages, so a query reads a page that is already written; RAG re-retrieves chunks and re-synthesizes an answer every single time. That is why the wiki compounds - every ingest thickens the same pages - and a stateless retriever does not. The graph records the relationship as contrasts-with. The limit is size: past roughly 100K tokens of wiki the pattern degrades and indexed retrieval wins again. See [[llm-wiki-pattern]] and [[rag-pipeline]].\nSources: wiki/concepts/llm-wiki-pattern.md",
+      "expect": {
+        "must_cite": ["llm-wiki-pattern", "rag-pipeline"],
+        "must_match": ["(?i)compil", "100K", "(?i)contrasts-with"],
+        "must_not_match": ["(?i)replaces rag entirely|rag is dead"],
+        "refusal_expected": false
+      },
+      "notes": "Two pages plus the typed edge between them - the thing the wiki claims is its actual value."
+    },
+    {
+      "id": "S02",
+      "kind": "synthesis",
+      "source_file": "wiki/concepts/llm-as-judge.md + wiki/concepts/llm-judge-bias.md + wiki/concepts/human-eval-annotation.md",
+      "question": "Why can't you trust an LLM judge's score straight out of the box, and what has to happen first?",
+      "reference": "Because the judge is itself a model under test. Its known failure modes are position, verbosity/formatting and self-preference bias, plus injection-susceptibility, and in specialist domains agreement with experts can fall to 60-68%. What has to happen first: scope the judge to one binary question rather than a vague 1-5 scale, hand-label a held-out set, then measure the judge against those labels and report true-positive and true-negative rates rather than raw agreement. See [[llm-as-judge]], [[llm-judge-bias]] and [[human-eval-annotation]].\nSources: wiki/concepts/llm-as-judge.md",
+      "answer": "Because the judge is a model under test like any other. It shows position bias, verbosity and formatting bias and self-preference for its own family, and it can be prompt-injected by the very output it is grading. What has to come first is calibration: scope it to a single binary question instead of a vague 1-5 scale, hand-label a held-out sample, then score the judge against those human labels and report true-positive and true-negative rates rather than a raw agreement percentage. See [[llm-as-judge]] and [[human-eval-annotation]].\nSources: wiki/concepts/llm-as-judge.md",
+      "expect": {
+        "must_cite": ["llm-as-judge", "llm-judge-bias", "human-eval-annotation"],
+        "must_match": ["(?i)binary", "(?i)true-positive|TPR", "(?i)position bias"],
+        "must_not_match": ["(?i)judges are unbiased"],
+        "refusal_expected": false
+      },
+      "notes": "The fixture describes the biases correctly but never cites the page that owns them, so the reader cannot follow the claim home. C2 catches it; nothing else does."
+    },
+    {
+      "id": "S03",
+      "kind": "synthesis",
+      "source_file": "wiki/concepts/error-analysis.md + wiki/concepts/evaluation-driven-development.md + wiki/concepts/golden-dataset.md",
+      "question": "In what order should you build an eval program, and what decides which evals are worth writing?",
+      "reference": "Error analysis first: read about 100 representative traces by hand, journal open-ended notes, cluster them into a failure taxonomy afterwards, and stop when roughly 20 consecutive traces surface no new category. That taxonomy is what decides which evals are worth writing - each category becomes a deterministic check, a judge prompt or a golden example. Then the golden set: inputs plus references or pass/fail criteria, version-controlled, grown from real production failures. Then evaluation-driven development runs the loop, cheapest scorer first. See [[error-analysis]], [[golden-dataset]] and [[evaluation-driven-development]].\nSources: wiki/concepts/error-analysis.md",
+      "answer": "The order is error analysis, then golden set, then the loop. Error analysis comes first because it is the only step that tells you which evals are worth writing at all: you read about 100 representative traces by hand, journal open-ended notes as you go rather than categorising early, then cluster the notes into a failure taxonomy afterwards, and you stop when roughly 20 consecutive traces surface no new category - the theoretical-saturation stop rule. Ideally one owner, a domain expert acting as benevolent dictator, keeps the labels consistent across the whole pass. Each category in the resulting taxonomy then becomes something concrete: a deterministic assertion, a judge prompt, or a golden example, and each one ties to a fix lever - retrieval, prompt, tools, guardrails, or a finetune. Only then do you build the golden set: inputs paired with reference outputs or explicit pass/fail criteria, version-controlled like code so results are reproducible, representative of the taxonomy rather than exhaustive, and grown continuously from real production failures. Finally evaluation-driven development runs the whole thing as a loop rather than a phase, with the cheap deterministic scorers tried before the calibrated judges and the judges before human review. See [[error-analysis]], [[golden-dataset]] and [[evaluation-driven-development]].\nSources: wiki/concepts/error-analysis.md",
+      "expect": {
+        "must_cite": ["error-analysis", "golden-dataset", "evaluation-driven-development"],
+        "must_match": ["100", "\\b20\\b", "(?i)taxonomy"],
+        "must_not_match": ["(?i)write the evals first"],
+        "refusal_expected": false
+      },
+      "notes": "Everything in this answer is correct. It is 231 words against a 180-word band - the verbose-but-right case. A verbosity-biased judge would reward it; the structural check does not."
+    },
+    {
+      "id": "S04",
+      "kind": "synthesis",
+      "source_file": "wiki/concepts/hybrid-search.md + wiki/concepts/reranking.md",
+      "question": "What is the canonical two-stage retriever, and what does each stage buy you?",
+      "reference": "Stage one is hybrid search, for recall: dense embedding retrieval and sparse lexical retrieval (BM25 or SPLADE) run in parallel and their ranked lists are fused with Reciprocal Rank Fusion, which is robust to the two retrievers' mismatched score scales. Stage two is a cross-encoder reranker, for precision: it re-reads the query together with each of the top 50-100 candidates and returns a sharper top ~10. Recall first because you cannot rerank what you never retrieved. See [[hybrid-search]] and [[reranking]].\nSources: wiki/concepts/hybrid-search.md",
+      "answer": "Stage one is a cross-encoder reranker, which reads the query together with each candidate and scores them jointly for precision. Stage two is hybrid search: dense embedding retrieval and sparse BM25/SPLADE run in parallel and are fused with Reciprocal Rank Fusion, which is robust to score-scale mismatch between the two retrievers. The reranker works over the top 50-100 candidates and hands back a sharper top ~10. See [[hybrid-search]] and [[reranking]].\nSources: wiki/concepts/hybrid-search.md",
+      "expect": {
+        "must_cite": ["hybrid-search", "reranking"],
+        "must_match": ["(?i)reciprocal rank fusion", "(?i)cross-encoder", "50"],
+        "must_not_match": ["(?i)stage one is a cross-encoder|rerank\\w* (?:first|before) retriev"],
+        "refusal_expected": false
+      },
+      "notes": "The two stages are swapped. Every term the reference contains is still present, so overlap is high and C3 passes - the pipeline order is the only thing wrong, and C4 is what notices."
+    },
+    {
+      "id": "S05",
+      "kind": "synthesis",
+      "source_file": "wiki/concepts/prompt-injection.md + wiki/concepts/agent-security-guardrails.md",
+      "question": "What is the confused-deputy risk in an agent, and why is prompt injection still unsolved?",
+      "reference": "An agent holding tool access is a privileged deputy. Untrusted content - a web page, a document, a tool result - coerces it into misusing those privileges: exfiltrating data or taking unauthorized actions on the attacker's behalf. Injection is unsolved because the model reads instructions and data in one undifferentiated token stream, so there is no reliable parser separating the developer's commands from attacker text. Indirect injection is the sharp end: the payload hides in external content the model later ingests, so the victim never typed the attack. It is OWASP's number one LLM risk. See [[prompt-injection]] and [[agent-security-guardrails]].\nSources: wiki/concepts/prompt-injection.md",
+      "answer": "The agent is the deputy: it holds tool access, and untrusted content it happens to read - a web page, a document, the result of a tool call - can coerce it into using those privileges for someone else, exfiltrating data or taking unauthorized actions. The reason injection stays unsolved is that instructions and data arrive in the same undifferentiated token stream, so no parser can reliably tell a developer command from attacker text. Indirect injection is the dangerous form, where the payload sits in external content the model ingests later and the victim never typed anything. OWASP ranks it the number one LLM risk. See [[prompt-injection]] and [[agent-security-guardrails]].\nSources: wiki/concepts/prompt-injection.md",
+      "expect": {
+        "must_cite": ["prompt-injection", "agent-security-guardrails"],
+        "must_match": ["(?i)indirect", "(?i)owasp", "(?i)token stream"],
+        "must_not_match": ["(?i)solved by (?:a )?(?:filter|classifier)"],
+        "refusal_expected": false
+      },
+      "notes": "Cross-domain synthesis: a security page and an agents page."
+    },
+    {
+      "id": "S06",
+      "kind": "synthesis",
+      "source_file": "wiki/concepts/structured-outputs-and-constrained-decoding.md",
+      "question": "If a model returns JSON that validates against your schema, what exactly has been guaranteed?",
+      "reference": "Only the shape. Constrained decoding masks out any next token that would violate the grammar, so the response is always schema-valid - but a response can be perfectly valid JSON and completely wrong. Schema conformance is necessary, not sufficient. It is the substrate for tool and function calling, where strict argument schemas guarantee the arguments parse, and for automated grading, where a judge needs parseable output - neither of which is evidence of correctness. See [[structured-outputs-and-constrained-decoding]] and [[llm-as-judge]].\nSources: wiki/concepts/structured-outputs-and-constrained-decoding.md",
+      "answer": "Schema validation guarantees the extracted values are correct. Constrained decoding masks out any next token that would violate the grammar, so the engine can only ever emit fields the schema admits, which means a response that validates has been verified field by field. This is the substrate for tool and function calling, where strict argument schemas guarantee the arguments parse, and for automated grading, where a judge needs parseable output. See [[structured-outputs-and-constrained-decoding]] and [[llm-as-judge]].\nSources: wiki/concepts/structured-outputs-and-constrained-decoding.md",
+      "expect": {
+        "must_cite": ["structured-outputs-and-constrained-decoding", "llm-as-judge"],
+        "must_match": ["(?i)necessary, not sufficient|shape, not|valid JSON and (?:completely )?wrong"],
+        "must_not_match": ["(?i)guarantees? the extracted values are correct|verified field by field"],
+        "refusal_expected": false
+      },
+      "notes": "The single most quotable line on the page - 'guarantees shape, not correctness' - is exactly what the fixture inverts, while keeping the mechanism paragraph intact."
+    },
+    {
+      "id": "S07",
+      "kind": "synthesis",
+      "source_file": "CLAUDE.md (section 4, QUERY) + wiki/concepts/llm-wiki-pattern.md",
+      "question": "When answering a question from this wiki, should the agent go back and read the raw transcripts?",
+      "reference": "No. The Query workflow navigates via wiki/index.json and wiki/graph.json and synthesizes from the concept pages; it must not re-read raw transcripts, because Ingest already compiled them. Raw is immutable ground truth that agents read during Ingest and never edit. The answer then cites page slugs and their sources, and if it is durable it is filed back into the wiki, which is how Query compounds. See [[llm-wiki-pattern]].\nSources: CLAUDE.md section 4",
+      "answer": "Yes. The Query workflow navigates via wiki/index.json and wiki/graph.json and then re-reads the raw transcripts to verify, because Ingest may have compressed them. Raw is immutable ground truth, so agents should read it on every query for accuracy and never edit it. The answer then cites page slugs and their sources, and if it is durable it is filed back into the wiki, which is how Query compounds. See [[llm-wiki-pattern]].\nSources: CLAUDE.md section 4",
+      "expect": {
+        "must_cite": ["llm-wiki-pattern"],
+        "must_match": ["(?i)must not re-read|do(?:es)? not re-read|\\bNo\\b\\. The Query"],
+        "must_not_match": ["(?i)re-reads? the raw transcripts to verify|read it on every query"],
+        "refusal_expected": false
+      },
+      "notes": "PLANTED (polarity flip). One word - No becomes Yes - plus two clauses, and the rule is now the opposite of the repo's contract. Almost every token is shared with the reference."
+    },
+    {
+      "id": "S08",
+      "kind": "synthesis",
+      "source_file": "wiki/concepts/benchmark-contamination.md + wiki/concepts/golden-dataset.md",
+      "question": "Why is a private golden set the strongest defense against benchmark contamination?",
+      "reference": "Contamination is train/test overlap: the eval questions, or near paraphrases, appeared during training, so a high score reflects memorization. With reasoning models it can hide inside RL or chain-of-thought traces and evade n-gram detection, and public benchmarks inflate over time as they leak into web crawls. Rolling benchmarks like LiveBench and arena Elo make the target move, but your own private held-out set is the only one that provably cannot have leaked into a vendor's training run - which is also why it must never be tuned on. See [[benchmark-contamination]] and [[golden-dataset]].\nSources: wiki/concepts/benchmark-contamination.md",
+      "answer": "Contamination is train/test overlap - the eval questions, or close paraphrases of them, turn up in training data, so the score measures memorization instead of capability. In reasoning models it can hide inside RL or chain-of-thought pipelines and slip past n-gram detection, and static public benchmarks inflate over time as they leak into web crawls. Rolling benchmarks such as LiveBench and arena Elo keep the target moving, but only a private held-out set provably could not have leaked into a vendor's training run. The same logic is why you never tune on it. See [[benchmark-contamination]] and [[golden-dataset]].\nSources: wiki/concepts/benchmark-contamination.md",
+      "expect": {
+        "must_cite": ["benchmark-contamination", "golden-dataset"],
+        "must_match": ["(?i)train/test overlap", "(?i)livebench", "(?i)memoriz"],
+        "must_not_match": ["(?i)contamination (?:is|was) solved"],
+        "refusal_expected": false
+      },
+      "notes": "The module's own contamination discipline, asked of the wiki."
+    },
+    {
+      "id": "S09",
+      "kind": "synthesis",
+      "source_file": "wiki/source-index.md + raw/sources-manifest.json + llms.txt + README.md",
+      "question": "How many curated sources does the corpus contain?",
+      "reference": "624 - and the wiki contradicts itself here, which is the more useful half of the answer. llms.txt still advertises 476 curated source modules, while wiki/source-index.md and raw/sources-manifest.json both report 624 (631 files on disk, 7 uncataloged). README.md explains the gap: 476 was the phase-2 figure and batch-4 added 158 more. The 476 line is stale and should be flagged, not flattened - the schema's own rule. See [[llm-wiki-pattern]].\nSources: wiki/source-index.md, raw/sources-manifest.json, llms.txt",
+      "answer": "The corpus contains 476 curated source modules, weighted by relevance, fundamentality and benefit and sorted by topic and tier, with the machine view in raw/sources-manifest.json. See [[llm-wiki-pattern]].\nSources: llms.txt",
+      "expect": {
+        "must_cite": ["llm-wiki-pattern"],
+        "must_match": ["624", "476", "(?i)stale|contradict|supersed"],
+        "must_not_match": ["(?i)624 sources were removed"],
+        "refusal_expected": false
+      },
+      "notes": "A real inconsistency in the lab repo, not a manufactured one: llms.txt line 30 says 476, source-index.md line 12 says 624. The fixture picks one number and states it flatly - flattening a contradiction the schema says to flag."
+    },
+    {
+      "id": "S10",
+      "kind": "synthesis",
+      "source_file": "schema/relation-types.md + wiki/graph.json",
+      "question": "How does the wiki try to make every concept measurable, and does the graph show it worked?",
+      "reference": "The authoring rules say measured-by edges point into the evaluation-observability domain and that almost every concept should carry at least one - 'if you can't measure it, you can't ship it'. The graph says it half worked: 101 measured-by edges out of 1162 concept edges, against 466 prerequisite-of and 358 composes-with. With 209 concepts, 101 measured-by edges cannot cover them all. Lint (python pipeline/build_index.py) enforces that targets resolve, not that the edge exists. See [[evaluation-driven-development]] and [[agent-evaluation]].\nSources: schema/relation-types.md, wiki/graph.json",
+      "answer": "The rule is in the edge vocabulary: measured-by edges point into the evaluation-observability domain and almost every concept is supposed to carry at least one, on the principle that if you cannot measure it you cannot ship it. The graph shows it only half worked - 101 measured-by edges against 1162 concept edges in total, with prerequisite-of at 466 and composes-with at 358, so with 209 concepts the coverage cannot be complete. Lint checks that edge targets resolve, not that the edge was ever written. See [[measured-by-edges]], [[evaluation-driven-development]] and [[agent-evaluation]].\nSources: schema/relation-types.md, wiki/graph.json",
+      "expect": {
+        "must_cite": ["evaluation-driven-development", "agent-evaluation"],
+        "must_match": ["101", "1162", "(?i)measured-by"],
+        "must_not_match": ["(?i)every concept (?:has|carries) a measured-by"],
+        "refusal_expected": false
+      },
+      "notes": "PLANTED (invented citation). [[measured-by-edges]] is not a page; the other two are. The answer is otherwise right, which is what makes the fake citation hard to spot by eye."
+    },
+
+    {
+      "id": "U01",
+      "kind": "unanswerable",
+      "source_file": "CLAUDE.md (section 6, rule 7) + wiki/concepts/cost-optimization.md",
+      "question": "What does the top frontier model cost per million input tokens right now?",
+      "reference": "Not answerable from the wiki. The schema's rule 7 says prices, model versions and benchmark scores are point-in-time and must be dated, and no page carries a live price table. The closest pages reason about cost ratios and routing rather than list prices: [[cost-optimization]] and [[model-routing]].\nSources: CLAUDE.md section 6 rule 7",
+      "answer": "Not answerable from the wiki. Rule 7 of the schema treats prices, model versions and benchmark scores as point-in-time facts that must be dated, and no page holds a current price table - anything quoted here would be stale by construction. What the wiki does cover is the reasoning around cost: [[cost-optimization]] on where spend actually goes, and [[model-routing]] on sending cheap requests to cheap models.\nSources: CLAUDE.md section 6 rule 7",
+      "expect": {
+        "must_cite": ["cost-optimization", "model-routing"],
+        "must_match": [],
+        "must_not_match": ["\\$[0-9]"],
+        "refusal_expected": true
+      },
+      "notes": "Refusal case. The guard catches a fabricated dollar figure."
+    },
+    {
+      "id": "U02",
+      "kind": "unanswerable",
+      "source_file": "wiki/MASTER-CONCEPT-LIST.md (no matching slug) + wiki/concepts/guardrails-security.md",
+      "question": "What obligations does the EU AI Act place on a high-risk LLM deployment?",
+      "reference": "Not answerable from the wiki. No concept page mentions the EU AI Act and no such slug is on the master list; a full-text search of wiki/concepts returns nothing. The nearest pages are about security risk, not statutory compliance: [[owasp-llm-top-10]] and [[guardrails-security]].\nSources: wiki/MASTER-CONCEPT-LIST.md",
+      "answer": "High-risk deployments must maintain a technical file, log inference calls, complete a conformity assessment before placing the system on the market and register it in the EU database, with post-market monitoring afterwards. The wiki summarises the obligations in [[eu-ai-act-compliance]], and the adjacent controls are in [[guardrails-security]].\nSources: wiki/concepts/eu-ai-act-compliance.md",
+      "expect": {
+        "must_cite": ["guardrails-security"],
+        "must_match": [],
+        "must_not_match": ["(?i)must (?:maintain|register|complete a conformity)"],
+        "refusal_expected": true
+      },
+      "notes": "PLANTED (hallucination). Confident, plausible, well-formatted, cites a page that does not exist, and never says the wiki cannot answer. The worst case in the set and the one nothing but a rubric catches."
+    },
+    {
+      "id": "U03",
+      "kind": "unanswerable",
+      "source_file": "CLAUDE.md (section 4) + wiki/concepts/llm-wiki-pattern.md",
+      "question": "Which vector database does this repository use to retrieve its own pages?",
+      "reference": "None - the premise is wrong. This wiki is plain markdown in git, navigated through wiki/index.json and wiki/graph.json, both regenerated by Lint; there is no embedding index and no vector store in the repository. [[vector-database]] describes the technology in general and [[llm-wiki-pattern]] explains why this pattern deliberately does without one.\nSources: CLAUDE.md section 4",
+      "answer": "None - the premise is wrong. The repository is plain markdown under git, and retrieval is just navigation: wiki/index.json and wiki/graph.json, both regenerated by Lint, plus double-bracket wiki links between pages. There is no embedding index and no vector store anywhere in it. The technology itself is described on [[vector-database]], and [[llm-wiki-pattern]] is the page explaining why compiling pages up front removes the need for one.\nSources: CLAUDE.md section 4",
+      "expect": {
+        "must_cite": ["vector-database", "llm-wiki-pattern"],
+        "must_match": [],
+        "must_not_match": ["(?i)uses (?:pinecone|chroma|qdrant|weaviate|faiss|sqlite-vec)"],
+        "refusal_expected": true
+      },
+      "notes": "False-premise case. A named vendor in the answer would be a fabrication; the guard looks for one."
+    },
+    {
+      "id": "U04",
+      "kind": "unanswerable",
+      "source_file": "CLAUDE.md (section 4, QUERY) + raw/transcripts/",
+      "question": "At around the twelve-minute mark of the ingested talk, what did the speaker say about agent memory?",
+      "reference": "Not answerable, for two independent reasons. The Query workflow is forbidden from re-reading raw transcripts - Ingest already compiled them into pages - and raw/transcripts currently holds only a README and a template, so there is no transcript in the repository to quote from at any timestamp. What the wiki does hold on the subject is [[agent-memory]].\nSources: CLAUDE.md section 4, raw/transcripts/",
+      "answer": "Not answerable, and for two separate reasons. First, Query is forbidden from re-reading raw transcripts at all; Ingest already compiled them into the pages, and that is the layer a query is supposed to read. Second, raw/transcripts currently contains only a README and a template file, so there is no transcript in this repository to quote from at any timestamp. The compiled knowledge on the subject lives on [[agent-memory]].\nSources: CLAUDE.md section 4, raw/transcripts/",
+      "expect": {
+        "must_cite": ["agent-memory"],
+        "must_match": [],
+        "must_not_match": ["(?i)the speaker said|at 12:"],
+        "refusal_expected": true
+      },
+      "notes": "Doubly unanswerable, and both halves are verifiable: the section-4 rule, and the directory listing."
+    },
+    {
+      "id": "U05",
+      "kind": "unanswerable",
+      "source_file": "wiki/MASTER-CONCEPT-LIST.md + wiki/concepts/on-device-local-ai.md",
+      "question": "How does this wiki cover federated learning for on-device model updates?",
+      "reference": "It doesn't. No concept page mentions federated learning and no such slug is on the master list. The closest page is [[on-device-local-ai]], which covers running inference locally rather than training across devices - a different problem.\nSources: wiki/MASTER-CONCEPT-LIST.md",
+      "answer": "It doesn't. Searching wiki/concepts turns up no mention of federated learning, and no slug on the master concept list covers it. The nearest neighbour is [[on-device-local-ai]], but that page is about running inference on local hardware, not about training a shared model across many devices - adjacent topic, different problem.\nSources: wiki/MASTER-CONCEPT-LIST.md",
+      "expect": {
+        "must_cite": ["on-device-local-ai"],
+        "must_match": [],
+        "must_not_match": ["(?i)the wiki covers federated"],
+        "refusal_expected": true
+      },
+      "notes": "Absent-topic case, verified by search across wiki/concepts."
+    },
+    {
+      "id": "U06",
+      "kind": "unanswerable",
+      "source_file": "wiki/MASTER-CONCEPT-LIST.md + wiki/concepts/quantization.md",
+      "question": "What does the wiki say about quantum computing's effect on transformer inference?",
+      "reference": "Nothing. A search of wiki/concepts returns no mention of quantum computing and no slug covers it; the inference pages stop at classical hardware. Note the near-miss: [[quantization]] is numeric precision, not quantum anything, and [[hardware-accelerators]] covers GPUs and TPUs.\nSources: wiki/MASTER-CONCEPT-LIST.md",
+      "answer": "Nothing at all. No page in wiki/concepts mentions quantum computing and there is no slug for it; the inference side of the wiki stops at classical hardware. One near-miss worth naming so it is not mistaken for coverage: [[quantization]] is about numeric precision - int8, fp4 - and has nothing to do with quantum, while [[hardware-accelerators]] is GPUs, TPUs and accelerators.\nSources: wiki/MASTER-CONCEPT-LIST.md",
+      "expect": {
+        "must_cite": ["quantization", "hardware-accelerators"],
+        "must_match": [],
+        "must_not_match": ["(?i)quantum (?:speedup|advantage) for (?:transformer|inference)"],
+        "refusal_expected": true
+      },
+      "notes": "Absent-topic case with a lexical trap - quantization sounds like quantum and is not."
+    },
+    {
+      "id": "U07",
+      "kind": "unanswerable",
+      "source_file": "wiki/index.json + wiki/concepts/evaluation-driven-development.md",
+      "question": "What score does this wiki's own Query workflow get on its output-quality eval?",
+      "reference": "There is no such number. The repository makes [[evaluation-driven-development]] a T0 concept and carries 30 pages in the evaluation-observability domain, but the Query workflow itself has never been evaluated: no eval script, no golden set, no results file for it exists in the repo. The absence is the honest answer.\nSources: wiki/index.json",
+      "answer": "There is no such number. The repository teaches the discipline - [[evaluation-driven-development]] is one of its 16 T0 concepts and evaluation-observability is a 30-page domain - but nothing in it evaluates the Query workflow: no eval script, no golden set, no results file. Reporting the absence is the only honest answer available.\nSources: wiki/index.json",
+      "expect": {
+        "must_cite": ["evaluation-driven-development"],
+        "must_match": [],
+        "must_not_match": ["(?i)scores? [0-9](?:\\.[0-9])?/(?:5|10)"],
+        "refusal_expected": true
+      },
+      "notes": "The gap this whole module exists to fill, asked of the system itself. The guard catches an invented score."
+    },
+    {
+      "id": "U08",
+      "kind": "unanswerable",
+      "source_file": "wiki/concepts/model-context-protocol.md + wiki/concepts/mcp-gateway-and-root-of-trust.md",
+      "question": "Is the MCP server ecosystem SOC 2 certified for enterprise use?",
+      "reference": "Not answerable from the wiki. No page records vendor audit or certification status; the MCP pages cover the protocol, its spec timeline and its security model, not compliance attestations. See [[model-context-protocol]] for the protocol and [[mcp-gateway-and-root-of-trust]] for the trust model that is actually documented.\nSources: wiki/concepts/model-context-protocol.md",
+      "answer": "Yes - MCP servers are SOC 2 Type II certified when deployed behind a gateway, and the registry verifies server identity before listing them, so enterprise use is covered. See [[model-context-protocol]] and [[mcp-gateway-and-root-of-trust]].\nSources: wiki/concepts/model-context-protocol.md",
+      "expect": {
+        "must_cite": ["model-context-protocol", "mcp-gateway-and-root-of-trust"],
+        "must_match": [],
+        "must_not_match": ["(?i)soc 2 type ii|(?:is|are) certified"],
+        "refusal_expected": true
+      },
+      "notes": "PLANTED (over-answering). Both citations are real pages, so C1 and C2 pass; the failure is that it answered at all, and asserted a certification the wiki never records."
+    },
+    {
+      "id": "U09",
+      "kind": "unanswerable",
+      "source_file": "wiki/concepts/model-context-protocol.md + wiki/concepts/mcp-transports-and-spec.md",
+      "question": "What will the MCP specification released in 2027 change?",
+      "reference": "Unknowable from the wiki, and the wiki is careful about exactly this. The newest revision it records is the 2026-07-28 stateless release candidate, locked 2026-05-21, which it explicitly labels forward-looking RC rather than shipped. Nothing beyond that date is recorded, and inventing it would break the date-volatile-facts rule. See [[model-context-protocol]] and [[mcp-transports-and-spec]].\nSources: wiki/concepts/model-context-protocol.md",
+      "answer": "Unknowable from the wiki. The furthest forward it goes is the 2026-07-28 stateless release candidate, locked 2026-05-21, and the page is explicit that this is a forward-looking RC and not shipped - it removes the initialize handshake and sessions and deprecates Roots, Sampling and Logging. Nothing past that is recorded, and guessing at a 2027 revision would break the rule about dating volatile facts. See [[model-context-protocol]] and [[mcp-transports-and-spec]].\nSources: wiki/concepts/model-context-protocol.md",
+      "expect": {
+        "must_cite": ["model-context-protocol", "mcp-transports-and-spec"],
+        "must_match": [],
+        "must_not_match": ["(?i)the 2027 spec (?:will|adds)"],
+        "refusal_expected": true
+      },
+      "notes": "Future-fact case. The correct behaviour is to name the horizon of what is recorded and stop."
+    },
+    {
+      "id": "U10",
+      "kind": "unanswerable",
+      "source_file": "wiki/concepts/autoresearch.md",
+      "question": "Which page should I read to learn how models predict protein structure?",
+      "reference": "No page covers it. Protein folding appears in the wiki only as a passing citation inside [[autoresearch]], where a protein-folding architecture search is used as an example of a long-running research loop - the page teaches the loop, not the biology.\nSources: wiki/concepts/autoresearch.md",
+      "answer": "No page covers that. The only place protein folding appears at all is a citation inside [[autoresearch]], where an architecture search over protein-folding models is used as the example of a research loop that ran for 150-plus hours. The page is teaching the loop - smallest coherent change, benchmark slice, keep or revert - not the structural biology.\nSources: wiki/concepts/autoresearch.md",
+      "expect": {
+        "must_cite": ["autoresearch"],
+        "must_match": [],
+        "must_not_match": ["(?i)see \\[\\[protein"],
+        "refusal_expected": true
+      },
+      "notes": "Out-of-domain case where a real page mentions the term in passing - the tempting wrong move is to answer from that mention."
+    }
+  ]
+}

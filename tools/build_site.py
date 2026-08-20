@@ -364,13 +364,48 @@ section.topic{margin-bottom:26px}
 .rules .r b{font-family:var(--mono);color:#fdba74;font-weight:500}
 .rules code{background:#1a222c;border-color:#2a3542;color:#9fb3c8}
 
-#reader{position:fixed;inset:0;background:rgba(10,14,19,.45);display:none;align-items:flex-start;justify-content:center;overflow-y:auto;z-index:20;padding:4vh 14px}
+/* no top padding here: the scrollport's content edge is where the sticky progress bar
+   parks, and any padding would leave a strip of text scrolling above it */
+#reader{position:fixed;inset:0;background:rgba(10,14,19,.45);display:none;align-items:flex-start;justify-content:center;overflow-y:auto;overscroll-behavior:contain;z-index:20;padding:0 14px}
 #reader.open{display:flex}
-#reader .paper{background:var(--panel);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);max-width:860px;width:100%;padding:28px 34px 44px;margin-bottom:6vh}
+#reader .paper{--pad-x:34px;--pad-y:28px;--radius:12px;
+  background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);
+  max-width:860px;width:100%;padding:var(--pad-y) var(--pad-x) 52px;margin:4vh 0 6vh}
+/* slim reader chrome: progress bar + close, parked on the paper's top edge.
+   Opaque so the article scrolls under it instead of colliding with it. */
+#reader .rtop{position:sticky;top:0;z-index:4;display:flex;flex-direction:column;
+  background:var(--panel);border-radius:var(--radius) var(--radius) 0 0;
+  margin:calc(var(--pad-y) * -1) calc(var(--pad-x) * -1) 12px;padding:0 var(--pad-x) 10px}
+#reader.scrolled .rtop{border-bottom:1px solid var(--grid);box-shadow:0 10px 16px -14px rgba(10,14,19,.55)}
+/* reading progress — fills as #reader (the scroll container) scrolls */
+#reader .rprog{height:3px;overflow:hidden;background:var(--grid);
+  border-radius:var(--radius) var(--radius) 0 0;margin:0 calc(var(--pad-x) * -1) 10px}
+#reader .rprog i{display:block;height:100%;width:0;background:var(--acc);border-radius:0 2px 2px 0;transition:width .1s linear}
+@media(prefers-reduced-motion:reduce){#reader .rprog i{transition:none}}
+#reader .rbar{display:flex;align-items:center;justify-content:space-between;gap:14px}
+#reader .rid{font:11px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--faint);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 #reader h2{font-size:22px;letter-spacing:-.01em;margin:.4em 0 .5em;line-height:1.3}
-#reader h3{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--acc-ink);margin:1.8em 0 .5em;padding-bottom:5px;border-bottom:1px solid var(--grid)}
-#reader h4{font-family:var(--mono);font-size:13px;margin:1.2em 0 .3em}
+#reader #rbody{counter-reset:sec}
+#reader h3{counter-increment:sec;font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--acc-ink);margin:2.1em 0 .7em;padding-bottom:6px;border-bottom:1px solid var(--grid)}
+#reader h3::before{content:counter(sec,decimal-leading-zero);display:inline-block;margin-right:9px;padding:2px 6px;
+  border-radius:4px;background:color-mix(in srgb,var(--acc) 14%,transparent);color:var(--acc-ink);letter-spacing:.06em}
+#reader h4{font-family:var(--mono);font-size:13px;margin:1.4em 0 .3em}
 #reader p{color:var(--mid);font-size:14px;line-height:1.7}
+/* Takeaway line (style spec, Move 16): a bolded sentence alone in its own paragraph.
+   Pure CSS cannot select it: `p:has(> b:only-child)` over-fires, because :only-child
+   counts element siblings only — an ordinary paragraph with prose *around* a bold run
+   matches it too (verified in Chromium). So the reader tags the genuinely standalone
+   lines with .takeaway (see markTakeaways) and the callout keys off that. */
+#reader p.takeaway{margin:1.6em 0;padding:13px 18px;font-size:15.5px;line-height:1.62;color:var(--ink);
+  border-left:3px solid var(--acc);border-radius:0 8px 8px 0;
+  background:color-mix(in srgb,var(--acc) 9%,transparent)}
+#reader p.takeaway b,#reader p.takeaway strong{font-weight:600;color:var(--ink)}
+#reader pre{font-family:var(--mono);font-size:12.5px;line-height:1.6;padding:15px 18px;margin:1.2em 0;
+  border-top:2px solid var(--acc-line);border-radius:8px;overflow-x:auto}
+#reader pre code{font-size:inherit;line-height:inherit;overflow-wrap:normal}
+/* long paths/identifiers in inline code must break rather than push the paper sideways */
+#reader code{overflow-wrap:anywhere}
 #reader li{color:var(--mid);font-size:13.5px;line-height:1.65;margin:.25em 0}
 #reader .tblwrap{overflow-x:auto;border:1px solid var(--grid);border-radius:8px;margin:.6em 0}
 #reader table{border-collapse:collapse;width:100%;font-size:13px}
@@ -380,12 +415,24 @@ section.topic{margin-bottom:26px}
 #reader ul.checks li{display:flex;gap:9px;align-items:flex-start}
 #reader .ckbox{width:14px;height:14px;border:1.5px solid var(--faint);border-radius:4px;flex-shrink:0;margin-top:4px}
 #reader ul.checks li.done .ckbox{background:var(--basic);border-color:var(--basic)}
-#reader figure.fig{margin:14px 0;background:var(--sunk);border:1px solid var(--grid);border-radius:8px;padding:16px 18px;overflow-x:auto}
+#reader figure.fig{margin:1.6em 0;background:var(--sunk);border:1px solid var(--grid);border-radius:8px;padding:18px 20px 16px;overflow-x:auto}
 #reader figure.fig svg{display:block;width:100%;height:auto}
-#reader figure.fig.media{padding:10px}
+#reader figure.fig.media{padding:10px 10px 8px}
 #reader figure.fig img,#reader figure.fig video{display:block;max-width:100%;border-radius:6px}
-#reader figcaption{font:11px var(--mono);color:var(--muted);margin-top:10px;letter-spacing:.03em}
-#close{float:right;font:13px var(--mono);background:var(--sunk);border:1px solid var(--grid);border-radius:7px;padding:5px 12px}
+#reader figcaption{font:11px/1.6 var(--mono);color:var(--muted);letter-spacing:.03em;
+  margin-top:16px;padding-top:11px;border-top:1px solid var(--grid)}
+#reader figure.fig.media figcaption{margin:12px 4px 2px;padding-top:10px}
+/* in the sticky chrome, so a long module can always be closed — on mobile there is no backdrop to tap */
+#close{flex-shrink:0;font:13px var(--mono);background:var(--sunk);
+  border:1px solid var(--grid);border-radius:7px;padding:5px 12px}
+#close:hover{border-color:var(--acc);color:var(--acc-ink)}
+@media(max-width:620px){
+  #reader{padding:0}
+  #reader .paper{--pad-x:18px;--pad-y:18px;--radius:0;border-width:0;min-height:100%;margin:0;padding-bottom:40px}
+  #reader h2{font-size:19px}
+  #reader p.takeaway{padding:12px 14px;font-size:15px}
+  #reader figure.fig{padding:14px 12px 12px}
+}
 footer{margin-top:44px;border-top:1px solid var(--line);padding-top:14px;font:11.5px var(--mono);color:var(--faint);display:flex;gap:14px;flex-wrap:wrap;justify-content:space-between}
 </style>
 <body>
@@ -461,7 +508,7 @@ footer{margin-top:44px;border-top:1px solid var(--line);padding-top:14px;font:11
     <span>markdown is the source of truth — this page is generated by tools/build_site.py</span>
   </footer>
 </main>
-<div id="reader" role="dialog" aria-modal="true"><div class="paper"><button id="close">✕ CLOSE</button><div id="rbody"></div></div></div>
+<div id="reader" role="dialog" aria-modal="true"><div class="paper"><div class="rtop"><div class="rprog" aria-hidden="true"><i id="rprog"></i></div><div class="rbar"><span class="rid" id="rid"></span><button id="close">✕ CLOSE</button></div></div><div id="rbody"></div></div></div>
 <script id="data" type="application/json">__DATA__</script>
 <script>
 "use strict";
@@ -583,15 +630,34 @@ render();
 })();
 
 /* reader */
+const rdr=document.getElementById("reader"),rbody=document.getElementById("rbody"),rprog=document.getElementById("rprog");
+/* reading progress: #reader is the scroll container, the bar rides the paper's top edge */
+function progress(){
+ const max=rdr.scrollHeight-rdr.clientHeight;
+ rprog.style.width=(max>4?Math.min(100,Math.max(0,rdr.scrollTop/max*100)):0).toFixed(2)+"%";
+ rdr.classList.toggle("scrolled",rdr.scrollTop>6);
+}
+rdr.addEventListener("scroll",progress,{passive:true});
+addEventListener("resize",progress);
+/* a takeaway line is a bolded sentence alone in its own paragraph — tag it for the callout */
+function markTakeaways(root){
+ root.querySelectorAll("p").forEach(p=>{
+  const k=p.childNodes;
+  if(k.length===1&&k[0].nodeType===1&&(k[0].tagName==="B"||k[0].tagName==="STRONG"))p.classList.add("takeaway");
+ });
+}
 function open(id){
  const m=D.modules.find(x=>x.id===id);if(!m)return;
- document.getElementById("rbody").innerHTML=
+ rbody.innerHTML=
   `<div style="display:flex;gap:6px;align-items:center"><span class="lv ${m.level}">${m.level}</span><span class="tm">${m.time.toUpperCase()}</span>`+
   (passes[m.id]?'<span class="recall pass">RECALL ✓ '+passes[m.id].slice(-1)[0]+'</span>':'<span class="recall pending">RECALL PENDING</span>')+
   `</div><h2>${m.title}</h2>${m.html}`;
- document.getElementById("reader").classList.add("open");document.body.style.overflow="hidden";
+ markTakeaways(rbody);
+ document.getElementById("rid").textContent=((topicsById[m.topic]||{}).name||m.topic)+" / "+m.id;
+ rdr.classList.add("open");document.body.style.overflow="hidden";
+ rdr.scrollTop=0;progress();requestAnimationFrame(progress);
 }
-function close(){document.getElementById("reader").classList.remove("open");document.body.style.overflow="";if(location.hash.startsWith("#m="))history.replaceState(null,"",location.pathname)}
+function close(){rdr.classList.remove("open");document.body.style.overflow="";rprog.style.width="0%";if(location.hash.startsWith("#m="))history.replaceState(null,"",location.pathname)}
 document.getElementById("close").addEventListener("click",close);
 document.getElementById("reader").addEventListener("click",e=>{if(e.target.id==="reader")close()});
 addEventListener("keydown",e=>{if(e.key==="Escape")close()});
