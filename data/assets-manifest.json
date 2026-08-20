@@ -4,10 +4,20 @@
    "file": "brand/logo.svg",
    "kind": "image",
    "role": "brand-logo",
-   "prompt": "Flat vector logo mark: one thin deep-charcoal #1a2028 square outline with a flat solid signal-orange #f97316 square just under three quarters its size struck inside, tilted ~11 degrees, one corner overshooting and interrupting the right edge; orange sits on top; two squares only, mark alone on white.",
-   "model": "hand-drawn production vector by Claude to the approved spec; concept validated via recraft_v4_1 render (job 530980ee-bfdf-451b-8f98-9f5c8ceb3efe), direction: struck-cell (Off-Register Strike) from docs/brand/logo-brief.md",
+   "prompt": "Flat vector logo mark, a single centred geometric symbol on pure flat white with generous margin. One thin deep-charcoal #1a2028 square outline, an even crisp hairline of perfectly uniform weight with sharp square corners, level and centred. Concentric with it, a flat solid signal-orange #f97316 square about nine tenths the outline's size, rotated about twenty degrees, large enough that each of its four corners extends past a different edge of the charcoal outline, each corner overshooting the outline by just under a tenth of its width; the four crossings land off-centre along their edges, giving the mark a calm pinwheel-like rotational symmetry. Where the two shapes overlap the orange square is drawn in front as one clean flat silhouette with no outline of its own, and the charcoal hairline is cleanly interrupted at each crossing. All edges perfectly straight, two squares only, one level, one rotated. Clean minimal geometry, crisp vector edges, exactly two flat colours on white, an abstract symbol alone.",
+   "model": "recraft_v4_1 (vector) \u2014 finalist 4 of 4, job 58aecb54-f42f-4cb1-a882-cc1a24d37345, matched to the approved nano_banana_pro rendition (job 032b914c); C2PA metadata stripped, viewBox cropped/centered",
    "date": "2026-08-20",
-   "sha256": "27f48859128c9ffbfe54431dee51ae38a74ea882a3087f670ee254309973918a",
+   "sha256": "721ba49df7db603633e6ed9bb83ddbcaa98e5f1ec2c174dbae427d6249dd5faa",
+   "approved": true
+  },
+  {
+   "file": "brand/logo-dark.svg",
+   "kind": "image",
+   "role": "brand-logo-dark",
+   "prompt": "Flat vector logo mark, a single centred geometric symbol on pure flat white with generous margin. One thin deep-charcoal #1a2028 square outline, an even crisp hairline of perfectly uniform weight with sharp square corners, level and centred. Concentric with it, a flat solid signal-orange #f97316 square about nine tenths the outline's size, rotated about twenty degrees, large enough that each of its four corners extends past a different edge of the charcoal outline, each corner overshooting the outline by just under a tenth of its width; the four crossings land off-centre along their edges, giving the mark a calm pinwheel-like rotational symmetry. Where the two shapes overlap the orange square is drawn in front as one clean flat silhouette with no outline of its own, and the charcoal hairline is cleanly interrupted at each crossing. All edges perfectly straight, two squares only, one level, one rotated. Clean minimal geometry, crisp vector edges, exactly two flat colours on white, an abstract symbol alone.",
+   "model": "derived from brand/logo.svg by exact color substitution (white->#10151c ground, charcoal->#e8edf4) for dark surfaces",
+   "date": "2026-08-20",
+   "sha256": "4e53e5ea22030b10d63c7ae959ae299913e5e83b6c59a4de3fc890e6f2a5ddfe",
    "approved": true
   }
  ]

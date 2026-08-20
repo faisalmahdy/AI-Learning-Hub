@@ -227,7 +227,7 @@ TEMPLATE = """<!doctype html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>AI-Learning-Hub</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cstyle%3E@media(prefers-color-scheme:dark)%7Brect%7Bstroke:%23e8edf4%7D%7D%3C/style%3E%3Crect x='16' y='16' width='68' height='68' fill='none' stroke='%231a2028' stroke-width='6'/%3E%3Cpolygon points='84.97,28.81 76.19,73.97 31.03,65.19 39.81,20.03' fill='%23f97316'/%3E%3C/svg%3E">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
 <style>
 :root{
@@ -390,7 +390,7 @@ footer{margin-top:44px;border-top:1px solid var(--line);padding-top:14px;font:11
 </style>
 <body>
 <nav class="rail" aria-label="views">
-  <span class="logo" title="AI-Learning-Hub"><svg width="28" height="28" viewBox="0 0 100 100"><rect x="16" y="16" width="68" height="68" fill="none" stroke="#e8edf4" stroke-width="6"></rect><polygon points="84.97,28.81 76.19,73.97 31.03,65.19 39.81,20.03" fill="#f97316"></polygon></svg></span>
+  <span class="logo" title="AI-Learning-Hub"><img src="logo-dark.svg" width="30" height="30" alt="AI-Learning-Hub"></span>
   <span class="sep"></span>
   <button data-view="dash" aria-pressed="true" title="Dashboard"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke-width="1.8"><rect x="3" y="3" width="8" height="8" rx="1.5"></rect><rect x="13" y="3" width="8" height="8" rx="1.5"></rect><rect x="3" y="13" width="8" height="8" rx="1.5"></rect><rect x="13" y="13" width="8" height="8" rx="1.5"></rect></svg></button>
   <button data-view="mods" aria-pressed="false" title="Modules"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M12 3 L20 7.5 V16.5 L12 21 L4 16.5 V7.5 Z"></path><path d="M12 12 L20 7.5 M12 12 V21 M12 12 L4 7.5"></path></svg></button>
@@ -638,6 +638,11 @@ def main():
                        "hub": hub, "skills": skills},
                       ensure_ascii=False).replace("</", "<\\/")
     SITE.mkdir(exist_ok=True)
+    brand = ROOT / "brand"
+    if (brand / "logo.svg").exists():
+        shutil.copy(brand / "logo.svg", SITE / "favicon.svg")
+    if (brand / "logo-dark.svg").exists():
+        shutil.copy(brand / "logo-dark.svg", SITE / "logo-dark.svg")
     copied = 0
     for tdir in sorted(MODULES.iterdir()):
         adir = tdir / "assets"
