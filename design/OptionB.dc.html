@@ -1,0 +1,176 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap">
+  <style>
+    body { margin: 0; background: #f4eee1; }
+    a { color: #9a4a1e; } a:hover { color: #7a3a15; }
+  </style>
+</helmet>
+<div style="width: 1280px; min-height: 1040px; background: #f4eee1; color: #2b2115; font-family: 'Newsreader', Georgia, serif; display: flex; flex-direction: column">
+
+  <div style="display: flex; align-items: baseline; gap: 24px; padding: 30px 56px 20px 56px; border-bottom: 3px double #2b2115">
+    <div style="font-family: 'Instrument Serif', Georgia, serif; font-size: 44px; letter-spacing: -0.01em">The AI Atlas</div>
+    <div style="font-size: 13px; font-style: italic; color: #6e5c42">an expedition through nine territories · basic → intermediate → advanced</div>
+    <div style="margin-left: auto; display: flex; gap: 22px; font-size: 13.5px; letter-spacing: 0.04em">
+      <span style="border-bottom: 2px solid #9a4a1e; padding-bottom: 2px">The Route</span>
+      <span style="color: #8a7457">Territories</span>
+      <span style="color: #8a7457">Field Ledger</span>
+    </div>
+  </div>
+
+  <div style="display: flex; gap: 40px; padding: 30px 56px 8px 56px; align-items: flex-start">
+    <div style="width: 380px; flex-shrink: 0; display: flex; flex-direction: column; gap: 14px">
+      <div style="font-family: 'Instrument Serif', Georgia, serif; font-size: 34px; line-height: 1.12">Every territory is walked in three stages: <span style="font-style: italic; color: #9a4a1e">camp, ridge, summit.</span></div>
+      <div style="font-size: 15px; line-height: 1.7; color: #55462f">Camp — reproduce a worked example from the labs. Ridge — build your own variation and measure it. Summit — original work that would survive a scientific reviewer. A flag is planted only with a dated recall pass.</div>
+      <div style="display: flex; flex-direction: column; gap: 0; border: 1.5px solid #2b2115; background: #fbf7ec">
+        <div style="display: flex; align-items: center; gap: 12px; padding: 13px 16px; border-bottom: 1px solid #d8ccb4">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9a4a1e" stroke-width="1.7"><path d="M5 21 V4"></path><path d="M5 4 L17 4 L14 7.5 L17 11 L5 11"></path></svg>
+          <div style="display: flex; flex-direction: column">
+            <div style="font-size: 15.5px; font-weight: 500">Current leg — Evals &amp; Statistics</div>
+            <div style="font-size: 12.5px; font-style: italic; color: #8a7457">Your first output-quality eval · camp stage · 6–8h</div>
+          </div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px; padding: 13px 16px">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#5b6e4e" stroke-width="1.7"><rect x="4" y="5" width="16" height="15" rx="1.5"></rect><path d="M4 9.5 H20"></path><path d="M8 3 V6.5 M16 3 V6.5"></path></svg>
+          <div style="display: flex; flex-direction: column">
+            <div style="font-size: 15.5px; font-weight: 500">Field ledger</div>
+            <div style="font-size: 12.5px; font-style: italic; color: #8a7457">no flags planted yet — first boss fight ahead</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="flex: 1; border: 1.5px solid #2b2115; background: #fbf7ec; position: relative; padding: 18px 22px">
+      <div style="font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: #9a4a1e">Route map · phases one to four</div>
+      <svg width="100%" height="330" viewBox="0 0 740 330" preserveAspectRatio="xMidYMid meet" style="display: block">
+        <path d="M40 270 C160 240, 150 150, 280 165 C400 178, 400 250, 520 215 C620 186, 630 110, 700 70" fill="none" stroke="#2b2115" stroke-width="2.2" stroke-dasharray="7 6"></path>
+        <g font-family="Newsreader, Georgia, serif">
+          <g>
+            <circle cx="40" cy="270" r="9" fill="#9a4a1e"></circle>
+            <text x="56" y="300" text-anchor="start" font-size="13.5" font-weight="500" fill="#2b2115">Measure</text>
+            <text x="56" y="316" text-anchor="start" font-size="11" font-style="italic" fill="#8a7457">weeks 1–4 · you are here</text>
+          </g>
+          <g>
+            <circle cx="280" cy="165" r="7" fill="#fbf7ec" stroke="#2b2115" stroke-width="2"></circle>
+            <text x="280" y="140" text-anchor="middle" font-size="13.5" fill="#55462f">Retrieve &amp; Orchestrate</text>
+            <text x="280" y="156" text-anchor="middle" font-size="11" font-style="italic" fill="#8a7457">weeks 5–8</text>
+          </g>
+          <g>
+            <circle cx="520" cy="215" r="7" fill="#fbf7ec" stroke="#2b2115" stroke-width="2"></circle>
+            <text x="520" y="250" text-anchor="middle" font-size="13.5" fill="#55462f">Below the Prompt</text>
+            <text x="520" y="266" text-anchor="middle" font-size="11" font-style="italic" fill="#8a7457">weeks 9–12</text>
+          </g>
+          <g>
+            <path d="M700 70 L700 40 L722 47 L700 54" fill="#9a4a1e"></path>
+            <path d="M700 70 L700 38" stroke="#2b2115" stroke-width="2"></path>
+            <text x="694" y="90" text-anchor="end" font-size="13.5" fill="#55462f">Science &amp; Teaching</text>
+            <text x="694" y="106" text-anchor="end" font-size="11" font-style="italic" fill="#8a7457">weeks 13+ · first external learner</text>
+          </g>
+        </g>
+        <g fill="none" stroke="#cbbc9e" stroke-width="1.2"><path d="M600 290 l14 -22 l14 22 Z"></path><path d="M620 290 l10 -15 l10 15 Z"></path></g>
+        <g fill="none" stroke="#cbbc9e" stroke-width="1.2"><circle cx="120" cy="90" r="14"></circle><path d="M120 76 V62 M120 104 V118 M106 90 H92 M134 90 H148"></path></g>
+      </svg>
+      <div style="position: absolute; right: 20px; bottom: 14px; font-size: 10.5px; font-style: italic; color: #a08a66">drawn from CURRICULUM.md — the map updates as the route is walked</div>
+    </div>
+  </div>
+
+  <div style="padding: 22px 56px 40px 56px; display: flex; flex-direction: column; gap: 14px">
+    <div style="display: flex; align-items: baseline; gap: 16px">
+      <div style="font-family: 'Instrument Serif', Georgia, serif; font-size: 24px">The nine territories</div>
+      <div style="font-size: 12.5px; font-style: italic; color: #8a7457">flags mark dated recall passes · plates open into the territory's modules</div>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px">
+
+      <div style="border: 1.5px solid #2b2115; background: #fbf7ec; padding: 16px 18px; display: flex; flex-direction: column; gap: 8px">
+        <div style="display: flex; align-items: center; gap: 10px">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#9a4a1e" stroke-width="1.6"><path d="M4 20 L4 10 M10 20 L10 5 M16 20 L16 13 M22 20 L22 8" transform="translate(-1 0)"></path></svg>
+          <div style="font-size: 16.5px; font-weight: 500">I. Evals &amp; Statistics</div>
+        </div>
+        <div style="font-size: 12.5px; line-height: 1.55; color: #6e5c42">Numbers with uncertainty — the territory every other route crosses first.</div>
+        <div style="display: flex; gap: 5px; align-items: center; margin-top: auto">
+          <span style="width: 22px; height: 8px; background: #9a4a1e"></span><span style="width: 22px; height: 8px; background: #e5dac2"></span><span style="width: 22px; height: 8px; background: #e5dac2"></span>
+          <span style="font-size: 11px; font-style: italic; color: #8a7457; margin-left: 6px">1 module · walking</span>
+        </div>
+      </div>
+
+      <div style="border: 1px solid #b8a887; background: #f8f3e6; padding: 16px 18px; display: flex; flex-direction: column; gap: 8px">
+        <div style="display: flex; align-items: center; gap: 10px">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#55462f" stroke-width="1.6"><circle cx="12" cy="12" r="3"></circle><path d="M12 3 V7 M12 17 V21 M3 12 H7 M17 12 H21"></path></svg>
+          <div style="font-size: 16.5px; font-weight: 500; color: #4d3f2a">II. Agent Harness</div>
+        </div>
+        <div style="font-size: 12.5px; line-height: 1.55; color: #8a7457">The loop, the seams, MCP — your strongest ground, made teachable.</div>
+        <div style="display: flex; gap: 5px; align-items: center; margin-top: auto">
+          <span style="width: 22px; height: 8px; background: #e5dac2"></span><span style="width: 22px; height: 8px; background: #e5dac2"></span><span style="width: 22px; height: 8px; background: #e5dac2"></span>
+          <span style="font-size: 11px; font-style: italic; color: #a08a66; margin-left: 6px">unexplored</span>
+        </div>
+      </div>
+
+      <div style="border: 1px solid #b8a887; background: #f8f3e6; padding: 16px 18px; display: flex; flex-direction: column; gap: 8px">
+        <div style="display: flex; align-items: center; gap: 10px">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#55462f" stroke-width="1.6"><rect x="3" y="4" width="18" height="4" rx="1"></rect><rect x="3" y="11" width="12" height="4" rx="1"></rect><rect x="3" y="18" width="15" height="4" rx="1" transform="translate(0 -2)"></rect></svg>
+          <div style="font-size: 16.5px; font-weight: 500; color: #4d3f2a">III. Context &amp; Retrieval</div>
+        </div>
+        <div style="font-size: 12.5px; line-height: 1.55; color: #8a7457">Chunking, hybrid search, and the wiki-vs-RAG duel your opinion owes.</div>
+        <div style="display: flex; gap: 5px; align-items: center; margin-top: auto">
+          <span style="width: 22px; height: 8px; background: #e5dac2"></span><span style="width: 22px; height: 8px; background: #e5dac2"></span><span style="width: 22px; height: 8px; background: #e5dac2"></span>
+          <span style="font-size: 11px; font-style: italic; color: #a08a66; margin-left: 6px">unexplored</span>
+        </div>
+      </div>
+
+      <div style="border: 1px solid #b8a887; background: #f8f3e6; padding: 16px 18px; display: flex; flex-direction: column; gap: 8px">
+        <div style="display: flex; align-items: center; gap: 10px">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#55462f" stroke-width="1.6"><circle cx="6" cy="6" r="2.6"></circle><circle cx="18" cy="6" r="2.6"></circle><circle cx="12" cy="18" r="2.6"></circle><path d="M7.8 7.8 L10.5 15.5 M16.2 7.8 L13.5 15.5 M8.6 6 H15.4"></path></svg>
+          <div style="font-size: 16.5px; font-weight: 500; color: #4d3f2a">IV. Orchestration</div>
+        </div>
+        <div style="font-size: 12.5px; line-height: 1.55; color: #8a7457">Fleets with contracts, earned autonomy, councils put on trial.</div>
+        <div style="display: flex; gap: 5px; align-items: center; margin-top: auto">
+          <span style="width: 22px; height: 8px; background: #e5dac2"></span><span style="width: 22px; height: 8px; background: #e5dac2"></span><span style="width: 22px; height: 8px; background: #e5dac2"></span>
+          <span style="font-size: 11px; font-style: italic; color: #a08a66; margin-left: 6px">unexplored</span>
+        </div>
+      </div>
+
+      <div style="border: 1px solid #b8a887; background: #f8f3e6; padding: 16px 18px; display: flex; flex-direction: column; gap: 8px">
+        <div style="display: flex; align-items: center; gap: 10px">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#55462f" stroke-width="1.6"><path d="M12 3 L12 9 M8 6 L16 6"></path><rect x="5" y="9" width="14" height="11" rx="1.5"></rect><path d="M9 13 H15 M9 16.5 H13"></path></svg>
+          <div style="font-size: 16.5px; font-weight: 500; color: #4d3f2a">V. Below the Prompt</div>
+        </div>
+        <div style="font-size: 12.5px; line-height: 1.55; color: #8a7457">Tiny rebuilds, local serving, your first fine-tune on your own data.</div>
+        <div style="display: flex; gap: 5px; align-items: center; margin-top: auto">
+          <span style="width: 22px; height: 8px; background: #e5dac2"></span><span style="width: 22px; height: 8px; background: #e5dac2"></span><span style="width: 22px; height: 8px; background: #e5dac2"></span>
+          <span style="font-size: 11px; font-style: italic; color: #a08a66; margin-left: 6px">unexplored</span>
+        </div>
+      </div>
+
+      <div style="border: 1px solid #b8a887; background: #f8f3e6; padding: 16px 18px; display: flex; flex-direction: column; gap: 8px">
+        <div style="display: flex; align-items: center; gap: 10px">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#55462f" stroke-width="1.6"><path d="M4 20 C7 12, 10 16, 12 10 C14 5, 17 8, 20 4"></path><path d="M4 20 H20" opacity="0.4"></path></svg>
+          <div style="font-size: 16.5px; font-weight: 500; color: #4d3f2a">VI. Science &amp; Data</div>
+        </div>
+        <div style="font-size: 12.5px; line-height: 1.55; color: #8a7457">Notebooks and uncertainty — your own systems become the dataset.</div>
+        <div style="display: flex; gap: 5px; align-items: center; margin-top: auto">
+          <span style="width: 22px; height: 8px; background: #e5dac2"></span><span style="width: 22px; height: 8px; background: #e5dac2"></span><span style="width: 22px; height: 8px; background: #e5dac2"></span>
+          <span style="font-size: 11px; font-style: italic; color: #a08a66; margin-left: 6px">unexplored</span>
+        </div>
+      </div>
+    </div>
+    <div style="display: flex; justify-content: space-between; align-items: center; font-size: 12.5px; font-style: italic; color: #8a7457">
+      <span>…and three more territories: VII. Teaching · VIII. Generative Media · IX. Ship &amp; Operate</span>
+      <span style="border-bottom: 1px solid #9a4a1e; color: #9a4a1e; font-style: normal">open the full atlas →</span>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script data-dc-script data-props='{}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

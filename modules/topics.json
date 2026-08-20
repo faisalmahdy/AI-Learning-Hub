@@ -1,0 +1,56 @@
+[
+  {
+    "id": "evals-and-statistics",
+    "name": "Evals & Statistics",
+    "order": 1,
+    "description": "Measuring AI output quality with real numbers: rubric evals, golden sets, LLM-as-judge calibration, variance, confidence intervals, pass^k. The unblocking topic — without it no other topic can claim improvement."
+  },
+  {
+    "id": "agent-harness",
+    "name": "Agent Harness Engineering",
+    "order": 2,
+    "description": "The agent loop, provider/tool/sandbox/engine seams, MCP clients and governed servers, skills and self-improvement — from first principles, anchored in Santara-Agent."
+  },
+  {
+    "id": "context-and-retrieval",
+    "name": "Context & Retrieval",
+    "order": 3,
+    "description": "Chunking, hybrid lexical+dense retrieval, reranking, context budgeting, and the measured head-to-head between compiled wikis and vector RAG."
+  },
+  {
+    "id": "orchestration-and-governance",
+    "name": "Orchestration & Governance",
+    "order": 4,
+    "description": "Multi-agent fan-outs with contracts, human-in-the-loop gating, earned autonomy from measured accuracy, councils validated against outcomes, fleet observability."
+  },
+  {
+    "id": "below-the-prompt",
+    "name": "Below the Prompt",
+    "order": 5,
+    "description": "Model internals (tokenizers, attention, KV cache), local serving and quantization, and post-training practice: SFT, DPO/GRPO, distillation — on tasks drawn from my own corpora."
+  },
+  {
+    "id": "ai-for-science-and-data",
+    "name": "AI for Science & Data",
+    "order": 6,
+    "description": "The quantitative spine: notebooks, pandas, experiment design, uncertainty quantification — first on my own systems' data, then an external scientific domain in parallel."
+  },
+  {
+    "id": "teaching-and-portability",
+    "name": "Teaching & Portability",
+    "order": 7,
+    "description": "De-personalizing and extracting reusable modules, docs generated from data, provenance-preserving agent workflows, assessment lanes, and teaching a second human."
+  },
+  {
+    "id": "generative-media",
+    "name": "Generative Media",
+    "order": 8,
+    "description": "Image/video/audio pipelines with provenance: prompt engines and style anchors, manifest-first asset lineage, scoring generated media, agent-verified procedural assets."
+  },
+  {
+    "id": "ship-and-operate",
+    "name": "Ship & Operate",
+    "order": 9,
+    "description": "Deployment, supervision, inference serving, CI everywhere, secrets hygiene — getting from 'run these in two terminals' to something that runs while you sleep."
+  }
+]

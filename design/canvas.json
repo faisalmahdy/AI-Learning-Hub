@@ -1,0 +1,22 @@
+{
+  "pages": [
+    { "id": "page-mc", "name": "Mission Control" },
+    { "id": "page-directions", "name": "Directions (archive)" }
+  ],
+  "artboards": [
+    { "file": "OptionC.dc.html", "x": 0, "y": 0, "w": 1280, "h": 780, "title": "Option C — Dashboard", "page": "page-mc" },
+    { "file": "Topic.dc.html", "x": 1380, "y": 0, "w": 1280, "h": 860, "title": "Topic — leveled modules", "page": "page-mc" },
+    { "file": "Reader.dc.html", "x": 2760, "y": 0, "w": 1280, "h": 1080, "title": "Module reader", "page": "page-mc" },
+    { "file": "Ledger.dc.html", "x": 4140, "y": 0, "w": 1280, "h": 760, "title": "Recall ledger", "page": "page-mc" },
+    { "file": "Main.dc.html", "x": 0, "y": 0, "w": 1280, "h": 980, "title": "Option A — Skill Constellation", "page": "page-directions" },
+    { "file": "OptionB.dc.html", "x": 1380, "y": 0, "w": 1280, "h": 1040, "title": "Option B — The AI Atlas", "page": "page-directions" }
+  ],
+  "annotations": [
+    { "id": "note-mc", "x": 0, "y": -190, "w": 520, "text": "Mission Control — the chosen direction (grill session, 2026-08-19).\nFull screen set: dashboard, topic page with leveled module cards (basic / intermediate / advanced columns), diagram-first module reader, recall ledger. Progress visuals show illustrative future state; the shipped site renders only what ledger/recall-ledger.json actually contains.", "page": "page-mc" },
+    { "id": "note-option-c", "x": 560, "y": -160, "w": 320, "text": "C — Mission Control. Measurement-first dashboard: skill radar (clusters of the 35-skill matrix, evidence from the 2026-08 repo scan), recall heat, topic ladders, module queue.", "page": "page-mc" },
+    { "id": "brief-pick", "x": 0, "y": -210, "w": 560, "text": "Directions round (archived) — Option C was chosen.\nA and B are kept for reference; their identities stay stable. Do not extend these; all new screens go to the Mission Control page.", "page": "page-directions" },
+    { "id": "note-option-a", "x": 620, "y": -170, "w": 320, "text": "A — Skill Constellation. Explore-by-map: topics are stars, progress is light, prerequisites are lines.\nMotivation: the whole curriculum visible as one sky.\nTradeoff: map upkeep as modules grow; least conventional navigation.", "page": "page-directions" },
+    { "id": "note-option-b", "x": 1380, "y": -170, "w": 320, "text": "B — The AI Atlas. Warm editorial expedition: camp → ridge → summit per territory, route map for phases, flags for recall passes.\nMotivation: strongest storytelling.\nTradeoff: least dense.", "page": "page-directions" }
+  ],
+  "launch": { "view": "canvas", "page": "page-mc" }
+}

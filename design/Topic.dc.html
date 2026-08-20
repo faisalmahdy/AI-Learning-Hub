@@ -1,0 +1,125 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+  <style>
+    body { margin: 0; background: #eceff3; }
+    a { color: #c2410c; } a:hover { color: #9a3412; }
+  </style>
+</helmet>
+<div style="width: 1280px; min-height: 860px; background: #eceff3; color: #1a2028; font-family: 'IBM Plex Sans', system-ui, sans-serif; display: flex">
+
+  <div style="width: 64px; flex-shrink: 0; background: #10151c; display: flex; flex-direction: column; align-items: center; gap: 22px; padding: 20px 0">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2"><path d="M3 20 L3 11 M9 20 L9 5 M15 20 L15 14 M21 20 L21 9"></path></svg>
+    <div style="width: 26px; height: 1px; background: #2a323d"></div>
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#5d6b7c" stroke-width="1.8"><rect x="3" y="3" width="8" height="8" rx="1.5"></rect><rect x="13" y="3" width="8" height="8" rx="1.5"></rect><rect x="3" y="13" width="8" height="8" rx="1.5"></rect><rect x="13" y="13" width="8" height="8" rx="1.5"></rect></svg>
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#e8edf4" stroke-width="1.8"><path d="M12 3 L20 7.5 V16.5 L12 21 L4 16.5 V7.5 Z"></path><path d="M12 12 L20 7.5 M12 12 V21 M12 12 L4 7.5"></path></svg>
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#5d6b7c" stroke-width="1.8"><rect x="4" y="5" width="16" height="15" rx="1.5"></rect><path d="M4 9.5 H20 M8 3 V6.5 M16 3 V6.5"></path></svg>
+  </div>
+
+  <div style="flex: 1; display: flex; flex-direction: column; padding: 22px 28px; gap: 14px">
+
+    <div style="display: flex; align-items: center; gap: 10px; font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; color: #6b7a8c">
+      <span>MODULES</span>
+      <svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="#9aa8b8" stroke-width="1.6"><path d="M4 2 L8 6 L4 10"></path></svg>
+      <span style="color: #1a2028">EVALS &amp; STATISTICS</span>
+    </div>
+
+    <div style="background: #ffffff; border: 1px solid #d6dde5; border-radius: 8px; padding: 20px 24px; display: flex; gap: 20px; align-items: flex-start">
+      <div style="width: 52px; height: 52px; border-radius: 10px; background: #10151c; display: flex; align-items: center; justify-content: center; flex-shrink: 0">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2"><path d="M3 20 L3 11 M9 20 L9 5 M15 20 L15 14 M21 20 L21 9"></path></svg>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 6px; flex: 1">
+        <div style="font-size: 22px; font-weight: 600; letter-spacing: -0.01em">Topic 1 · Evals &amp; Statistics</div>
+        <div style="font-size: 13.5px; line-height: 1.6; color: #4d5a68; max-width: 78ch">Measuring AI output quality with real numbers: rubric evals, golden sets, LLM-as-judge calibration, variance, confidence intervals, pass^k. The unblocking topic — without it no other topic can claim improvement.</div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 4px; align-items: flex-end; flex-shrink: 0">
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #6b7a8c">TOPIC PROGRESS</div>
+        <div style="display: flex; gap: 4px"><span style="width: 40px; height: 10px; border-radius: 2px; background: #fff7ed; border: 1.5px solid #f97316"></span><span style="width: 40px; height: 10px; border-radius: 2px; background: #e3e9ef"></span><span style="width: 40px; height: 10px; border-radius: 2px; background: #e3e9ef"></span></div>
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #9aa8b8">BASIC · INTERMEDIATE · ADVANCED</div>
+      </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; align-items: start">
+
+      <div style="display: flex; flex-direction: column; gap: 10px">
+        <div style="display: flex; align-items: center; gap: 8px; padding: 0 4px">
+          <span style="width: 10px; height: 10px; border-radius: 3px; background: #15803d"></span>
+          <span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 600; letter-spacing: 0.06em">BASIC</span>
+          <span style="font-size: 11.5px; color: #6b7a8c">reproduce a worked example</span>
+        </div>
+
+        <div style="background: #ffffff; border: 1px solid #f97316; border-radius: 8px; padding: 14px 16px; display: flex; flex-direction: column; gap: 8px; box-shadow: 0 2px 10px rgba(249,115,22,0.12)">
+          <div style="font-size: 14.5px; font-weight: 600; line-height: 1.35">Your first output-quality eval — a mechanized rubric</div>
+          <div style="font-size: 12px; line-height: 1.5; color: #6b7a8c">A 30-case, rubric-graded eval of an AI system's actual output — re-runnable, honest about judge reliability.</div>
+          <div style="display: flex; gap: 6px; align-items: center">
+            <span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; padding: 2px 8px; border-radius: 4px; background: #fff7ed; border: 1px solid #fed7aa; color: #c2410c">● BUILDING</span>
+            <span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #6b7a8c">6–8H</span>
+            <span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #9aa8b8; margin-left: auto">RECALL PENDING</span>
+          </div>
+        </div>
+
+        <div style="background: #f6f8fa; border: 1px dashed #c6cfd9; border-radius: 8px; padding: 14px 16px; display: flex; flex-direction: column; gap: 6px">
+          <div style="font-size: 13.5px; font-weight: 500; color: #4d5a68">Reading eval numbers — variance &amp; intervals</div>
+          <div style="font-size: 11.5px; color: #8b99aa">planned · curriculum 1.2 · unlocks after the current module's recall pass</div>
+        </div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 10px">
+        <div style="display: flex; align-items: center; gap: 8px; padding: 0 4px">
+          <span style="width: 10px; height: 10px; border-radius: 3px; background: #b45309"></span>
+          <span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 600; letter-spacing: 0.06em">INTERMEDIATE</span>
+          <span style="font-size: 11.5px; color: #6b7a8c">build a variation, measure it</span>
+        </div>
+        <div style="background: #f6f8fa; border: 1px dashed #c6cfd9; border-radius: 8px; padding: 14px 16px; display: flex; flex-direction: column; gap: 6px">
+          <div style="font-size: 13.5px; font-weight: 500; color: #4d5a68">Repeated trials &amp; pass^k — the canaan bake-off, redone</div>
+          <div style="font-size: 11.5px; color: #8b99aa">planned · curriculum 1.3 · N≥5 per model, 2 raters, agreement stats</div>
+        </div>
+        <div style="background: #f6f8fa; border: 1px dashed #c6cfd9; border-radius: 8px; padding: 14px 16px; display: flex; flex-direction: column; gap: 6px">
+          <div style="font-size: 13.5px; font-weight: 500; color: #4d5a68">LLM-as-judge, calibrated</div>
+          <div style="font-size: 11.5px; color: #8b99aa">planned · curriculum 1.4 · judge vs human labels on 30 cases</div>
+        </div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 10px">
+        <div style="display: flex; align-items: center; gap: 8px; padding: 0 4px">
+          <span style="width: 10px; height: 10px; border-radius: 3px; background: #7c3aed"></span>
+          <span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 600; letter-spacing: 0.06em">ADVANCED</span>
+          <span style="font-size: 11.5px; color: #6b7a8c">a defensible claim, with uncertainty</span>
+        </div>
+        <div style="background: #f6f8fa; border: 1px dashed #c6cfd9; border-radius: 8px; padding: 14px 16px; display: flex; flex-direction: column; gap: 6px">
+          <div style="font-size: 13.5px; font-weight: 500; color: #4d5a68">Capstone: run the unrun SWE-bench harness</div>
+          <div style="font-size: 11.5px; color: #8b99aa">planned · curriculum 1.5 · OMC vs vanilla with confidence intervals</div>
+        </div>
+        <div style="background: #10151c; border-radius: 8px; padding: 14px 16px; display: flex; flex-direction: column; gap: 6px; color: #e8edf4">
+          <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.1em; color: #fdba74">WHY THIS TOPIC IS FIRST</div>
+          <div style="font-size: 12px; line-height: 1.55; color: #b9c4d1">The 2026-08 repo scan found world-class plumbing evals and zero output-quality evals. Every other topic's "did it improve?" question routes through this column.</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="background: #ffffff; border: 1px solid #d6dde5; border-radius: 8px; padding: 14px 20px; display: flex; gap: 24px; align-items: center">
+      <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #6b7a8c; flex-shrink: 0">Lab anchors</div>
+      <div style="display: flex; gap: 10px; flex-wrap: wrap">
+        <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; padding: 4px 10px; border-radius: 4px; background: #eceff3; color: #4d5a68">second-brain · 150-case retrieval benchmark</span>
+        <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; padding: 4px 10px; border-radius: 4px; background: #eceff3; color: #4d5a68">agent · docs/EVAL.md + review.py</span>
+        <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; padding: 4px 10px; border-radius: 4px; background: #eceff3; color: #4d5a68">operator · chain_adversary.py tamper matrix</span>
+        <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; padding: 4px 10px; border-radius: 4px; background: #eceff3; color: #4d5a68">tolongin-ai · goldenCases.test.js</span>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script data-dc-script data-props='{}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>
