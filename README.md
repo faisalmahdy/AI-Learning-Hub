@@ -1,3 +1,5 @@
+<img src="brand/logo.svg" width="72" alt="AI-Learning-Hub mark — a precise square outline struck by a tilted orange square whose corner breaks the frame">
+
 # AI-Learning-Hub
 
 **A personal (soon shareable) curriculum for maximizing the potential of AI — for general purpose use, science & development, coding, and beyond — grounded in evidence from 16 of my own repositories.**

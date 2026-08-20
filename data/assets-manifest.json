@@ -1,3 +1,14 @@
 {
-  "assets": []
+ "assets": [
+  {
+   "file": "brand/logo.svg",
+   "kind": "image",
+   "role": "brand-logo",
+   "prompt": "Flat vector logo mark: one thin deep-charcoal #1a2028 square outline with a flat solid signal-orange #f97316 square just under three quarters its size struck inside, tilted ~11 degrees, one corner overshooting and interrupting the right edge; orange sits on top; two squares only, mark alone on white.",
+   "model": "hand-drawn production vector by Claude to the approved spec; concept validated via recraft_v4_1 render (job 530980ee-bfdf-451b-8f98-9f5c8ceb3efe), direction: struck-cell (Off-Register Strike) from docs/brand/logo-brief.md",
+   "date": "2026-08-20",
+   "sha256": "27f48859128c9ffbfe54431dee51ae38a74ea882a3087f670ee254309973918a",
+   "approved": true
+  }
+ ]
 }

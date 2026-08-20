@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-label="AI-Learning-Hub mark: a precise square outline struck by a tilted orange square whose corner breaks the frame">
+  <!-- "Off-Register Strike" — the system is machined, the pass is hand-landed.
+       Hand-drawn production vector to the approved spec (Recraft render job 530980ee).
+       Brand colors: charcoal #1a2028, signal orange #f97316 (orange = earned). -->
+  <style>@media (prefers-color-scheme: dark) { .frame { stroke: #e8edf4; } }</style>
+  <rect class="frame" x="18" y="18" width="64" height="64" fill="none" stroke="#1a2028" stroke-width="4"/>
+  <polygon points="84.97,28.81 76.19,73.97 31.03,65.19 39.81,20.03" fill="#f97316"/>
+</svg>
