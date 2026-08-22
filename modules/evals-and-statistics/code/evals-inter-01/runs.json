@@ -1,0 +1,43 @@
+{
+  "_meta": {
+    "what_this_is": "Paired A/B scores over the same 30 held-out cases from evals-basic-01. System A is the baseline Query prompt; System B adds one grounding instruction ('cite a page for every claim or refuse'). Each case is graded by the six-check rubric from evals-basic-01; the stored number is checks_passed out of 6. The two systems ran on the SAME cases, so the scores are paired: row F03 is system A's grade and system B's grade on the identical question.",
+    "how_scores_were_produced": "Fixture. These are stored grades, not live model calls, so every run of compare.py prints the same point estimates. The bootstrap and permutation numbers are seeded (seed=0), so they are identical run to run too. Substituting your own runs.json is the whole exercise; see the Build section of the module.",
+    "why_paired": "Pairing is the point of the module. Because both systems answered the same 30 questions, the difference can be measured case by case, and whatever made a case hard for A tends to make it hard for B too. That shared difficulty cancels in the per-case subtraction but not in the two separate means.",
+    "regressions_kept": "Two cases where B scored BELOW A are left in on purpose (F06, S02). A real prompt change helps most cases and hurts a few; hiding the losses would fake the significance test.",
+    "checks_out_of": 6
+  },
+  "system_a": "baseline-query-prompt",
+  "system_b": "baseline-plus-grounding-instruction",
+  "cases": [
+    {"id": "F01", "kind": "factual",      "a": 6, "b": 6},
+    {"id": "F02", "kind": "factual",      "a": 6, "b": 6},
+    {"id": "F03", "kind": "factual",      "a": 5, "b": 6},
+    {"id": "F04", "kind": "factual",      "a": 4, "b": 5},
+    {"id": "F05", "kind": "factual",      "a": 6, "b": 6},
+    {"id": "F06", "kind": "factual",      "a": 5, "b": 4},
+    {"id": "F07", "kind": "factual",      "a": 4, "b": 5},
+    {"id": "F08", "kind": "factual",      "a": 5, "b": 6},
+    {"id": "F09", "kind": "factual",      "a": 4, "b": 4},
+    {"id": "F10", "kind": "factual",      "a": 6, "b": 6},
+    {"id": "S01", "kind": "synthesis",    "a": 4, "b": 5},
+    {"id": "S02", "kind": "synthesis",    "a": 5, "b": 4},
+    {"id": "S03", "kind": "synthesis",    "a": 3, "b": 4},
+    {"id": "S04", "kind": "synthesis",    "a": 4, "b": 5},
+    {"id": "S05", "kind": "synthesis",    "a": 5, "b": 6},
+    {"id": "S06", "kind": "synthesis",    "a": 4, "b": 4},
+    {"id": "S07", "kind": "synthesis",    "a": 4, "b": 5},
+    {"id": "S08", "kind": "synthesis",    "a": 5, "b": 5},
+    {"id": "S09", "kind": "synthesis",    "a": 3, "b": 4},
+    {"id": "S10", "kind": "synthesis",    "a": 4, "b": 5},
+    {"id": "U01", "kind": "unanswerable", "a": 6, "b": 6},
+    {"id": "U02", "kind": "unanswerable", "a": 2, "b": 3},
+    {"id": "U03", "kind": "unanswerable", "a": 5, "b": 5},
+    {"id": "U04", "kind": "unanswerable", "a": 4, "b": 5},
+    {"id": "U05", "kind": "unanswerable", "a": 6, "b": 6},
+    {"id": "U06", "kind": "unanswerable", "a": 3, "b": 4},
+    {"id": "U07", "kind": "unanswerable", "a": 5, "b": 5},
+    {"id": "U08", "kind": "unanswerable", "a": 2, "b": 3},
+    {"id": "U09", "kind": "unanswerable", "a": 4, "b": 4},
+    {"id": "U10", "kind": "unanswerable", "a": 5, "b": 6}
+  ]
+}
