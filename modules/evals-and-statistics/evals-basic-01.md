@@ -13,7 +13,7 @@ summary: Grade 30 held-out answers three ways — string match, token overlap, s
 
 The 16-repo scan reached one verdict above all others: **everything in the portfolio measures plumbing, never product.** Hash chains are verified, retrieval ranks are benchmarked over 150 adversarial cases, side effects are graded — but no script answers "was the *output* any good?" The one real attempt, a 10-persona blind rubric scoring the second-brain 6.28/10, is markdown, not runnable code.
 
-This module closes the gap at `basic`. Three graders read the same 30 stored answers — exact match, token-overlap F1, six named boolean checks — and the first two fail in ways you can name and count. No judge and no statistics beyond counting: a judge needs a key and a budget, variance needs resampling, both are `evals-basic-02`. The bar is a Python function and a regular expression. Stdlib Python 3, offline, $0.00, under a tenth of a second a run, one sitting to read; the hard part is writing your own expectations, in the last section.
+This module closes the gap at `basic`. Three graders read the same 30 stored answers — exact match, token-overlap F1, six named boolean checks — and the first two fail in ways you can name and count. No judge and no statistics beyond counting: a judge needs a key and a budget and gets its own module, variance needs resampling and is `evals-inter-01`. The bar is a Python function and a regular expression. Stdlib Python 3, offline, $0.00, under a tenth of a second a run, one sitting to read; the hard part is writing your own expectations, in the last section.
 
 By the end, one command grades 30 of your answers and prints every case where two graders disagree. Skipping ahead:
 
@@ -340,7 +340,7 @@ run: 2026-08-20 · deterministic, no model call · n=30 · `python3 eval.py --ch
 
 Third route, by hand: 162/180 = 0.9 exactly, and 19/30 = 0.6333…, which rounds to the printed 0.633.
 
-Now the uncertainty. n=30, and the spread across reruns is 0.000 — not because these graders are steady but because nothing in them can be unstable: no model call, no sampling, no clock. A spread of zero by construction is not a small spread; it is a spread nobody measured. What varies is what this module holds fixed: which 30 questions got drawn. Draw a different 30 and 0.633 moves, by an amount nothing here can say — `evals-basic-02`.
+Now the uncertainty. n=30, and the spread across reruns is 0.000 — not because these graders are steady but because nothing in them can be unstable: no model call, no sampling, no clock. A spread of zero by construction is not a small spread; it is a spread nobody measured. What varies is what this module holds fixed: which 30 questions got drawn. Draw a different 30 and 0.633 moves, by an amount nothing here can say — `evals-inter-01`.
 
 <svg viewBox="0 0 680 190" role="img" aria-label="Two rows of thirty squares: the top row is the token-overlap verdict per case, the bottom row is the rubric verdict, with nine vertical connectors marking the cases where the two graders disagree">
   <g font-family="var(--mono)">
@@ -845,7 +845,7 @@ Your number to beat is not 0.633. It is **9**, the disagreements 30 cases produc
 
 **Why not just eyeball the outputs?** You did, ten cases above — 60 judgments — and you cannot repeat that after every system change.
 
-**Why 30 cases and not 300?** Thirty is what one sitting of hand-written expectations costs: 142 of them. What 300 buys is how far 0.633 moves on a different draw, which needs resampling — `evals-basic-02`.
+**Why 30 cases and not 300?** Thirty is what one sitting of hand-written expectations costs: 142 of them. What 300 buys is how far 0.633 moves on a different draw, which needs resampling — `evals-inter-01`.
 
 **Can I raise the 0.50 threshold until overlap stops passing F09?** No. F09's 0.962 beats 26 of the other 29 answers, so any line that fails F09 fails almost the whole suite. It is a dial on strictness, not correctness.
 

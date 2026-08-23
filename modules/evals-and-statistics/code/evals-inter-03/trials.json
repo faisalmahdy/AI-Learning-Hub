@@ -1,0 +1,46 @@
+{
+  "_meta": {
+    "what_this_is": "A small bake-off: three systems each run K=5 times on the same 6 tasks, pass/fail per trial. The question of this module: if you rank the three on ONE run each (N=1), do you get the same winner as when you ask which one passes all 5 (pass^k)? No.",
+    "systems": "Neutral ids model-a/b/c with descriptive display names. 'steady' is reliable but not the highest average; 'streaky' has the highest average per-trial rate but rarely passes all five; 'weak' loses on both. The names describe the fixture; a real bake-off would carry vendor model ids.",
+    "trials_are": "A FIXTURE. Each inner list is the 5 pass/fail outcomes for one (system, task), in trial order. trial[0] is 'the single run' used for the N=1 verdict. Stored, not generated, so trials.py runs offline and prints the same numbers; a real run calls a model K times per task, costs money, and varies.",
+    "the_trap": "streaky aces its single run (6/6) so N=1 crowns it, but it passes all 5 on only 1 of 6 tasks. steady wins on all-5 reliability. Same data, opposite winner, depending on which question you ask.",
+    "K": 5,
+    "pass_is": true
+  },
+  "tasks": ["t1", "t2", "t3", "t4", "t5", "t6"],
+  "systems": [
+    {
+      "id": "model-a", "name": "steady",
+      "trials": {
+        "t1": [true,  true,  true,  true,  true ],
+        "t2": [true,  true,  true,  true,  true ],
+        "t3": [true,  true,  true,  true,  true ],
+        "t4": [true,  true,  true,  false, true ],
+        "t5": [false, false, false, false, false],
+        "t6": [true,  false, true,  true,  false]
+      }
+    },
+    {
+      "id": "model-b", "name": "streaky",
+      "trials": {
+        "t1": [true,  true,  true,  false, true ],
+        "t2": [true,  true,  false, true,  true ],
+        "t3": [true,  true,  true,  true,  true ],
+        "t4": [true,  false, true,  true,  true ],
+        "t5": [true,  true,  true,  true,  false],
+        "t6": [true,  false, true,  false, true ]
+      }
+    },
+    {
+      "id": "model-c", "name": "weak",
+      "trials": {
+        "t1": [true,  false, true,  false, true ],
+        "t2": [true,  true,  false, true,  false],
+        "t3": [true,  true,  true,  false, true ],
+        "t4": [false, true,  false, true,  false],
+        "t5": [true,  true,  false, true,  false],
+        "t6": [false, false, true,  false, false]
+      }
+    }
+  ]
+}
