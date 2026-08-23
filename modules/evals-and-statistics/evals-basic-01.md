@@ -5,6 +5,7 @@ topic: evals-and-statistics
 level: basic
 status: ready
 time: 6-8h
+hero: hero.png
 summary: Grade 30 held-out answers three ways — string match, token overlap, six named boolean checks — and watch the word counter hand 0.96 to an answer that is flatly wrong while it fails a correct one.
 ---
 
@@ -47,6 +48,7 @@ disagreements between overlap and rubric: 9
 ```
 
 run: 2026-08-20 · deterministic, no model call · n=30 · `python3 eval.py --strategy all`
+![A sheet passing three grader desks, the third stamp disagreeing](pipeline-loop.mp4 "Decorative loop — the shape of the pipeline, not its data: one answer, three graders, one disagreement.")
 
 Nine times in thirty, one answer gets opposite verdicts. F09 says 137B active parameters where its page says 37B; overlap gave it 0.96. F01 and F07 both score 0.80, one clean and one citing no page. F04 is the mirror — overlap failed a correct answer.
 

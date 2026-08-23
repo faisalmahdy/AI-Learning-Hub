@@ -5,7 +5,7 @@
    "kind": "image",
    "role": "brand-logo",
    "prompt": "Flat vector logo mark, a single centred geometric symbol on pure flat white with generous margin. One thin deep-charcoal #1a2028 square outline, an even crisp hairline of perfectly uniform weight with sharp square corners, level and centred. Concentric with it, a flat solid signal-orange #f97316 square about nine tenths the outline's size, rotated about twenty degrees, large enough that each of its four corners extends past a different edge of the charcoal outline, each corner overshooting the outline by just under a tenth of its width; the four crossings land off-centre along their edges, giving the mark a calm pinwheel-like rotational symmetry. Where the two shapes overlap the orange square is drawn in front as one clean flat silhouette with no outline of its own, and the charcoal hairline is cleanly interrupted at each crossing. All edges perfectly straight, two squares only, one level, one rotated. Clean minimal geometry, crisp vector edges, exactly two flat colours on white, an abstract symbol alone.",
-   "model": "recraft_v4_1 (vector) \u2014 finalist 4 of 4, job 58aecb54-f42f-4cb1-a882-cc1a24d37345, matched to the approved nano_banana_pro rendition (job 032b914c); C2PA metadata stripped, viewBox cropped/centered",
+   "model": "recraft_v4_1 (vector) — finalist 4 of 4, job 58aecb54-f42f-4cb1-a882-cc1a24d37345, matched to the approved nano_banana_pro rendition (job 032b914c); C2PA metadata stripped, viewBox cropped/centered",
    "date": "2026-08-20",
    "sha256": "721ba49df7db603633e6ed9bb83ddbcaa98e5f1ec2c174dbae427d6249dd5faa",
    "approved": true
@@ -19,6 +19,39 @@
    "date": "2026-08-20",
    "sha256": "4e53e5ea22030b10d63c7ae959ae299913e5e83b6c59a4de3fc890e6f2a5ddfe",
    "approved": true
+  },
+  {
+   "file": "modules/evals-and-statistics/assets/hero.png",
+   "kind": "image",
+   "role": "module-hero",
+   "prompt": "Flat vector illustration on pure flat white, simple and bright. Three identical clipboards in a row, each holding the same document page drawn as plain soft-grey text lines. Above each clipboard floats a simple round stamp seal: the first two are solid signal-orange circles each carrying a clean white check shape, the third is a deep-charcoal circle carrying a clean white cross shape, tilted slightly as if it disagrees. Clean minimal geometry, generous white margin, exactly two accent colors (signal orange, deep charcoal) plus soft grey for the document lines. No letters, no words, no numbers.",
+   "model": "higgsfield/recraft_v4_1 (model_type=vector, 1k, 16:9, colors #f97316/#1a2028/#9aa8b8), job d93dde14-bab7-4571-ac71-0a9d8b00ed01",
+   "date": "2026-08-20",
+   "sha256": "7971fa915fed327e575c1bc0941b92bb3910b3f4810571e7a96e743d66e95a55",
+   "approved": true,
+   "note": "generated at owner's request for evals-basic-01; SVG output rasterised to 1600x914 PNG8 (32 colors) and metadata stripped"
+  },
+  {
+   "file": "modules/evals-and-statistics/assets/rubber-stamp.png",
+   "kind": "image",
+   "role": "module-illustration-candidate (unreferenced)",
+   "prompt": "Flat vector illustration on pure flat white, simple and bright. One large office rubber stamp with a deep-charcoal body seen from the side, caught mid-press on a long paper strip that flows beneath it like a conveyor belt; behind it the strip carries a long row of identical solid signal-orange check marks receding toward the edge, every mark exactly the same. Soft grey shadow under the strip. Clean minimal geometry, generous margin. No letters, no words, no numbers.",
+   "model": "higgsfield/recraft_v4_1 (model_type=vector, 1k, 16:9, colors #f97316/#1a2028/#9aa8b8), job e0708611-30b3-4f65-876d-bf86f10d5a1d",
+   "date": "2026-08-20",
+   "sha256": "0ecab617707225e55fae2fe4fae80367aa262d7516ea8211d5a514966edbf838",
+   "approved": true,
+   "note": "generated at owner's request for evals-basic-01; second candidate, left unreferenced for the owner to pick later; SVG output rasterised to 1600x914 PNG8 (32 colors)"
+  },
+  {
+   "file": "modules/evals-and-statistics/assets/pipeline-loop.mp4",
+   "kind": "video",
+   "role": "module-decorative-loop",
+   "prompt": "Flat 2D vector animation, simple and bright, pure white background. A single paper sheet glides smoothly left to right along a thin baseline, passing three simple desks in a row. At the first desk a signal-orange round stamp descends and leaves an orange mark on the sheet; at the second desk the same; at the third desk a deep-charcoal stamp descends instead, and the sheet flips up briefly in surprise before continuing off-screen as the loop restarts. Flat shapes only, signal orange and deep charcoal on white with soft grey accents, constant gentle speed, seamless loop. No text, no letters, no numbers.",
+   "model": "higgsfield/seedance_2_5 (t2v, 6s, 720p, silent), job d21709b2-a948-4b62-a6dd-2f99cbfb868f",
+   "date": "2026-08-20",
+   "sha256": "919a6d030ab2779984a481cc35728afd4eea654949f516f11fca8cd89c4f0a33",
+   "approved": true,
+   "note": "generated at owner's request for evals-basic-01; declared decorative (carries no data); re-encoded from the 720p original to 960x540 H.264 CRF 30, audio stripped, 49.7KB"
   }
  ]
 }
