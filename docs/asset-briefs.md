@@ -70,3 +70,20 @@ Filename `modules/evals-and-statistics/assets/boss-stamp.png`, role `ui-accent` 
 - [ ] Under the size cap (images ≤300KB, video ≤3MB)
 - [ ] Manifest entry with exact prompt, model id, date, sha256
 - [ ] Looks like the same system as the site (slate + orange, thin linework)
+
+---
+
+# Asset briefs — batch 2: module heroes for evals-and-statistics
+
+One `hero.png` per module in the evals-and-statistics track, each picturing that module's core teaching metaphor (the "substrate" the module is built around) so the card art reinforces the lesson. `evals-basic-01` already has its hero (`assets/hero.png`); these are the other four.
+
+Same lane and rules as batch 1: generate free in the **Higgsfield web app** (a cloud session cannot retrieve the files, and MCP would bill credits), append the shared style block and negative prompt above to every prompt, 16:9 at 1k, then commit each file with a manifest entry per [asset-pipeline.md](asset-pipeline.md) and add `hero: <id>-hero.png` to the module frontmatter. Assets illustrate only — no baked-in text, numbers, or charts (the modules' data lives in their inline SVGs).
+
+| Module | File · role | Subject line (+ shared style block) |
+|---|---|---|
+| evals-inter-01 | `assets/evals-inter-01-hero.png` · module-hero | two identical shaky spring scales side by side, each dangling a small data shard, their wobbly measuring ranges drawn as faint overlapping arcs; beside them one steady two-pan balance beam weighing the two shards directly against each other, the beam tipped just slightly off level |
+| evals-inter-02 | `assets/evals-inter-02-hero.png` · module-hero | a walk-through security-scanner arch on a conveyor belt, a row of identical sealed parcels passing through; most parcels carry a small orange check, but one parcel slips past the arch unflagged while a separate handheld scanner beside the belt glows to catch it |
+| evals-inter-03 | `assets/evals-inter-03-hero.png` · module-hero | a basketball free-throw scene, five basketballs frozen mid-arc toward a single hoop along one clean trajectory line, four passing cleanly through the net and one glancing off the rim, calm and diagrammatic |
+| evals-adv-01 | `assets/evals-adv-01-hero.png` · module-hero | two identical side-by-side race lanes over the same row of hurdles, two simple runner silhouettes neck and neck, a soft translucent orange band painted along the track between them marking the uncertain gap, a small checkered finish flag ahead |
+
+Acceptance checklist is the same as batch 1. After generating, a session (or the owner) writes the four manifest entries and adds the four `hero:` frontmatter lines; `tools/build_site.py --check` then verifies each hero file exists.
