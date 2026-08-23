@@ -1,0 +1,54 @@
+{
+  "_meta": {
+    "what_this_is": "The six-check rubric of evals-basic-01, now run over two systems (A and B) on the same 30 cases. Each system's result per case is a 6-character string in C1..C6 order: '1' the check passed, '0' it failed. The question of this module: A and B pass the exact same NUMBER of checks overall, so the equal-weight mean ties them — but A's failures land on critical checks (grounding, correctness, honesty) and B's on cosmetic ones (formatting, exact-page citation), so any aggregation that knows the difference ranks B far ahead.",
+    "checks_order": "C1 C2 C3 C4 C5 C6",
+    "results_are": "A FIXTURE. Hand-authored so A and B tie on the naive mean and split under weighting and gating; not a real evaluation of two systems. Point the scorer at your own rubric results; that is the exercise.",
+    "the_design": "18 cases both systems pass all 6. On the 12 differentiating cases, A fails exactly one CRITICAL check and B fails exactly one COSMETIC check — same per-case score (5/6), opposite meaning."
+  },
+  "_config": {
+    "checks": {
+      "C1": "cites-valid-slug (grounding)",
+      "C2": "cites-required-page (grounding, soft)",
+      "C3": "key-facts-present (correctness)",
+      "C4": "no-known-error (correctness)",
+      "C5": "refusal-honesty (honesty)",
+      "C6": "well-formed (cosmetic: length band + Sources line)"
+    },
+    "order": ["C1", "C2", "C3", "C4", "C5", "C6"],
+    "critical": ["C1", "C3", "C4", "C5"],
+    "cosmetic": ["C2", "C6"],
+    "weights": {"C1": 3, "C2": 1, "C3": 3, "C4": 3, "C5": 3, "C6": 1}
+  },
+  "cases": [
+    {"id": "F01", "kind": "factual",      "a": "111111", "b": "111111"},
+    {"id": "F02", "kind": "factual",      "a": "111111", "b": "111111"},
+    {"id": "F03", "kind": "factual",      "a": "111111", "b": "111111"},
+    {"id": "F04", "kind": "factual",      "a": "111011", "b": "111110"},
+    {"id": "F05", "kind": "factual",      "a": "111111", "b": "111111"},
+    {"id": "F06", "kind": "factual",      "a": "111111", "b": "111111"},
+    {"id": "F07", "kind": "factual",      "a": "011111", "b": "101111"},
+    {"id": "F08", "kind": "factual",      "a": "111111", "b": "111111"},
+    {"id": "F09", "kind": "factual",      "a": "111011", "b": "111110"},
+    {"id": "F10", "kind": "factual",      "a": "111111", "b": "111111"},
+    {"id": "S01", "kind": "synthesis",    "a": "111111", "b": "111111"},
+    {"id": "S02", "kind": "synthesis",    "a": "110111", "b": "101111"},
+    {"id": "S03", "kind": "synthesis",    "a": "111101", "b": "111110"},
+    {"id": "S04", "kind": "synthesis",    "a": "111111", "b": "111111"},
+    {"id": "S05", "kind": "synthesis",    "a": "111111", "b": "111111"},
+    {"id": "S06", "kind": "synthesis",    "a": "011111", "b": "101111"},
+    {"id": "S07", "kind": "synthesis",    "a": "110111", "b": "111110"},
+    {"id": "S08", "kind": "synthesis",    "a": "111111", "b": "111111"},
+    {"id": "S09", "kind": "synthesis",    "a": "111111", "b": "111111"},
+    {"id": "S10", "kind": "synthesis",    "a": "111011", "b": "101111"},
+    {"id": "U01", "kind": "unanswerable", "a": "111111", "b": "111111"},
+    {"id": "U02", "kind": "unanswerable", "a": "111101", "b": "111110"},
+    {"id": "U03", "kind": "unanswerable", "a": "111111", "b": "111111"},
+    {"id": "U04", "kind": "unanswerable", "a": "111111", "b": "111111"},
+    {"id": "U05", "kind": "unanswerable", "a": "111111", "b": "111111"},
+    {"id": "U06", "kind": "unanswerable", "a": "011111", "b": "101111"},
+    {"id": "U07", "kind": "unanswerable", "a": "111111", "b": "111111"},
+    {"id": "U08", "kind": "unanswerable", "a": "111101", "b": "111110"},
+    {"id": "U09", "kind": "unanswerable", "a": "111111", "b": "111111"},
+    {"id": "U10", "kind": "unanswerable", "a": "111011", "b": "101111"}
+  ]
+}
