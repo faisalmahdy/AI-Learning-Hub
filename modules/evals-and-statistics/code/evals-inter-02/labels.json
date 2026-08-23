@@ -1,0 +1,41 @@
+{
+  "_meta": {
+    "what_this_is": "The same 30 cases from evals-basic-01, each carrying two PASS/FAIL verdicts: 'human' is the gold verdict (the basic-01 rubric's clean/not-clean, treated here as ground truth), and 'judge' is an LLM judge's PASS/FAIL on the same answer. The question of this module: can we trust the judge? Measured by how well its column agrees with the human column.",
+    "human_is": "The gold label. In basic-01 a case was clean (6/6 checks) or not; clean -> PASS, otherwise FAIL. 19 PASS, 11 FAIL.",
+    "judge_is": "A FIXTURE standing in for one LLM judge call per case (PASS/FAIL against a rubric prompt). Stored, not generated, so judge.py runs offline with no key and prints the same numbers every time. A real calibration run would call a model, cost money, and vary; the point of the module is that you must measure whatever it returns before trusting it.",
+    "the_judge_is_lenient": "By construction this judge passes 23 of 30 while the humans pass 19: it misses 5 of the 11 answers that should fail, and false-alarms once (fails F08, which humans passed). That leniency is exactly what raw agreement hides and what the calibration report exposes.",
+    "checks_out_of": 6
+  },
+  "cases": [
+    {"id": "F01", "kind": "factual",      "human": "PASS", "judge": "PASS"},
+    {"id": "F02", "kind": "factual",      "human": "PASS", "judge": "PASS"},
+    {"id": "F03", "kind": "factual",      "human": "PASS", "judge": "PASS"},
+    {"id": "F04", "kind": "factual",      "human": "PASS", "judge": "PASS"},
+    {"id": "F05", "kind": "factual",      "human": "PASS", "judge": "PASS"},
+    {"id": "F06", "kind": "factual",      "human": "PASS", "judge": "PASS"},
+    {"id": "F07", "kind": "factual",      "human": "FAIL", "judge": "FAIL"},
+    {"id": "F08", "kind": "factual",      "human": "PASS", "judge": "FAIL"},
+    {"id": "F09", "kind": "factual",      "human": "FAIL", "judge": "PASS"},
+    {"id": "F10", "kind": "factual",      "human": "PASS", "judge": "PASS"},
+    {"id": "S01", "kind": "synthesis",    "human": "PASS", "judge": "PASS"},
+    {"id": "S02", "kind": "synthesis",    "human": "PASS", "judge": "PASS"},
+    {"id": "S03", "kind": "synthesis",    "human": "FAIL", "judge": "FAIL"},
+    {"id": "S04", "kind": "synthesis",    "human": "PASS", "judge": "PASS"},
+    {"id": "S05", "kind": "synthesis",    "human": "PASS", "judge": "PASS"},
+    {"id": "S06", "kind": "synthesis",    "human": "FAIL", "judge": "PASS"},
+    {"id": "S07", "kind": "synthesis",    "human": "FAIL", "judge": "FAIL"},
+    {"id": "S08", "kind": "synthesis",    "human": "PASS", "judge": "PASS"},
+    {"id": "S09", "kind": "synthesis",    "human": "FAIL", "judge": "PASS"},
+    {"id": "S10", "kind": "synthesis",    "human": "PASS", "judge": "PASS"},
+    {"id": "U01", "kind": "unanswerable", "human": "PASS", "judge": "PASS"},
+    {"id": "U02", "kind": "unanswerable", "human": "FAIL", "judge": "FAIL"},
+    {"id": "U03", "kind": "unanswerable", "human": "PASS", "judge": "PASS"},
+    {"id": "U04", "kind": "unanswerable", "human": "PASS", "judge": "PASS"},
+    {"id": "U05", "kind": "unanswerable", "human": "PASS", "judge": "PASS"},
+    {"id": "U06", "kind": "unanswerable", "human": "FAIL", "judge": "PASS"},
+    {"id": "U07", "kind": "unanswerable", "human": "PASS", "judge": "PASS"},
+    {"id": "U08", "kind": "unanswerable", "human": "FAIL", "judge": "FAIL"},
+    {"id": "U09", "kind": "unanswerable", "human": "FAIL", "judge": "FAIL"},
+    {"id": "U10", "kind": "unanswerable", "human": "FAIL", "judge": "PASS"}
+  ]
+}
