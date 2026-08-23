@@ -1,0 +1,28 @@
+{
+  "_meta": {
+    "what_this_is": "A/B results for two agent harnesses on a 15-instance SWE-bench slice: 'vanilla' (a plain coding agent) vs 'omc' (the same agent under an orchestration layer). Each instance was attempted K=3 times per system; each attempt either resolved the issue (its hidden test suite passes) or did not. The question of this capstone: does omc help, and can you defend the answer with an interval?",
+    "THESE_OUTCOMES_ARE_A_FIXTURE": "CRITICAL: the resolved/not-resolved values here are ILLUSTRATIVE, hand-authored to stand in for one real run, exactly as the earlier modules used stored model outputs. They are NOT a real SWE-bench evaluation of these instances, and must never be cited as one. The instance ids use the real SWE-bench Lite format only so the slice reads concretely; the numbers are synthetic. Running the real harness to produce your own results.json is the hand-off (see the module's Build section).",
+    "why_the_test_suite_is_the_oracle": "SWE-bench needs no LLM judge: an attempt 'resolved' the instance iff the repository's own hidden test suite passes after the patch. That deterministic oracle is why this capstone does not calibrate a judge (evals-inter-02) -- the gold label is the tests.",
+    "attempts_per_instance": 3,
+    "resolved_true_means": "the hidden test suite passed after this attempt's patch",
+    "systems": ["vanilla", "omc"]
+  },
+  "systems": ["vanilla", "omc"],
+  "instances": [
+    {"id": "astropy__astropy-12907",              "vanilla": [true,  true,  true ], "omc": [true,  true,  true ]},
+    {"id": "django__django-11099",                "vanilla": [true,  false, true ], "omc": [true,  true,  true ]},
+    {"id": "django__django-12983",                "vanilla": [false, false, false], "omc": [true,  true,  false]},
+    {"id": "django__django-13401",                "vanilla": [true,  false, false], "omc": [true,  true,  true ]},
+    {"id": "matplotlib__matplotlib-23987",        "vanilla": [false, false, false], "omc": [false, false, false]},
+    {"id": "matplotlib__matplotlib-24149",        "vanilla": [true,  true,  false], "omc": [true,  false, true ]},
+    {"id": "pytest-dev__pytest-11143",            "vanilla": [false, false, false], "omc": [true,  false, false]},
+    {"id": "psf__requests-2317",                  "vanilla": [true,  true,  true ], "omc": [true,  true,  false]},
+    {"id": "scikit-learn__scikit-learn-13496",    "vanilla": [false, true,  false], "omc": [true,  true,  false]},
+    {"id": "sympy__sympy-20154",                  "vanilla": [false, false, false], "omc": [false, true,  false]},
+    {"id": "sympy__sympy-24152",                  "vanilla": [true,  false, false], "omc": [true,  true,  false]},
+    {"id": "pallets__flask-4045",                 "vanilla": [true,  true,  true ], "omc": [true,  true,  true ]},
+    {"id": "pydata__xarray-4094",                 "vanilla": [false, false, true ], "omc": [true,  false, true ]},
+    {"id": "sphinx-doc__sphinx-8595",             "vanilla": [false, false, false], "omc": [false, false, true ]},
+    {"id": "pylint-dev__pylint-7080",             "vanilla": [false, true,  false], "omc": [false, false, false]}
+  ]
+}
