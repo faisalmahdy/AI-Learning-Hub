@@ -6,6 +6,7 @@ level: intermediate
 status: ready
 time: 8-10h
 summary: An LLM judge matches the gold labels on 24 of 30 answers, which sounds like an A — until a rubber-stamp judge scores 63% for free, Cohen's kappa lands at a moderate 0.53 with a CI from 0.19 to 0.83, and the judge turns out to be waving through 5 of the 11 answers that should have failed.
+eli5: A judge that agrees 80% can still be lazy — a rubber stamp scores 63% for free.
 ---
 
 ## Why this module

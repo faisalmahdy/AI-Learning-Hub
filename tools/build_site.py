@@ -339,6 +339,8 @@ section.topic{margin-bottom:26px}
 .mcard img.hero{width:100%;max-height:140px;object-fit:cover;border-radius:6px;border:1px solid var(--grid)}
 .mcard h3{margin:0;font-size:14.5px;font-weight:600;line-height:1.35}
 .mcard p{margin:0;font-size:12px;color:var(--muted);line-height:1.5}
+.mcard .eli5{margin:0;font-size:11.5px;color:var(--ink);background:var(--acc-soft);border:1px solid var(--acc-line);border-radius:6px;padding:7px 9px;line-height:1.5}
+.mcard .eli5 span{font-family:var(--mono);font-size:9px;color:var(--acc-ink);letter-spacing:.6px;margin-right:7px}
 .mcard .meta{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
 .lv{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.05em;border-radius:4px;padding:2px 8px;text-transform:uppercase}
 .lv.basic{background:var(--basic-soft);color:var(--basic)}
@@ -601,6 +603,7 @@ function card(m){
  const building=(m===firstOpen);
  const hero=m.hero?`<img class="hero" src="assets/${m.topic}/${m.hero}" alt="" loading="lazy">`:"";
  return `<button class="mcard ${building?"building":""}" data-id="${m.id}">${hero}<h3>${m.title}</h3><p>${m.summary}</p>`+
+  (m.eli5?`<p class="eli5"><span>ELI5</span>${m.eli5}</p>`:"")+
   `<div class="meta"><span class="lv ${m.level}">${m.level}</span><span class="tm">${m.time.toUpperCase()}</span>`+
   (building?'<span class="stc building">● BUILDING</span>':'')+st+`</div></button>`;
 }

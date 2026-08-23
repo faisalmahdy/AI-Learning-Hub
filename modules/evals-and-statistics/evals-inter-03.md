@@ -6,6 +6,7 @@ level: intermediate
 status: ready
 time: 8-10h
 summary: Rank three systems on one run each and streaky wins at 1.000; run each five times and the same model passes all five on only 1 of 6 tasks, handing the reliability crown to steady — because a single run answers "can it ever", never "can it be relied on".
+eli5: One sunk free throw proves nothing — "worked once" isn't "works every time".
 ---
 
 ## Why this module

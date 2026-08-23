@@ -6,6 +6,7 @@ level: intermediate
 status: ready
 time: 8-10h
 summary: Two prompts score 0.74 and 0.82 on the same 30 cases; their 95% error bars overlap so the naive read is "no difference" — then the interval on the difference clears zero at p=0.0013, because the cases were paired and the overlap rule threw the pairing away.
+eli5: Two kids, same puzzles — don't trust wobbly scores; weigh the difference on a see-saw.
 ---
 
 ## Why this module

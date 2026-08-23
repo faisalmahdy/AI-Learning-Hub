@@ -7,6 +7,7 @@ status: ready
 time: 6-8h
 hero: hero.png
 summary: Grade 30 held-out answers three ways — string match, token overlap, six named boolean checks — and watch the word counter hand 0.96 to an answer that is flatly wrong while it fails a correct one.
+eli5: Three robot graders, same 30 answers — you catch a broken one only when two disagree.
 ---
 
 ## Why this module

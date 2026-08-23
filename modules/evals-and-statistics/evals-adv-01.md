@@ -6,6 +6,7 @@ level: advanced
 status: ready
 time: 12-16h
 summary: Run vanilla against an orchestration layer on a SWE-bench slice and omc resolves 60% vs 40% — a paired +20 points that clears zero at p=0.033 on 15 instances, until you notice a 5-instance slice showed +33 with a bootstrap interval the exact test could never confirm, pass^3 reliability is only 27%, and best-of-3 reporting would have published an 87% resolver.
+eli5: Two robot coders, same broken programs — a win is real only with an honest "maybe this much".
 ---
 
 ## Why this module
