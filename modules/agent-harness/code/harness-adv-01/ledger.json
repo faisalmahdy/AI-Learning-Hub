@@ -1,0 +1,23 @@
+{
+  "_meta": {
+    "what_this_is": "A ledger of a live eval run on a schedule. Each week the harness runs the SAME 50-task suite against the current production model and appends one row: the date, the task count, and how many passed. The question a scheduled eval exists to answer: did the agent quietly get worse? Weeks 1-6 are a stable baseline; a model swap on week 7 drops the true pass rate, and the rows after it are the regression the alarm must catch without firing on the baseline's ordinary wobble.",
+    "results_are": "A FIXTURE standing in for twelve weeks of real scheduled runs. Hand-authored so the baseline wobbles inside its noise band (no true change) and the post-swap weeks sit below it (a real ~16-point regression). Point the chart at your own dated runs.",
+    "baseline_weeks": "01..06, true pass rate ~0.80",
+    "regression_weeks": "07..12, true pass rate ~0.61 after a model swap",
+    "n_per_run": 50
+  },
+  "runs": [
+    {"date": "2026-06-01", "n": 50, "passed": 40},
+    {"date": "2026-06-08", "n": 50, "passed": 42},
+    {"date": "2026-06-15", "n": 50, "passed": 38},
+    {"date": "2026-06-22", "n": 50, "passed": 41},
+    {"date": "2026-06-29", "n": 50, "passed": 39},
+    {"date": "2026-07-06", "n": 50, "passed": 40},
+    {"date": "2026-07-13", "n": 50, "passed": 31},
+    {"date": "2026-07-20", "n": 50, "passed": 30},
+    {"date": "2026-07-27", "n": 50, "passed": 32},
+    {"date": "2026-08-03", "n": 50, "passed": 29},
+    {"date": "2026-08-10", "n": 50, "passed": 31},
+    {"date": "2026-08-17", "n": 50, "passed": 30}
+  ]
+}

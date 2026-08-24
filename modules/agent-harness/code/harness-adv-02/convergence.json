@@ -1,0 +1,61 @@
+{
+  "_meta": {
+    "what_this_is": "The convergence table distilled from seven agent-harness deep-dive studies (Claude Code, Hermes, OpenClaw, NanoClaw, Codex, Cursor, OpenCode). For each cross-cutting primitive it records stated_count -- the peak convergence tally the studies themselves reached, cited to a file+line in faisalmahdy/agent/docs -- the harnesses the studies name individually, any principled dissenter, and Santara's own implementation status. The question this answers: given what many independently-built harnesses agree on, what should Santara build next?",
+    "counts_are": "The DEEP-DIVES' OWN tallies, not an independent re-derivation. stated_count is the headline ×N a study reached; confirmed_in lists the harnesses that study names. Sourced, not invented -- see each primitive's source field.",
+    "santara_status": "missing = Santara has no equivalent; partial = has a weaker form; have = implemented (from each study's 'Santara today' line).",
+    "harness_count": 7
+  },
+  "harnesses": ["claude_code", "hermes", "openclaw", "nanoclaw", "codex", "cursor", "opencode"],
+  "primitives": {
+    "hooks": {
+      "title": "Hooks — deterministic automation on the agent lifecycle",
+      "stated_count": 6,
+      "confirmed_in": ["claude_code", "hermes", "openclaw", "nanoclaw", "codex", "cursor"],
+      "also_seen": ["opencode"],
+      "dissent": null,
+      "santara": "missing",
+      "source": "cursor-deep-dive.md:430",
+      "headline": "the most-confirmed extensibility move in the entire series"
+    },
+    "sandbox": {
+      "title": "OS-level sandbox — filesystem + network isolation the kernel enforces",
+      "stated_count": 5,
+      "confirmed_in": ["claude_code", "hermes", "openclaw", "nanoclaw", "codex"],
+      "also_seen": [],
+      "dissent": "opencode",
+      "santara": "have",
+      "source": "codex-deep-dive.md:469",
+      "headline": "all five studied systems converge on OS-enforced sandboxing"
+    },
+    "progressive_disclosure": {
+      "title": "Progressive disclosure — inject the index, load the body on demand",
+      "stated_count": 4,
+      "confirmed_in": ["claude_code", "hermes", "openclaw", "nanoclaw"],
+      "also_seen": ["cursor"],
+      "dissent": null,
+      "santara": "partial",
+      "source": "claude-code-deep-dive.md:318",
+      "headline": "highest cross-repo agreement of any lesson"
+    },
+    "plan_mode": {
+      "title": "Plan mode — a read-only explore/propose phase gated before execution",
+      "stated_count": 4,
+      "confirmed_in": ["claude_code", "codex", "cursor", "opencode"],
+      "also_seen": [],
+      "dissent": null,
+      "santara": "missing",
+      "source": "opencode-deep-dive.md:392",
+      "headline": "the most-confirmed workflow pattern after hooks"
+    },
+    "checkpoints": {
+      "title": "Checkpoints / rewind — snapshot the workspace, restore on demand",
+      "stated_count": 2,
+      "confirmed_in": ["claude_code", "cursor"],
+      "also_seen": [],
+      "dissent": null,
+      "santara": "missing",
+      "source": "cursor-deep-dive.md:450",
+      "headline": "a trust net separate from git"
+    }
+  }
+}

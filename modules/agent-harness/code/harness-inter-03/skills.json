@@ -1,0 +1,14 @@
+{
+  "_meta": {
+    "what_this_is": "A before/after eval of two learned skills. 20 tasks, each solved by the agent with a baseline prompt and again with a candidate skill added. Each string is 20 pass/fail marks (1 pass, 0 fail), in task order t01..t20 — PAIRED, because the same tasks are run both ways. The question: does adding the skill improve outcomes enough to keep it?",
+    "results_are": "A FIXTURE standing in for real agent runs. Hand-authored so skill_A is a genuine improvement and skill_B looks active (it changes 11 tasks) but nets almost nothing. Point the ratchet at your own before/after runs.",
+    "skill_A": "a grounding hint: helps 9 tasks, hurts 1 -> net +8 of 20",
+    "skill_B": "a verbose-format nudge: helps 6 tasks, hurts 5 -> net +1 of 20, inside the noise",
+    "order": "t01 t02 ... t20"
+  },
+  "baseline": "11111111000000000000",
+  "candidates": {
+    "skill_A": "11111110111111111000",
+    "skill_B": "00000111111111000000"
+  }
+}
