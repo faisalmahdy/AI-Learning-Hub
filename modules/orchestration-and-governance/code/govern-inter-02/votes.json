@@ -1,0 +1,26 @@
+{
+  "_meta": {
+    "what_this_is": "Two scenarios, each 10 decisions with a known correct label 'A', voted by three models. In INDEPENDENT the three models fail on mostly different items; in CORRELATED they share a blind spot and fail the same early items, and one model (m1) is stronger than the other two. Each model votes 'A' (correct) or 'B' (wrong) per item. The council is the majority vote; the baseline is the best single model.",
+    "votes_are": "A FIXTURE standing in for three real models scored on the same 10 items. Authored so the council beats the best single under independence and loses to it under correlation. Point the council at your own scored model outputs.",
+    "truth": "every item's correct answer is 'A'; a 'B' vote is an error",
+    "format": "scenarios {name: {truth:[labels], models:{id:[votes]}}}"
+  },
+  "scenarios": {
+    "independent": {
+      "truth": ["A","A","A","A","A","A","A","A","A","A"],
+      "models": {
+        "m1": ["B","B","B","A","A","A","A","A","A","A"],
+        "m2": ["A","A","B","B","B","A","A","A","A","A"],
+        "m3": ["A","A","A","A","B","B","B","A","A","A"]
+      }
+    },
+    "correlated": {
+      "truth": ["A","A","A","A","A","A","A","A","A","A"],
+      "models": {
+        "m1": ["B","B","A","A","A","A","A","A","A","A"],
+        "m2": ["B","B","B","B","A","A","A","A","A","A"],
+        "m3": ["B","B","B","A","B","A","A","A","A","A"]
+      }
+    }
+  }
+}
