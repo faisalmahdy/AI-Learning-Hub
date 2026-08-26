@@ -1,0 +1,12 @@
+{
+  "_meta": {
+    "what_this_is": "Per-request cost in dollars for 20 requests to an LLM API over one window. Sixteen are ordinary short requests costing a cent or a few; four are 'whales' -- long-context or high-output requests costing dollars. This is the shape almost every real cost, latency, and token-usage distribution takes: a dense pile of small values and a thin tail of huge ones. The tail is not noise to trim; it is where most of the money is.",
+    "data_is": "A FIXTURE. Hand-authored so the mean, median, tail share, and total are exact and checkable. No API, no billing export.",
+    "format": "costs: list of per-request dollar amounts"
+  },
+  "costs": [
+    0.02, 0.03, 0.01, 0.04, 0.02, 0.05, 0.03, 0.02,
+    0.01, 0.04, 0.03, 0.02, 0.05, 0.01, 0.03, 0.02,
+    3.50, 2.80, 4.20, 1.90
+  ]
+}
