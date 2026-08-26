@@ -1,0 +1,12 @@
+{
+  "_meta": {
+    "what_this_is": "Two sequences of downstream call outcomes a circuit breaker must judge. 'outage' is a real dependency failure: a run of consecutive fails. 'flaky' is a basically-healthy dependency with scattered transient blips -- failures that never run consecutively. A correct breaker should OPEN on the outage (stop hammering a dead service) but stay CLOSED on the flaky one (occasional blips are not an outage). The threshold is how many CONSECUTIVE failures trip it.",
+    "data_is": "A FIXTURE. 1 = the call succeeded, 0 = it failed. Hand-authored so the consecutive-failure runs and the trip decisions are exact and checkable.",
+    "format": "threshold (consecutive fails to open); scenarios {name: [outcomes]}"
+  },
+  "threshold": 3,
+  "scenarios": {
+    "outage": [1, 1, 0, 0, 0, 0, 0, 1, 1, 1],
+    "flaky":  [1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 1]
+  }
+}
