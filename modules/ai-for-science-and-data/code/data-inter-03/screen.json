@@ -1,0 +1,12 @@
+{
+  "_meta": {
+    "what_this_is": "A screening scenario: a detector (a classifier, a test, a content filter) with a known sensitivity and specificity, applied to a population where the thing it looks for is RARE. This is the setup for the base-rate fallacy -- the reason a detector everyone would call excellent (99% sensitive, 95% specific) flags mostly false positives when prevalence is low. The numbers are a fixture so the confusion matrix and PPV are exact.",
+    "data_is": "A FIXTURE. Round population and rates so TP/FP/TN/FN are whole numbers and checkable. No trained model.",
+    "format": "population; prevalence; sensitivity (P(flag|positive)); specificity (P(no flag|negative)); sweep_prevalences for the base-rate sweep"
+  },
+  "population": 100000,
+  "prevalence": 0.01,
+  "sensitivity": 0.99,
+  "specificity": 0.95,
+  "sweep_prevalences": [0.001, 0.01, 0.05, 0.10, 0.50]
+}
