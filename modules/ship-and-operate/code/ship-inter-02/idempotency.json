@@ -1,0 +1,14 @@
+{
+  "_meta": {
+    "what_this_is": "A batch of operations a client sends to a server over a flaky channel. Each operation has a real effect the server commits (a charge of some amount). The channel can lose the SERVER'S ACK after the effect is already committed -- the nastiest failure in distributed systems, because the client cannot tell 'never happened' from 'happened, ack lost'. For each op, commits_before_ack is how many attempts committed the effect but lost the ack before the final attempt got through; the client retries until it sees an ack, so a naive server applies the effect commits_before_ack+1 times.",
+    "data_is": "A FIXTURE. Hand-authored delivery outcomes so duplicate charges are exact and checkable. No network, no clock.",
+    "format": "ops [{id, amount, commits_before_ack}]"
+  },
+  "ops": [
+    {"id": "charge-001", "amount": 20.0, "commits_before_ack": 0},
+    {"id": "charge-002", "amount": 15.0, "commits_before_ack": 2},
+    {"id": "charge-003", "amount": 8.0,  "commits_before_ack": 1},
+    {"id": "charge-004", "amount": 40.0, "commits_before_ack": 0},
+    {"id": "charge-005", "amount": 12.0, "commits_before_ack": 3}
+  ]
+}
