@@ -1,0 +1,11 @@
+{
+  "_meta": {
+    "what_this_is": "A single query vector and key vector in one 2D rotation plane, plus position pairs to score. RoPE (rotary position embedding) encodes a token's position by ROTATING its query/key vector by an angle proportional to the position. The magic property this fixture is built to expose: the attention score between a query at position m and a key at position n then depends only on the RELATIVE offset n-m, never on the absolute positions -- so the same offset at different absolute positions gives the identical score.",
+    "data_is": "A FIXTURE. q and k are hand-picked 2D vectors; theta is the per-step rotation angle; pairs are (m, n) positions chosen so some share an offset and some do not.",
+    "format": "q, k (2D vectors); theta (radians per position); pairs [[m, n], ...]"
+  },
+  "q": [1.0, 0.5],
+  "k": [0.8, -0.3],
+  "theta": 0.5,
+  "pairs": [[0, 2], [3, 5], [1, 4], [0, 1]]
+}
