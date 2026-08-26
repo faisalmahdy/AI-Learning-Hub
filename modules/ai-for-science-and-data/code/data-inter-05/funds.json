@@ -1,0 +1,18 @@
+{
+  "_meta": {
+    "what_this_is": "A cohort of eight investment strategies (stand-ins for funds, models, A/B variants, users -- anything that can drop out) with their annual return in percent. A strategy 'survives' the period if it did not blow up: return above the survive_threshold. The ones below it were shut down and are missing from most datasets you would actually get your hands on. Survivorship bias: computing performance over only the survivors overstates it, because survival was CAUSED by having a good return -- the failures selected themselves out.",
+    "data_is": "A FIXTURE. Returns are hand-authored; 'survived' is DERIVED from the threshold, so survivorship is endogenous to the outcome, exactly as in reality.",
+    "format": "survive_threshold (percent); strategies [{id, return_pct}]"
+  },
+  "survive_threshold": -10.0,
+  "strategies": [
+    {"id": "s1", "return_pct": 12.0},
+    {"id": "s2", "return_pct": 8.0},
+    {"id": "s3", "return_pct": 15.0},
+    {"id": "s4", "return_pct": 6.0},
+    {"id": "s5", "return_pct": 10.0},
+    {"id": "s6", "return_pct": -20.0},
+    {"id": "s7", "return_pct": -35.0},
+    {"id": "s8", "return_pct": -15.0}
+  ]
+}
