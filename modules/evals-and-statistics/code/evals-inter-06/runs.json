@@ -1,0 +1,37 @@
+{
+  "_meta": {
+    "what_this_is": "Three system variants scored on the same 8 eval cases by two metrics. proxy is a cheap automatic surface score (keyword overlap, length, a rubric of surface checks); target is a held-out true-quality score the systems were NOT tuned against. The baseline is honest. gamed drives the proxy up while its target falls below baseline -- it found the cheap way to move the metric. genuine improves both. A selection rule that ranks by proxy ships the gamed variant (a target regression); a rule that ranks by the held-out target ships the real improvement.",
+    "data_is": "A FIXTURE. Per-case proxy and target scores are hand-authored so the means, deltas, and the two selection rules' picks are exact and checkable. The means (baseline 0.60/0.60, gamed 0.85/0.52, genuine 0.70/0.75) are computed in goodhart.py from these cases, not stored.",
+    "format": "baseline (the variant id used as the reference); variants [{id, cases:[{proxy, target}]}]."
+  },
+  "baseline": "v1_base",
+  "variants": [
+    {
+      "id": "v1_base",
+      "cases": [
+        {"proxy": 0.5, "target": 0.6}, {"proxy": 0.6, "target": 0.5},
+        {"proxy": 0.7, "target": 0.7}, {"proxy": 0.6, "target": 0.6},
+        {"proxy": 0.5, "target": 0.6}, {"proxy": 0.7, "target": 0.5},
+        {"proxy": 0.6, "target": 0.7}, {"proxy": 0.6, "target": 0.6}
+      ]
+    },
+    {
+      "id": "v2_gamed",
+      "cases": [
+        {"proxy": 0.9, "target": 0.5}, {"proxy": 0.8, "target": 0.5},
+        {"proxy": 0.9, "target": 0.55}, {"proxy": 0.8, "target": 0.5},
+        {"proxy": 0.9, "target": 0.55}, {"proxy": 0.8, "target": 0.5},
+        {"proxy": 0.9, "target": 0.5}, {"proxy": 0.8, "target": 0.56}
+      ]
+    },
+    {
+      "id": "v3_genuine",
+      "cases": [
+        {"proxy": 0.65, "target": 0.7}, {"proxy": 0.7, "target": 0.75},
+        {"proxy": 0.75, "target": 0.8}, {"proxy": 0.7, "target": 0.75},
+        {"proxy": 0.7, "target": 0.75}, {"proxy": 0.65, "target": 0.7},
+        {"proxy": 0.75, "target": 0.8}, {"proxy": 0.7, "target": 0.75}
+      ]
+    }
+  ]
+}
