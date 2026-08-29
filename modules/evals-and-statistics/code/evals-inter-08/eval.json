@@ -1,0 +1,19 @@
+{
+  "_meta": {
+    "what_this_is": "Ten eval items scored for two systems, A and B, that have equal true ability. Four items are 'contaminated' for A -- A has already seen them (they leaked into its training data, context, or memory) -- so A scores a perfect 1.0 on those by recall rather than skill, while B (which never saw them) scores at its normal ability. On the six clean items both systems average exactly 0.60, so there is no real difference between them. The question is whether the eval reports that truth or a contamination-driven false winner.",
+    "data_is": "A FIXTURE. The per-item scores and the contamination flags are hand-authored so the naive (all-items) and clean-only aggregates, and the false winner they disagree on, are exact and checkable; every aggregate is computed in contamination.py. On clean items A and B both mean 0.60 (a true tie); on the 4 contaminated items A scores 1.0 and B scores its usual ~0.60.",
+    "format": "items: [{id, A, B, contaminated}] where A/B are per-item scores in [0,1] and contaminated means the item leaked to system A."
+  },
+  "items": [
+    {"id": "q1",  "A": 0.5, "B": 0.6, "contaminated": false},
+    {"id": "q2",  "A": 0.7, "B": 0.6, "contaminated": false},
+    {"id": "q3",  "A": 0.6, "B": 0.5, "contaminated": false},
+    {"id": "q4",  "A": 0.6, "B": 0.7, "contaminated": false},
+    {"id": "q5",  "A": 0.5, "B": 0.7, "contaminated": false},
+    {"id": "q6",  "A": 0.7, "B": 0.5, "contaminated": false},
+    {"id": "q7",  "A": 1.0, "B": 0.6, "contaminated": true},
+    {"id": "q8",  "A": 1.0, "B": 0.5, "contaminated": true},
+    {"id": "q9",  "A": 1.0, "B": 0.6, "contaminated": true},
+    {"id": "q10", "A": 1.0, "B": 0.7, "contaminated": true}
+  ]
+}
