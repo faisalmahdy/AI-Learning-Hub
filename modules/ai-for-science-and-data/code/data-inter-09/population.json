@@ -1,0 +1,110 @@
+{
+  "_meta": {
+    "what_this_is": "The full population of actors as a 5x5 grid of (talent, looks) ratings, one person per combination. Because every combination appears exactly once, the two traits are independent by construction and their population correlation is exactly 0. A studio casts anyone whose talent + looks reaches the threshold -- selection that depends on BOTH traits, which makes cast/not-cast a collider.",
+    "data_is": "A FIXTURE. The grid and the casting threshold are hand-authored so independence in the population is exact and the induced negative correlation in the cast subset is checkable; every correlation is computed in collider.py.",
+    "format": "people: [{talent, looks}] each 1..5; threshold: cast if talent + looks >= threshold."
+  },
+  "threshold": 8,
+  "people": [
+    {
+      "talent": 1,
+      "looks": 1
+    },
+    {
+      "talent": 1,
+      "looks": 2
+    },
+    {
+      "talent": 1,
+      "looks": 3
+    },
+    {
+      "talent": 1,
+      "looks": 4
+    },
+    {
+      "talent": 1,
+      "looks": 5
+    },
+    {
+      "talent": 2,
+      "looks": 1
+    },
+    {
+      "talent": 2,
+      "looks": 2
+    },
+    {
+      "talent": 2,
+      "looks": 3
+    },
+    {
+      "talent": 2,
+      "looks": 4
+    },
+    {
+      "talent": 2,
+      "looks": 5
+    },
+    {
+      "talent": 3,
+      "looks": 1
+    },
+    {
+      "talent": 3,
+      "looks": 2
+    },
+    {
+      "talent": 3,
+      "looks": 3
+    },
+    {
+      "talent": 3,
+      "looks": 4
+    },
+    {
+      "talent": 3,
+      "looks": 5
+    },
+    {
+      "talent": 4,
+      "looks": 1
+    },
+    {
+      "talent": 4,
+      "looks": 2
+    },
+    {
+      "talent": 4,
+      "looks": 3
+    },
+    {
+      "talent": 4,
+      "looks": 4
+    },
+    {
+      "talent": 4,
+      "looks": 5
+    },
+    {
+      "talent": 5,
+      "looks": 1
+    },
+    {
+      "talent": 5,
+      "looks": 2
+    },
+    {
+      "talent": 5,
+      "looks": 3
+    },
+    {
+      "talent": 5,
+      "looks": 4
+    },
+    {
+      "talent": 5,
+      "looks": 5
+    }
+  ]
+}
