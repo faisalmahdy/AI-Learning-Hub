@@ -1,0 +1,14 @@
+{
+  "_meta": {
+    "what_this_is": "A sequence of tool-call ATTEMPTS a harness sent to a charging service. When a call succeeds but its acknowledgement is lost on the way back, the harness times out and RETRIES the same logical operation -- so some operations appear twice in the stream. Each attempt carries a client-supplied idempotency key that is stable across retries of the same operation and distinct across different operations. Two genuinely separate operations can charge the same amount; they still get different keys.",
+    "data_is": "A FIXTURE. The attempt stream, the keys, and which attempts are retries are hand-authored so the double-apply (no dedup) and the drop-a-real-charge (dedup on content instead of the key) are exact and checkable; every applied total is computed in idempotency.py. true_total is the sum over DISTINCT keys.",
+    "format": "attempts: [{key, op, amount, note}] in arrival order. key is the idempotency key; a repeated key is a retry of the same operation."
+  },
+  "attempts": [
+    {"key": "k1", "op": "charge", "amount": 10, "note": "first attempt"},
+    {"key": "k1", "op": "charge", "amount": 10, "note": "retry -- the ack for k1 was lost"},
+    {"key": "k2", "op": "charge", "amount": 10, "note": "a genuinely separate charge, same amount, different key"},
+    {"key": "k3", "op": "charge", "amount": 5,  "note": "first attempt"},
+    {"key": "k3", "op": "charge", "amount": 5,  "note": "retry -- the ack for k3 was lost"}
+  ]
+}
