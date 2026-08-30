@@ -1,0 +1,56 @@
+{
+ "_meta": {
+  "what_this_is": "Three tool results an agent got back in one turn, each a list of output lines. The line that matters -- the final result or the error -- is the LAST line of each result, which is where tools put their conclusion. The results are big (10, 12, 8 lines) and the context window only has room for 20 lines total. How you fit them in decides whether the agent still has the answers.",
+  "data_is": "A FIXTURE. The results and their sizes are hand-authored so that appending them whole overflows the 20-line window (dropping a whole result), head-only truncation fits but cuts off every salient last line, and head+tail truncation fits AND keeps every last line. Every packed transcript and count is computed in truncate.py.",
+  "format": "window_lines: total context budget; per_result_cap: max lines kept per result when truncating; results: [{name, lines:[...]}] with the salient line last."
+ },
+ "window_lines": 21,
+ "per_result_cap": 6,
+ "results": [
+  {
+   "name": "toolA",
+   "lines": [
+    "toolA line 1",
+    "toolA line 2",
+    "toolA line 3",
+    "toolA line 4",
+    "toolA line 5",
+    "toolA line 6",
+    "toolA line 7",
+    "toolA line 8",
+    "toolA line 9",
+    "toolA RESULT: ok=42"
+   ]
+  },
+  {
+   "name": "toolB",
+   "lines": [
+    "toolB line 1",
+    "toolB line 2",
+    "toolB line 3",
+    "toolB line 4",
+    "toolB line 5",
+    "toolB line 6",
+    "toolB line 7",
+    "toolB line 8",
+    "toolB line 9",
+    "toolB line 10",
+    "toolB line 11",
+    "toolB ERROR: OOM at step 900"
+   ]
+  },
+  {
+   "name": "toolC",
+   "lines": [
+    "toolC line 1",
+    "toolC line 2",
+    "toolC line 3",
+    "toolC line 4",
+    "toolC line 5",
+    "toolC line 6",
+    "toolC line 7",
+    "toolC RESULT: done"
+   ]
+  }
+ ]
+}
