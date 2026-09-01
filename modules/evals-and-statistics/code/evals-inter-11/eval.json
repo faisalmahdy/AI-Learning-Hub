@@ -1,0 +1,13 @@
+{
+  "_meta": {
+    "what_this_is": "An evaluation whose GOLD LABELS are themselves wrong a fraction k of the time (label noise). A model is scored by how often it AGREES with the label -- but when the label is wrong, a correct model disagrees with it and loses a point it deserved. So measured accuracy is not the model true accuracy: measured = a*(1-k) + (1-a)*k, which is capped at 1-k. A perfect model cannot score above 1-k, and improvements near that ceiling are partly masked because each real gain moves the measured score by less than itself.",
+    "data_is": "A FIXTURE. The label noise rate and the models true accuracies are hand-authored so the ceiling (0.90) is clear: a perfect model scores exactly 0.90, and the gap between models measures smaller than it truly is. Every measured accuracy is computed in labelnoise.py under the standard independent-error model.",
+    "format": "label_noise: fraction of gold labels that are wrong; models: {name: true_accuracy}."
+  },
+  "label_noise": 0.1,
+  "models": {
+    "good": 0.95,
+    "better": 0.99,
+    "perfect": 1.0
+  }
+}
