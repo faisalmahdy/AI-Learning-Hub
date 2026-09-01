@@ -1,0 +1,39 @@
+{
+  "_meta": {
+    "what_this_is": "The segments a harness assembles into a prompt, each with a token count and whether it is STABLE (identical from request to request) or VOLATILE (changes every request, like a timestamp or per-request id). A model prompt cache reuses the longest leading run of tokens identical to the previous request and only reprocesses the rest. So the ORDER of the segments decides the cache: put a volatile segment first and the cache breaks immediately (reprocess everything); keep all the stable segments first and the cache covers them, leaving only the small volatile tail to reprocess.",
+    "data_is": "A FIXTURE. The segment sizes and stable flags are hand-authored so a bad ordering (volatile first) caches 0 tokens and reprocesses all 1820, while a good ordering (volatile last) caches 1800 and reprocesses only 20. Every cached/processed count is computed in prefix.py.",
+    "format": "segments: {name: {tokens, stable}}; layouts: {name: [segment names in order]}."
+  },
+  "segments": {
+    "system": {
+      "tokens": 500,
+      "stable": true
+    },
+    "tools": {
+      "tokens": 300,
+      "stable": true
+    },
+    "history": {
+      "tokens": 1000,
+      "stable": true
+    },
+    "timestamp": {
+      "tokens": 20,
+      "stable": false
+    }
+  },
+  "layouts": {
+    "volatile_first": [
+      "timestamp",
+      "system",
+      "tools",
+      "history"
+    ],
+    "volatile_last": [
+      "system",
+      "tools",
+      "history",
+      "timestamp"
+    ]
+  }
+}
