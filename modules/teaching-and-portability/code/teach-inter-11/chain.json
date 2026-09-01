@@ -1,0 +1,16 @@
+{
+  "_meta": {
+    "what_this_is": "A chain of five topics where each builds on the one before (you cannot grasp ratios without fractions, algebra without ratios, and so on). Two advancement policies. FIXED PACE moves every learner to the next topic on a schedule, so a learner who did not finish reaches only a fraction (per_topic) of each topic before moving on -- and because each topic builds on the last, that shortfall COMPOUNDS: effective mastery of topic i is per_topic times the mastery of topic i-1. MASTERY-BASED advancement holds the learner on each topic until they reach the target (mastery=1.0) before advancing, so no gap is carried forward and the chain does not decay.",
+    "data_is": "A FIXTURE. The chain length, the per-topic fraction reached under fixed pacing (0.8), and the mastery target (1.0) are hand-authored so the fixed-pace learner decays to 0.33 by the fifth topic while the mastery-based learner stays at 1.0. Every topic mastery is computed in mastery.py.",
+    "format": "topics: the prerequisite chain in order; fixed_per_topic: fraction of each topic reached under fixed pacing; mastery_target: fraction required before advancing under mastery-based pacing."
+  },
+  "topics": [
+    "fractions",
+    "ratios",
+    "algebra",
+    "functions",
+    "calculus"
+  ],
+  "fixed_per_topic": 0.8,
+  "mastery_target": 1.0
+}
