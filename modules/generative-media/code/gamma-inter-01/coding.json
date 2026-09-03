@@ -1,0 +1,9 @@
+{
+  "_meta": {
+    "what_this_is": "How a limited number of integer codes (here 8, standing in for 8-bit displays) should be spread across brightness. The eye perceives brightness non-linearly -- it is far more sensitive to changes in dark tones than bright ones -- roughly perceived_lightness = intensity^(1/gamma). LINEAR coding spaces the codes evenly in physical intensity, which wastes codes on the brights (where the eye barely notices) and leaves huge perceptual gaps in the darks (visible banding). GAMMA coding spaces the codes evenly in perceived lightness (store intensity^(1/gamma)), so every step looks the same size and there is no banding. This is why image files are gamma-encoded.",
+    "data_is": "A FIXTURE. The gamma and the code count are hand-authored so linear coding produces a 0.413 perceptual jump in the darkest step (nearly 3x the gamma coding step) while gamma coding produces a uniform 0.143 step everywhere. Every perceptual step is computed in gamma.py.",
+    "format": "gamma: the display gamma (~2.2); n_codes: the number of available codes."
+  },
+  "gamma": 2.2,
+  "n_codes": 8
+}
