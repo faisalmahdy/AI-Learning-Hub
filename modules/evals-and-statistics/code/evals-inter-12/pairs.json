@@ -1,0 +1,43 @@
+{
+  "_meta": {
+    "what_this_is": "Pairs of answers judged by an LLM-as-judge. In each pair a SHORT answer is genuinely better (higher quality) and a LONG answer is worse but more verbose. The judge is modeled as scoring quality plus a length bias (score = quality + beta*length), which captures the well-documented tendency of LLM judges to prefer longer, more detailed-looking answers regardless of correctness. With a length bias present, the judge crowns the padded worse answer; removing the length term (beta=0) recovers the true-quality winner.",
+    "data_is": "A FIXTURE. The per-answer quality and length and the length-bias coefficient beta are hand-authored so the biased judge picks the longer, lower-quality answer in every pair, while the unbiased judge picks the higher-quality one in every pair. Every judge decision is computed in verbosity.py.",
+    "format": "beta: the judge length-bias coefficient; pairs: [{id, short:{quality,length}, long:{quality,length}}]."
+  },
+  "beta": 0.03,
+  "pairs": [
+    {
+      "id": "p1",
+      "short": {
+        "quality": 8,
+        "length": 50
+      },
+      "long": {
+        "quality": 5,
+        "length": 200
+      }
+    },
+    {
+      "id": "p2",
+      "short": {
+        "quality": 9,
+        "length": 60
+      },
+      "long": {
+        "quality": 6,
+        "length": 220
+      }
+    },
+    {
+      "id": "p3",
+      "short": {
+        "quality": 7,
+        "length": 40
+      },
+      "long": {
+        "quality": 4,
+        "length": 180
+      }
+    }
+  ]
+}
