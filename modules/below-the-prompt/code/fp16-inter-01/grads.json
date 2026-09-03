@@ -1,0 +1,17 @@
+{
+  "_meta": {
+    "what_this_is": "A set of gradient magnitudes and the fp16 underflow threshold. Training in half precision (fp16) is fast and memory-light, but fp16 cannot represent very small numbers: anything below its smallest normal value (about 6.1e-5, i.e. 2^-14) flushes to zero. Small but real gradients then vanish, and the weights they belong to never update. Loss scaling fixes this: multiply the loss (and therefore every gradient) by a large factor before the backward pass so small gradients land in fp16 representable range, then divide the gradients back by the same factor before the weight update. The small gradients survive and are recovered.",
+    "data_is": "A FIXTURE. The gradient magnitudes, the fp16 threshold, and the loss-scale factor are hand-authored so three of the six gradients underflow to zero unscaled while all six survive and are recovered when scaled by 1024. Every fp16 rounding and recovery is computed in lossscale.py.",
+    "format": "fp16_min: the smallest value fp16 represents (below it flushes to 0); scale: the loss-scale factor; gradients: the true gradient magnitudes."
+  },
+  "fp16_min": 6.104e-05,
+  "scale": 1024,
+  "gradients": [
+    0.05,
+    0.002,
+    8e-05,
+    3e-05,
+    1e-05,
+    4e-06
+  ]
+}
