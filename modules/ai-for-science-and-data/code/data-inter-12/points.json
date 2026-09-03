@@ -1,0 +1,51 @@
+{
+  "_meta": {
+    "what_this_is": "A set of (x, y) points with a genuine linear relationship, and a restricted range of x. Measuring the correlation over the FULL range shows the relationship clearly. Measuring it over only a narrow slice of x -- what happens when you study only a pre-selected subgroup, like only admitted students or only top performers -- attenuates the correlation, because restricting the range shrinks the variation in x relative to the noise, and a real relationship looks weak or absent. The relationship did not change; the range you looked at did.",
+    "data_is": "A FIXTURE. The points are hand-authored so the full-range correlation is strong (0.92) while the same points restricted to x in [5,8] give a weak correlation (0.31). Every correlation is computed in restriction.py.",
+    "format": "points: [[x,y]]; restrict_lo, restrict_hi: the x-range the restricted view keeps."
+  },
+  "restrict_lo": 5,
+  "restrict_hi": 8,
+  "points": [
+    [
+      1,
+      2
+    ],
+    [
+      2,
+      1
+    ],
+    [
+      3,
+      4
+    ],
+    [
+      4,
+      3
+    ],
+    [
+      5,
+      7
+    ],
+    [
+      6,
+      5
+    ],
+    [
+      7,
+      8
+    ],
+    [
+      8,
+      7
+    ],
+    [
+      9,
+      10
+    ],
+    [
+      10,
+      9
+    ]
+  ]
+}
