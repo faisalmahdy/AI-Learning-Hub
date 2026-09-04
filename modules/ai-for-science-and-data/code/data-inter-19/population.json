@@ -1,0 +1,5 @@
+{
+  "_meta": "A tiny known population and a sample size. Because the population is small, we can enumerate EVERY possible sample of size n (drawn with replacement) and average the sample variance across all of them -- computing the expected value exactly, not estimating it. We compare two sample-variance formulas: dividing the sum of squared deviations by n, and dividing by n-1 (Bessel's correction). The question: which one, on average, equals the true population variance?",
+  "population": [1, 4, 7],
+  "sample_size": 2
+}
