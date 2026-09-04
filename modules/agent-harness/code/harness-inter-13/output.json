@@ -1,0 +1,7 @@
+{
+  "_meta": "A tool's returned text that happens to contain secrets. known_secrets are the values the harness holds (injected env vars); patterns are regexes for recognized secret shapes; all_secrets is the ground truth of every secret present, used only to score leakage.",
+  "tool_output": "connect failed: api_key=sk-live-abc123 password=db_pw_9f3k2j token=ghp_XYZ789tokenABC host=db1",
+  "known_secrets": ["sk-live-abc123", "db_pw_9f3k2j"],
+  "patterns": ["sk-[a-z0-9-]+", "ghp_[A-Za-z0-9]+"],
+  "all_secrets": ["sk-live-abc123", "db_pw_9f3k2j", "ghp_XYZ789tokenABC"]
+}
