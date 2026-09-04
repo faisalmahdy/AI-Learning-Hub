@@ -1,0 +1,6 @@
+{
+  "_meta": "A snippet of lesson text containing non-ASCII characters (an accented letter and a currency symbol). write_encoding is the codec the author saved it with (UTF-8, the modern default on Linux/macOS). read_encodings are codecs a learner's machine might use to read it back -- including cp1252, a common Windows default, and ascii. The question: does the text survive the trip when the reader's encoding differs from the writer's?",
+  "text": "café €5",
+  "write_encoding": "utf-8",
+  "read_encodings": ["utf-8", "cp1252", "ascii"]
+}
