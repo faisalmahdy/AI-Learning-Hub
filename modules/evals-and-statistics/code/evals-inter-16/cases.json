@@ -1,0 +1,11 @@
+{
+  "_meta": "Each case pits the judge's own family's answer against a competitor's. q_own and q_other are the true qualities (from a neutral grader). bias is the self-preference bonus the judge adds to its own answer's score when it can see provenance.",
+  "bias": 2,
+  "cases": [
+    {"q_own": 5, "q_other": 8},
+    {"q_own": 5, "q_other": 6},
+    {"q_own": 7, "q_other": 4},
+    {"q_own": 6, "q_other": 7},
+    {"q_own": 3, "q_other": 9}
+  ]
+}
