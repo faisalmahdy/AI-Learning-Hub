@@ -1,0 +1,5 @@
+{
+  "_meta": "A request crosses `layers` retrying services to reach a failing backend; each layer retries its downstream `retries` times. Retrying at every layer multiplies the backend load; retrying at one layer bounds it.",
+  "layers": 3,
+  "retries": 3
+}
