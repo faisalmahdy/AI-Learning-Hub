@@ -1,0 +1,6 @@
+{
+  "_meta": "An agent that decomposes a task into sub-agents: each task spawns `branching` sub-tasks, which each spawn `branching` more, and so on. depth_cap is the maximum recursion depth the harness allows (the root is depth 0). runaway_depth is how deep an UNCAPPED run drifted before someone noticed -- when a decomposition never decides it is done. The question: how many sub-agents does each spawn, and does the cap actually bound it?",
+  "branching": 3,
+  "depth_cap": 3,
+  "runaway_depth": 8
+}
