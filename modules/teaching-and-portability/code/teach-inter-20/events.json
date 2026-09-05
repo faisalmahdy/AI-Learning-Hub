@@ -1,0 +1,7 @@
+{
+  "_meta": "Two events, each logged with a local wall-clock hour and the UTC offset of the machine that logged it (hours ahead of UTC). A naive log stores only the wall-clock hour and forgets the offset, so comparing or subtracting the stored numbers treats different-timezone times as if they were the same clock. The UTC hour is local_hour - utc_offset, an absolute instant. The question: does ordering the events by their stored wall-clock time match ordering them by the real instant?",
+  "events": [
+    {"name": "A", "local_hour": 14, "utc_offset": 2},
+    {"name": "B", "local_hour": 13, "utc_offset": -1}
+  ]
+}
