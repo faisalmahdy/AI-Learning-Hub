@@ -1,7 +1,0 @@
-{
-  "_meta": "A thundering-herd simulation. clients all fail at t=0 (a shared dependency went down) and each retries `attempts` times with exponential backoff: attempt a waits up to base*2^a seconds. Without jitter every client waits exactly that, so all `clients` retries land in the same time bucket. With FULL jitter each client waits a uniform random time in [0, base*2^a), spreading the retries across the window. We bucket every retry arrival into 1-second bins and report the peak bin — the most retries hitting the recovering server in one second. seed makes the jitter deterministic.",
-  "clients": 12,
-  "base": 4,
-  "attempts": 3,
-  "seed": 7
-}
