@@ -1,0 +1,5 @@
+{
+  "_meta": "A flat row of grayscale pixels, all the same value, so any darkening at the edge after a blur is purely a border-handling artifact. kernel is the box-blur width (3 = each pixel plus its two neighbors).",
+  "kernel": 3,
+  "row": [100, 100, 100, 100, 100, 100]
+}

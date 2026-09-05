@@ -1,0 +1,10 @@
+{
+  "_meta": {
+    "what_this_is": "A sustained overload between a producer and a slower consumer. Each tick, 5 items arrive but the consumer can process only 3 -- a permanent surplus of 2 per tick. The queue between them either grows without limit (unbounded) or is capped and sheds the surplus (bounded, with backpressure). Over 20 ticks, 100 items arrive but the consumer can only ever complete 60; the question is what happens to the 40 it cannot serve.",
+    "data_is": "A FIXTURE. The arrival pattern, consumer rate, and cap are hand-authored so the unbounded growth, the bounded cap, the shed count, and the equal completions are exact and checkable; every per-tick depth is computed in backpressure.py. The overload is steady (5 > 3 every tick) so the unbounded queue grows by exactly 2 each tick.",
+    "format": "arrivals: items arriving per tick; consumer_rate: items the consumer processes per tick; cap: the bounded queue's maximum depth."
+  },
+  "consumer_rate": 3,
+  "cap": 10,
+  "arrivals": [5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5]
+}

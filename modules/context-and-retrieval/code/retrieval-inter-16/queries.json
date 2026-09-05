@@ -1,0 +1,13 @@
+{
+  "_meta": "A semantic cache of past question->answer pairs, keyed by the question text (a stand-in for its embedding). Incoming queries each have an expected cached id (the correct reuse) or null (novel intent, should miss). loose and tight are two candidate similarity thresholds.",
+  "loose": 0.60,
+  "tight": 0.80,
+  "cache": [
+    {"id": "ans_reset_pw", "query": "reset my password"},
+    {"id": "ans_cancel_sub", "query": "cancel my subscription"}
+  ],
+  "queries": [
+    {"text": "reset my password please", "expected": "ans_reset_pw"},
+    {"text": "reset my subscription", "expected": null}
+  ]
+}

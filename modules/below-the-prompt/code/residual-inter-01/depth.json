@@ -1,0 +1,11 @@
+{
+  "_meta": {
+    "what_this_is": "A model of how a gradient shrinks or survives as it backpropagates through a deep stack of layers. Each layer has a local derivative (its Jacobian factor). In a plain stack the gradient reaching the input is the PRODUCT of those factors, so if each is below 1 the gradient shrinks exponentially with depth and vanishes. A residual layer computes x + f(x), so its local derivative is 1 + (branch derivative): the +1 is an identity highway that carries the gradient straight through, and the product stays healthy no matter how deep the stack.",
+    "data_is": "A FIXTURE. The per-layer factors and depth are hand-chosen so a 20-layer plain stack vanishes (gradient 0.0008, below the threshold) while the residual stack survives (6.73), and removing the +1 identity from the residual makes it vanish too (1e-20) -- isolating the identity term as the cause. Every gradient is computed in residual.py.",
+    "format": "n_layers: stack depth; plain_jacobian: per-layer derivative in a plain stack; branch_jacobian: the residual branch derivative (the f in x+f(x)); vanish_threshold: gradient magnitude below which we call it vanished."
+  },
+  "n_layers": 20,
+  "plain_jacobian": 0.7,
+  "branch_jacobian": 0.1,
+  "vanish_threshold": 0.01
+}

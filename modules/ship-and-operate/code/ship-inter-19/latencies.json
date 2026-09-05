@@ -1,0 +1,8 @@
+{
+  "_meta": "Latency samples (ms) from two shards of a service over one window. 'small_slow' is a small shard (10 requests) whose replica is overloaded -- every request is slow. 'big_fast' is the bulk of traffic (90 requests) and is healthy. percentile is the tail percentile to report (90 = the 90th). The question: can you get the fleet's p90 by taking each shard's p90 and averaging them?",
+  "percentile": 90,
+  "shards": {
+    "small_slow": [200, 200, 200, 200, 200, 200, 200, 200, 200, 200],
+    "big_fast":   [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10]
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "_meta": {
+    "what_this_is": "A single-server task queue over 12 ticks. A high-priority task (priority 5) arrives every tick, and one low-priority task L (priority 1) arrives at tick 0. The server completes one task per tick and chooses which by priority. STRICT priority always serves the highest-priority task available, so with a high-priority task arriving every tick the low task L is never the highest and is starved forever. AGING raises a waiting task effective priority by its wait time, so L eventually out-prioritizes freshly-arrived high tasks and gets served -- with a bounded wait.",
+    "data_is": "A FIXTURE. The arrival stream (a high task every tick plus one low task at tick 0) is hand-authored so strict priority never serves L within the horizon while aging serves it at tick 4. Every scheduling decision is computed in aging.py.",
+    "format": "horizon: number of ticks (one task served per tick); tasks: [{id, priority, arrival}]. Aging adds wait-time to priority."
+  },
+  "horizon": 12,
+  "tasks": [
+    {
+      "id": "H00",
+      "priority": 5,
+      "arrival": 0
+    },
+    {
+      "id": "H01",
+      "priority": 5,
+      "arrival": 1
+    },
+    {
+      "id": "H02",
+      "priority": 5,
+      "arrival": 2
+    },
+    {
+      "id": "H03",
+      "priority": 5,
+      "arrival": 3
+    },
+    {
+      "id": "H04",
+      "priority": 5,
+      "arrival": 4
+    },
+    {
+      "id": "H05",
+      "priority": 5,
+      "arrival": 5
+    },
+    {
+      "id": "H06",
+      "priority": 5,
+      "arrival": 6
+    },
+    {
+      "id": "H07",
+      "priority": 5,
+      "arrival": 7
+    },
+    {
+      "id": "H08",
+      "priority": 5,
+      "arrival": 8
+    },
+    {
+      "id": "H09",
+      "priority": 5,
+      "arrival": 9
+    },
+    {
+      "id": "H10",
+      "priority": 5,
+      "arrival": 10
+    },
+    {
+      "id": "H11",
+      "priority": 5,
+      "arrival": 11
+    },
+    {
+      "id": "L",
+      "priority": 1,
+      "arrival": 0
+    }
+  ]
+}

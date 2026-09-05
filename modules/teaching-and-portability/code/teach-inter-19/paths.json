@@ -1,0 +1,7 @@
+{
+  "_meta": "A learner runs an artifact that needs to open a data file sitting next to the script. script_dir is where the script (and its data file) actually live on the learner's machine. data_filename is the file's name. author_absolute is the absolute path the ORIGINAL author hardcoded (on their own machine). cwds are the working directories the learner might launch the script from. The question: which way of naming the data file finds it no matter where or on whose machine the script runs?",
+  "script_dir": "/home/bob/hub/code/mod",
+  "data_filename": "data.csv",
+  "author_absolute": "/home/alice/hub/code/mod/data.csv",
+  "cwds": ["/home/bob/hub/code/mod", "/home/bob", "/tmp"]
+}

@@ -1,0 +1,86 @@
+{
+  "_meta": {
+    "what_this_is": "A 4x4 grayscale image and three 3x3 convolution kernels: a blur (weights summing to 16), a sharpen (summing to 1), and an edge detector (summing to 0). A convolution replaces each pixel with a weighted sum of its neighbors. The SUM of a kernel weights decides what it does to overall brightness: a kernel summing to 1 preserves the mean brightness, one summing to S scales it by S, and one summing to 0 produces a zero-mean result. So a blur kernel must be divided by its weight-sum (16) to keep the picture the same brightness -- forget the divide and the image gets 16x brighter.",
+    "data_is": "A FIXTURE. The image and kernels are hand-authored; the kernel sums (16, 1, 0), every convolved image, and its mean brightness are computed in normalize.py. Edges use zero padding, applied identically everywhere.",
+    "format": "image: HxW grayscale; kernels: {name: 3x3 weights}."
+  },
+  "image": [
+    [
+      100,
+      120,
+      140,
+      110
+    ],
+    [
+      90,
+      130,
+      150,
+      100
+    ],
+    [
+      80,
+      110,
+      160,
+      120
+    ],
+    [
+      100,
+      140,
+      130,
+      90
+    ]
+  ],
+  "kernels": {
+    "blur": [
+      [
+        1,
+        2,
+        1
+      ],
+      [
+        2,
+        4,
+        2
+      ],
+      [
+        1,
+        2,
+        1
+      ]
+    ],
+    "sharpen": [
+      [
+        0,
+        -1,
+        0
+      ],
+      [
+        -1,
+        5,
+        -1
+      ],
+      [
+        0,
+        -1,
+        0
+      ]
+    ],
+    "edge": [
+      [
+        -1,
+        -1,
+        -1
+      ],
+      [
+        -1,
+        8,
+        -1
+      ],
+      [
+        -1,
+        -1,
+        -1
+      ]
+    ]
+  }
+}

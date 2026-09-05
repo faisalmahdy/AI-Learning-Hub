@@ -1,0 +1,9 @@
+{
+  "_meta": {
+    "what_this_is": "The source data for a generated index file, plus the committed version of that generated file. 'items' is the source (in arbitrary order); a generator renders it into an index. 'committed' is what is checked into the repo as the generated artifact -- but it was hand-edited (one line changed), so a rebuild will not match it. The module builds the index two ways (with and without a build timestamp) and runs the rebuild-then-diff gate against 'committed'.",
+    "committed_is": "A FIXTURE: the deterministic render of items, with line 3 hand-edited to simulate someone editing the generated file instead of the source. The gate must catch it.",
+    "format": "items [names]; committed (the checked-in generated text)"
+  },
+  "items": ["gym", "coffee", "flights", "bills", "dentist"],
+  "committed": "# generated index\n- bills\n- coffee (hand edited)\n- dentist\n- flights\n- gym\n"
+}

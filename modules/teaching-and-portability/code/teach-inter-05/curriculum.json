@@ -1,0 +1,16 @@
+{
+  "_meta": {
+    "what_this_is": "A small curriculum as a prerequisite graph, plus what a learner has already mastered. Each module lists the modules that must be mastered BEFORE it can be fruitfully studied. The ready-to-learn frontier is the set of modules whose prerequisites are all mastered but which the learner has not mastered yet -- the only modules worth recommending now. Study a module whose prerequisites are unmet and the learner bounces off it: the material assumes things they do not have.",
+    "data_is": "A FIXTURE. Hand-authored prerequisites and a mastered set so the frontier and the by-order bug's mistake are exact and checkable.",
+    "format": "mastered [ids]; modules [{id, prereqs:[ids]}]"
+  },
+  "mastered": ["intro", "basics"],
+  "modules": [
+    {"id": "intro",     "prereqs": []},
+    {"id": "basics",    "prereqs": ["intro"]},
+    {"id": "vectors",   "prereqs": ["basics"]},
+    {"id": "calculus",  "prereqs": []},
+    {"id": "attention", "prereqs": ["vectors"]},
+    {"id": "training",  "prereqs": ["attention", "calculus"]}
+  ]
+}

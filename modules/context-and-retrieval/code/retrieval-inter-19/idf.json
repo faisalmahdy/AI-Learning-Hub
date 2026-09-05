@@ -1,0 +1,8 @@
+{
+  "_meta": "A lexical match over a corpus of n_docs documents. The query is a list of terms; df is each term's document frequency (how many of the n_docs documents contain it), so a common word has high df and a rare word has low df. IDF = log(n_docs / df) downweights common terms. Two candidate documents each match a different subset of the query terms; the question is which one a scorer ranks first.",
+  "n_docs": 1000,
+  "query": ["how", "does", "backpropagation", "work"],
+  "df": {"how": 800, "does": 850, "backpropagation": 5, "work": 600},
+  "doc_common": ["how", "does", "work"],
+  "doc_rare": ["backpropagation"]
+}

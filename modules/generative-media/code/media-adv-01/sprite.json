@@ -1,0 +1,15 @@
+{
+  "_meta": {
+    "what_this_is": "A short RGBA source strip to be downsampled 2:1 -- three pairs of source pixels averaging into three destination pixels. Each pixel is [R, G, B, alpha] with R/G/B as sRGB bytes (0-255) and alpha in 0-1. The pairs are chosen so each of the three downsample fixes is the one that matters for at least one pair: pair 0 (opaque white beside a transparent pixel) needs premultiplied alpha or it fringes, pair 1 (opaque black beside opaque white) needs linear light or it darkens, pair 2 (opaque red beside a transparent pixel) needs premultiplied alpha on a color channel. All three pairs need a box filter -- decimation drops the second sample of each pair entirely.",
+    "data_is": "A FIXTURE. The strip is hand-authored; the sRGB transfer function, the correct area average (ground truth), and every error number are computed in pipeline.py from this strip, not stored here. A transparent pixel stores its color as black (0,0,0), which is exactly the stored value that bleeds a fringe when averaged with straight alpha.",
+    "format": "strip: list of [R, G, B, alpha]. Even/odd pairs downsample into one output pixel each."
+  },
+  "strip": [
+    [255, 255, 255, 1.0],
+    [0, 0, 0, 0.0],
+    [0, 0, 0, 1.0],
+    [255, 255, 255, 1.0],
+    [255, 0, 0, 1.0],
+    [0, 0, 0, 0.0]
+  ]
+}

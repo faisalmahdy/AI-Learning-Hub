@@ -1,0 +1,16 @@
+{
+  "_meta": "Each item requires a set of knowledge components (skills). A student answers an item correctly iff they have mastered every skill it requires. students maps each student to the set of skills they have mastered (ground truth).",
+  "skills": ["add", "mult", "frac"],
+  "items": [
+    ["add"],
+    ["mult"],
+    ["add", "mult"],
+    ["frac"],
+    ["add", "frac"],
+    ["mult", "frac"]
+  ],
+  "students": {
+    "P": ["add", "mult"],
+    "Q": ["add", "frac"]
+  }
+}

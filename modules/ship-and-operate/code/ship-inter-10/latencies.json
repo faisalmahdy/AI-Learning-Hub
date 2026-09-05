@@ -1,0 +1,9 @@
+{
+  "_meta": {"what_this_is": "Two samples of 100 request latencies (ms) for one endpoint: a baseline and a later regression. In both, 95 of 100 requests are fast (50ms). The regression pushes the slowest 5% from 200ms to 900ms -- a tail regression that hits 1 in 20 users on every request. The mean barely moves because 95% of requests did not change; the p99 moves a lot, because it lives in the tail that did.", "data_is": "A FIXTURE. The latency samples are hand-authored so the mean stays under a mean-based alert threshold while the p99 blows past the SLO -- the case where averaging hides a tail regression. Every statistic is computed in latency.py with the nearest-rank percentile.", "format": "samples: {name:[latency_ms,...]}; slo_p99_ms: the p99 the SLO allows; mean_alert_ms: the mean a naive monitor alerts on."},
+  "slo_p99_ms": 500,
+  "mean_alert_ms": 150,
+  "samples": {
+    "baseline":  [50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 200, 200, 200, 200, 200],
+    "regressed": [50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 900, 900, 900, 900, 900]
+  }
+}

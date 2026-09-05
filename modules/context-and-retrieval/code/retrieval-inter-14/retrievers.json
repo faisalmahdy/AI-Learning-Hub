@@ -1,0 +1,9 @@
+{
+  "_meta": "Two retrievers score the same documents on different scales: lexical (BM25, ~0-30) and dense (cosine, 0-1). answer is the true relevant document; k is the RRF constant.",
+  "answer": "A",
+  "k": 60,
+  "retrievers": {
+    "lexical": {"A": 20.0, "X": 28.0, "Y": 6.0, "P": 12.0, "Q": 3.0},
+    "dense":   {"A": 0.80, "X": 0.30, "Y": 0.90, "P": 0.20, "Q": 0.55}
+  }
+}

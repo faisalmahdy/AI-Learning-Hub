@@ -1,0 +1,7 @@
+{
+  "_meta": "Per-case pass/fail from an eval run: 1 is a pass, 0 a fail, so the point estimate of the pass rate is the mean. seed fixes the bootstrap's random resampling so the interval is reproducible. resamples is how many bootstrap replicas to draw. threshold is a bar we want to decide the model clears (e.g. 'is it above 60%?'). The question: how much would the pass rate wobble on a different sample of cases, and can we conclude it clears the bar?",
+  "scores": [1, 1, 1, 0, 1, 1, 0, 1],
+  "seed": 0,
+  "resamples": 2000,
+  "threshold": 0.6
+}

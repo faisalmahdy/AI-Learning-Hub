@@ -1,0 +1,15 @@
+{
+  "_meta": {
+    "what_this_is": "A queue of fan-out tasks handed to a worker, in order. Each task has an outcome: 'ok' succeeds on the first try, 'flaky' fails a couple of times then succeeds, and 'poison' fails EVERY time (a malformed input, a permanently broken dependency). The worker retries failures. The question is what it does with a poison task. A correct worker retries up to max_retries, then moves the task to a dead-letter queue and continues; a broken worker retries forever and the poison task blocks every task behind it -- the whole fan-out stalls on one bad input.",
+    "data_is": "A FIXTURE. attempts_to_succeed is how many attempts a task needs (a huge number = poison); hand-authored so the drain, the dead-lettering, and the starvation are exact and checkable. attempt_budget bounds the simulation so a 'retry forever' bug is detectable rather than an infinite loop.",
+    "format": "max_retries; attempt_budget (safety cap on total attempts); tasks [{id, kind, attempts_to_succeed}]"
+  },
+  "max_retries": 3,
+  "attempt_budget": 20,
+  "tasks": [
+    {"id": "t1", "kind": "ok",     "attempts_to_succeed": 1},
+    {"id": "t2", "kind": "poison", "attempts_to_succeed": 999},
+    {"id": "t3", "kind": "flaky",  "attempts_to_succeed": 2},
+    {"id": "t4", "kind": "ok",     "attempts_to_succeed": 1}
+  ]
+}

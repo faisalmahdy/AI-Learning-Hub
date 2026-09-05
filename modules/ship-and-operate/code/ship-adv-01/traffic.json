@@ -1,0 +1,12 @@
+{
+  "_meta": {
+    "what_this_is": "A batch of 12 requests hitting a downstream dependency that is DOWN for a window (requests 3 through 8) and up otherwise. The question is what the request path does during that outage. A naive path retries every failing request many times, hammering an already-dead dependency and turning its outage into a cascading overload -- the retry storm. A resilient path composes three protections: bounded retries (give up on a request after max_retries), a circuit breaker (after threshold consecutive failures, OPEN and fail fast so the dependency is not called at all), and half-open recovery (after a cooldown, probe once; if it succeeds, close). The composed path fails the same outage requests the naive one does -- you cannot succeed against a down service -- but with a fraction of the downstream load, and it recovers automatically when the outage ends.",
+    "data_is": "A FIXTURE. The up/down pattern and the config are hand-authored so the downstream attempts, dispositions, and breaker behavior are exact and checkable.",
+    "format": "threshold (consecutive fails to open); max_retries; cooldown (requests open before a probe); naive_retries (the naive path's per-request cap); up [bool per request]"
+  },
+  "threshold": 3,
+  "max_retries": 3,
+  "cooldown": 2,
+  "naive_retries": 10,
+  "up": [true, true, true, false, false, false, false, false, false, true, true, true]
+}

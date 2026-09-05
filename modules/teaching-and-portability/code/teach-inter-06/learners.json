@@ -1,0 +1,16 @@
+{
+  "_meta": {
+    "what_this_is": "A cohort of learners at different competence levels (0 = novice, 1 = expert) and a model of how much a lesson helps each one at a given scaffolding level (0 = bare problem, 1 = full worked example). The expertise-reversal effect: heavy scaffolding helps a novice (they need the worked steps) but HURTS an expert (the redundant steps get in the way of what they already know). So the right amount of scaffolding depends on the learner -- a one-size-fits-all 'always full worked examples' policy helps the novices and drags the experts down.",
+    "model": "learning_gain(c, s) = intrinsic + s*( (1-c)*help - c*redundancy ). The coefficient of s flips sign at c = help/(help+redundancy) -- the reversal point -- above which more scaffolding lowers the gain.",
+    "data_is": "A FIXTURE. Competence levels and the help/redundancy/intrinsic constants are hand-authored so the reversal and the policy comparison are exact and checkable.",
+    "format": "help; redundancy; intrinsic; learners [{id, competence}]"
+  },
+  "help": 1.0,
+  "redundancy": 0.8,
+  "intrinsic": 0.5,
+  "learners": [
+    {"id": "novice", "competence": 0.1},
+    {"id": "middle", "competence": 0.4},
+    {"id": "expert", "competence": 0.9}
+  ]
+}
