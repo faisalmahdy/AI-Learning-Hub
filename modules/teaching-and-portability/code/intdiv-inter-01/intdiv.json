@@ -1,0 +1,6 @@
+{
+  "_meta": "Integer division and remainder for numbers that can be negative, plus a hash-bucket calculation. Languages disagree on how integer division rounds a negative result: Python (and Ruby) floor toward negative infinity, so the remainder takes the sign of the DIVISOR and is never negative for a positive divisor; C, Java, Go, JavaScript, and Rust truncate toward zero, so the remainder takes the sign of the DIVIDEND and can be negative. pairs are (dividend, divisor) cases to divide both ways. hashes are values -- some negative, as a real hash function returns -- that get mapped into num_buckets buckets by `hash % num_buckets`; under truncation a negative hash yields a NEGATIVE index, an out-of-bounds bucket, while the floored result and the portable ((h % n) + n) % n form always land in [0, num_buckets). Every quotient and remainder here is computed.",
+  "pairs": [[7, 3], [-7, 3], [8, -3], [-8, -3]],
+  "hashes": [12345, -9876, -1, 7],
+  "num_buckets": 8
+}
