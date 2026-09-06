@@ -1,0 +1,6 @@
+{
+  "_meta": "Two strings that render identically on screen but are different sequences of Unicode code points, given here as lists of code points (so the file itself is unambiguous). precomposed is 'cafe' plus U+00E9 -- no wait: it is c, a, f, then U+00E9 (LATIN SMALL LETTER E WITH ACUTE), a single code point for the accented e. decomposed is c, a, f, e (U+0065), then U+0301 (COMBINING ACUTE ACCENT) -- the accent as a separate code point layered on a plain e. Both display as the same accented 'cafe' and a reader cannot tell them apart, but they are not equal as strings, they have different lengths, and they hash differently. This is why the same text typed on two systems, or a filename created on macOS (which stores decomposed) and looked up on Linux (usually precomposed), silently fails to match. The fix is Unicode normalization: convert both to a canonical form (NFC) before comparing, hashing, deduplicating, or keying. The code builds the strings from these code points with chr(). Every length and hash is computed with the stdlib unicodedata module.",
+  "precomposed_codepoints": [99, 97, 102, 233],
+  "decomposed_codepoints": [99, 97, 102, 101, 769],
+  "label": "cafe + acute accent"
+}
