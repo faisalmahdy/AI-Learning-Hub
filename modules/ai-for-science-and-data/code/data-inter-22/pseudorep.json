@@ -1,0 +1,10 @@
+{
+  "_meta": "Four subjects, each measured five times. The measurements within a subject are correlated (they are the same subject), so they are NOT five independent data points — they are repeated looks at one unit. The naive analysis treats all 20 measurements as independent and computes the standard error as sd/sqrt(20). The correct analysis recognizes the independent units are the 4 SUBJECTS: it takes each subject's mean and computes the standard error of those 4 means as sd_of_means/sqrt(4). Because the naive N (20) is inflated, its standard error is too small, its confidence interval too narrow, and a difference from the reference value can look significant when it is not. reference is the value we test the grand mean against.",
+  "subjects": {
+    "s1": [8, 9, 10, 11, 12],
+    "s2": [10, 11, 12, 13, 14],
+    "s3": [12, 13, 14, 15, 16],
+    "s4": [14, 15, 16, 17, 18]
+  },
+  "reference": 11
+}
