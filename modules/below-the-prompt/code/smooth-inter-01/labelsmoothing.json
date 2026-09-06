@@ -1,0 +1,7 @@
+{
+  "_meta": "A single classification example with K classes; the correct class is index 0. The model's logits are [gap, 0, 0, ...]: the correct logit is `gap` above the others, so a bigger gap means more confidence. We compare training against a HARD one-hot target [1,0,0,0] versus a SMOOTHED target that puts (1-eps) on the correct class and spreads eps uniformly, i.e. eps/K on every class. Cross-entropy H(target, softmax(logits)) is minimized when softmax equals the target. The hard target [1,0,0,0] needs softmax = [1,0,0,0], which requires the correct logit to be infinitely larger than the rest: no finite gap achieves it, so the loss keeps dropping as the gap grows and the model is pushed to unbounded overconfidence. The smoothed target is a finite distribution the softmax CAN reach at a finite gap, so its loss has a real minimum and the model's confidence is capped at the target. gaps is the sweep to print.",
+  "classes": 4,
+  "correct": 0,
+  "epsilon": 0.1,
+  "gaps": [1, 2, 3, 4, 6, 10]
+}
