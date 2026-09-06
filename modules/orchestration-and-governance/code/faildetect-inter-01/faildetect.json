@@ -1,0 +1,10 @@
+{
+  "_meta": "Two nodes whose liveness we judge from heartbeat timing. For each node, intervals is the recent history of gaps between consecutive heartbeats (seconds), and test_gap is how long we have currently waited with no heartbeat; truly_failed records whether the node has actually died, for scoring. Node A is a very regular heartbeater (intervals near 1.0 with tiny variance); node B is bursty (intervals swing widely around 1.0). The catch: both are now showing the SAME test_gap of 1.6s. A fixed timeout must pick one number and apply it to both, so it either fires on B's normal jitter (false positive) or misses A's genuine slowdown. An adaptive detector scores each gap in units of that node's own variability -- roughly (gap - mean) / stddev -- so the same 1.6s is many standard deviations for the regular node A (suspicious) and a fraction of one for the bursty node B (normal). fixed_low and fixed_high are two fixed timeouts to compare; phi_threshold is the suspicion level above which the adaptive detector declares a node dead. Every mean, stddev, and score is computed.",
+  "nodes": {
+    "A": {"intervals": [1.0, 0.98, 1.02, 1.0, 0.99, 1.01, 1.0, 1.0], "test_gap": 1.6, "truly_failed": true},
+    "B": {"intervals": [1.0, 0.5, 1.5, 0.6, 1.4, 0.9, 1.1, 1.0], "test_gap": 1.6, "truly_failed": false}
+  },
+  "fixed_low": 1.5,
+  "fixed_high": 2.0,
+  "phi_threshold": 3.0
+}
