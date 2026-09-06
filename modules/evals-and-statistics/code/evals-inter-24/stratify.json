@@ -1,0 +1,6 @@
+{
+  "_meta": "A model with a different accuracy on each category of input, plus two ways to weight those categories. accuracy is the model's per-category accuracy (the same numbers in every scenario -- the model does not change). eval_counts is how many of each category are in the EVAL SET; here it over-samples the easy category (90 easy, 10 hard). production is the mix the model will actually face in the real world (50/50 here). The eval's headline number is the accuracy averaged over the eval set's mix; but the number that matters is the accuracy averaged over the PRODUCTION mix. When the eval mix differs from production, the eval aggregate is a biased estimate of real-world performance -- and reweighting the same per-category accuracies by the production mix recovers the honest estimate. The gap comes entirely from the mix, not the model.",
+  "accuracy": {"easy": 0.95, "hard": 0.50},
+  "eval_counts": {"easy": 90, "hard": 10},
+  "production": {"easy": 0.5, "hard": 0.5}
+}
