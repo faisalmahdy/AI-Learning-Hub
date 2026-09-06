@@ -1,0 +1,11 @@
+{
+  "_meta": "A query and three candidate documents (each a bag of tokens with counts). Two scorers stand in for the two architectures. The BI-ENCODER scores a document by how many query-term occurrences it contains (a separable, term-count score) -- this models an encoder that embeds the query and each document INDEPENDENTLY, so document vectors can be precomputed and the query-time cost is a cheap dot product over millions of docs, but it never sees query and document together and so cannot judge whether the doc addresses the query's terms JOINTLY. The CROSS-ENCODER scores a document by how many DISTINCT query aspects it covers -- this models an encoder that reads the query and document TOGETHER, catching the interaction (does it cover every part of the query), which is more accurate but must run the model on each (query, document) pair and so cannot be precomputed or scaled to millions. answer is the document that truly addresses the whole query; top_k is how many of the bi-encoder's results the cross-encoder reranks. d_pad repeats one query term to game the term-count score without covering the other.",
+  "query": ["async", "python"],
+  "documents": {
+    "d_pad": {"python": 5},
+    "d_answer": {"async": 1, "python": 1, "await": 1},
+    "d_other": {"async": 1}
+  },
+  "answer": "d_answer",
+  "top_k": 2
+}
