@@ -1,0 +1,7 @@
+{
+  "_meta": "One service, one fixed pool of concurrent slots (connections, workers, threads), and a dependency whose latency changed. arrival_rate is the offered load in requests per second; it does not change. latency_fast is how long each request held a slot when the dependency was healthy; latency_slow is after the dependency degraded (same requests, slower downstream). pool_size is the fixed number of concurrent slots, chosen once for the fast case. Little's Law: the average number of in-flight requests L equals arrival_rate * latency, so the concurrency a service needs tracks latency -- a slower dependency needs MORE slots for the same request rate. A pool sized without latency in mind silently caps throughput at pool_size/latency the moment latency rises, and the backlog grows at the difference. Every number here is computed from Little's Law; there is no simulation.",
+  "arrival_rate": 200,
+  "latency_fast": 0.05,
+  "latency_slow": 0.25,
+  "pool_size": 20
+}
