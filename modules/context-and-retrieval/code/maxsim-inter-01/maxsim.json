@@ -1,0 +1,9 @@
+{
+  "_meta": "One query and two documents, each represented as a bag of per-token embedding vectors (2-D here for clarity: dimension 0 is 'topic X-ness', dimension 1 is 'topic Y-ness'). A single-vector (bi-encoder) retriever compresses each side to ONE vector by mean-pooling its token vectors, then scores by cosine between the two means. A late-interaction retriever (ColBERT-style MaxSim) keeps every token vector and scores by summing, over each query token, the maximum cosine similarity between that query token and any document token. The gold document genuinely matches both query tokens (it contains a token that exactly matches each), but it also contains other tokens, so its mean is a blend. The distractor contains no real match for either query token -- just blurry tokens that half-match everything -- yet its mean coincides with the query's mean, so mean-pooling ranks it first. MaxSim, judging token by token, ranks the gold document first. Every cosine and score here is computed.",
+  "query": [[1.0, 0.0], [0.0, 1.0]],
+  "documents": {
+    "A_gold": [[1.0, 0.0], [1.0, 0.0], [1.0, 0.0], [0.0, 1.0]],
+    "B_distractor": [[0.5, 0.5], [0.5, 0.5]]
+  },
+  "gold": "A_gold"
+}
