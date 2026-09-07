@@ -1,0 +1,11 @@
+{
+  "_meta": "A retrieval index where documents were embedded by two different versions of the embedding model. Each item has a 'semantic' vector -- its true meaning, which the fixture states directly -- and a model version that actually embedded it. Different embedding models map meaning into DIFFERENT vector spaces: the same text gets a different vector under v1 than under v2, and a vector from one model is not comparable to a vector from another. We model each model version as a fixed rotation of the semantic space (rotations preserve within-model cosine, so a model works internally, but they misalign the two spaces). query_semantic is the query's meaning; query_version is the model that embedded the query (v2 here). The docs were embedded by the versions in their 'version' field; when the corpus was only partially re-indexed after the v1->v2 upgrade, some docs are still v1 (stale). gold is the doc that truly answers the query. The failure: cosine between the v2 query and a v1 doc is meaningless, so a stale irrelevant doc can outrank a stale relevant one. Every cosine here is computed.",
+  "query_semantic": [1.0, 0.0],
+  "query_version": "v2",
+  "model_angles_deg": {"v1": 0, "v2": 90},
+  "docs": [
+    {"id": "relevant", "semantic": [0.95, 0.31], "version": "v1"},
+    {"id": "irrelevant", "semantic": [0.0, 1.0], "version": "v1"}
+  ],
+  "gold": "relevant"
+}
