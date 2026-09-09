@@ -1,0 +1,8 @@
+{
+  "_meta": "A sequence of write attempts arriving at a shared storage service that a distributed lock was supposed to protect. Two clients coordinate through a lock with a lease (a time-limited grant). The scenario: client A acquires the lock and is issued fencing token 33, then STALLS -- a long garbage-collection pause or network delay -- long enough that its lease expires. The lock service, seeing the lease lapse, grants the lock to client B with token 34; B writes 'y'. Then A wakes up, still believing it holds the lock (it never noticed the pause), and writes 'z' with its now-stale token 33. A lock alone cannot stop this, because A's stall made it violate the lease without knowing. A fencing token can: the token increases every time the lock is granted, and the storage rejects any write whose token is not greater than the highest it has already accepted, so A's stale token-33 write is refused. attempts is the ordered list of (client, token, value) writes reaching storage; the fenced and unfenced outcomes are computed.",
+  "attempts": [
+    {"client": "A", "token": 33, "value": "x"},
+    {"client": "B", "token": 34, "value": "y"},
+    {"client": "A", "token": 33, "value": "z"}
+  ]
+}
