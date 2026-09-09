@@ -1,0 +1,10 @@
+{
+  "_meta": "An agent is asked to return a STRUCTURED final answer -- a JSON object matching an output schema the caller depends on (here: a required numeric 'total' and a required string 'currency'). The model does not get it right on the first try. candidates is the ordered list of the raw strings the model produced across repair attempts: attempt 1 is prose (not JSON at all), attempt 2 is JSON but missing the required 'currency' field, attempt 3 is a valid object. output_schema names each required field and its expected type. A harness that returns the model's first answer without validating it hands the caller attempt 1 -- prose where a JSON object was promised. A validating harness parses and checks each answer against the schema and, on failure, feeds the SPECIFIC error back to the model as an observation so it can repair, bounded by max_repairs. candidates and the schema are the fixture; every accept/reject decision and the error text are computed by the validator.",
+  "output_schema": {"total": "number", "currency": "string"},
+  "max_repairs": 3,
+  "candidates": [
+    "The total is about 42 dollars.",
+    "{\"total\": 42}",
+    "{\"total\": 42, \"currency\": \"USD\"}"
+  ]
+}
