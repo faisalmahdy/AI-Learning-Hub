@@ -1,0 +1,5 @@
+{
+  "_meta": "Values that sit exactly halfway between two integers -- the ties that force a rounding rule to choose a direction. Each of 0.5, 1.5, 2.5, 3.5, 4.5, 5.5 is a tie, and how you round it is a convention, not a fact. Python's round() and the IEEE-754 default round ties to the nearest EVEN integer (round-half-to-even, 'banker's rounding'), so half the ties go up and half go down and the rounding is unbiased. The rule most people learned in school -- round half UP (add 0.5 and truncate) -- always pushes ties away from zero, which biases every sum of rounded ties upward. repr_trap is a separate hazard: 2.675 looks like a tie for 2-place rounding, but the nearest binary double is slightly BELOW 2.675, so round(2.675, 2) is 2.67, not the 2.68 you expect. The ties, the trap value, and its places are the fixture; every rounded value and sum is computed.",
+  "ties": [0.5, 1.5, 2.5, 3.5, 4.5, 5.5],
+  "repr_trap": {"value": 2.675, "places": 2, "naive_expected": 2.68}
+}
