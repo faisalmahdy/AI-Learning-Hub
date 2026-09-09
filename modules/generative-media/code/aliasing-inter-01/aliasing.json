@@ -1,0 +1,5 @@
+{
+  "_meta": "A one-pixel-tall image row containing the highest-frequency pattern a sampled image can hold: alternating full-white (255) and black (0) pixels. Downsampling by `factor` (here 2) means producing one output pixel per `factor` input pixels. The trap is doing this by DECIMATION -- keeping every factor-th input pixel and discarding the rest -- without first low-pass filtering. The alternating pattern varies faster than the new, coarser sampling grid can represent (it is above the post-downsample Nyquist frequency), so decimation ALIASES it: instead of the fine checker the eye would blend to gray, you get a solid color, and which solid color depends on the sub-pixel phase (where the sampling grid happens to land). Pre-filtering by averaging each group of `factor` pixels (a box filter) before decimating removes the frequencies the new grid cannot hold, so the pattern correctly becomes its average (mid-gray) and the result no longer depends on phase. signal is the pixel row and factor the downsample ratio; every downsampled result is computed.",
+  "signal": [255, 0, 255, 0, 255, 0, 255, 0],
+  "factor": 2
+}
