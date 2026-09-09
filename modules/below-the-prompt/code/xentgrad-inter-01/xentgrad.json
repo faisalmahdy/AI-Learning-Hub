@@ -1,0 +1,5 @@
+{
+  "_meta": "One training example for a classifier: the model's raw output scores (logits) for three classes, and which class is the correct answer (true_class, 0-indexed). The loss is softmax cross-entropy: turn the logits into probabilities with softmax, then take the negative log of the probability assigned to the true class. The module is about the GRADIENT of this loss with respect to the logits -- the signal backprop sends to update the model. Although the loss composes a softmax and a log, its gradient simplifies to a famously clean form: softmax(logits) minus the one-hot true label, i.e. (predicted probability - target) for each class. A common mistake is to differentiate only the -log(p_true) term and treat the logit as if it were the probability, giving -1/p_true, which ignores that softmax couples all the logits together and is wrong. logits and true_class are the fixture; the softmax, the analytic gradient, a numerical gradient, and the naive wrong gradient are all computed.",
+  "logits": [2.0, 1.0, 0.1],
+  "true_class": 0
+}
