@@ -1,0 +1,9 @@
+{
+  "_meta": "Pairs of 8-bit pixel values to blend (average), to show that averaging must happen in LINEAR light, not on the stored gamma-encoded values. Stored image values are gamma-encoded (roughly perceptually uniform, so codes are spread where the eye is sensitive), not proportional to the actual light intensity: a stored 128 is NOT half the light of 255, it is only about 0.5^2.2 = 22% of it. So averaging two stored codes does not average the light -- it averages the perceptual codes, which comes out too dark. To blend correctly you decode each code to linear light (raise to gamma), average the light, then re-encode (raise to 1/gamma). gamma is the encoding exponent (2.2 is the standard approximation of sRGB). Each pair has two 8-bit values a and b; the naive and correct blends are computed.",
+  "gamma": 2.2,
+  "pairs": [
+    {"name": "black+white", "a": 0, "b": 255},
+    {"name": "dark+light", "a": 51, "b": 204},
+    {"name": "equal-grays", "a": 128, "b": 128}
+  ]
+}

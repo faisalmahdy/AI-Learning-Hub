@@ -1,190 +1,194 @@
 ---
 id: gamma-inter-01
-title: Gamma-encode before quantizing — linear codes waste the brights and band the shadows
+title: Blend in linear light, not on the stored codes — averaging gamma-encoded pixels makes the result too dark
 topic: generative-media
 level: intermediate
 status: ready
-time: 21 min
-summary: The eye is far more sensitive to changes in dark tones than bright ones, so a limited set of codes must be spaced by perceived lightness, not physical intensity. Linear coding leaves a huge perceptual gap in the darkest step (banding) and wastes finely-spaced codes on the brights. With 8 codes, linear's darkest step is a 0.413 perceptual jump; gamma coding makes every step a uniform 0.143.
-eli5: Your eyes notice a small change in a dim room much more than the same change in bright sunlight. So if you only have a few brightness levels to work with, you should put most of them in the dark range where eyes are picky, not spread them evenly. Gamma encoding does exactly that; spacing them evenly (linear) leaves ugly jumps in the shadows.
+time: 15 min
+summary: The number stored for a pixel is not proportional to the light it represents. Images are gamma-encoded so the codes are roughly perceptually uniform, which packs most codes into the darks — a stored 128 is not half the light of 255 but only about 0.5^2.2 = 22% of it. Averaging is arithmetic on light: blending two pixels, resizing (every output pixel is a weighted average of inputs), alpha-compositing, and blurring all add and average pixel values, and they are correct only on linear values proportional to actual light. Do them on the gamma-encoded codes and the result is systematically too dark, because the encoding curve is convex: the average of two codes decodes to less light than the average of the two lights. The fix is decode to linear (raise the normalized code to gamma), average in linear light, re-encode (raise to 1/gamma). On a fixture, blending black (0) and white (255) should give the light halfway between them, which is 186 (a bright mid-gray), but averaging the codes directly gives (0+255)/2 = 128 — far darker, because 128 is only 22% of full light. A dark+light pair (51, 204) blends to 152 correctly but 128 naively; only equal inputs agree.
+eli5: The brightness number saved for each pixel isn't the real amount of light — it's squished so that dark shades get more of the number range, because your eyes notice differences in the dark more. So a "half" value like 128 is actually much dimmer than half the light. If you mix two colors by just averaging their saved numbers, you're averaging the squished values, and the answer comes out too dark and muddy — which is why photos sometimes get darker when you shrink them. The right way is to un-squish both numbers back into real light, mix the light, then squish the answer back. Same amount of work, but now white mixed with black gives a proper bright gray instead of a dingy one.
 ---
 
 ## Why this module
 
-Every image file you have ever opened is gamma-encoded, and the reason is that spacing brightness codes evenly would put them in all the wrong places.
+Resizing an image, fading between two frames, blurring, compositing a logo — all of these average pixels, and averaging pixels is one of the most common operations in all of graphics. It is also, done the obvious way, wrong, and wrong in a direction that darkens and muddies every result, because the numbers being averaged are not the light they look like.
 
-The eye's response to light is non-linear. A change from very dark to slightly-less-dark is glaringly obvious; the same physical change from bright to slightly-brighter is nearly invisible. Perceived lightness is roughly physical intensity raised to the power 1/gamma, with gamma around 2.2 — a curve that is steep in the darks (small intensity changes are big perceptual changes) and shallow in the brights. This is not a display quirk; it is how human vision works, and any system that stores brightness in a limited number of codes has to reckon with it.
+The number stored for a pixel is not proportional to the light it represents. Images are gamma-encoded: the stored code is roughly perceptually uniform, spread so codes land where the eye can tell colors apart, which packs most of the codes into the darks. The consequence is that a stored 128 is not half the light of a stored 255 — decode it and (128/255) raised to the gamma of 2.2 is only 0.22, so "half the code" is about a fifth of the light. The encoding is a curve, not a straight line, and that curve is exactly why you cannot do arithmetic on the stored codes as if they were light.
 
-Here is the consequence. You have a fixed budget of codes — 256 for an 8-bit channel — to represent the whole brightness range. If you space those codes evenly in physical intensity (linear coding), you have spaced them evenly in the wrong space: the brights, where the eye can barely tell adjacent codes apart, get lots of finely-spaced codes that are wasted, while the darks, where the eye is acute, get coarsely-spaced codes with large perceptual gaps between them. Those gaps are visible banding — the ugly stepped contours you see in a smooth dark gradient stored with too few bits.
+Averaging is arithmetic on light. Blending two pixels, resizing an image (every output pixel is a weighted average of inputs), alpha-compositing, blurring — all of these add and average pixel values, and they are only correct on linear values, values proportional to actual light. Do them on the gamma-encoded codes and the result is systematically too dark, because the encoding curve is convex: the average of two codes decodes to less light than the average of the two lights. The fix is three steps — decode each code to linear (raise the normalized code to gamma), average in linear light, then re-encode (raise to 1/gamma). Skip the decode/encode and you get the classic bugs: images that darken when downscaled, blends that turn muddy, antialiased edges that look dirty. This module blends a few pairs both ways and shows the darkening.
 
-Gamma coding fixes it by spacing the codes evenly in perceived lightness instead. You store intensity raised to 1/gamma, so equal steps in the stored value are equal steps in perception, and the codes cluster into the darks where they are needed. Now every step looks the same size, there is no banding, and none of the budget is wasted on brights the eye cannot resolve. The display applies the inverse gamma to recover physical intensity when it shows the image. This is why image formats and cameras gamma-encode: it is perceptual compression, spending the bit budget where perception lives.
-
-We will spread 8 codes across the range both ways. Linear coding's darkest step is a 0.413 jump in perceived lightness — a glaring band — while its brightest step is a wasted 0.068. Gamma coding's steps are a uniform 0.143 everywhere. Same 8 codes; gamma spends them where the eye is.
-
-**The eye is non-linear, so a limited code budget must be spaced by perceived lightness; linear coding bands the shadows and wastes codes on the brights, while gamma coding spaces the codes evenly in perception.**
+**Stored pixel codes are gamma-encoded and not proportional to light, so any averaging operation — blending, resizing, compositing, blurring — must be done in linear light (decode, average, re-encode); averaging the codes directly is systematically too dark because the encoding curve is convex.**
 
 ## Concepts
 
-The core relationship is perceived lightness ≈ intensity^(1/gamma). Because 1/gamma is less than one, this curve rises steeply from zero — a small increase in intensity near black produces a large increase in perceived lightness — and flattens near white. So equal intervals of physical intensity map to unequal intervals of perceived lightness: the interval nearest black spans a large perceptual range, and each successive interval spans less. That non-uniformity is the whole story: any coding that is uniform in intensity is wildly non-uniform in what the eye sees.
+**Decode and encode** convert between the stored code and linear light. Decoding raises the normalized code to gamma; encoding raises linear light to 1/gamma. Light is where averaging is valid.
 
-Linear coding makes exactly that mistake. Its codes are at intensities 0, 1/(n−1), 2/(n−1), and so on — evenly spaced in intensity. Run them through the perception curve and the perceptual gaps between adjacent codes come out large at the dark end and small at the bright end. The darkest gap is the banding you see; the bright gaps are so small the eye cannot distinguish those codes, so they are wasted precision. Linear coding both bands and wastes, and it does both worst exactly where it matters — the darks are where banding is visible and the brights are where extra codes are pointless.
+```python filename=modules/generative-media/code/gamma-inter-01/gamma.py:44-51 COMPLETE
+def decode(code, gamma):
+    """Gamma-encoded 8-bit code -> linear light in [0,1]: (code/255) ** gamma."""
+    return (code / 255.0) ** gamma
 
-Gamma coding inverts the spacing to match. Its codes are at intensities (i/(n−1))^gamma — bunched toward zero, sparse toward one — which is precisely the distribution that comes out uniform after the perception curve. Store intensity^(1/gamma) and quantize that uniformly, and every code is one equal perceptual step from the next. The math is a clean cancellation: encoding raises to 1/gamma, perception raises to 1/gamma of the decoded value, and the uniform stored steps become uniform perceived steps. The codes end up dense in the darks, which is where the eye's acuity demanded them.
 
-<svg role="img" aria-label="The perception curve: perceived lightness rises steeply from black and flattens toward white, so equal intensity intervals map to unequal perceptual intervals" viewBox="0 0 460 190" width="460" height="190">
-  <rect x="0" y="0" width="460" height="190" fill="var(--panel)" stroke="var(--line)"/>
-  <text x="16" y="20" font-family="var(--mono)" font-size="10" fill="var(--muted)">perceived lightness = intensity^(1/gamma), gamma 2.2</text>
-  <line x1="60" y1="160" x2="440" y2="160" stroke="var(--line)"/>
-  <line x1="60" y1="160" x2="60" y2="40" stroke="var(--line)"/>
-  <text x="60" y="178" font-family="var(--mono)" font-size="8" fill="var(--muted)">0</text>
-  <text x="430" y="178" font-family="var(--mono)" font-size="8" fill="var(--muted)">intensity 1</text>
-  <text x="20" y="44" font-family="var(--mono)" font-size="8" fill="var(--muted)">L 1</text>
-  <path d="M60,160 L98,102 L136,82 L174,68 L212,58 L250,49 L288,42 L326,36 L364,31 L402,26 L440,22" fill="none" stroke="var(--s1)" stroke-width="2"/>
-  <line x1="60" y1="160" x2="98" y2="160" stroke="var(--s2)" stroke-width="3"/>
-  <line x1="60" y1="160" x2="60" y2="102" stroke="var(--s2)" stroke-width="3"/>
-  <text x="104" y="150" font-family="var(--mono)" font-size="8" fill="var(--s2)">one dark intensity step → tall perceptual jump</text>
-  <line x1="402" y1="160" x2="440" y2="160" stroke="var(--acc-line)" stroke-width="3"/>
-  <line x1="440" y1="26" x2="440" y2="22" stroke="var(--acc-line)" stroke-width="3"/>
-  <text x="250" y="150" font-family="var(--mono)" font-size="8" fill="var(--acc-ink)">same step in brights → tiny jump</text>
+def encode(light, gamma):
+    """Linear light in [0,1] -> gamma-encoded 8-bit code: round((light ** (1/gamma)) * 255)."""
+    return round((light ** (1.0 / gamma)) * 255)
+```
+
+**Naive blend** averages the stored codes directly — the bug. It treats the perceptual codes as if they were light.
+
+```python filename=modules/generative-media/code/gamma-inter-01/gamma.py:54-56 COMPLETE
+def blend_naive(a, b):
+    """WRONG: average the stored codes directly, as if they were light."""
+    return round((a + b) / 2)
+```
+
+**Correct blend** decodes both codes to light, averages the light, and re-encodes — the fix, and the template for every averaging operation on images.
+
+```python filename=modules/generative-media/code/gamma-inter-01/gamma.py:59-61 COMPLETE
+def blend_linear(a, b, gamma):
+    """RIGHT: decode both to linear light, average the light, re-encode."""
+    return encode((decode(a, gamma) + decode(b, gamma)) / 2, gamma)
+```
+
+<svg role="img" aria-label="The gamma decoding curve: the horizontal axis is the stored code fraction, the vertical axis is linear light, and the convex curve shows code 0.5 mapping to only about 0.22 light" viewBox="0 0 300 130" width="300" height="130">
+  <text x="6" y="12" fill="var(--muted)" font-size="8">the encoding is a convex curve: code 0.5 is only 0.22 light</text>
+  <line x1="34" y1="108" x2="280" y2="108" stroke="var(--line)"/>
+  <line x1="34" y1="24" x2="34" y2="108" stroke="var(--line)"/>
+  <text x="28" y="28" fill="var(--muted)" font-size="7" text-anchor="end">1.0</text>
+  <text x="28" y="111" fill="var(--muted)" font-size="7" text-anchor="end">0</text>
+  <text x="150" y="122" fill="var(--muted)" font-size="7">code fraction →</text>
+  <path d="M34,108 C120,104 180,80 280,24" fill="none" stroke="var(--s1)"/>
+  <line x1="34" y1="24" x2="280" y2="108" stroke="var(--grid)" stroke-dasharray="2 2"/>
+  <line x1="157" y1="108" x2="157" y2="90" stroke="var(--s2)" stroke-dasharray="2 2"/>
+  <line x1="34" y1="90" x2="157" y2="90" stroke="var(--s2)" stroke-dasharray="2 2"/>
+  <circle cx="157" cy="90" r="3" fill="var(--s2)"/>
+  <text x="120" y="104" fill="var(--muted)" font-size="7">0.5</text>
+  <text x="40" y="88" fill="var(--muted)" font-size="7">0.22</text>
 </svg>
-^ The curve is steep near black and flat near white, so an equal step in intensity spans a large perceptual range in the darks and a tiny one in the brights — the source of both the banding and the waste.
+^ Decoding bends the straight code axis into the convex light curve, so the midpoint code (0.5) maps to only 0.22 of full light, far below the dashed straight line — the gap between curve and line is exactly the darkening that code-averaging introduces.
 
-This is perceptual bit allocation, and it is why gamma is not an annoyance to "correct away" but a feature to preserve. Linear light is the right space for *computing* on pixels — blending, filtering, lighting — which is why you decode to linear before those operations (a separate lesson), but it is the wrong space for *storing* pixels in limited bits, because storage should be perceptually uniform. Modern variants (the sRGB transfer function, or perceptual-quantizer curves for HDR) refine the exact shape, but all encode roughly this same insight: put the codes where the eye can see the difference.
-
-**Perception raises intensity to 1/gamma, so uniform-in-intensity codes are non-uniform in perception; gamma coding pre-distorts the code spacing by the inverse curve so the perceived steps come out equal, dense in the darks where the eye needs them.**
+**Averaging is valid only in linear light, so blend by decode-average-encode; averaging the codes directly falls below the true light-average because the decoding curve is convex.**
 
 ## Worked example
 
-The fixture is a gamma and a small code budget.
+Source: faisalmahdy/ai-learning-hub — modules/generative-media/code/gamma-inter-01/gamma.py
 
-```json filename=modules/generative-media/code/gamma-inter-01/coding.json:7-8 COMPLETE
-  "gamma": 2.2,
-  "n_codes": 8
+The fixture is pairs of 8-bit codes to blend: opposite extremes, a dark/light pair, and an equal pair as a control.
+
+```json filename=modules/generative-media/code/gamma-inter-01/gamma.json:4-8 COMPLETE
+  "pairs": [
+    {"name": "black+white", "a": 0, "b": 255},
+    {"name": "dark+light", "a": 51, "b": 204},
+    {"name": "equal-grays", "a": 128, "b": 128}
+  ]
 ```
 
-Gamma 2.2, eight codes — small enough to see the effect starkly. Linear codes are evenly spaced in intensity; gamma codes are (i/7)^2.2, bunched toward zero.
+Run `--blend` to average each pair both ways.
 
-```python filename=modules/generative-media/code/gamma-inter-01/gamma.py:44-46 COMPLETE
-def linear_codes(n):
-    """Codes spaced evenly in physical intensity."""
-    return [i / (n - 1) for i in range(n)]
+```text filename=--blend
+BLEND — average the codes (naive) vs average the light (correct), gamma=2.2
+--------------------------------------------------------------
+  pair          a    b    naive   correct   naive is
+  black+white   0    255  128     186       58 darker
+  dark+light    51   204  128     152       24 darker
+  equal-grays   128  128  128     128       same
+--------------------------------------------------------------
+  averaging the codes lands below the correct light-average -- the image darkens.
 ```
 
-```python filename=modules/generative-media/code/gamma-inter-01/gamma.py:49-51 COMPLETE
-def gamma_codes(n, gamma):
-    """Codes spaced evenly in perceived lightness -- their intensities are lightness^gamma."""
-    return [(i / (n - 1)) ** gamma for i in range(n)]
-```
+Blend black and white: the light halfway between "no light" and "full light" is 0.5, which re-encodes to code 186 — a bright mid-gray, the color a 50/50 mix of black and white ink actually reflects. Averaging the codes gives (0+255)/2 = 128, which is 58 codes darker, because 128 is only 22% of full light, not 50%. The dark+light pair (51, 204) tells the same story: correct blend 152, naive blend 128, 24 codes too dark. And the control, equal-grays, is identical under both methods at 128 — when the two inputs are the same there is no curve to distort between them, so the bug vanishes exactly where it cannot show. That is the signature of this bug in the wild: it is invisible on flat regions and worst at high-contrast edges and between distant colors, so a downscaled image looks fine in the sky and dingy along every sharp boundary.
 
-```text filename=modules/generative-media/code/gamma-inter-01/gamma.py --codes
-CODES — intensity of each of the 8 codes (gamma 2.2)
-------------------------------------------------------
-  linear:  [0.0, 0.143, 0.286, 0.429, 0.571, 0.714, 0.857, 1.0]
-  gamma:   [0.0, 0.014, 0.064, 0.155, 0.292, 0.477, 0.712, 1.0]
-------------------------------------------------------
-  gamma coding packs codes into the darks, where the eye is sensitive.
-```
-
-The linear codes step by a flat 0.143 in intensity. The gamma codes crowd the bottom — 0, 0.014, 0.064, 0.155 — four of the eight codes are below intensity 0.16, because that dark region needs the resolution. The perceptual step is the jump in perceived lightness between adjacent codes.
-
-```python filename=modules/generative-media/code/gamma-inter-01/gamma.py:54-57 COMPLETE
-def perceptual_steps(intensities, gamma):
-    """The jump in perceived lightness between adjacent codes -- big jumps are visible banding."""
-    L = [lightness(x, gamma) for x in intensities]
-    return [L[i] - L[i - 1] for i in range(1, len(L))]
-```
-
-Predict: linear coding's perceptual steps should be large at the dark end (the flat intensity step spans a big perceptual range there) and shrink toward the brights. Gamma coding's should all be equal. Run it.
-
-```text filename=modules/generative-media/code/gamma-inter-01/gamma.py --steps
-STEPS — perceived-lightness jump between adjacent codes
-----------------------------------------------------------
-  linear:  [0.4129, 0.1529, 0.1145, 0.095, 0.0828, 0.0742, 0.0677]   max 0.413
-  gamma:   [0.1429, 0.1429, 0.1429, 0.1429, 0.1429, 0.1429, 0.1429]   max 0.143
-----------------------------------------------------------
-  linear's biggest jump is the darkest step (banding); gamma's are equal.
-```
-
-Linear coding's darkest step is 0.4129 — the jump from black to the first code covers 41% of the entire perceptual range, in one step, which is severe banding. Its steps then shrink monotonically to 0.0677 at the bright end, where the eye cannot see the difference between adjacent codes, so those are wasted. Gamma coding's steps are all 0.1429 — every step the same perceptual size, which is 1/7, exactly the uniform spacing you would want from seven intervals. Same eight codes; linear puts a 0.41 chasm in the shadows and wastes precision in the highlights, while gamma spreads the perceptual load evenly.
-
-<svg role="img" aria-label="Eight codes on the intensity axis: linear codes evenly spaced, gamma codes bunched toward the dark end" viewBox="0 0 460 150" width="460" height="150">
-  <rect x="0" y="0" width="460" height="150" fill="var(--panel)" stroke="var(--line)"/>
-  <text x="16" y="20" font-family="var(--mono)" font-size="10" fill="var(--muted)">code positions on the intensity axis (0=black, 1=white)</text>
-  <text x="20" y="52" font-family="var(--mono)" font-size="9" fill="var(--ink)">linear</text>
-  <line x1="70" y1="48" x2="440" y2="48" stroke="var(--line)"/>
-  <g fill="var(--s2)"><circle cx="70" cy="48" r="4"/><circle cx="123" cy="48" r="4"/><circle cx="176" cy="48" r="4"/><circle cx="229" cy="48" r="4"/><circle cx="282" cy="48" r="4"/><circle cx="335" cy="48" r="4"/><circle cx="388" cy="48" r="4"/><circle cx="440" cy="48" r="4"/></g>
-  <text x="80" y="68" font-family="var(--mono)" font-size="8" fill="var(--s2)">evenly spaced → big perceptual gap here ↑ (dark)</text>
-  <text x="20" y="102" font-family="var(--mono)" font-size="9" fill="var(--acc-ink)">gamma</text>
-  <line x1="70" y1="98" x2="440" y2="98" stroke="var(--line)"/>
-  <g fill="var(--acc-line)"><circle cx="70" cy="98" r="4"/><circle cx="75" cy="98" r="4"/><circle cx="94" cy="98" r="4"/><circle cx="127" cy="98" r="4"/><circle cx="178" cy="98" r="4"/><circle cx="246" cy="98" r="4"/><circle cx="333" cy="98" r="4"/><circle cx="440" cy="98" r="4"/></g>
-  <text x="80" y="118" font-family="var(--mono)" font-size="8" fill="var(--acc-ink)">bunched into the darks → uniform perceptual steps</text>
+<svg role="img" aria-label="Blending black and white: the naive code-average is a darker gray at 128 while the correct light-average is a lighter gray at 186" viewBox="0 0 300 104" width="300" height="104">
+  <text x="6" y="12" fill="var(--muted)" font-size="8">black + white → naive 128 (too dark) vs correct 186</text>
+  <rect x="20" y="24" width="40" height="40" fill="var(--ink)"/><text x="24" y="78" fill="var(--muted)" font-size="7">0 (black)</text>
+  <text x="66" y="48" fill="var(--muted)" font-size="10">+</text>
+  <rect x="80" y="24" width="40" height="40" fill="var(--panel)" stroke="var(--line)"/><text x="82" y="78" fill="var(--muted)" font-size="7">255 (white)</text>
+  <text x="128" y="48" fill="var(--muted)" font-size="10">→</text>
+  <rect x="150" y="24" width="40" height="40" fill="var(--ink)" opacity="0.5"/><text x="150" y="78" fill="var(--muted)" font-size="7">naive 128</text><text x="150" y="90" fill="var(--s2)" font-size="7">too dark</text>
+  <rect x="220" y="24" width="40" height="40" fill="var(--muted)"/><text x="220" y="78" fill="var(--muted)" font-size="7">correct 186</text><text x="220" y="90" fill="var(--s1)" font-size="7">right</text>
 </svg>
-^ Linear codes sit at even intensities, leaving a wide perceptual gap in the darkest interval; gamma codes crowd toward black so every perceptual step is equal.
-
-<svg role="img" aria-label="Bar chart of perceptual steps: linear coding starts with a tall darkest bar shrinking toward the brights, gamma coding is seven equal bars" viewBox="0 0 460 190" width="460" height="190">
-  <rect x="0" y="0" width="460" height="190" fill="var(--panel)" stroke="var(--line)"/>
-  <text x="16" y="20" font-family="var(--mono)" font-size="10" fill="var(--muted)">perceptual step per interval (dark → bright)</text>
-  <line x1="30" y1="160" x2="440" y2="160" stroke="var(--line)"/>
-  <text x="34" y="40" font-family="var(--mono)" font-size="9" fill="var(--s2)">linear</text>
-  <g fill="var(--s2)"><rect x="34" y="42" width="22" height="118"/><rect x="60" y="116" width="22" height="44"/><rect x="86" y="127" width="22" height="33"/><rect x="112" y="133" width="22" height="27"/><rect x="138" y="136" width="22" height="24"/><rect x="164" y="139" width="22" height="21"/><rect x="190" y="141" width="22" height="19"/></g>
-  <text x="34" y="175" font-family="var(--mono)" font-size="8" fill="var(--s2)">0.413 → 0.068 (bands the darks)</text>
-  <text x="250" y="40" font-family="var(--mono)" font-size="9" fill="var(--acc-ink)">gamma</text>
-  <g fill="var(--acc-line)"><rect x="250" y="119" width="22" height="41"/><rect x="276" y="119" width="22" height="41"/><rect x="302" y="119" width="22" height="41"/><rect x="328" y="119" width="22" height="41"/><rect x="354" y="119" width="22" height="41"/><rect x="380" y="119" width="22" height="41"/><rect x="406" y="119" width="22" height="41"/></g>
-  <text x="250" y="175" font-family="var(--mono)" font-size="8" fill="var(--acc-ink)">0.143 everywhere (no band)</text>
-</svg>
-^ Linear coding's steps tower in the darkest interval and dwindle toward the brights; gamma coding's seven steps are all one height, spreading the perceptual load evenly.
+^ The correct blend of black and white is the lighter mid-gray 186 (the true 50% light point), while averaging the codes gives the darker 128 — the same too-dark result that darkens images blended or resized in the encoded space.
 
 ## Build
 
-Reproduce the steps. Pure standard library, deterministic, so the 0.413 dark banding step and the uniform 0.143 gamma steps come out exactly.
+The reason the codes lie is worth seeing directly: what fraction of light does each code actually carry? Run `--intensity`.
 
-Run `--codes` for the positions, `--steps` for the perceptual jumps, `--check` for the gate. The self-test pins the whole story: linear bands (a large worst step), its worst step is the darkest, gamma's steps are uniform, and both use the same codes.
-
-```python filename=modules/generative-media/code/gamma-inter-01/gamma.py:91-95 COMPLETE
-    linear_bands = max(lin) > 2 * max(gam)
-    print("  linear's worst perceptual step is far larger than gamma's = %s (%.3f vs %.3f)" % (linear_bands, max(lin), max(gam)))
-
-    worst_is_darkest = lin.index(max(lin)) == 0
-    print("  linear's worst step is the darkest one = %s (step %d of %d)" % (worst_is_darkest, lin.index(max(lin)) + 1, len(lin)))
+```text filename=--intensity
+INTENSITY — what stored codes really are in linear light (gamma=2.2)
+--------------------------------------------------------
+  code    fraction of code   fraction of LIGHT
+  64      0.251              0.048
+  128     0.502              0.220
+  192     0.753              0.536
+  255     1.000              1.000
 ```
 
-The `worst_is_darkest` check is what makes this a lesson about the eye, not just about uneven steps. It confirms linear coding's largest perceptual gap is the very first step — the darkest one — which is exactly where the eye is most sensitive and banding is most visible. If the worst step were in the brights, the unevenness would be harmless, because the eye cannot see it there. That the failure lands in the shadows is what makes linear coding actually look bad, and the check pins it. Here is the full gate.
+<svg role="img" aria-label="For codes 64, 128, and 192, a pair of bars comparing the code fraction against the much smaller light fraction, showing the two rulers disagree everywhere except the endpoints" viewBox="0 0 300 118" width="300" height="118">
+  <text x="6" y="12" fill="var(--muted)" font-size="8">code fraction vs light fraction — two different rulers</text>
+  <line x1="40" y1="96" x2="290" y2="96" stroke="var(--line)"/>
+  <g transform="translate(70,0)">
+  <rect x="0" y="72" width="14" height="24" fill="var(--s1)"/><rect x="16" y="91" width="14" height="5" fill="var(--s2)"/>
+  <text x="0" y="108" fill="var(--muted)" font-size="7">64</text><text x="-2" y="68" fill="var(--muted)" font-size="6">.25/.05</text>
+  </g>
+  <g transform="translate(150,0)">
+  <rect x="0" y="48" width="14" height="48" fill="var(--s1)"/><rect x="16" y="75" width="14" height="21" fill="var(--s2)"/>
+  <text x="0" y="108" fill="var(--muted)" font-size="7">128</text><text x="-2" y="44" fill="var(--muted)" font-size="6">.50/.22</text>
+  </g>
+  <g transform="translate(230,0)">
+  <rect x="0" y="24" width="14" height="72" fill="var(--s1)"/><rect x="16" y="45" width="14" height="51" fill="var(--s2)"/>
+  <text x="0" y="108" fill="var(--muted)" font-size="7">192</text><text x="-2" y="20" fill="var(--muted)" font-size="6">.75/.54</text>
+  </g>
+  <text x="40" y="20" fill="var(--s1)" font-size="7">■ code</text><text x="90" y="20" fill="var(--s2)" font-size="7">■ light</text>
+</svg>
+^ At each code the code-fraction bar (left) towers over the light-fraction bar (right) — 64 is a quarter of the code range but 5% of the light, 128 is half the codes but 22% of the light — so averaging on the code ruler systematically overweights the darks.
 
-```text filename=modules/generative-media/code/gamma-inter-01/gamma.py --check
-SELF-TEST — linear coding bands the darks with a large step; gamma coding's steps are uniform
-----------------------------------------------------------------------------------------
-  linear's worst perceptual step is far larger than gamma's = True (0.413 vs 0.143)
-  linear's worst step is the darkest one = True (step 1 of 7)
-  gamma's perceptual steps are all equal = True (0.143)
-  both codings use the same 8 codes = True
-----------------------------------------------------------------------------------------
-SELF-TEST PASS  linear_bands=True  worst_is_darkest=True  gamma_uniform=True  same_codes=True
-```
-
-Four True flags. Linear_bands: linear's worst step is far larger than gamma's. Worst_is_darkest: and it is the darkest step, where the eye sees it. Gamma_uniform: gamma's steps are all equal, so no step bands. Same_codes: both use the same eight codes, so gamma's win is from spacing, not more codes. The worst-is-darkest flag is the one that connects the numbers to what you would actually see: a band in the shadows.
-
-**The worst-is-darkest check ties the uneven steps to the eye — linear's biggest perceptual gap lands in the shadows, exactly where banding shows, which is what makes it look bad rather than merely uneven.**
+The two columns are the whole lesson. Code 64 is a quarter of the way up the code range but carries under 5% of full light; code 128 is halfway up in code but only 22% of the light; code 192 is three-quarters up in code but only 54% of the light. The code axis and the light axis are wildly different rulers, and only the endpoints (0 and 255) agree. So when you average two codes, you are measuring with the code ruler — which crams the darks — and the answer lands far darker than the light halfway point. This is also why the encoding exists and is not a bug to remove: spending more codes on the darks matches the eye's greater sensitivity there, giving smoother gradients in shadows for a given bit depth. The encoding is right for storage and display; it is only wrong to compute averages on, and the whole fix is to step into linear light for the arithmetic and step back out.
 
 ## Definition of done
 
-You are done when you reproduce the steps and can explain why the codes go where they do.
+The self-test pins the black+white numbers, the darkening direction, and the equal-input control.
 
-Concretely: `--steps` shows linear's darkest step at 0.413 shrinking to 0.068 and gamma's uniform at 0.143; `--check` prints PASS with four True flags. You can state the perception relationship (lightness ≈ intensity^(1/gamma)) and explain why uniform-in-intensity codes are non-uniform in perception, banding the darks and wasting the brights. You can explain how gamma coding pre-distorts the spacing so perceived steps come out equal, and why the codes end up dense in the darks. And you can state the storage-versus-compute distinction: gamma space for storing in limited bits, linear space for blending and filtering.
+```python filename=modules/generative-media/code/gamma-inter-01/gamma.py:99-107 COMPLETE
+    naive_bw = blend_naive(bw["a"], bw["b"])
+    naive_bw_is_128 = naive_bw == 128
+    print("  naive blend of black+white is 128 = %s" % naive_bw_is_128)
 
-The habit to carry: store and quantize brightness in a perceptual (gamma or sRGB) space so the limited codes go where the eye can see the difference, and decode to linear only for math on pixels. When a smooth dark gradient shows banding, suspect too few bits or linear-space storage, not the source — and remember that adding bits helps far less than encoding perceptually.
+    correct_bw = blend_linear(bw["a"], bw["b"], gamma)
+    correct_bw_is_186 = correct_bw == 186
+    print("  correct (linear) blend of black+white is 186 = %s" % correct_bw_is_186)
+
+    naive_darker = all(blend_naive(p["a"], p["b"]) <= blend_linear(p["a"], p["b"], gamma) for p in g)
+    print("  naive blend is never brighter than the correct blend = %s" % naive_darker)
+```
+
+Run `--check`. Every flag is True and the process exits 0.
+
+```text filename=--check
+SELF-TEST — naive code-averaging is darker than linear-light blending except when the inputs are equal; black+white is 128 vs 186
+----------------------------------------------------------------------------------------------------------------------------------
+  naive blend of black+white is 128 = True
+  correct (linear) blend of black+white is 186 = True
+  naive blend is never brighter than the correct blend = True
+  for unequal pairs the naive blend is strictly darker = True
+  when the two inputs are equal, both methods agree = True (128)
+```
+
+**Done means the bug and the fix are proven on real codes: blending black and white gives 128 by code-averaging but 186 in linear light, the naive blend is never brighter than the correct one and is strictly darker for every unequal pair, and equal inputs agree at 128 — so image averaging must be done in linear light, and code-averaging is a systematic darkening.**
 
 ## Boss fight
 
-The instructive failure is an HDR-to-8-bit conversion that bands every shadow because someone stored linear light.
+Predict two ways this bites beyond a single blend, because the same convexity runs through every averaging operation and the correction has its own edges.
 
-A rendering pipeline computes in linear light (correct for the physics) and then, to save the result as an 8-bit image, quantizes the linear values directly to 256 codes without gamma-encoding. The output looks fine in the highlights and bands horribly in the shadows — every dark gradient shows stepped contours — because 8 bits spaced evenly in linear intensity leave large perceptual gaps in the darks, exactly as this module shows at 8 codes. The team tries bumping to 10 or 12 bits, which helps but is wasteful, when the real fix is to gamma-encode before quantizing: the same 8 bits, spaced perceptually, band nothing. Storing linear light in low bit depth is the classic version of this bug, and it is why the standard is to encode to sRGB (a gamma-like curve) before writing an 8-bit file.
+The first trap is that this is not really about "blending" — it is about every operation that sums pixel values, which is most of the imaging pipeline. Downscaling averages neighborhoods, so an image resized in encoded space darkens, and thin bright features on dark backgrounds (stars, specular highlights, white text) lose energy fastest because their high-contrast neighborhoods are where the convex gap is largest. Gaussian blur, mipmap generation, anti-aliasing coverage (a 50%-covered edge pixel should be the linear-light average of foreground and background, not the code average), and alpha compositing over a background all have the same requirement: convert to linear, operate, convert back. The famous case is alpha compositing with straight (non-premultiplied) alpha in encoded space, which produces dark fringes around anti-aliased edges — the "dark halo" bug — for exactly this reason. So the rule generalizes past this module: if a step adds or averages pixels and you did not first linearize, it is wrong, and it is wrong toward dark.
 
-Your turn, two moves. First, see how bit depth trades against gamma. Bump n_codes to 16 with linear coding and predict: the darkest step roughly halves but is still the largest and still much bigger than gamma's uniform step at 16 codes — so doubling the codes helps linear but never fixes the shape; only perceptual spacing does. Compute how many linear codes you would need for the darkest step to match gamma's, and see it is far more than gamma needs. Second, check the round-trip. Gamma-encode a value (raise to 1/gamma), quantize, then decode (raise to gamma) and confirm the recovered intensity is close to the original for a dark value but that the *linear*-quantized version of the same dark value lands on a distant code — the concrete banding. That shows gamma encoding is a lossless-in-perception round trip for the bit budget, while linear encoding throws away shadow detail the eye would have seen.
+The second trap is that the correction has to use the right transfer function and the right precision, or you trade one error for another. Real sRGB is not a pure power of 2.2 — it is a piecewise curve with a linear segment near black and an exponent of 2.4 on the rest — so a plain 2.2 power is an approximation that is slightly off in the deep shadows, and color-managed pipelines use the exact sRGB function (or the display's actual profile) to decode and encode. And you cannot linearize into 8-bit and back: linear light needs more precision in the darks (that is what the encoding was buying you), so the decode-average-encode round trip must happen in floating point or at least 16-bit, or you reintroduce banding in the shadows that the gamma encoding existed to prevent. Finally, only light-linear channels should be linearized this way — an alpha channel or a normal map stored in the same 8-bit container is not perceptual light and must not be gamma-decoded, so "linearize everything" is as wrong as "linearize nothing." The discipline is precise: decode the color channels with the correct transfer function, compute in high-precision linear light, and re-encode — no more, no less.
+
+**The darkening is not specific to blending: every pixel-averaging step (downscale, blur, mipmaps, anti-aliasing, alpha compositing) must run in linear light or it darkens and fringes, and the correction must use the correct transfer function (true sRGB, not just a 2.2 power) at high precision (float or 16-bit, not 8-bit) and only on genuine light channels — so linearize the color, compute, and re-encode, rather than linearizing everything or nothing.**
 
 ## External resources
 
-Charles Poynton's "Digital Video and HD" and his gamma FAQ are the canonical references on why gamma exists — perceptual coding of a limited signal — and carefully separate it from display non-linearity and from the linear space needed for image math.
+Any color-management or rendering reference on gamma and linear-light compositing — the sRGB transfer function (its piecewise form versus the 2.2 approximation), why resizing and blending must happen in linear space, and the precision needed to avoid shadow banding.
 
-The sRGB specification defines the exact transfer function (a gamma-like curve with a small linear segment near black) that image files use; reading it shows the production form of this module's simple intensity^(1/gamma).
+Writing on the "dark fringe" alpha-compositing bug and premultiplied alpha — the same linear-light requirement applied to compositing, and why straight alpha over a background in encoded space produces halos.
 
-For HDR, the SMPTE ST 2084 perceptual quantizer (PQ) curve is the modern high-dynamic-range version of the same idea — a transfer function shaped to human contrast sensitivity so a limited bit budget bands nowhere across a huge brightness range.
+The companion white-balance and histogram modules in this topic — like white balance, gamma is a case where the stored pixel values encode something other than raw scene light, so operating on them correctly requires knowing and inverting the encoding first.
