@@ -1,0 +1,11 @@
+{
+  "_meta": "Five documents scored by two retrievers for one query, to be fused into a single ranking (hybrid search). bm25 is a lexical/keyword score: it is UNBOUNDED (larger means a stronger keyword match, and it can be tens or hundreds). cosine is a dense/semantic score: it is bounded in [0,1] (larger means the query and document embeddings point more nearly the same way). The two scores live on completely different scales, which is the whole problem: adding the raw scores lets the large-magnitude lexical scores dominate, so the fused ranking just echoes bm25 and the semantic signal is ignored. d3 and d4 are strong semantic matches (high cosine) with only modest keyword overlap (low bm25) -- exactly the documents dense retrieval exists to find -- and raw-score fusion buries them. rrf_k is the constant in Reciprocal Rank Fusion. The scores and rrf_k are the fixture; every rank, the naive fused order, and the RRF order are computed.",
+  "rrf_k": 60,
+  "docs": {
+    "d1": {"bm25": 40.0, "cosine": 0.20},
+    "d2": {"bm25": 35.0, "cosine": 0.30},
+    "d3": {"bm25": 10.0, "cosine": 0.95},
+    "d4": {"bm25": 8.0, "cosine": 0.85},
+    "d5": {"bm25": 5.0, "cosine": 0.10}
+  }
+}
