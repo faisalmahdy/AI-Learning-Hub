@@ -1,0 +1,7 @@
+{
+  "_meta": "Two treatments, each of which halves the risk of some bad outcome -- both report the SAME relative risk reduction of 50%. What differs is the baseline: the first treats a rare outcome (2% of untreated people have the event), the second a common one (40% do). Each scenario is given as integer counts so every derived number is exact: per is the number of people in each arm, control_events is how many had the event without treatment, treated_events is how many had it with treatment. From these the relative risk reduction (fraction of the baseline risk removed), the absolute risk reduction (percentage points removed), and the number needed to treat (how many must be treated to prevent one event) are all computed. The point: the identical 50% relative reduction corresponds to an absolute reduction of 1 point (NNT 100) in the rare case and 20 points (NNT 5) in the common case, so the relative figure alone cannot tell a life-changing treatment from a barely-useful one. scenarios is the fixture; every RRR, ARR, and NNT is computed.",
+  "scenarios": [
+    {"name": "rare outcome (2% baseline)", "per": 10000, "control_events": 200, "treated_events": 100},
+    {"name": "common outcome (40% baseline)", "per": 10000, "control_events": 4000, "treated_events": 2000}
+  ]
+}
