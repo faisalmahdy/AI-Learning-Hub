@@ -1,0 +1,15 @@
+{
+  "_meta": "Five candidate chunks retrieved for one query, to show why the top-k by relevance is often the wrong set to return. Each chunk has a relevance score to the query and a hidden 'aspect' (the sub-topic it covers). Chunks a1, a2, a3 all cover aspect A and are near-duplicates of each other (mutual similarity 0.9); chunks b1, b2 cover a different aspect B and are near-duplicates of each other but dissimilar to the A cluster (cross-similarity 0.1). a1/a2/a3 have slightly higher relevance than b1/b2, so taking the top 3 by relevance returns a1, a2, a3 -- three ways of saying the same thing, with aspect B entirely missing. Maximal Marginal Relevance instead balances relevance against redundancy, so it returns a diverse set that covers both aspects. similarity is the pairwise chunk-to-chunk similarity matrix aligned to ids; relevance and aspect are keyed by id; lambda trades relevance (1.0) against diversity (0.0); k is how many to return. Every selection and score is computed.",
+  "lambda": 0.5,
+  "k": 3,
+  "ids": ["a1", "a2", "a3", "b1", "b2"],
+  "relevance": {"a1": 0.90, "a2": 0.88, "a3": 0.86, "b1": 0.80, "b2": 0.78},
+  "aspect": {"a1": "A", "a2": "A", "a3": "A", "b1": "B", "b2": "B"},
+  "similarity": [
+    [1.0, 0.9, 0.9, 0.1, 0.1],
+    [0.9, 1.0, 0.9, 0.1, 0.1],
+    [0.9, 0.9, 1.0, 0.1, 0.1],
+    [0.1, 0.1, 0.1, 1.0, 0.9],
+    [0.1, 0.1, 0.1, 0.9, 1.0]
+  ]
+}
