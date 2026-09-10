@@ -1,0 +1,7 @@
+{
+  "_meta": "An agent about to call a tool whose required parameters are not all supplied by the user's request. tool is the action (book_flight). required_params are the parameters the tool needs to act correctly: origin, destination, date. provided is what the user's request actually specified: origin SFO and destination NYC -- but NOT the date. guess_defaults is what a guess-and-dispatch agent would silently fill an unspecified parameter with (date: 'today'). The scenario contrasts two agent behaviors when a required parameter is missing: one guesses a default and dispatches the tool anyway (booking a flight for a fabricated date the user never chose -- a confidently wrong, possibly irreversible action), the other elicits -- asks the user a clarifying question naming the missing parameter and dispatches nothing until answered. tool, required_params, provided, and guess_defaults are the fixture; every missing-slot detection, fabricated value, and dispatch-or-ask decision is computed.",
+  "tool": "book_flight",
+  "required_params": ["origin", "destination", "date"],
+  "provided": {"origin": "SFO", "destination": "NYC"},
+  "guess_defaults": {"date": "today"}
+}
