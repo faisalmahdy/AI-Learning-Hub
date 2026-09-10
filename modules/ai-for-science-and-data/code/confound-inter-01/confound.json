@@ -1,0 +1,10 @@
+{
+  "_meta": "Days of data on ice-cream sales and drownings, grouped by the day's temperature, used to show CONFOUNDING by a common cause: two variables can be strongly correlated not because one affects the other, but because a third variable (the confounder) drives both -- and the correlation vanishes once you condition on (control for) that confounder. x is ice_cream (sales), y is drownings, and confounder is temperature. groups splits the days by temperature: on cold days ice-cream sales are low and drownings are low; on hot days both are high. Pooling all days, ice-cream sales and drownings look strongly associated -- days with more ice cream have more drownings. But that is because hot weather independently raises BOTH: people buy ice cream AND people swim (and drown). Within a single temperature group -- holding the weather fixed -- ice-cream sales vary but drownings do not track them at all (the within-group association is 0), proving ice cream does not cause drownings. The measure used is: mean drownings on above-median-ice-cream days minus below-median, computed overall (=4, a big spurious association) and within each temperature group (=0, no association). Controlling for the confounder removes the correlation, exposing it as non-causal. groups are the fixture; the pooled and within-group associations are computed.",
+  "x": "ice_cream",
+  "y": "drownings",
+  "confounder": "temperature",
+  "groups": {
+    "cold": [{"x": 10, "y": 1}, {"x": 30, "y": 1}],
+    "hot": [{"x": 70, "y": 5}, {"x": 90, "y": 5}]
+  }
+}
