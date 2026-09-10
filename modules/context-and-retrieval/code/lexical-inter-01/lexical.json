@@ -1,0 +1,10 @@
+{
+  "_meta": "A query containing a rare exact token (an error code) over three documents, used to show why dense (embedding) retrieval alone misses exact-match terms and why lexical (keyword / BM25) retrieval -- or a hybrid of both -- is needed. Dense retrieval ranks documents by semantic similarity of embeddings, which is powerful for meaning but FUZZES rare exact tokens: a product code, an error ID, a specific name, a function signature contributes little to a document's embedding, so a document that contains the exact token can rank below a document that is merely semantically similar. query_terms are the query's tokens; rare_term is the exact token the user most needs matched (E4501, an error code). documents each have terms (the words they contain, for lexical matching) and dense_sim (a precomputed semantic similarity to the query). Here d1 ('reset password') has the highest dense similarity (0.8) because the query mentions 'reset', but it does NOT contain E4501; d2 ('error E4501 login') contains the exact code but has lower dense similarity (0.5). Dense retrieval therefore ranks d1 first -- wrong, the user wanted the E4501 document. Lexical retrieval scores each document by the IDF-weighted query terms it contains (a simplified BM25): the rare term E4501 appears in only 1 of 3 documents, so it has high IDF, and d2's exact match makes it the top lexical result. The lesson: use lexical matching (or hybrid dense+lexical) for queries with exact tokens, because dense embeddings alone under-weight them. query_terms, rare_term, and documents are the fixture; the IDF weights, lexical scores, and dense and lexical rankings are computed.",
+  "query_terms": ["reset", "error", "E4501"],
+  "rare_term": "E4501",
+  "documents": [
+    {"id": "d1", "terms": ["reset", "password"], "dense_sim": 0.8},
+    {"id": "d2", "terms": ["error", "E4501", "login"], "dense_sim": 0.5},
+    {"id": "d3", "terms": ["error", "codes", "fixes"], "dense_sim": 0.6}
+  ]
+}
