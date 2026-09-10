@@ -1,0 +1,11 @@
+{
+  "_meta": "Five held-out predictions from a two-class classifier, used to show temperature scaling: a post-hoc calibration that divides the logits by a temperature T > 1 before the softmax so the model's confidence matches its accuracy, without changing any prediction. Each example has the model's raw logits [class0, class1] and whether its prediction was correct. The model is OVERCONFIDENT: every prediction comes out around 95% confident (the logit gaps are large), but only 3 of the 5 are correct, so the true accuracy is 60%. A well-calibrated model that says '95% confident' should be right about 95% of the time; this one is right 60% of the time, a calibration gap of about 0.35. Temperature scaling divides every logit by T (here 3.0) before applying the softmax, which shrinks the logit gaps and so lowers the confidences toward the true accuracy -- mean confidence drops from ~0.95 to ~0.73, cutting the gap to ~0.13 -- while dividing all logits by the same positive T preserves their order, so the argmax (the predicted class) and therefore the accuracy are UNCHANGED. Temperature scaling fixes the confidence, not the predictions. temperature and examples are the fixture; every softmax confidence, the accuracy, the calibration gap, and the argmax are computed.",
+  "temperature": 3.0,
+  "examples": [
+    {"logits": [3.5, 0.0], "correct": true},
+    {"logits": [2.5, 0.0], "correct": true},
+    {"logits": [3.0, 0.0], "correct": true},
+    {"logits": [3.2, 0.0], "correct": false},
+    {"logits": [2.8, 0.0], "correct": false}
+  ]
+}
