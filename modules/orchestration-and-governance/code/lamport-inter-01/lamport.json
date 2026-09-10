@@ -1,0 +1,10 @@
+{
+  "_meta": "A causal chain of four events across two nodes A and B, used to show why ordering distributed events by WALL-CLOCK timestamps violates causality under clock skew, and how LAMPORT logical clocks preserve it. Each event has an id, the node it happened on, an op (send or recv of a named message), and the node's local WALL-clock reading at that moment. The four events form one causal chain: A sends m1 (e1), B receives m1 (e2), B replies with m2 (e3), A receives m2 (e4) -- so the true happens-before order is e1 -> e2 -> e3 -> e4 (given in causal_order). B's clock runs BEHIND A's, so B's wall readings (95, 96) are LOWER than A's send (100) even though B's events happened AFTER it. Sorting the events by wall-clock therefore puts B's receive and reply (95, 96) BEFORE A's send (100) -- a reply ordered before the message it answers, a causality violation. Lamport clocks fix this: each node keeps a counter, increments it on every event, and on receiving a message sets its counter to max(local, message's stamp) + 1; sorting by the resulting Lamport stamp reproduces the causal order exactly. events and causal_order are the fixture; every Lamport stamp, ordering, and causality-violation count is computed.",
+  "events": [
+    {"id": "e1", "node": "A", "op": "send", "msg": "m1", "wall": 100},
+    {"id": "e2", "node": "B", "op": "recv", "msg": "m1", "wall": 95},
+    {"id": "e3", "node": "B", "op": "send", "msg": "m2", "wall": 96},
+    {"id": "e4", "node": "A", "op": "recv", "msg": "m2", "wall": 103}
+  ],
+  "causal_order": ["e1", "e2", "e3", "e4"]
+}
