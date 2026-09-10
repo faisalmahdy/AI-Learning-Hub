@@ -1,0 +1,9 @@
+{
+  "_meta": "The three pure RGB primaries, used to show why converting color to grayscale must use perceptual LUMA weights, not a plain average of the R, G, B channels. The human eye is far more sensitive to green than to red, and least sensitive to blue, so equal amounts of the three primaries do NOT look equally bright: pure green looks bright, pure red medium, pure blue quite dark. A naive grayscale that averages the channels ((R+G+B)/3) treats them as equally important, so it maps all three fully-saturated primaries to the SAME gray value (255/3 = 85), erasing the large brightness differences the eye actually sees -- in that grayscale, a bright green and a dark blue become indistinguishable. Luma weighting (the Rec. 601 coefficients 0.299 R + 0.587 G + 0.114 B, which sum to 1) reproduces perceived brightness: green maps to ~150, red to ~76, blue to ~29, matching how bright each primary looks. colors are the fixture primaries; luma_weights are the standard coefficients; every naive and luma gray value is computed.",
+  "colors": {
+    "red": [255, 0, 0],
+    "green": [0, 255, 0],
+    "blue": [0, 0, 255]
+  },
+  "luma_weights": [0.299, 0.587, 0.114]
+}
