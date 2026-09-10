@@ -1,0 +1,10 @@
+{
+  "_meta": "A vector search where the document embeddings are QUANTIZED (rounded to low precision) to save memory, used to show why a quantized search needs an exact-rescoring second stage. query is the query embedding and documents maps each doc id to its embedding (2-D here for clarity; real ones are hundreds of dimensions). candidate_k is how many candidates the coarse quantized stage passes to the exact rescoring stage. Distances are Euclidean. Quantizing each vector by rounding its components to the nearest integer shrinks storage (integers instead of floats) but introduces rounding error, and here that error MISRANKS the two close documents: the true nearest neighbor is d1 (exact distance 0.1), but after rounding, d2 lands in the same integer bucket as the query (quantized distance 0) while d1 rounds away (quantized distance 1), so the quantized search returns d2 as nearest -- wrong. The quantized search is still good enough to keep the true nearest d1 inside the top-2 candidate set, so re-scoring those candidates with the exact (unrounded) vectors recovers d1. query, documents, and candidate_k are the fixture; every quantized vector, distance, ranking, and rescored result is computed.",
+  "query": [5.4, 2.0],
+  "documents": {
+    "d1": [5.5, 2.0],
+    "d2": [4.6, 2.0],
+    "d3": [5.4, 5.0]
+  },
+  "candidate_k": 2
+}
