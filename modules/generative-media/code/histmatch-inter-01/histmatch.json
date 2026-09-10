@@ -1,0 +1,5 @@
+{
+  "_meta": "Two images given as their intensity histograms over 4 gray levels (0=dark .. 3=bright), used to show histogram matching (a.k.a. histogram specification): reshaping one image's tonal distribution to match another's. source_hist is the pixel count per level for the SOURCE image, a dark image (4 pixels at level 0, 3 at 1, 2 at 2, 1 at 3 -- skewed dark, mean 1.0). reference_hist is the REFERENCE image whose tone we want the source to take on, a bright image (1,2,3,4 -- skewed bright, mean 2.0). Histogram matching works through the cumulative distribution functions (CDFs): for each source level, find the reference level whose cumulative probability first reaches the source level's cumulative probability, and remap the source pixels there. This makes the source's output distribution approximate the reference's shape -- unlike a mere brightness shift, which moves the mean but keeps the source's shape. source_hist and reference_hist are the fixture; every CDF, the level mapping, and the output distribution are computed.",
+  "source_hist": [4, 3, 2, 1],
+  "reference_hist": [1, 2, 3, 4]
+}
