@@ -1,0 +1,10 @@
+{
+  "_meta": "A key-value store replicated across N nodes. A write is sent to W of the N replicas and a read is answered from R of them (the read returns the newest version among the replicas it contacted). A read is guaranteed to see the latest write only if the read set and the write set are guaranteed to share at least one replica -- and any W-subset and any R-subset of N nodes are guaranteed to intersect exactly when R + W > N (pigeonhole). If R + W <= N, there exist a write set and a read set that do not overlap, so a read can contact only replicas that never received the write and return a stale value. This fixture lists quorum configurations (the write count w and read count r over n replicas) to test; the overlap, the worst case, and a concrete stale-vs-fresh read are all computed by enumerating the actual subsets.",
+  "n": 3,
+  "configs": [
+    {"name": "W1R1", "w": 1, "r": 1},
+    {"name": "W2R2", "w": 2, "r": 2},
+    {"name": "W3R1", "w": 3, "r": 1},
+    {"name": "W1R3", "w": 1, "r": 3}
+  ]
+}

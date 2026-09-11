@@ -1,0 +1,4 @@
+{
+  "_meta": "A sequence of items to append one at a time to a function that collects them into a list, calling the function once per item WITHOUT passing an explicit bucket -- so each call relies on the default argument. The bug being demonstrated needs no data of its own: it is a property of how Python evaluates default argument values. A default like `def add(item, bucket=[])` is evaluated ONCE, when the function is defined, and that single list object becomes the default for every call that omits the argument -- so all such calls share and mutate the same list, and it accumulates across calls instead of starting empty each time. items are appended in order to show the accumulation; the calls and their results are computed by running the two function versions.",
+  "items": ["a", "b", "c"]
+}

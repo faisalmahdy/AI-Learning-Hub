@@ -1,0 +1,12 @@
+{
+  "_meta": {
+    "what_this_is": "Two practice schedules over three problem types (A, B, C), each type practiced the same number of times (three reps), differing only in order: blocked (AAABBBCCC) and interleaved (ABCABC ABC). Plus the constants of a stylized learning model. The model's mechanism is that a delayed, mixed test is a DISCRIMINATION task -- given an uncued problem, first work out which method it needs -- and discrimination is practiced by type-switches, which interleaving has many of and blocking almost none.",
+    "data_is": "A FIXTURE, and the model is a STYLIZED but faithful account of a robust, replicated finding (interleaving depresses practice performance and improves delayed retention). Constants: exec_max is the execution skill both learners reach from equal reps; practice_switch_cost is how much a switch depresses in-the-moment practice accuracy; test_floor is the test score achievable from execution alone with no discrimination. Every score is computed in interleave.py from the switch counts and these constants -- nothing is precomputed.",
+    "format": "schedules: [{name, seq}]; model: {exec_max, practice_switch_cost, test_floor}."
+  },
+  "model": {"exec_max": 0.9, "practice_switch_cost": 0.3, "test_floor": 0.3},
+  "schedules": [
+    {"name": "blocked",     "seq": ["A", "A", "A", "B", "B", "B", "C", "C", "C"]},
+    {"name": "interleaved", "seq": ["A", "B", "C", "A", "B", "C", "A", "B", "C"]}
+  ]
+}

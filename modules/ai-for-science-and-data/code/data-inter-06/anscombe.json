@@ -1,0 +1,13 @@
+{
+  "_meta": {
+    "what_this_is": "Anscombe's quartet: four small (x,y) datasets constructed by Francis Anscombe in 1973 to have NEARLY IDENTICAL summary statistics -- same mean of x, mean of y, variance, correlation, and least-squares regression line -- while looking completely different when plotted. d1 is a clean linear relationship; d2 is a perfect curve (a parabola); d3 is linear with one extreme outlier; d4 is a vertical line of points at x=8 plus one far-out point that alone creates the correlation. The point: the summary stats agree to two decimals and the datasets could not be more different, so a number is never a substitute for looking at the data.",
+    "data_is": "The actual Anscombe (1973) quartet -- a canonical published dataset, reproduced here so the identical statistics and the differing shapes are exact and checkable.",
+    "format": "datasets {name: {x:[...], y:[...]}}"
+  },
+  "datasets": {
+    "d1": {"x": [10,8,13,9,11,14,6,4,12,7,5], "y": [8.04,6.95,7.58,8.81,8.33,9.96,7.24,4.26,10.84,4.82,5.68]},
+    "d2": {"x": [10,8,13,9,11,14,6,4,12,7,5], "y": [9.14,8.14,8.74,8.77,9.26,8.10,6.13,3.10,9.13,7.26,4.74]},
+    "d3": {"x": [10,8,13,9,11,14,6,4,12,7,5], "y": [7.46,6.77,12.74,7.11,7.81,8.84,6.08,5.39,8.15,6.42,5.73]},
+    "d4": {"x": [8,8,8,8,8,8,8,19,8,8,8], "y": [6.58,5.76,7.71,8.84,8.47,7.04,5.25,12.50,5.56,7.91,6.89]}
+  }
+}

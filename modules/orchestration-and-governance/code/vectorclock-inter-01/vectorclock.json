@@ -1,0 +1,9 @@
+{
+  "_meta": "Three writes to one replicated key, each tagged with a VECTOR CLOCK, used to show why vector clocks detect concurrent (conflicting) updates that a scalar clock or last-write-wins silently drops. A vector clock is one counter per node ({A:.., B:..}); comparing two of them tells you their causal relationship: if every component of one is <= the other (and at least one is strictly less) the first happened-before the second; if that holds in neither direction the two are CONCURRENT -- neither saw the other, a genuine conflict. nodes are the replicas. writes are three updates: w1 is A adding 'apple' (clock {A:1,B:0}); w2 is B adding 'banana' at the same time, having NOT seen w1 (clock {A:0,B:1}); these two are concurrent -- a real conflict, two independent edits. w3 is a client that read BOTH w1 and w2 and wrote the merge 'apple,banana' (clock {A:1,B:1}), which dominates both. wall is each write's wall-clock timestamp, used by the naive last-write-wins rule. Last-write-wins keeps only the write with the latest wall time (w2, 'banana') and silently DROPS the concurrent 'apple' -- a lost update. Vector clocks instead flag w1 and w2 as concurrent, so both are kept as siblings and can be merged into w3, while correctly recognizing w3 as causally after both (not a conflict). nodes and writes are the fixture; every pairwise comparison, the LWW winner, and the conflict set are computed.",
+  "nodes": ["A", "B"],
+  "writes": [
+    {"id": "w1", "clock": {"A": 1, "B": 0}, "value": "apple", "wall": 100},
+    {"id": "w2", "clock": {"A": 0, "B": 1}, "value": "banana", "wall": 105},
+    {"id": "w3", "clock": {"A": 1, "B": 1}, "value": "apple,banana", "wall": 110}
+  ]
+}

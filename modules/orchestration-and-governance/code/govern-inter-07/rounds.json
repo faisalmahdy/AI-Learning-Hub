@@ -1,0 +1,14 @@
+{
+  "_meta": {
+    "what_this_is": "Voting rounds from a governed panel of 5 voters deciding whether to authorize a consequential action. Each voter either replies 'yes'/'no' or is unreachable ('timeout'). A quorum of 3 responses is required to trust a round's result. The 'degraded' round is the trap: only 2 voters reply, both yes, so the naive majority-of-responders rule reports 100% approval and acts on 2 of 5. The 'healthy' round has 4 replies with a clear majority. The 'contested' round has a quorum but the majority says no.",
+    "data_is": "A FIXTURE. The votes are hand-authored so the naive and quorum decisions are exact and checkable; every count and decision is computed in quorum.py. A 'timeout' is a voter who did not respond in time (slow, down, or partitioned), which is exactly the condition that makes majority-of-responders dangerous.",
+    "format": "voters (panel size); quorum (responses required to trust a vote); rounds: [{name, votes:[yes|no|timeout]}]."
+  },
+  "voters": 5,
+  "quorum": 3,
+  "rounds": [
+    {"name": "degraded",  "votes": ["yes", "yes", "timeout", "timeout", "timeout"]},
+    {"name": "healthy",   "votes": ["yes", "yes", "yes", "no", "timeout"]},
+    {"name": "contested", "votes": ["yes", "no", "no", "no", "timeout"]}
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "_meta": "Conversion counts for the same treatment run two ways -- individual randomization within a shared-resource market, and cluster randomization across whole markets -- used to show why interference (treated units affecting control units) breaks the control group as a counterfactual, so individual-level A/B randomization is biased and cluster randomization is needed. A/B testing assumes each unit's outcome depends only on its OWN assignment (the 'stable unit treatment value assumption', SUTVA). That assumption fails whenever treated units can affect control units: a social feature where a treated user's activity engages their control friends, a marketplace or shared resource where treated users consuming more leaves less for control users, a pricing change that shifts demand between arms. When it fails, the control group is no longer an untreated counterfactual -- it has been changed by the treatment -- so the treated-minus-control difference measures both the real effect and the contamination. Here the interference is resource competition: treated users grab more of a fixed resource, cannibalizing control users in the same market, so under individual randomization the control conversion rate is pushed BELOW its true untreated level and the treated rate ABOVE its true level, inflating the measured lift. Cluster randomization assigns whole markets to one arm, keeping the treatment's spillover inside each cluster, so the between-market comparison recovers the true effect. mixed is one market with individually-randomized users (treated and control share the resource); clusters are two whole markets, one all-treated and one all-control. Each cell gives n users and conv conversions. mixed and clusters are the fixture; the naive individual lift, the true cluster lift, and the cannibalization of the control group are computed.",
+  "mixed": {
+    "treated": {"n": 5, "conv": 4},
+    "control": {"n": 5, "conv": 1}
+  },
+  "clusters": {
+    "treated_market": {"n": 10, "conv": 6},
+    "control_market": {"n": 10, "conv": 4}
+  }
+}

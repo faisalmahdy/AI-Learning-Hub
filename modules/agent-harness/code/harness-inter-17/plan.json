@@ -1,0 +1,5 @@
+{
+  "_meta": "A sequential agent plan whose steps each have a side effect (charge a card, send an email, write a row). The process runs the steps in order, but crashes after completing some of them: completed_before is how many steps finished before the crash. Then the harness restarts. The question: on restart, does it re-run the steps it already completed, or resume where it left off?",
+  "steps": ["reserve_seat", "charge_card", "send_ticket", "log_booking", "notify_ops"],
+  "completed_before": 3
+}

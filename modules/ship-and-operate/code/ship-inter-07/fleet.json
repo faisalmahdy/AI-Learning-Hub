@@ -1,0 +1,11 @@
+{
+  "_meta": {
+    "what_this_is": "The configuration of a retry storm: a fleet of clients that all failed at the same instant (their shared dependency went down) and now retry it. The server serves a limited number of requests per time slot (capacity); anything above that fails and backs off again. With fixed exponential backoff every client retries in lockstep and the peak load equals the whole fleet; with jittered backoff the retries scatter and the peak drops.",
+    "data_is": "A FIXTURE. clients, capacity, base, and seed are hand-authored so the peak loads, attempt counts, and completion slots are exact and reproducible; the jitter draws come from a seeded PRNG so the run is deterministic. capacity 4 is below the fleet size 12, so a synchronized peak overloads the server while a scattered one does not.",
+    "format": "clients (fleet size); capacity (requests the server serves per slot); base (backoff base delay); seed (PRNG seed for the jitter draws)."
+  },
+  "clients": 12,
+  "capacity": 4,
+  "base": 8,
+  "seed": 7
+}

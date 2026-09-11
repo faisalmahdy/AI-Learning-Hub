@@ -1,0 +1,12 @@
+{
+  "_meta": "A short SGD run's per-batch gradient vectors. Most batches are well-behaved (norm 0.5); batch 2 is a spike (norm 100) from a bad batch. clip is the global-norm threshold; lr is the learning rate.",
+  "lr": 0.1,
+  "clip": 1.0,
+  "gradients": [
+    [0.3, 0.4],
+    [0.3, 0.4],
+    [60.0, 80.0],
+    [0.3, 0.4],
+    [0.3, 0.4]
+  ]
+}

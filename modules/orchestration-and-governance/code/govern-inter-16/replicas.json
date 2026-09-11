@@ -1,0 +1,9 @@
+{
+  "_meta": "A value replicated across n nodes. A write reached the nodes in write_set (they hold the new version); the rest hold the old version. configs maps a policy name to its read quorum R; the write quorum W is the size of write_set.",
+  "n": 3,
+  "write_set": [0, 1],
+  "configs": {
+    "strong": 2,
+    "weak": 1
+  }
+}

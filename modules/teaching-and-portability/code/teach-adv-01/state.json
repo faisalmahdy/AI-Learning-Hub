@@ -1,0 +1,17 @@
+{
+  "_meta": {
+    "what_this_is": "A single learner's state across a small curriculum, plus the constants an adaptive tutor needs. Each concept records: whether it is mastered, its prerequisites, the result of the last from-memory recall attempt (1 recalled, 0 blanked), the learner's self-rated confidence, and their competence. A good next-step recommendation composes the whole teaching track: it must be UNLOCKED (prerequisites mastered -- the frontier), chosen by ACTUAL RECALL not confidence (study what you failed, not what feels weak -- calibration), and delivered at scaffolding FADED to competence (full for novices, none for experts -- expertise reversal). A naive tutor that sorts by confidence, ignores prerequisites, and gives everyone full scaffolding gets all three wrong.",
+    "data_is": "A FIXTURE. Hand-authored so the composed tutor's picks and the naive tutor's mistakes are exact and checkable. attention is locked (needs vectors); calculus is overconfident-but-failed; retrieval is underconfident-but-recalled.",
+    "format": "reversal (scaffolding competence threshold); budget (how many concepts to recommend); concepts {id:{mastered,prereqs,recalled,confidence,competence}}"
+  },
+  "reversal": 0.56,
+  "budget": 2,
+  "concepts": {
+    "intro":     {"mastered": true,  "prereqs": [],          "recalled": 1, "confidence": 0.90, "competence": 0.90},
+    "basics":    {"mastered": true,  "prereqs": ["intro"],   "recalled": 1, "confidence": 0.90, "competence": 0.90},
+    "vectors":   {"mastered": false, "prereqs": ["basics"],  "recalled": 0, "confidence": 0.30, "competence": 0.20},
+    "attention": {"mastered": false, "prereqs": ["vectors"], "recalled": 0, "confidence": 0.15, "competence": 0.30},
+    "calculus":  {"mastered": false, "prereqs": [],          "recalled": 0, "confidence": 0.85, "competence": 0.70},
+    "retrieval": {"mastered": false, "prereqs": ["basics"],  "recalled": 1, "confidence": 0.25, "competence": 0.50}
+  }
+}

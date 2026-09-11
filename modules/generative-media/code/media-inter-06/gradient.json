@@ -1,0 +1,9 @@
+{
+  "_meta": {
+    "what_this_is": "A smooth 16-pixel grayscale gradient (0 to 255) that must be quantized down to just two levels -- pure black (0) or pure white (255) -- as a 1-bit display or a 2-color palette would require. Quantizing by a naive threshold at 128 collapses the smooth ramp into one hard edge: eight black pixels then eight white, a visible band where a gradient should be. Error diffusion (Floyd-Steinberg, here in 1D) instead carries each pixel's rounding error forward to its neighbors, so the two levels get sprinkled in proportion to brightness and the LOCAL AVERAGE still tracks the gradient. Same two levels, no band.",
+    "data_is": "A FIXTURE: an exact linear ramp, so the banding and the error-diffusion improvement are exact and checkable.",
+    "format": "levels (quantization levels available); pixels [0..255 grayscale values]"
+  },
+  "levels": [0, 255],
+  "pixels": [0, 17, 34, 51, 68, 85, 102, 119, 136, 153, 170, 187, 204, 221, 238, 255]
+}

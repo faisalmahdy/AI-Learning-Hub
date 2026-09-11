@@ -1,0 +1,13 @@
+{
+  "_meta": "A stream of request events, each with a route, a status, and the user who made it. A metric emitted with a set of labels creates one time series per distinct combination of label values that actually occurs. route and status are bounded (few values); user is unbounded (grows with your user base). The question: how many time series does each labeling scheme create?",
+  "events": [
+    {"route": "/a", "status": 200, "user": "u1"},
+    {"route": "/a", "status": 200, "user": "u2"},
+    {"route": "/a", "status": 500, "user": "u3"},
+    {"route": "/b", "status": 200, "user": "u1"},
+    {"route": "/b", "status": 200, "user": "u4"},
+    {"route": "/b", "status": 500, "user": "u5"},
+    {"route": "/a", "status": 200, "user": "u3"},
+    {"route": "/b", "status": 500, "user": "u2"}
+  ]
+}

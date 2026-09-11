@@ -1,0 +1,15 @@
+{
+  "_meta": "A trace of an agent's steps, each a tool ACTION and the OBSERVATION it produced, used to show why a harness needs to detect a no-progress LOOP instead of running until its step budget is exhausted. max_steps is the harness's hard cap on steps. stall_window is how many consecutive identical (action, observation) pairs count as a stall -- the agent doing the same thing and getting the same result, making no progress. In this trace the agent reads config.yaml successfully (real progress), then gets stuck calling read on a file that does not exist, getting the identical 'error: not found' every time. A harness that only enforces max_steps runs all 8 steps, wasting 4 of them repeating a doomed call. A harness that watches for stall_window (3) consecutive identical steps detects the loop at step index 3 (the fourth step) and stops, saving the remaining 4 steps. Exact-match detection catches only loops that repeat identically; a livelock whose state changes slightly each step (a counter that never terminates) would slip past it -- that is the honest limit. trace, max_steps, and stall_window are the fixture; the stall index, steps executed, and steps saved are computed.",
+  "max_steps": 8,
+  "stall_window": 3,
+  "trace": [
+    {"action": "read(config.yaml)", "observation": "ok: 3 keys"},
+    {"action": "read(missing.yaml)", "observation": "error: not found"},
+    {"action": "read(missing.yaml)", "observation": "error: not found"},
+    {"action": "read(missing.yaml)", "observation": "error: not found"},
+    {"action": "read(missing.yaml)", "observation": "error: not found"},
+    {"action": "read(missing.yaml)", "observation": "error: not found"},
+    {"action": "read(missing.yaml)", "observation": "error: not found"},
+    {"action": "read(missing.yaml)", "observation": "error: not found"}
+  ]
+}

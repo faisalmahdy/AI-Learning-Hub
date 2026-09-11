@@ -1,0 +1,9 @@
+{
+  "_meta": "Pass counts from an eval: each case is n trials with k passes, so the observed pass rate is k/n. z is the normal quantile for the confidence level (1.96 for 95%). We compare two ways to put a confidence interval on the true pass rate: the Wald (normal-approximation) interval p +/- z*sqrt(p(1-p)/n), and the Wilson score interval. The cases are chosen to stress both: a perfect score, a tiny sample, and a middling one.",
+  "z": 1.96,
+  "cases": [
+    {"n": 10, "k": 10},
+    {"n": 3,  "k": 1},
+    {"n": 10, "k": 7}
+  ]
+}

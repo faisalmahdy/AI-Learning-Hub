@@ -1,0 +1,16 @@
+{
+  "_meta": {
+    "what_this_is": "An agent's context window as an ordered list of items (oldest first), each with a token cost and a 'pinned' flag. Pinned items -- the system prompt and the task -- must survive any compaction, because without them the agent forgets who it is and what it is doing. When the total exceeds the token budget, the harness must evict to fit. The correct policy evicts the oldest UNPINNED turns, keeping the pinned items and the most recent conversation. The tempting bug -- plain FIFO, evict the oldest regardless of pinned -- drops the system prompt and task first, because they are the oldest items.",
+    "data_is": "A FIXTURE. Token costs and pinned flags hand-authored so the fit, the retained-pinned check, and the FIFO failure are exact and checkable.",
+    "format": "budget (token limit); items [{id, tokens, pinned, role}] in chronological order (oldest first)"
+  },
+  "budget": 100,
+  "items": [
+    {"id": "sys",   "tokens": 30, "pinned": true,  "role": "system prompt"},
+    {"id": "task",  "tokens": 20, "pinned": true,  "role": "the task"},
+    {"id": "turn1", "tokens": 25, "pinned": false, "role": "old exchange"},
+    {"id": "turn2", "tokens": 25, "pinned": false, "role": "old exchange"},
+    {"id": "turn3", "tokens": 25, "pinned": false, "role": "recent exchange"},
+    {"id": "turn4", "tokens": 25, "pinned": false, "role": "latest exchange"}
+  ]
+}

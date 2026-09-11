@@ -1,0 +1,11 @@
+{
+  "_meta": "A stream of side-effecting requests arriving at a service. Each has a key (the idempotency key identifying one logical request) and an amount (the effect, e.g. a charge). A retry re-sends the SAME key because the client never saw the ack -- so several entries share a key. The service must apply each logical request's effect exactly once.",
+  "requests": [
+    {"key": "r1", "amount": 10},
+    {"key": "r1", "amount": 10},
+    {"key": "r2", "amount": 5},
+    {"key": "r3", "amount": 8},
+    {"key": "r2", "amount": 5},
+    {"key": "r1", "amount": 10}
+  ]
+}

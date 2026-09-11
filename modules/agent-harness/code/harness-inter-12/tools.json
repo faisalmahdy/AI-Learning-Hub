@@ -1,0 +1,14 @@
+{
+  "_meta": "A single agent run's tool calls, in order. read_file is a pure lookup into files; increment mutates a counter and returns its new value. purity marks which tools are safe to memoize.",
+  "files": {"a": "config-v1", "b": "config-w1"},
+  "purity": {"read_file": true, "increment": false},
+  "calls": [
+    {"tool": "read_file", "arg": "a"},
+    {"tool": "increment"},
+    {"tool": "read_file", "arg": "a"},
+    {"tool": "increment"},
+    {"tool": "read_file", "arg": "b"},
+    {"tool": "increment"},
+    {"tool": "read_file", "arg": "a"}
+  ]
+}

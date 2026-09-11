@@ -1,0 +1,10 @@
+{
+  "_meta": "A two-turn conversation feeding a retrieval system. Turn 1 (the user asks 'Tell me about the Falcon 9 rocket') establishes the entity the conversation is about; history_terms are the entity keywords carried from that turn: falcon, 9, rocket. Turn 2 is a FOLLOW-UP: 'How much does it cost per launch?' -- its content keywords (follow_up_terms) are just cost, launch, because the entity is referred to only by the pronoun 'it'. Retrieval on the raw follow-up therefore has no entity term to match, so it cannot tell the Falcon-9-specific cost document from a generic rocket-cost document. Conversational query rewriting resolves the pronoun by merging the history entity terms into the follow-up, producing a self-contained query (falcon, 9, rocket, cost, launch) that retrieves the right document. documents maps each doc id to its keyword set; scoring is keyword overlap. history_terms, follow_up_terms, and documents are the fixture; every query, score, and ranking is computed.",
+  "documents": {
+    "d1_falcon9_cost": ["falcon", "9", "rocket", "cost", "launch", "price"],
+    "d2_generic_rocket_cost": ["rocket", "cost", "launch", "overview"],
+    "d3_falcon9_specs": ["falcon", "9", "rocket", "specifications", "engine"]
+  },
+  "history_terms": ["falcon", "9", "rocket"],
+  "follow_up_terms": ["cost", "launch"]
+}

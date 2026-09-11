@@ -1,0 +1,7 @@
+{
+  "_meta": "Two groups compared by their means. mean1/mean2 differ by 1 point on a scale with standard deviation sd; sample_sizes are the per-group n values to test the same difference at.",
+  "mean1": 100,
+  "mean2": 101,
+  "sd": 10,
+  "sample_sizes": [10, 100, 1000, 10000]
+}

@@ -1,0 +1,7 @@
+{
+  "_meta": "Coin flips, to separate the gambler's fallacy from real dependence. fair_p is the probability of heads on a fair, INDEPENDENT coin -- each flip is its own event, unaffected by the ones before. run_length is a streak of heads we condition on. sequence_length is how many flips we consider when asking whether long runs are surprising. The gambler's fallacy is believing that after a run of heads, tails is 'due' -- that the probability of the next flip has changed. For an independent coin it has not: P(heads | any run of heads) = fair_p, unchanged, because the coin has no memory. And long runs are not anomalies: a run of length k occurs with probability fair_p^k, so in a long enough sequence you EXPECT some. sticky_p_heads_after_heads is a different, memory-having coin (a Markov coin) where the next flip DOES depend on the last -- there, conditioning on a run genuinely changes the probability, which is exactly why the fallacy is about independence, not about streaks. Every probability here is computed exactly.",
+  "fair_p": 0.5,
+  "run_length": 4,
+  "sequence_length": 20,
+  "sticky_p_heads_after_heads": 0.8
+}

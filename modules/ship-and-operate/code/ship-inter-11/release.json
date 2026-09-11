@@ -1,0 +1,15 @@
+{
+  "_meta": {
+    "what_this_is": "Two candidate releases and the traffic they would face. A canary deployment routes a small fraction of traffic to the new version first, measures its error rate against a rollback threshold, and only promotes to 100% if it looks healthy; if the canary errors exceed the threshold it rolls back and the rest of the traffic stays on the old version. The alternative -- deploy straight to 100% -- exposes every request to a bad release before anyone can react.",
+    "data_is": "A FIXTURE. The traffic volume, canary fraction, baseline error rate, per-release error rates, and rollback threshold are hand-authored so the bad release (30% errors) is caught by the canary and rolled back, cutting failures from 300 to 34, while the good release (2% errors, same as baseline) is promoted with no extra harm. Every failure count and decision is computed in canary.py.",
+    "format": "total_requests; canary_fraction; baseline_error_rate; rollback_threshold; releases: {name: error_rate}."
+  },
+  "total_requests": 1000,
+  "canary_fraction": 0.05,
+  "baseline_error_rate": 0.02,
+  "rollback_threshold": 0.1,
+  "releases": {
+    "good": 0.02,
+    "bad": 0.3
+  }
+}

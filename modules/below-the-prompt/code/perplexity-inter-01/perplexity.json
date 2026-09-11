@@ -1,0 +1,8 @@
+{
+  "_meta": "Three sentences scored by a language model, each with its total negative log-likelihood (the summed cross-entropy loss over the sentence's tokens, in nats) and its token count. Perplexity is the standard language-model metric: PPL = exp(average negative log-likelihood PER TOKEN). For a corpus that means exp(total NLL / total tokens) -- the token-weighted average, exponentiated ONCE at the end. Two common mistakes give different, wrong numbers. Averaging the per-sentence perplexities (the arithmetic mean of each sentence's exp) is wrong because exp is nonlinear, so a single high-loss sentence's perplexity dominates the average. Averaging the per-sentence per-token losses WITHOUT weighting by token count, then exponentiating, is wrong because it counts a 5-token sentence the same as a 20-token one. total_nll and tokens per sentence are the fixture; the corpus perplexity and the two wrong aggregates are computed.",
+  "sentences": [
+    {"id": "s1", "total_nll": 10.0, "tokens": 5},
+    {"id": "s2", "total_nll": 6.0,  "tokens": 10},
+    {"id": "s3", "total_nll": 20.0, "tokens": 5}
+  ]
+}

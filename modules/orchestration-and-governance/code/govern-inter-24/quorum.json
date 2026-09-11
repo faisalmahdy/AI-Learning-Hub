@@ -1,0 +1,6 @@
+{
+  "_meta": "A cluster of `nodes` machines that must elect a single leader. A network partition splits them into groups that cannot see each other; each group tries to elect its own leader. Two election rules: MAJORITY requires a candidate to be backed by more than half the whole cluster (floor(nodes/2)+1 votes), so a group can only elect if it holds a majority of ALL nodes -- and since two disjoint groups cannot both hold a majority, at most one leader is ever elected. ANY (no majority) lets any non-empty group elect its own leader, so a partition produces one leader per group -- split-brain, multiple leaders each accepting writes, diverging state. partitions lists example splits (group sizes); [3,2] splits a 5-node cluster 3-vs-2, [2,2,1] is a three-way split where no group holds a majority.",
+  "nodes": 5,
+  "partition": [3, 2],
+  "three_way": [2, 2, 1]
+}

@@ -1,0 +1,16 @@
+{
+  "_meta": {
+    "what_this_is": "One multi-step workflow with real side effects, authored so a single orchestrator must get four separate guarantees right at once. Each step declares: its dependencies (the task DAG), the partition key it writes (the partition contract -- keys must be disjoint and cover the target exactly), a forward effect on a shared ledger and its implicit inverse (the saga compensation), a poison flag (a step that fails every retry), and fails_before (how many transient failures a step suffers before it would succeed). The workflow is a booking: reserve a seat, charge a card, hold a slot (transiently flaky), issue a ticket (poison -- the downstream is down), notify the customer.",
+    "data_is": "A FIXTURE. The steps, dependencies, which step is poison, and the transient-failure counts are hand-authored so both orchestrators' outcomes are exact and checkable. The steps are listed here in file (authoring) order, which is deliberately NOT a topological order -- notify is listed before issue and issue before hold -- so the naive file-order run reads stale inputs.",
+    "format": "target (the partition keys the plan must cover exactly); max_retries; steps [{id, deps, key, forward, poison, fails_before}]. Compensation is the inverse of forward. The ledger starts at zero; a clean run either commits every step or unwinds to zero."
+  },
+  "target": ["seat", "card", "email", "ticket", "hold_slot"],
+  "max_retries": 3,
+  "steps": [
+    {"id": "reserve", "deps": [],          "key": "seat",      "forward": 1, "poison": false, "fails_before": 0},
+    {"id": "charge",  "deps": ["reserve"], "key": "card",      "forward": 1, "poison": false, "fails_before": 0},
+    {"id": "notify",  "deps": ["issue"],   "key": "email",     "forward": 1, "poison": false, "fails_before": 0},
+    {"id": "issue",   "deps": ["hold"],    "key": "ticket",    "forward": 1, "poison": true,  "fails_before": 0},
+    {"id": "hold",    "deps": ["charge"],  "key": "hold_slot", "forward": 1, "poison": false, "fails_before": 1}
+  ]
+}

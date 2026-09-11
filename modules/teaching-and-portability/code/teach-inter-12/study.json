@@ -1,0 +1,21 @@
+{
+  "_meta": {
+    "what_this_is": "Two study schedules with the SAME number of review sessions, tested on the same day. MASSED crams all three reviews into day 0 (a single cramming session); DISTRIBUTED spreads them across days 0, 10, 20. Memory is modeled with a stability S (roughly a decay time): retention after a gap is exp(-gap/S), and each review raises S more when it comes after a real gap (an effortful, spaced review builds durable memory) and barely at all when it comes right after another (massed reviews add little). So distributed practice both builds more stability and leaves the last review closer to the test, and it retains far more for the same effort.",
+    "data_is": "A FIXTURE. The two schedules, the test day, and the starting stability are hand-authored so massed retains almost nothing (0.0025) by the test while distributed retains about half (0.52) -- same three reviews. Every stability and retention is computed in spacing.py.",
+    "format": "test_day; start_stability; schedules: {name: [review day, ...]}."
+  },
+  "test_day": 30,
+  "start_stability": 5.0,
+  "schedules": {
+    "massed": [
+      0,
+      0,
+      0
+    ],
+    "distributed": [
+      0,
+      10,
+      20
+    ]
+  }
+}

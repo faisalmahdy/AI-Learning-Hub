@@ -1,0 +1,18 @@
+{
+  "_meta": {
+    "what_this_is": "For each hub concept, a self-assessment pair: 'confidence' is the judgment of learning (0-1) you gave BEFORE the boss fight -- how well you felt you knew it -- and 'recalled' is what actually happened (1 = recalled it from memory, 0 = blanked). The gap between the two is the whole subject. Some concepts are well-calibrated; two are the dangerous kind -- high confidence, then a fail -- the overconfident-wrong concepts that a confidence-based study plan would skip because they do not feel weak.",
+    "data_is": "A FIXTURE. Hand-authored confidence/recall pairs so the overconfidence gap, the calibration by bin, and the study-plan coverage are exact and checkable.",
+    "format": "study_budget (how many concepts you have time to restudy); concepts [{name, confidence, recalled}]"
+  },
+  "study_budget": 4,
+  "concepts": [
+    {"name": "attention",       "confidence": 0.90, "recalled": 1},
+    {"name": "bpe-tokens",      "confidence": 0.85, "recalled": 0},
+    {"name": "kv-cache",        "confidence": 0.80, "recalled": 0},
+    {"name": "attention-mask",  "confidence": 0.70, "recalled": 1},
+    {"name": "quantization",    "confidence": 0.60, "recalled": 1},
+    {"name": "dedup",           "confidence": 0.40, "recalled": 0},
+    {"name": "retrieval",       "confidence": 0.30, "recalled": 1},
+    {"name": "sampling",        "confidence": 0.20, "recalled": 0}
+  ]
+}

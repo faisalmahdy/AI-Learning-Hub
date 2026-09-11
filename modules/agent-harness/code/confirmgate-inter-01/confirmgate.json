@@ -1,0 +1,10 @@
+{
+  "_meta": "A batch of tool calls an agent proposed in one turn, used to show why a harness should GATE irreversible tool calls behind confirmation while auto-running reversible ones, instead of executing everything the model proposes. tools maps each tool to whether its effect is reversible: a read or a list can be undone or simply retried harmlessly (reversible true), while deleting a file or sending an email cannot be taken back (reversible false). proposed_calls is the ordered list of calls the model asked for this turn: two reversible (list_files, read_file) and two irreversible (delete_file, send_email). A NAIVE harness executes every proposed call immediately, so the two irreversible actions run with no confirmation -- if the model was wrong (hallucinated the filename, misread the request), the file is gone and the email is sent, unrecoverably. A GATED harness classifies each call by reversibility: reversible calls run automatically (no friction on safe actions), and irreversible calls are HELD for explicit confirmation (a human approval, or a dry-run preview) before they execute -- so zero irreversible actions happen without a human in the loop, while the safe majority still flow freely. tools and proposed_calls are the fixture; every classification, what each policy executes, and the count of unconfirmed irreversible actions are computed.",
+  "tools": {
+    "list_files": {"reversible": true},
+    "read_file": {"reversible": true},
+    "delete_file": {"reversible": false},
+    "send_email": {"reversible": false}
+  },
+  "proposed_calls": ["list_files", "read_file", "delete_file", "send_email"]
+}

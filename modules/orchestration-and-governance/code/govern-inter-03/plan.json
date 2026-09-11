@@ -1,0 +1,13 @@
+{
+  "_meta": {
+    "what_this_is": "A fan-out plan: eight work items (files f1..f8) assigned to three parallel workers. The assignment is broken on purpose in two ways: f3 is handed to two workers (an overlap -> one worker's write is clobbered), and f8 is handed to no worker (a gap -> never written). A correct plan is a true partition of the eight files.",
+    "plan_is": "A FIXTURE. Authored with exactly one overlap and one gap so both failure modes are visible. Point the contract at your own fan-out assignment (files a subagent will write, tasks a worker owns).",
+    "format": "files [ids]; workers {id: [owned files]}"
+  },
+  "files": ["f1", "f2", "f3", "f4", "f5", "f6", "f7", "f8"],
+  "workers": {
+    "alpha": ["f1", "f2", "f3"],
+    "beta": ["f3", "f4", "f5"],
+    "gamma": ["f6", "f7"]
+  }
+}

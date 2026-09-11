@@ -1,0 +1,6 @@
+{
+  "_meta": "Two groups of measurements: 'good' (the better-scoring group) and 'poor' (the worse-scoring group). A single member is reclassified -- moved from good to poor -- without its value changing at all (think: a better diagnostic tool restages one patient from the healthy group to the sick group). move_value is the value being moved. The question: what happens to each group's mean when the SAME numbers are just relabeled?",
+  "good": [8, 9, 10],
+  "poor": [1, 2, 3],
+  "move_value": 8
+}

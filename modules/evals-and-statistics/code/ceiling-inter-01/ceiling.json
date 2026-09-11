@@ -1,0 +1,8 @@
+{
+  "_meta": "Two models, A and B, with a real difference in skill, evaluated on two benchmarks. model_ability is each model's skill level on a common scale (A is 8, B is 6, so A is genuinely stronger). Each benchmark is a set of items, each with a difficulty on the same scale; a model passes an item when its ability is at least the item's difficulty (a simple deterministic threshold model of skill vs difficulty). benchmarks holds two item sets: 'easy_saturated' has only trivial items (difficulties 1..4, below both models' ability), and 'hard_discriminating' has items around the models' ability (difficulties 6..9). The point: on the easy benchmark both models pass every item and score 100%, so the benchmark is SATURATED -- it is at the ceiling and cannot tell the two models apart, hiding A's real superiority. On the discriminating benchmark, whose items straddle the two abilities, A passes more than B (75% vs 25%), so the true skill gap becomes visible. model_ability and benchmarks are the fixture; every pass/fail, score, and gap is computed.",
+  "model_ability": {"A": 8, "B": 6},
+  "benchmarks": {
+    "easy_saturated": [1, 2, 3, 4],
+    "hard_discriminating": [6, 7, 8, 9]
+  }
+}

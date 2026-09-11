@@ -1,0 +1,14 @@
+{
+  "_meta": {
+    "what_this_is": "A teacher model's soft output distributions over four classes for several training examples. Each distribution is what the teacher actually produces (a probability per class); the hard label is just its argmax. Three of the examples are all argmax 'cat' but with very different distributions -- a confident cat, a barely-a-cat, and a cat easily confused with a car -- so hard labels collapse the three into one identical target while the soft targets keep them distinct. This is the setup for distillation: train the student on the soft distributions, not the hard labels.",
+    "data_is": "A FIXTURE. The soft distributions are hand-authored (each sums to 1) so the dark-knowledge mass, runner-up classes, entropies, and the collapsed group are exact and checkable; every quantity is computed in distill.py. e1/e2/e3 share the hard label 'cat' but differ; e3's runner-up is 'car' where e1/e2's is 'dog'.",
+    "format": "classes: the class names in index order; examples: [{id, soft}] where soft is the teacher's probability per class."
+  },
+  "classes": ["cat", "dog", "car", "ship"],
+  "examples": [
+    {"id": "e1", "soft": [0.70, 0.25, 0.03, 0.02]},
+    {"id": "e2", "soft": [0.90, 0.05, 0.03, 0.02]},
+    {"id": "e3", "soft": [0.50, 0.05, 0.40, 0.05]},
+    {"id": "e4", "soft": [0.10, 0.10, 0.75, 0.05]}
+  ]
+}

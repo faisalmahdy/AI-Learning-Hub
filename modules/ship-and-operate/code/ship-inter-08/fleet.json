@@ -1,0 +1,13 @@
+{
+  "_meta": {
+    "what_this_is": "Four service instances behind a load balancer, each with three underlying facts: alive (the process is running), deps_ok (its dependencies -- database, cache -- are reachable), and warming (it is still loading and not yet able to serve). Liveness = alive (drives restarts). Readiness = alive AND deps_ok AND NOT warming (drives routing). The fleet is built so liveness and readiness disagree on two instances -- the exact case a single 'healthy?' check gets wrong.",
+    "data_is": "A FIXTURE. The instance states are hand-authored so the naive (route-by-liveness) and readiness-gated routings, the failures each produces, and the restart set are exact and checkable; every decision is computed in health.py. i0 serves; i1's dependency is down (alive, not ready); i2 is warming (alive, not ready); i3 has crashed (not alive).",
+    "format": "fleet: [{id, alive, deps_ok, warming}]."
+  },
+  "fleet": [
+    {"id": "i0", "alive": true,  "deps_ok": true,  "warming": false},
+    {"id": "i1", "alive": true,  "deps_ok": false, "warming": false},
+    {"id": "i2", "alive": true,  "deps_ok": true,  "warming": true},
+    {"id": "i3", "alive": false, "deps_ok": false, "warming": false}
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "_meta": "A population with two INDEPENDENT binary traits, skill and looks, used to show Berkson's paradox: conditioning on a COLLIDER (a variable that both traits influence) creates a spurious correlation between them in the selected subgroup even though they are uncorrelated in the whole population. groups is the full population as counts per (skill, looks) cell; here all four cells are 25, so each trait is 50/50 and they are independent (the phi correlation is 0). admit_if_sum_at_least is the selection rule that defines the collider: a person is 'famous' (selected) if skill + looks >= this threshold. With a threshold of 1, fame = skill OR looks, which admits everyone EXCEPT the (skill 0, looks 0) cell. Within the famous subgroup, skill and looks become NEGATIVELY correlated (phi -0.5): a famous person with no skill must have looks (that is the only way they got in), so low skill predicts high looks -- a correlation that is entirely an artifact of selecting on the collider, not a real relationship in the population. groups and admit_if_sum_at_least are the fixture; every marginal, conditional, and phi correlation is computed.",
+  "groups": [
+    {"skill": 1, "looks": 1, "count": 25},
+    {"skill": 1, "looks": 0, "count": 25},
+    {"skill": 0, "looks": 1, "count": 25},
+    {"skill": 0, "looks": 0, "count": 25}
+  ],
+  "admit_if_sum_at_least": 1
+}

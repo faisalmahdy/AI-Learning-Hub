@@ -1,0 +1,6 @@
+{
+  "_meta": "A demonstration of filesystem case-sensitivity as a portability hazard. files_on_disk is the actual set of filenames committed to the repository (their exact case). references is how the code, in imports and open() calls, spells those filenames -- but with the case not matching in two of the three. On a case-INSENSITIVE filesystem (default on macOS and Windows) 'Data.csv' finds the file 'data.csv', so all references resolve and the author sees everything work. On a case-SENSITIVE filesystem (default on Linux, which is where most CI and production runs) only an exact-case match resolves, so the two mis-cased references fail to find their files and the build breaks -- 'works on my machine' becomes a real bug. distinct_on_linux shows the mirror hazard: two filenames that differ only in case are two separate files on a case-sensitive filesystem but collide into one on a case-insensitive one, so committing both breaks a checkout on macOS/Windows. Every lookup result and collision is computed from these fixtures.",
+  "files_on_disk": ["data.csv", "config.yaml", "src/Model.py"],
+  "references": ["Data.csv", "config.yaml", "src/model.py"],
+  "distinct_on_linux": ["Log.txt", "log.txt"]
+}

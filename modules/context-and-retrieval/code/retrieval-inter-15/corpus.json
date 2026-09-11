@@ -1,0 +1,10 @@
+{
+  "_meta": "A bridge question: the answer (the director) is linked to the question (the award) only through the film. The bridge doc holds award->film; the answer doc holds film->director. Terms are lowercased single tokens so matching is visible.",
+  "question": "who directed the film that won bestpicture1994",
+  "docs": {
+    "d_bridge": {"text": "bestpicture1994 was won by the film forrestgump", "answer": false, "bridge": true},
+    "d_answer": {"text": "forrestgump was directed by robertzemeckis", "answer": true},
+    "d_dist1":  {"text": "bestpicture1995 was won by the film braveheart", "answer": false},
+    "d_dist2":  {"text": "titanic was directed by jamescameron", "answer": false}
+  }
+}

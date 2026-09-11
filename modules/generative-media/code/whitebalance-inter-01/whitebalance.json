@@ -1,0 +1,5 @@
+{
+  "_meta": "Two scenes, each described by its average red, green, and blue channel values (the per-channel means an image has). cast_scene is a neutral (roughly gray) scene photographed under a bluish light: the blue channel mean is elevated, so the whole image has a blue color cast. color_scene is a scene that is genuinely dominated by one color -- grass under neutral light -- where green really is the largest channel and that is correct, not a cast. Gray-world white balance assumes the AVERAGE of a scene is gray, so it scales each channel by target/channel_mean (target here is the mean of the three channel means) to make all three channel means equal, removing a cast. That is right for the neutral-under-colored-light scene and WRONG for the genuinely green scene, where equalizing the means destroys the real color. Every mean and scale factor here is computed.",
+  "cast_scene": {"R": 100.0, "G": 110.0, "B": 160.0},
+  "color_scene": {"R": 60.0, "G": 150.0, "B": 50.0}
+}

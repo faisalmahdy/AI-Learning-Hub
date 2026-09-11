@@ -1,0 +1,10 @@
+{
+  "_meta": "Two parameters with very different but constant gradient magnitudes: a STEEP parameter whose gradient is 10 every step, and a FLAT parameter whose gradient is 0.1 every step. Plain SGD updates each by learning_rate * gradient, so the steep parameter moves 100x farther per step than the flat one — one global learning rate cannot suit both (large enough to move the flat one overshoots the steep one, small enough for the steep one crawls on the flat one). Adam divides each parameter's gradient by a running estimate of its own root-mean-square, so a constant gradient of any size produces an update magnitude of about the learning rate. beta1/beta2 are Adam's decay rates, eps its denominator floor, steps how many updates to run before reporting the settled update.",
+  "steep_grad": 10.0,
+  "flat_grad": 0.1,
+  "lr": 0.01,
+  "beta1": 0.9,
+  "beta2": 0.999,
+  "eps": 1e-8,
+  "steps": 50
+}

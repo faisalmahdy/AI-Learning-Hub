@@ -1,0 +1,17 @@
+{
+  "_meta": "A tiny classification dataset with one legitimate feature and one LEAKY feature, used to show why a feature that would not be available at prediction time (or that is downstream of the label) inflates measured accuracy -- target/data leakage -- and why such a feature must be excluded no matter how well it predicts. A model is trained to predict a binary label from features, and its quality is judged by accuracy on held-out data. Leakage happens when a feature carries information about the label that will not actually be available when the model is used for real: a value recorded only after the outcome is known, a proxy that is assigned because the outcome occurred, or a field that directly encodes the label. During development that feature makes accuracy look excellent, because it really does predict the label in the historical data. But in production the feature is absent, stale, or not yet determined at the moment of prediction, so the accuracy it bought evaporates, and the model performs at the honest level of the legitimate features alone. The tell is a feature that predicts suspiciously well AND is causally downstream of, or temporally after, the label. Each feature carries available_at_prediction: whether its value is genuinely known at the moment a prediction must be made. leak_flag is available_at_prediction=false because it is assigned after the outcome -- and here it equals the label exactly, so a classifier using it scores 100%. legit_score is available_at_prediction=true and honestly predictive at 75%. features describes each feature (its availability); samples are the rows (feature values and the true label). features and samples are the fixture; every feature's best single-threshold accuracy, the leaky vs honest reported accuracy, and the production accuracy are computed.",
+  "features": {
+    "legit_score": {"available_at_prediction": true, "desc": "a score known before the outcome"},
+    "leak_flag": {"available_at_prediction": false, "desc": "a flag assigned after the outcome is known"}
+  },
+  "samples": [
+    {"legit_score": 0.60, "leak_flag": 1, "label": 1},
+    {"legit_score": 0.50, "leak_flag": 0, "label": 0},
+    {"legit_score": 0.70, "leak_flag": 1, "label": 1},
+    {"legit_score": 0.40, "leak_flag": 0, "label": 0},
+    {"legit_score": 0.55, "leak_flag": 1, "label": 1},
+    {"legit_score": 0.45, "leak_flag": 1, "label": 1},
+    {"legit_score": 0.65, "leak_flag": 0, "label": 0},
+    {"legit_score": 0.30, "leak_flag": 0, "label": 0}
+  ]
+}

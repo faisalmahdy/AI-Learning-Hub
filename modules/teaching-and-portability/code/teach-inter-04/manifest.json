@@ -1,0 +1,16 @@
+{
+  "_meta": {
+    "what_this_is": "A manifest of learning modules. Each carries a self-reported 'claimed_status' (what the author marked it: ready or draft) AND three checkable facts a reader can verify independently: sections_ok (all required sections present), self_test_passes (the module's --check ran green), recall_logged (a dated boss-fight recall pass exists). The point of the hub's whole doctrine: 'ready' is not something a module gets to declare -- it is DERIVED from the facts. A reader trusts the derived status, never the claimed one.",
+    "data_is": "A FIXTURE. Hand-authored so overclaims (marked ready, fails a criterion) and underclaims (marked draft, actually meets all) are exact and checkable.",
+    "format": "required_criteria (all must hold for ready); modules [{id, claimed_status, sections_ok, self_test_passes, recall_logged}]"
+  },
+  "required_criteria": ["sections_ok", "self_test_passes", "recall_logged"],
+  "modules": [
+    {"id": "mod-a", "claimed_status": "ready", "sections_ok": true,  "self_test_passes": true,  "recall_logged": true},
+    {"id": "mod-b", "claimed_status": "ready", "sections_ok": true,  "self_test_passes": false, "recall_logged": true},
+    {"id": "mod-c", "claimed_status": "ready", "sections_ok": true,  "self_test_passes": true,  "recall_logged": false},
+    {"id": "mod-d", "claimed_status": "draft", "sections_ok": true,  "self_test_passes": true,  "recall_logged": true},
+    {"id": "mod-e", "claimed_status": "draft", "sections_ok": false, "self_test_passes": true,  "recall_logged": false},
+    {"id": "mod-f", "claimed_status": "ready", "sections_ok": true,  "self_test_passes": true,  "recall_logged": true}
+  ]
+}

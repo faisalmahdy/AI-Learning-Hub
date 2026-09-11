@@ -1,0 +1,5 @@
+{
+  "_meta": "A deep network's backward pass and the activation memory it needs. n_layers is the number of layers in the forward pass. To backpropagate, the backward pass needs each layer's forward activation; the question is how many of those activations to keep in memory. store-all keeps every activation (memory grows with depth) and recomputes nothing. Gradient (activation) checkpointing keeps only `checkpoints` evenly spaced activations and recomputes the rest during backward, from the nearest stored checkpoint -- trading memory for extra forward work. store-none keeps almost nothing and recomputes each activation from the input, which is quadratic recompute. Peak activation memory for c checkpoints is about c + n_layers/c, minimized at c = sqrt(n_layers); recompute is at most one extra forward pass. Every count here is computed exactly in units of layer-activations and layer-forwards; nothing is measured on real hardware.",
+  "n_layers": 64,
+  "checkpoints": 8
+}

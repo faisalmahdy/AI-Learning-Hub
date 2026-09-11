@@ -1,0 +1,232 @@
+{
+ "_meta": {
+  "what_this_is": "Six queries over a 6-doc corpus for a hybrid retrieval pipeline. Each query carries, per doc, a lexical score (term-overlap, like BM25), a dense score (embedding cosine), and a precise score (a cross-encoder reranker stand-in). Three queries are 'exact' -- the answer shares rare terms, so lexical ranks the gold high and dense is weaker. Three are 'paraphrase' -- the answer is worded differently, so dense ranks it high and lexical is weaker. Neither single retriever is enough; the point is that fusing the two rankings (reciprocal rank fusion) recovers the gold for both kinds, and a reranker then lifts it to rank 1. The gold always has the max precise score, so the reranker nails it whenever fusion put it in the pool.",
+  "scores_are": "A FIXTURE standing in for real BM25, embedding-cosine, and cross-encoder outputs, authored so recall at each stage is exact and checkable.",
+  "format": "rrf_k (RRF constant); queries [{id, gold, kind, docs:{id:{lex,dense,precise}}}]"
+ },
+ "rrf_k": 60,
+ "queries": [
+  {
+   "id": "q1",
+   "gold": "d1",
+   "kind": "exact",
+   "docs": {
+    "d1": {
+     "lex": 12,
+     "dense": 0.55,
+     "precise": 0.95
+    },
+    "d2": {
+     "lex": 3,
+     "dense": 0.8,
+     "precise": 0.4
+    },
+    "d3": {
+     "lex": 9,
+     "dense": 0.3,
+     "precise": 0.35
+    },
+    "d4": {
+     "lex": 1,
+     "dense": 0.2,
+     "precise": 0.2
+    },
+    "d5": {
+     "lex": 1,
+     "dense": 0.2,
+     "precise": 0.2
+    },
+    "d6": {
+     "lex": 1,
+     "dense": 0.2,
+     "precise": 0.2
+    }
+   }
+  },
+  {
+   "id": "q2",
+   "gold": "d2",
+   "kind": "exact",
+   "docs": {
+    "d2": {
+     "lex": 12,
+     "dense": 0.55,
+     "precise": 0.95
+    },
+    "d1": {
+     "lex": 3,
+     "dense": 0.8,
+     "precise": 0.4
+    },
+    "d3": {
+     "lex": 9,
+     "dense": 0.3,
+     "precise": 0.35
+    },
+    "d4": {
+     "lex": 1,
+     "dense": 0.2,
+     "precise": 0.2
+    },
+    "d5": {
+     "lex": 1,
+     "dense": 0.2,
+     "precise": 0.2
+    },
+    "d6": {
+     "lex": 1,
+     "dense": 0.2,
+     "precise": 0.2
+    }
+   }
+  },
+  {
+   "id": "q3",
+   "gold": "d3",
+   "kind": "exact",
+   "docs": {
+    "d3": {
+     "lex": 12,
+     "dense": 0.55,
+     "precise": 0.95
+    },
+    "d1": {
+     "lex": 3,
+     "dense": 0.8,
+     "precise": 0.4
+    },
+    "d2": {
+     "lex": 9,
+     "dense": 0.3,
+     "precise": 0.35
+    },
+    "d4": {
+     "lex": 1,
+     "dense": 0.2,
+     "precise": 0.2
+    },
+    "d5": {
+     "lex": 1,
+     "dense": 0.2,
+     "precise": 0.2
+    },
+    "d6": {
+     "lex": 1,
+     "dense": 0.2,
+     "precise": 0.2
+    }
+   }
+  },
+  {
+   "id": "q4",
+   "gold": "d4",
+   "kind": "paraphrase",
+   "docs": {
+    "d4": {
+     "lex": 4,
+     "dense": 0.85,
+     "precise": 0.95
+    },
+    "d1": {
+     "lex": 14,
+     "dense": 0.35,
+     "precise": 0.4
+    },
+    "d2": {
+     "lex": 2,
+     "dense": 0.6,
+     "precise": 0.35
+    },
+    "d3": {
+     "lex": 1,
+     "dense": 0.2,
+     "precise": 0.2
+    },
+    "d5": {
+     "lex": 1,
+     "dense": 0.2,
+     "precise": 0.2
+    },
+    "d6": {
+     "lex": 1,
+     "dense": 0.2,
+     "precise": 0.2
+    }
+   }
+  },
+  {
+   "id": "q5",
+   "gold": "d5",
+   "kind": "paraphrase",
+   "docs": {
+    "d5": {
+     "lex": 4,
+     "dense": 0.85,
+     "precise": 0.95
+    },
+    "d1": {
+     "lex": 14,
+     "dense": 0.35,
+     "precise": 0.4
+    },
+    "d2": {
+     "lex": 2,
+     "dense": 0.6,
+     "precise": 0.35
+    },
+    "d3": {
+     "lex": 1,
+     "dense": 0.2,
+     "precise": 0.2
+    },
+    "d4": {
+     "lex": 1,
+     "dense": 0.2,
+     "precise": 0.2
+    },
+    "d6": {
+     "lex": 1,
+     "dense": 0.2,
+     "precise": 0.2
+    }
+   }
+  },
+  {
+   "id": "q6",
+   "gold": "d6",
+   "kind": "paraphrase",
+   "docs": {
+    "d6": {
+     "lex": 4,
+     "dense": 0.85,
+     "precise": 0.95
+    },
+    "d1": {
+     "lex": 11,
+     "dense": 0.78,
+     "precise": 0.45
+    },
+    "d2": {
+     "lex": 2,
+     "dense": 0.6,
+     "precise": 0.35
+    },
+    "d3": {
+     "lex": 1,
+     "dense": 0.2,
+     "precise": 0.2
+    },
+    "d4": {
+     "lex": 1,
+     "dense": 0.2,
+     "precise": 0.2
+    },
+    "d5": {
+     "lex": 1,
+     "dense": 0.2,
+     "precise": 0.2
+    }
+   }
+  }
+ ]
+}

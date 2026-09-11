@@ -1,0 +1,14 @@
+{
+  "_meta": {
+    "what_this_is": "A starting value and a sequence of per-period growth FACTORS (a factor of 2.0 means doubled, 0.5 means halved). To summarize the typical growth you might average the factors -- but the arithmetic mean of factors, compounded, does not reproduce the actual end value, because growth multiplies rather than adds. The geometric mean (the n-th root of the product of the factors) is the constant factor that, applied every period, lands exactly on the true end value.",
+    "data_is": "A FIXTURE. The start and the factors are hand-authored so the product is a clean 1.2 while the arithmetic mean of the factors is 1.2 -- the same number, which makes the overstatement vivid: arithmetic mean says +20% per period, reality is +20% TOTAL over four periods. Every value is computed in geometric.py.",
+    "format": "start: starting value; factors: per-period multiplicative growth factors."
+  },
+  "start": 100.0,
+  "factors": [
+    2.0,
+    0.5,
+    1.5,
+    0.8
+  ]
+}

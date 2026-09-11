@@ -1,0 +1,53 @@
+{
+  "_meta": {
+    "what_this_is": "Four claimed effects an analyst might report, each carrying the raw signal all three guards read: the aggregate effect and its per-segment effects (for the Simpson/confounder guard), the treated change and a same-way-selected control's change (for the regression-to-the-mean guard), and a p-value plus the number of tests that were run to find it (for the multiple-comparisons guard). A real effect is consistent across segments, beats its control, and clears the Bonferroni threshold alpha/n_tests.",
+    "data_is": "A FIXTURE. Each finding is hand-authored so exactly one guard is the one that catches it, and the 'real' flag is the ground truth used to score false and true discoveries. coaching is a regression-to-the-mean artifact (its control moved as much); new_model is a Simpson reversal (positive aggregate, negative in every segment); metric_7 is a multiple-comparisons fluke (raw p 0.03 but 1 of 20 tests); real_fix is a genuine effect that passes all three.",
+    "format": "findings [{id, claim, aggregate_effect, segments[], treated_change, control_change, p_value, n_tests, real}]. alpha is 0.05, set in the script."
+  },
+  "findings": [
+    {
+      "id": "coaching",
+      "claim": "coaching raised the bottom cohort's score by 8.5 points",
+      "aggregate_effect": 8.5,
+      "segments": [7.9, 9.1],
+      "treated_change": 8.5,
+      "control_change": 9.2,
+      "p_value": 0.001,
+      "n_tests": 1,
+      "real": false
+    },
+    {
+      "id": "new_model",
+      "claim": "the new model beats the old by 5 points overall",
+      "aggregate_effect": 0.05,
+      "segments": [-0.06, -0.04],
+      "treated_change": 0.05,
+      "control_change": 0.0,
+      "p_value": 0.002,
+      "n_tests": 1,
+      "real": false
+    },
+    {
+      "id": "metric_7",
+      "claim": "prompt tweak improved metric 7 (p=0.03)",
+      "aggregate_effect": 0.03,
+      "segments": [0.02, 0.04],
+      "treated_change": 0.03,
+      "control_change": 0.0,
+      "p_value": 0.03,
+      "n_tests": 20,
+      "real": false
+    },
+    {
+      "id": "real_fix",
+      "claim": "the retrieval fix raised answer accuracy by 6 points",
+      "aggregate_effect": 0.06,
+      "segments": [0.05, 0.07],
+      "treated_change": 0.06,
+      "control_change": 0.01,
+      "p_value": 0.0004,
+      "n_tests": 3,
+      "real": true
+    }
+  ]
+}

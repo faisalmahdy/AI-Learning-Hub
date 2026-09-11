@@ -1,0 +1,7 @@
+{
+  "_meta": "Three independent columns X, Y, Z (X and Y are the numerators, Z a shared denominator) and W, an alternative unrelated denominator. Ratios X/Z and Y/Z share Z; X/Z and Y/W do not.",
+  "X": [10, 8, 12, 9, 11],
+  "Y": [9, 11, 12, 10, 8],
+  "Z": [1, 2, 4, 8, 16],
+  "W": [2, 4, 8, 16, 1]
+}

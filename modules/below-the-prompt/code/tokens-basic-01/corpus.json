@@ -1,0 +1,17 @@
+{
+  "_meta": {
+    "what_this_is": "A small English training text for a byte-pair-encoding tokenizer, plus sample strings and a token budget. The BPE learns merges from the common words in train_text, so those words compress to few tokens; the samples deliberately mix that common prose with digit strings and rare letter sequences the tokenizer has no merges for, so the characters-per-token ratio swings and a character-based truncation overflows the token budget.",
+    "results_are": "A FIXTURE. train_text is ordinary English so the merges are the familiar ones (th, er, the, and); samples are authored so at least two overflow an 8-token budget when truncated by the 4-chars-per-token heuristic. Point it at your own text.",
+    "budget": "the token budget a truncation must fit",
+    "format": "train_text (string); samples [strings]; budget (int tokens)"
+  },
+  "train_text": "the cat sat on the mat and the dog ran in the sun the other cat and the small dog then sat under the tree and the children ran and played in the garden after the rain the sun came out and the ground was warm the mother and the father sat and watched the children play together and the evening came and the stars were out and the night was calm and the world was still the wind was soft and the water was clear and the birds were singing in the morning and the flowers were open and the day was long and the summer was here and the people were happy and the town was quiet and the streets were clean and the market was busy and the shops were full and the school was near and the road was straight",
+  "samples": [
+    "the cat sat on the mat and",
+    "the children ran in the sun",
+    "9 8 7 6 5 4 3 2 1 0 9 8 7 6",
+    "xyzzy qwerty zxcvb plughh",
+    "invoice 4821 due 2026 03 28"
+  ],
+  "budget": 15
+}

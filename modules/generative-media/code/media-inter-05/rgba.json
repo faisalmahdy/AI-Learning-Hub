@@ -1,0 +1,11 @@
+{
+  "_meta": {
+    "what_this_is": "Two adjacent RGBA pixels straddling the edge of an opaque red shape on a transparent canvas, averaged into one pixel (a 2x downsample of the edge). Each pixel is [r, g, b, a] in [0,1]. The left pixel is opaque red; the right is fully transparent with its color stored as black (the usual default -- a transparent pixel's color is undefined, so tools store 0). The trap: averaging the straight (non-premultiplied) color blends the invisible black of the transparent pixel into the visible color, giving a dark red fringe. Premultiplying first (color *= alpha) removes it, recovering full red.",
+    "data_is": "A FIXTURE. Hand-authored RGBA values so the edge color under each method is exact and checkable.",
+    "format": "row [[r,g,b,a], ...] (the pixels to average into one)"
+  },
+  "row": [
+    [1.0, 0.0, 0.0, 1.0],
+    [0.0, 0.0, 0.0, 0.0]
+  ]
+}

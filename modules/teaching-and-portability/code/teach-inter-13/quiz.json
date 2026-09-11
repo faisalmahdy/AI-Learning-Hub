@@ -1,0 +1,7 @@
+{
+  "_meta": "A mastery gate decides advance/hold. nonmaster_skill and master_skill are the per-item probabilities of two learners; pass_fraction is the fraction correct the gate requires; quiz_lengths are the numbers of items to compare.",
+  "nonmaster_skill": 0.60,
+  "master_skill": 0.90,
+  "pass_fraction": 0.75,
+  "quiz_lengths": [3, 10, 20, 40]
+}

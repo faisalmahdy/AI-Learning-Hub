@@ -1,0 +1,14 @@
+{
+  "_meta": "Two migration plans to rename a column from `name` to `full_name`. The old code version reads `name`; the new reads `full_name`. Each plan is a sequence of steps; a step lists the schema's columns and which code versions are running (during a rolling deploy, both run).",
+  "requires": {"old": "name", "new": "full_name"},
+  "plans": {
+    "one-shot-rename": [
+      {"cols": ["full_name"], "running": ["old", "new"]}
+    ],
+    "expand-contract": [
+      {"cols": ["name"], "running": ["old"]},
+      {"cols": ["name", "full_name"], "running": ["old", "new"]},
+      {"cols": ["full_name"], "running": ["new"]}
+    ]
+  }
+}

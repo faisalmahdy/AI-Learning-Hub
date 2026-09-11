@@ -1,0 +1,6 @@
+{
+  "_meta": "A 1D brightness signal with a flat region, a step edge, and another flat region -- a single scanline standing in for an image. amount is the unsharp-mask strength (how much high-frequency detail to add back); contrast_k is the multiplier for the naive global-contrast comparison.",
+  "signal": [10, 10, 10, 30, 30, 30],
+  "amount": 1.0,
+  "contrast_k": 1.5
+}

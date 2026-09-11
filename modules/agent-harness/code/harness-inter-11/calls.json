@@ -1,0 +1,25 @@
+{
+  "_meta": {
+    "what_this_is": "The tool calls a harness issues within one agent turn, each with a duration and an optional dependency on another call output. Some calls are independent (a web search and a database read that need nothing from each other); some depend on another (summarize the document you just fetched). A serial harness runs them one after another, so the turn takes the SUM of all durations even when calls could have run at once. A parallel harness runs independent calls concurrently and only waits where there is a real dependency, so the turn takes the CRITICAL PATH -- the longest chain of dependent durations.",
+    "data_is": "A FIXTURE. The calls, durations, and dependencies are hand-authored so serial latency is 10s while the parallel critical path is 4s -- a 2.5x speedup -- and the dependency (D needs A) is what keeps D from starting at time 0. Every latency is computed in parallel.py.",
+    "format": "calls: {id: {seconds, depends_on}} where depends_on is another call id or null."
+  },
+  "calls": {
+    "A": {
+      "seconds": 3,
+      "depends_on": null
+    },
+    "B": {
+      "seconds": 2,
+      "depends_on": null
+    },
+    "C": {
+      "seconds": 4,
+      "depends_on": null
+    },
+    "D": {
+      "seconds": 1,
+      "depends_on": "A"
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "_meta": {
+    "what_this_is": "Three study conditions over the same set of items, differing only in how many items the learner ATTEMPTS as a test BEFORE studying (a pretest they will mostly fail, because they have not learned the material yet). study_only pretests none; pretest_half pretests half; pretest_all pretests every item. Then all conditions study every item, and all take the same delayed test.",
+    "data_is": "A FIXTURE, and the model is a STYLIZED but faithful account of a robust, replicated finding: attempting a test before instruction -- even with wrong answers -- improves later retention of the studied material (the pretesting / errorful-generation effect). Constants: study_gain is the delayed-test accuracy from studying alone; max_pretest_boost is the extra delayed-test accuracy when every item was pretested first; pretest_immediate_accuracy is how well the pretest itself is answered (low -- the learner has not studied yet). Every score is computed in pretest.py from the pretested counts and these constants.",
+    "format": "n_items: int; model: {study_gain, max_pretest_boost, pretest_immediate_accuracy}; conditions: [{name, pretested}]."
+  },
+  "n_items": 10,
+  "model": {"study_gain": 0.55, "max_pretest_boost": 0.20, "pretest_immediate_accuracy": 0.05},
+  "conditions": [
+    {"name": "study_only",   "pretested": 0},
+    {"name": "pretest_half", "pretested": 5},
+    {"name": "pretest_all",  "pretested": 10}
+  ]
+}

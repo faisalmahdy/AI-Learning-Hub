@@ -1,0 +1,6 @@
+{
+  "_meta": "A tiny CSV file's logical content, used to show the UTF-8 byte-order-mark (BOM) portability trap. columns are the header names and row is the single data row the file contains. lookup_key is the column a program will look up by name ('name'). The scenario: the file was saved by a program (Excel, Notepad, many Windows editors) that prepends a UTF-8 BOM -- the three bytes EF BB BF, decoding to the invisible character U+FEFF -- to the very start of the file. Reading that file with a plain 'utf-8' decoder leaves the BOM in the string, so the first header becomes '\\ufeffname' instead of 'name', and a lookup by the clean key 'name' silently fails (the BOM is invisible when printed, so the header LOOKS like 'name'). Reading with 'utf-8-sig' strips the BOM, so the first header is 'name' and the lookup works. The script constructs the file bytes by encoding this content with utf-8-sig (which adds the BOM) and then decodes both ways. columns, row, and lookup_key are the fixture; the BOM, the decoded headers, and every lookup are computed.",
+  "columns": ["name", "age", "city"],
+  "row": ["Alice", "30", "NYC"],
+  "lookup_key": "name"
+}

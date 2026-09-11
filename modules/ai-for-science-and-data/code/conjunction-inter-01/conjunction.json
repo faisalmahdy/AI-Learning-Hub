@@ -1,0 +1,18 @@
+{
+  "_meta": "A small reference population of people, each described by a set of tags (profession and traits). We estimate the probability of a hypothesis by the fraction of the population it matches. The point is the conjunction rule: the probability of 'A and B' can never exceed the probability of A alone, because the people who are both A and B are a subset of the people who are A. Yet a more detailed, representative-sounding hypothesis ('a bank teller who is also an activist') feels more probable than the broad one ('a bank teller') -- the conjunction fallacy. pairs lists (broad_tag, extra_tag) hypotheses to compare: the single tag vs the conjunction of both. Every probability here is an exact count over the population.",
+  "population": [
+    ["teller", "activist"],
+    ["teller"],
+    ["teller"],
+    ["teller"],
+    ["teacher", "activist"],
+    ["teacher"],
+    ["artist", "activist"],
+    ["artist", "activist"],
+    ["nurse"],
+    ["nurse", "activist"],
+    ["engineer"],
+    ["lawyer", "activist"]
+  ],
+  "pairs": [["teller", "activist"], ["artist", "activist"], ["teacher", "activist"]]
+}

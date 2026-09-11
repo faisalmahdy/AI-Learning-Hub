@@ -1,0 +1,11 @@
+{
+  "_meta": "A request with a total time budget fans out into a chain of downstream hops. budget_ms is what the client will wait; per_hop_ms is the fixed per-hop timeout; each hop's ms is how long it actually takes.",
+  "budget_ms": 1000,
+  "per_hop_ms": 600,
+  "hops": [
+    {"hop": "A", "ms": 400},
+    {"hop": "B", "ms": 400},
+    {"hop": "C", "ms": 400},
+    {"hop": "D", "ms": 400}
+  ]
+}

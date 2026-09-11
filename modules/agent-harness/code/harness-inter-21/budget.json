@@ -1,0 +1,6 @@
+{
+  "_meta": "An agent loop's steps, each with the tokens it adds to the context (mostly the tool result it appends). max_steps is the iteration bound — the loop stops after that many steps. max_tokens is a separate token/cost budget — the loop should stop once cumulative tokens reach it. The point: the iteration bound counts STEPS, but steps are not equal in cost. A few steps that each append a huge tool result can blow the token budget (and the bill) long before the step count runs out, so the iteration bound never fires and the run overruns. step_tokens lists each step's token cost in order; the big results are the ones that dominate.",
+  "step_tokens": [500, 500, 8000, 500, 9000, 400, 300, 300],
+  "max_steps": 20,
+  "max_tokens": 15000
+}

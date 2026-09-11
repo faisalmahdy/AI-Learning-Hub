@@ -1,0 +1,36 @@
+{
+  "_meta": {
+    "what_this_is": "Six personal notes, a concept map, and six queries split into two kinds. EXACT queries hinge on a rare token (14c, b4, 28th) that only a surface match can find. PARAPHRASE queries use synonyms (commute, exercise, checkup) that share no surface word with the note but the same concept. The concept map is a hand-built stand-in for a learned embedding: it groups synonyms under one concept, and words it has no concept for (the rare tokens) are dropped -- exactly how an embedding blurs a rare token.",
+    "results_are": "A FIXTURE. Authored so lexical wins every exact query and loses every paraphrase, dense does the reverse, and a hybrid must fuse them. Point the methods at your own corpus and queries.",
+    "query_types": "exact = answerable only by a rare surface token; paraphrase = answerable only by a shared concept",
+    "format": "docs {id: text}; concepts {word: concept}; queries [{q, gold_doc, type}]"
+  },
+  "docs": {
+    "d_commute": "drive the car to the office every morning before work",
+    "d_dentist": "dentist appointment on the 14th at 9am in room b4 with lin",
+    "d_bill": "pay the electric invoice due on the 28th from the joint account",
+    "d_gym": "workout plan leg training on monday and wednesday keep it steady",
+    "d_grocery": "buy oat milk eggs and coffee at the corner store today",
+    "d_flight": "the assigned seat is 14c on the evening flight from gate 22"
+  },
+  "concepts": {
+    "drive": "transport", "driving": "transport", "car": "transport",
+    "commute": "transport", "commuting": "transport",
+    "work": "workplace", "office": "workplace", "job": "workplace", "workplace": "workplace",
+    "dentist": "medical", "doctor": "medical", "appointment": "medical",
+    "clinic": "medical", "checkup": "medical", "medical": "medical",
+    "invoice": "billing", "pay": "billing", "payment": "billing", "billing": "billing",
+    "workout": "fitness", "training": "fitness", "exercise": "fitness",
+    "gym": "fitness", "fitness": "fitness",
+    "buy": "shopping", "groceries": "shopping", "shopping": "shopping",
+    "store": "shopping", "purchase": "shopping"
+  },
+  "queries": [
+    {"q": "which seat is 14c", "gold_doc": "d_flight", "type": "exact"},
+    {"q": "when is electric due on the 28th", "gold_doc": "d_bill", "type": "exact"},
+    {"q": "which room is b4", "gold_doc": "d_dentist", "type": "exact"},
+    {"q": "how do i commute to my job", "gold_doc": "d_commute", "type": "paraphrase"},
+    {"q": "where do i exercise", "gold_doc": "d_gym", "type": "paraphrase"},
+    {"q": "when is my medical checkup", "gold_doc": "d_dentist", "type": "paraphrase"}
+  ]
+}

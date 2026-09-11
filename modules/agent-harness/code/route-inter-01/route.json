@@ -1,0 +1,6 @@
+{
+  "_meta": "A workload of agent steps and two models to run them on. steps splits the work into easy and hard steps (most steps in a real agent run are easy: a lookup, a format, a simple tool call). cheap and strong are two models: acc_easy and acc_hard are each model's accuracy on the two kinds of step, and cost is its price per call in arbitrary units. The cheap model is nearly as good as the strong one on easy steps but much worse on hard ones; the strong model is accurate on both but ten times the cost. The question is which model to call. always-cheap runs everything on cheap (cheap, but fails hard steps); always-strong runs everything on strong (accurate, but pays the strong price on every easy step too); routed sends easy steps to cheap and hard steps to strong. Every cost and accuracy here is computed from these numbers.",
+  "steps": {"easy": 80, "hard": 20},
+  "cheap": {"acc_easy": 0.95, "acc_hard": 0.40, "cost": 1},
+  "strong": {"acc_easy": 0.98, "acc_hard": 0.90, "cost": 10}
+}

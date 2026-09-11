@@ -1,0 +1,9 @@
+{
+  "_meta": "Retrieved chunks, each with a relevance score (higher is better) and a token length. budget is the fixed token window the selected chunks must fit inside. The task: pick a subset that maximizes total relevance without exceeding the budget.",
+  "budget": 10,
+  "chunks": {
+    "A": {"score": 10, "tokens": 9},
+    "B": {"score": 6, "tokens": 5},
+    "C": {"score": 5, "tokens": 5}
+  }
+}

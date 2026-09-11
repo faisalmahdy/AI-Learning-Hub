@@ -1,0 +1,15 @@
+{
+  "_meta": "Eight A/A tests -- experiments where the two arms are IDENTICAL, so the true effect is zero and any 'significant' result is a false positive -- used to show why PEEKING (repeatedly checking significance as data arrives and stopping at the first significant look) inflates the false-positive rate far above the nominal 0.05. Each trajectory is one A/A test's two-sided z-statistic recorded at five successive interim looks as data accumulates; because the true effect is zero the z-statistic just wanders around 0. z_threshold is the two-sided 0.05 critical value (1.96). A FIXED-HORIZON analyst looks only once, at the final look, and declares significance only if the final |z| >= 1.96 -- this controls the false-positive rate at the nominal level. A PEEKING analyst checks every interim look and stops to declare significance the first time |z| crosses 1.96 -- which happens far more often, because a wandering statistic gets many chances to cross. Here the fixed-horizon rule flags 1 of 8 A/A tests (near the nominal level given the tiny sample), while peeking flags 5 of 8 -- five false positives from the same data, four of them on trajectories that crossed at an interim look and then drifted back below the threshold by the end. z_threshold, true_effect, and trajectories are the fixture; every crossing, stopping point, and false-positive rate is computed. This is an illustrative hand-set sample of size 8, not a large simulation; it shows the mechanism, and the general result (peeking inflates the false-positive rate, worse with more looks) is standard sequential-testing theory.",
+  "z_threshold": 1.96,
+  "true_effect": 0,
+  "trajectories": {
+    "t1": [0.5, 1.2, 2.10, 1.4, 0.30],
+    "t2": [0.3, 0.8, 1.10, 0.9, 0.50],
+    "t3": [1.0, 2.30, 1.8, 1.0, 0.70],
+    "t4": [0.2, 0.6, 1.0, 1.5, 1.20],
+    "t5": [0.7, 1.3, 0.9, 2.05, 0.40],
+    "t6": [0.4, 0.9, 1.3, 1.1, 0.60],
+    "t7": [0.6, 1.1, 1.9, 2.40, 2.10],
+    "t8": [0.8, 1.4, 2.20, 1.0, 0.50]
+  }
+}

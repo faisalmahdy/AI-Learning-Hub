@@ -1,0 +1,5 @@
+{
+  "_meta": "A one-dimensional image row and an integer upscale factor, used to contrast the two directions you can implement a geometric resample (scale, rotate, warp). FORWARD mapping walks the SOURCE pixels and writes each one to the destination location it maps to (source index i lands at destination index i*scale); because there are fewer source pixels than destination pixels on an upscale, some destination pixels are never written and stay as holes. BACKWARD (inverse) mapping walks the DESTINATION pixels and, for each one, computes the source location it came from (destination index j reads source index j/scale) and samples there; every destination pixel is visited exactly once, so there are no holes. row is the source pixels, scale is the upscale factor; every resampled output and hole is computed.",
+  "row": [10, 20, 30, 40],
+  "scale": 2
+}

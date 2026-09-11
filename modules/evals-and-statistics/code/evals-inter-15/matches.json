@@ -1,0 +1,13 @@
+{
+  "_meta": "Pairwise match results generated from true strengths A>B>C>D, on a rigged schedule: C mostly played the weak D (easy), B mostly played the strong A (hard). wins[i][j] = number of times model i beat model j.",
+  "players": ["A", "B", "C", "D"],
+  "true_order": ["A", "B", "C", "D"],
+  "easy_model": "C",
+  "hard_model": "B",
+  "wins": {
+    "A": {"B": 7, "C": 2, "D": 0},
+    "B": {"A": 3, "C": 0, "D": 2},
+    "C": {"A": 0, "B": 0, "D": 7},
+    "D": {"A": 0, "B": 0, "C": 3}
+  }
+}

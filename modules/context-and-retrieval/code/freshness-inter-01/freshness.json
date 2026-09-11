@@ -1,0 +1,8 @@
+{
+  "_meta": "A corpus of documents and a retrieval index that is a SNAPSHOT taken at some point in time. Each document has a relevance score to a given query (higher = better match) and an 'indexed' flag saying whether the current index snapshot contains it. The key document, d2_latest_update, is the best match for the query (relevance 5) but was ADDED to the corpus AFTER the index was last built, so indexed is false -- it exists in the corpus but the search index does not know about it yet. The other two documents (an older overview, relevance 2, and a misc doc, relevance 1) were present when the index was built, so they are indexed. A search runs against the INDEX, not the corpus, so a stale index can only return documents it contains: it returns the older overview (relevance 2) and never sees the better, newer d2. Re-indexing (or incremental indexing) adds d2 to the index, after which the search finds it. documents (with their relevance and indexed flags) are the fixture; every search result and freshness gap is computed.",
+  "documents": [
+    {"id": "d1_overview", "relevance": 2, "indexed": true},
+    {"id": "d2_latest_update", "relevance": 5, "indexed": false},
+    {"id": "d3_misc", "relevance": 1, "indexed": true}
+  ]
+}

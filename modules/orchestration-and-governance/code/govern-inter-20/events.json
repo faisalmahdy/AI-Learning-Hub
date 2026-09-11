@@ -1,0 +1,10 @@
+{
+  "_meta": "An event log from two processes (p1, p2), listed in an order consistent with causality. kind is local, send, or recv; msg links a send to the recv that receives it. A vector clock keeps one counter per process: a process increments its own on every event, attaches the whole vector to a message, and on receipt takes the element-wise max with the message's vector then increments its own. Two events are CONCURRENT when neither vector is <= the other. The question: which event pairs are causally ordered, and which only look ordered under a single Lamport number?",
+  "procs": ["p1", "p2"],
+  "events": [
+    {"id": "e1", "proc": "p1", "kind": "local"},
+    {"id": "e2", "proc": "p1", "kind": "send", "msg": "m1"},
+    {"id": "e3", "proc": "p2", "kind": "local"},
+    {"id": "e4", "proc": "p2", "kind": "recv", "msg": "m1"}
+  ]
+}
