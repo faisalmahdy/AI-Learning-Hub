@@ -1,0 +1,18 @@
+{
+  "_meta": "A query and two documents whose token embeddings are mean-pooled into sentence embeddings, one document padded, used to show why mean pooling must be MASKED to the real tokens -- averaging in the padding tokens' embeddings drags the sentence vector off its true direction and corrupts retrieval ranking. To turn a document into a single embedding for dense retrieval, a common recipe is to embed each token and average the token vectors (mean pooling). But documents in a batch are padded to a common length, and the padding positions have embeddings too -- the pad token maps to some vector like any other id. If the mean is taken over the whole padded tensor instead of only the real tokens, those padding vectors are averaged into the sentence embedding, pulling it toward the padding direction. The distortion is worse for SHORT documents, which have proportionally more padding, so a short but highly relevant document is diluted more than a long mediocre one -- and the ranking can flip, retrieving the wrong document. The fix is masked mean pooling: sum only the real-token embeddings and divide by the real-token count (using the attention mask), so padding never enters the average. query is the query embedding; documents each give real_tokens (the actual token embeddings) and pad_tokens (the padding embeddings added to reach the batch length). Vectors are tiny and 2-D so every cosine is checkable by hand. query and the token embeddings are the fixture; the masked and naive pooled embeddings, their cosine similarities, and the two rankings are computed.",
+  "query": [1, 0],
+  "documents": [
+    {
+      "id": "A",
+      "relevant": true,
+      "real_tokens": [[1, 0], [1, 0]],
+      "pad_tokens": [[0, 1], [0, 1]]
+    },
+    {
+      "id": "B",
+      "relevant": false,
+      "real_tokens": [[0.8, 0.6], [0.8, 0.6]],
+      "pad_tokens": []
+    }
+  ]
+}
