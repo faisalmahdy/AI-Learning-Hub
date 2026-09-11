@@ -1,0 +1,10 @@
+{
+  "_meta": "A set of identifiers the agent has actually observed, plus proposed tool calls carrying an id argument, used to show why validating a tool argument against its schema is not enough -- a schema-valid argument can still be a hallucination the model invented -- and why identifier arguments must be checked for GROUNDING: they must trace to a value that appeared in the agent's context. Schema validation checks that an argument has the right shape: the right type, a matching pattern, an allowed enum. It catches malformed calls. It does not catch a well-formed lie. When an agent is asked to act on 'the invoice' and does not actually have the invoice id in front of it, a language model will often produce a plausible-looking id -- the right prefix, the right number of digits -- that it simply made up. That fabricated id passes every schema check, because it looks exactly like a real id; it just does not correspond to anything real, so the tool acts on a nonexistent or, worse, a different-but-valid record. The defense is grounding: for arguments that are references to entities (ids, filenames, user handles, record keys), require that the value appear in what the agent has actually seen -- a prior tool result, the user's message, the retrieved context -- and reject or re-ask when it does not, instead of dispatching a confident fabrication. observed_ids are the identifiers the agent has genuinely encountered (the grounded set); id_pattern is the schema pattern an id must match; calls are the proposed tool calls, each with the id argument the model wants to use. observed_ids, id_pattern, and calls are the fixture; whether each call passes schema validation, whether it is grounded, and which policy accepts it are computed.",
+  "observed_ids": ["INV-1001", "INV-1002"],
+  "id_pattern": "^INV-[0-9]+$",
+  "calls": [
+    {"tool": "fetch_invoice", "id": "INV-1001"},
+    {"tool": "fetch_invoice", "id": "INV-9999"},
+    {"tool": "fetch_invoice", "id": "INV-1002"}
+  ]
+}
