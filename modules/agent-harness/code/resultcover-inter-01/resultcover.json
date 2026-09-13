@@ -1,0 +1,9 @@
+{
+  "_meta": "A single assistant turn's tool_use blocks, used to show why a harness must emit exactly one tool_result for every tool_use id the model produced -- not just for the calls it actually executed. Providers require that an assistant message containing tool_use blocks be immediately followed by a user message whose tool_result blocks answer every one of those ids: each tool_use must have a matching tool_result, and there must be no tool_result for an id that was not requested. A call the harness gates and declines, a call whose name is unknown, a call it skips because a budget is exhausted -- all of these still need a tool_result block (a synthetic 'declined' or 'error' observation), because the transcript is validated on ids, not on whether work was done. A naive harness that appends results only for the calls it ran leaves the declined and unknown ids dangling: the assistant turn has tool_use blocks with no answering tool_result, and the provider rejects the very next request as malformed, aborting the whole run. calls is the list of tool_use blocks the model emitted this turn, each with an id, a name, and a disposition the harness assigned: 'run' (executed normally), 'decline' (gated as irreversible and refused), or 'unknown' (no such tool). calls is the fixture; the naive result set (only run calls answered), the correct result set (every id answered), the dangling ids, and whether each turn is well-formed are computed.",
+  "calls": [
+    {"id": "call_a1", "name": "search_docs", "disposition": "run"},
+    {"id": "call_b2", "name": "read_file", "disposition": "run"},
+    {"id": "call_c3", "name": "delete_record", "disposition": "decline"},
+    {"id": "call_d4", "name": "frobnicate", "disposition": "unknown"}
+  ]
+}
