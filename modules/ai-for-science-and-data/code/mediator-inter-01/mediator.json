@@ -1,0 +1,9 @@
+{
+  "_meta": "A dataset where a treatment X affects an outcome Y both directly and through a mediator M (X causes M, M causes Y), used to show that controlling for a mediator removes the indirect effect and understates the TOTAL effect of X on Y -- the opposite of the confounder case, where controlling is correct. Deciding which variables to adjust for is the central skill of causal analysis, and the data alone cannot tell you: the same statistical operation (stratify by a third variable and the X-Y association shrinks) is correct for one kind of variable and wrong for another. A CONFOUNDER is a common cause of X and Y; you must control for it, or its influence masquerades as an X effect. A COLLIDER is a common effect of X and Y; controlling for it invents a spurious association. A MEDIATOR sits on the causal path X -> M -> Y; controlling for it blocks the part of X's effect that flows through M, so you measure only the direct effect and understate the total. Researchers who 'control for everything' wrongly include mediators and shrink real effects toward zero. Here X shifts M upward (X causes M) and Y = 10 + 3*X + 5*M, so X has a direct effect of 3 and an indirect effect through M; the total effect is what X actually does to Y, but adjusting for M leaves only the direct 3. cells lists each (X, M) combination with its count; the Y value of a cell is determined by X and M via the stated formula. cells is the fixture; the unadjusted (total) effect, the mediator-adjusted (direct) effect, the removed indirect effect, and M's dependence on X are computed.",
+  "cells": [
+    {"x": 0, "m": 0, "count": 3},
+    {"x": 0, "m": 2, "count": 1},
+    {"x": 1, "m": 0, "count": 1},
+    {"x": 1, "m": 2, "count": 3}
+  ]
+}
