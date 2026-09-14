@@ -1,0 +1,9 @@
+{
+  "_meta": "A client's last-write version and a set of replicas at different replication versions, used to show how to give a single client read-your-writes consistency (it never reads its own data older than what it just wrote) by pinning the client's last-write version in a session token and routing its reads only to a replica caught up to that version -- a client-scoped guarantee that works even under eventual consistency, without forcing every read through a quorum. In an eventually-consistent store, a write is applied to one replica and propagates to the others over time, so at any instant the replicas hold different versions. A client that just wrote and then reads can, if its read is routed to a replica that has not yet received the write, get back a value older than its own write -- reading its own stale data, which is confusing and looks like the write was lost. Forcing read-your-writes for everyone via quorum overlap (R + W > N) is one fix but makes every read touch a quorum. A cheaper, client-scoped fix is a session token: the client remembers the version it last wrote, and each read is routed to (or waits for) a replica whose version is at least that, so the client never sees a value older than its own write, while other clients' reads stay cheap and eventually consistent. client_write_version is the version the client last wrote; replicas each have an id and their current replication version. These are the fixture; the versions a naive any-replica read could return (including stale ones), the replicas a session-pinned read is eligible to use, and whether each guarantees read-your-writes are computed.",
+  "client_write_version": 5,
+  "replicas": [
+    {"id": "R1", "version": 5},
+    {"id": "R2", "version": 3},
+    {"id": "R3", "version": 6}
+  ]
+}
