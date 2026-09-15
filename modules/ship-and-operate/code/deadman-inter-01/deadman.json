@@ -1,0 +1,12 @@
+{
+  "_meta": "A scheduled job's event log -- successes and errors at various times -- plus the expected run interval and the current time, used to show why monitoring must alert on the absence of an expected success signal, not only on errors. Error-based alerting fires when something emits an error: a failed run, an exception, a non-2xx status. That catches a job that runs and fails, but it is blind to a job that stops running entirely -- a crashed cron, a stuck queue consumer, a scheduler that never fired, a broker that stopped delivering. A job that has silently died emits nothing: no error, no exception, no bad status, just silence, and there is no event for an error rule to match, so error alerting stays quiet through the whole outage while the job produces nothing. The fix is a dead man's switch: track the time since the last success and alert when it exceeds the expected interval plus a margin, so the alert fires on the absence of the heartbeat rather than the presence of an error. On this fixture the job succeeds, then errors once (which error alerting correctly catches), then succeeds again, then dies silently; error alerting sees no event after the last success and never fires, while the freshness check sees the gap grow past the threshold and fires. events is the list of {time, outcome} the job emitted (outcome is 'success' or 'error'); interval is the expected time between runs; margin is the extra grace before the freshness alert; now is the current time. These are the fixture; the last success time, the gap, and whether each alerting scheme fires are computed.",
+  "events": [
+    {"time": 0, "outcome": "success"},
+    {"time": 60, "outcome": "success"},
+    {"time": 120, "outcome": "error"},
+    {"time": 180, "outcome": "success"}
+  ],
+  "interval": 60,
+  "margin": 30,
+  "now": 360
+}
