@@ -1,0 +1,9 @@
+{
+  "_meta": "A tool's declared output contract and several success responses it returned, used to show why a harness must validate a tool's returned payload against that contract before feeding it to the model, not just check that the call did not raise an error. A tool call has two ways to go wrong: it can fail (raise or return an error), which a companion module handles by returning a structured error; or it can succeed -- return normally, no error -- but hand back data that violates its own contract: a field missing or null, a value out of its valid range, the wrong type. A success is not the same as a valid payload. If the harness forwards the returned payload to the model unchecked, the model reasons over invalid data as if it were fact -- treating a null temperature as a real reading, or a sensor-glitch value of 250 degrees Celsius as the weather -- and produces a confident wrong answer, or a later step that computes on the field crashes deep in the pipeline, far from the tool that produced the bad value. The fix is a validation step on the tool's output that mirrors the one on the tool's input: check the returned payload against the declared output schema (types, required fields, ranges), and on a violation treat it as a tool failure -- return a structured error and retry or report -- rather than forwarding it. schema declares the output contract (temp_c is a number within the given range, conditions is a non-empty string); responses is the list of success payloads the tool returned. These are the fixture; the validation result for each, what the naive (unchecked) path forwards and computes, and what the validated path forwards are computed.",
+  "schema": {"temp_c_min": -90, "temp_c_max": 60},
+  "responses": [
+    {"temp_c": 20, "conditions": "sunny"},
+    {"temp_c": null, "conditions": "cloudy"},
+    {"temp_c": 250, "conditions": "clear"}
+  ]
+}
