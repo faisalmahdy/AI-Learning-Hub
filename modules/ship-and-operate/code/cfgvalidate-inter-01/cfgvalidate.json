@@ -1,0 +1,11 @@
+{
+  "_meta": "A service configuration with several invalid fields, plus the order in which the running service first touches each field, used to show why configuration must be validated in full at startup rather than field by field as each is first used. A config value is only wrong when something reads it, and a service reads different fields at different times: some on the first request, some only on a rare code path, some not for hours. If validation is lazy -- each field checked the moment it is first accessed -- then an invalid field lurks silently until the request that happens to touch it arrives, and only then does the service crash, in production, mid-traffic, one bad field at a time, while every other bad field is still hiding. Worse, a bad field on a path that no request exercised during a test is never caught at all, so it ships. Startup validation instead runs every field's rule once, before the service accepts any traffic, and refuses to start if any field is invalid -- surfacing every error at once, at deploy time, where a human is watching, instead of scattered across future production incidents. config is the loaded configuration; access_order is the order in which the running service first reads each field (fields not listed are read on paths this run never exercised). The startup validation errors (all of them) and the lazy run (which single error it hits, at which step, and which invalid fields it never touches) are computed. Stdlib only.",
+  "config": {
+    "port": 70000,
+    "timeout_seconds": -5,
+    "mode": "turbo",
+    "workers": 4,
+    "retries": 2
+  },
+  "access_order": ["workers", "retries", "timeout_seconds"]
+}
