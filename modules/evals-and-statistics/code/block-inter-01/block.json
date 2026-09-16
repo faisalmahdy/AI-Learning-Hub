@@ -1,0 +1,10 @@
+{
+  "_meta": "Eight units with a strong pre-existing covariate (a baseline value that determines most of the outcome), split into a treatment and a control arm two ways -- by a simple randomization that happened to imbalance the covariate, and by a blocked randomization that balances it -- used to show that simple randomization does not GUARANTEE balance in a small sample, so a strong covariate can end up unevenly split by chance and confound the estimate, and that blocking (stratifying the assignment on the covariate) removes that risk by design. An A/B estimate is the treated mean minus the control mean, and it equals the true effect only if the arms are balanced on everything that affects the outcome. Randomization makes balance likely in expectation and near-certain in a large sample, but in a small sample any single random split can, by luck, put more of a strong covariate in one arm -- and then that arm's outcome is higher for a reason that has nothing to do with the treatment, so the difference is the effect plus the imbalance. Blocked (stratified) randomization removes the luck: divide the units into strata by the covariate (here high-baseline and low-baseline), and randomize to treatment and control within each stratum, so each arm gets exactly the same covariate composition and the imbalance cannot occur. units each have a baseline covariate; true_effect is the treatment's real effect on the outcome (outcome = baseline + true_effect when treated); simple_treatment and blocked_treatment list which unit ids are assigned to treatment under each design (the rest are control). The covariate balance and the estimated effect under each design are computed. Stdlib only.",
+  "true_effect": 5.0,
+  "units": [
+    {"id": "u1", "baseline": 100}, {"id": "u2", "baseline": 100}, {"id": "u3", "baseline": 100}, {"id": "u4", "baseline": 100},
+    {"id": "u5", "baseline": 0}, {"id": "u6", "baseline": 0}, {"id": "u7", "baseline": 0}, {"id": "u8", "baseline": 0}
+  ],
+  "simple_treatment": ["u1", "u2", "u3", "u5"],
+  "blocked_treatment": ["u1", "u2", "u5", "u6"]
+}
