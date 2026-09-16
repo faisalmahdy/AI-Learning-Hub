@@ -1,0 +1,15 @@
+{
+  "_meta": "One batch of tokens routed through a Mixture-of-Experts layer. Each token has a gate vector -- the router's probability over the num_experts experts (each row sums to 1). Top-1 routing sends each token to its highest-gate expert. gates are chosen so the router prefers expert 0: five of the eight tokens route there, one expert gets none. That imbalance is the MoE failure mode -- 'routing collapse' -- where a few experts do all the work and others are never trained (dead experts), wasting the model's capacity. The load-balancing auxiliary loss E * sum_e (fraction_to_e * mean_gate_e) measures it: it equals 1.0 when load is uniform and rises as it concentrates. capacity_factor sets each expert's capacity = capacity_factor * tokens / num_experts; tokens beyond an expert's capacity overflow and are dropped. Every load, loss, and drop here is computed.",
+  "gates": [
+    [0.70, 0.10, 0.10, 0.10],
+    [0.60, 0.20, 0.10, 0.10],
+    [0.50, 0.30, 0.10, 0.10],
+    [0.80, 0.10, 0.05, 0.05],
+    [0.40, 0.40, 0.10, 0.10],
+    [0.20, 0.50, 0.20, 0.10],
+    [0.10, 0.60, 0.20, 0.10],
+    [0.30, 0.20, 0.40, 0.10]
+  ],
+  "num_experts": 4,
+  "capacity_factor": 1.0
+}

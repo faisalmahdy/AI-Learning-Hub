@@ -1,0 +1,10 @@
+{
+  "_meta": "A tiny self-attention over a 4-token sequence, to show why a decoder needs a CAUSAL mask. Each position i produces an output that is a weighted average of the value vectors of the positions it attends to, with weights from a softmax over attention scores. In a decoder trained to predict the next token, position i must only attend to positions 0..i -- the past and itself -- because at inference the future tokens do not exist yet. The causal mask enforces this by setting the attention score to -infinity for every future position j>i before the softmax, so those positions get zero weight. Without the mask, position i also attends to positions i+1..n-1, so its output depends on tokens it has not generated yet -- a future-information leak that lets the model 'cheat' during teacher-forced training and then fail at inference. The scores here are set equal (all 0) to isolate the mask's effect from any learned attention pattern; values are stand-in token vectors. Every attention weight and output is computed.",
+  "values": [10, 20, 30, 40],
+  "scores": [
+    [0.0, 0.0, 0.0, 0.0],
+    [0.0, 0.0, 0.0, 0.0],
+    [0.0, 0.0, 0.0, 0.0],
+    [0.0, 0.0, 0.0, 0.0]
+  ]
+}

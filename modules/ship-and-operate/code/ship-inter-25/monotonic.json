@@ -1,0 +1,12 @@
+{
+  "_meta": "One request being timed against a deadline while the system clock is corrected mid-flight. Each sample is a snapshot taken at a `true` number of seconds since the request started (the real elapsed time, which the code cannot see directly). `wall` is what the wall-clock reads at that moment -- it tracks true time until an NTP correction at true=1.0s steps it BACK by 1.5 seconds, the kind of jump that happens when a clock that had drifted forward is disciplined. `mono` is what a monotonic clock reads -- it only ever moves forward at a steady rate and is never adjusted, so its readings differ from true only by a fixed offset. deadline is the timeout the request is checked against. The code measures elapsed time as (reading now) minus (reading at start) for each clock, and asks when that measured elapsed crosses the deadline. Every number is from the fixture; nothing is sampled.",
+  "deadline": 2.0,
+  "samples": [
+    {"true": 0.0, "wall": 100.0, "mono": 500.0},
+    {"true": 0.5, "wall": 100.5, "mono": 500.5},
+    {"true": 1.0, "wall": 99.5,  "mono": 501.0},
+    {"true": 1.5, "wall": 100.0, "mono": 501.5},
+    {"true": 2.0, "wall": 100.5, "mono": 502.0},
+    {"true": 2.5, "wall": 101.0, "mono": 502.5}
+  ]
+}

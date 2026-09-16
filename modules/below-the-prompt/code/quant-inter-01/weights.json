@@ -1,0 +1,16 @@
+{
+  "_meta": {
+    "what_this_is": "A tiny weight matrix standing in for one layer of a model. Six channels (rows) of eight weights each. Five channels hold ordinary small weights in roughly [-1.5, 1.5]. Channel 5 holds ordinary weights PLUS one outlier (48.0) -- the kind of single large-magnitude activation/weight that real transformer layers grow. The outlier is the whole point: with one global scale (per-tensor), it stretches the quantization grid so far that every ordinary weight collapses onto almost no levels.",
+    "weights_are": "A FIXTURE. Hand-authored small values plus one planted outlier, so per-tensor vs per-channel quantization error is exact and checkable. No model, no training.",
+    "format": "channels: list of rows; each row is a list of float weights. outlier_channel names which row carries the planted outlier."
+  },
+  "outlier_channel": 5,
+  "channels": [
+    [0.72, -0.31, 1.10, -0.88, 0.45, -1.22, 0.09, 0.67],
+    [-0.54, 0.98, -0.12, 1.31, -0.77, 0.40, -1.05, 0.23],
+    [1.44, -0.66, 0.02, -0.39, 0.85, -1.11, 0.58, -0.28],
+    [-0.19, 0.63, -1.38, 0.71, -0.05, 0.94, -0.82, 0.33],
+    [0.51, -1.02, 0.38, -0.47, 1.19, -0.24, 0.76, -0.91],
+    [0.41, -0.62, 0.55, 48.0, -0.33, 0.88, -0.77, 0.29]
+  ]
+}

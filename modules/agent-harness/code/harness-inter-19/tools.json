@@ -1,0 +1,10 @@
+{
+  "_meta": "An agent's tool menu. tool_tokens maps each registered tool to the number of tokens its schema (name, description, parameters) occupies -- this whole menu is sent to the model on EVERY request. needed lists the tools this particular task actually uses. calls is how many model calls the task's loop makes. context_budget is the model's context window in tokens. The question: how much of the budget does the full menu spend per call, and how much of that is wasted on tools the task never uses?",
+  "tool_tokens": {
+    "search": 250, "read_file": 250, "write_file": 250, "delete_file": 250,
+    "list_dir": 250, "move_file": 250, "run_shell": 250, "http_get": 250
+  },
+  "needed": ["search", "read_file"],
+  "calls": 10,
+  "context_budget": 8000
+}

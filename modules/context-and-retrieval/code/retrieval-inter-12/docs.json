@@ -1,0 +1,46 @@
+{
+  "_meta": {
+    "what_this_is": "A set of documents each with a similarity score to the query and a metadata field (team). The query is only allowed to use documents where team==eng (a permission or scope filter). Two ways to combine the filter with the vector search. POST-FILTER retrieves the top-k by similarity first, then drops the ones that fail the filter -- so if the top-k are all the wrong team, you get few or zero results. PRE-FILTER restricts to the allowed documents first, then takes the top-k among those -- so you always get k allowed results if enough exist.",
+    "data_is": "A FIXTURE. The scores and teams are hand-authored so the three highest-scoring documents are all the wrong team: post-filter on top-3 returns 0 allowed results, while pre-filter returns 3. Every retrieval is computed in prefilter.py.",
+    "format": "k: results wanted; allowed_team: the metadata value the query is permitted; docs: [{id, score, team}]."
+  },
+  "k": 3,
+  "allowed_team": "eng",
+  "docs": [
+    {
+      "id": "d1",
+      "score": 0.9,
+      "team": "sales"
+    },
+    {
+      "id": "d2",
+      "score": 0.85,
+      "team": "sales"
+    },
+    {
+      "id": "d3",
+      "score": 0.8,
+      "team": "sales"
+    },
+    {
+      "id": "d4",
+      "score": 0.6,
+      "team": "eng"
+    },
+    {
+      "id": "d5",
+      "score": 0.55,
+      "team": "eng"
+    },
+    {
+      "id": "d6",
+      "score": 0.5,
+      "team": "eng"
+    },
+    {
+      "id": "d7",
+      "score": 0.4,
+      "team": "sales"
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+{
+  "_meta": "Two datasets with the SAME mean (5) but different spread, to show the flaw of averages (Jensen's inequality). When a quantity is a curved function f of an input x, the average of f(x) over the data is NOT f of the average x. For a convex f (curving up, like squaring) the true average f(x) is LARGER than f(mean x), so plugging in the mean underestimates. For a concave f (curving down, like square root) it is smaller, so the mean overestimates. Only a linear f is exact. The size of the error grows with the spread of x: for f(x)=x^2 the gap mean(x^2) - (mean x)^2 is exactly the variance. spread and tight share a mean but not a variance, so they share f(mean x) but not the true average.",
+  "spread": [1, 5, 9],
+  "tight": [4, 5, 6]
+}

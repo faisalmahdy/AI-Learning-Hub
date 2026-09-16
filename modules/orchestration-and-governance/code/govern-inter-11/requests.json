@@ -1,0 +1,25 @@
+{
+  "_meta": {
+    "what_this_is": "A worker pool of fixed size and a stream of requests, each targeting one of two downstream dependencies: X, which has hung (every X request holds its worker for the whole run and never releases it), and Y, which is healthy (a Y request completes instantly, releasing its worker at once). With one SHARED pool, the hung X requests pile up and hold every worker, so healthy Y requests find no free worker and are starved -- one bad dependency takes down an unrelated one. With BULKHEADS, the pool is partitioned so X can hold at most its share; Y keeps its own workers and stays served.",
+    "data_is": "A FIXTURE. The arrival order, pool size, and bulkhead caps are hand-authored so the shared pool serves 0 of the Y requests while the bulkhead pool serves all of them. Every admission decision is computed in bulkhead.py.",
+    "format": "arrivals: request targets in order; workers: total pool size; bulkhead: {X, Y} per-dependency caps summing to workers."
+  },
+  "workers": 6,
+  "bulkhead": {
+    "X": 3,
+    "Y": 3
+  },
+  "arrivals": [
+    "X",
+    "X",
+    "X",
+    "X",
+    "X",
+    "X",
+    "Y",
+    "Y",
+    "Y",
+    "Y",
+    "Y"
+  ]
+}

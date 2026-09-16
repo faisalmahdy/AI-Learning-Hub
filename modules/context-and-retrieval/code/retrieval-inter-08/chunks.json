@@ -1,0 +1,9 @@
+{
+  "_meta": {
+    "what_this_is": "Five retrieved chunks with their relevance scores, and the attention profile of the five context slots they will be placed into. The slot_weights are U-shaped -- high at the two edges (start and end of the context), lowest in the exact middle -- which is the empirical 'lost in the middle' finding for long-context models. Effective information for a placement is the sum over slots of the chunk's relevance times the slot's attention.",
+    "data_is": "A FIXTURE. The relevances and the U-shaped slot weights are hand-authored so the naive (relevance-order) and edge-aware (best-at-edges) placements, and their effective-information scores, are exact and checkable. Every placement and score is computed in middle.py from these numbers. Chunks are indexed c0..c4 by their order here; relevances[i] is chunk ci's relevance.",
+    "format": "relevances: chunk relevance scores (index = chunk id); slot_weights: per-position attention (index = slot), U-shaped."
+  },
+  "relevances": [0.9, 0.7, 0.5, 0.3, 0.1],
+  "slot_weights": [1.0, 0.6, 0.4, 0.6, 1.0]
+}

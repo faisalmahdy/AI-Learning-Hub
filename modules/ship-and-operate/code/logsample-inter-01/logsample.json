@@ -1,0 +1,6 @@
+{
+  "_meta": "A stream of requests that each emit a log line (or a trace), too many to keep them all, so a sample is stored. total_requests is the volume over some window; error_rate is the fraction that fail (errors are rare and are the lines you most want when debugging); sample_rate is the fraction the budget lets you keep. Uniform (head) sampling keeps sample_rate of EVERY line, deciding before it knows whether the request errored -- so it keeps only sample_rate of the errors, discarding the rest. Priority (tail/outcome) sampling keeps every error plus sample_rate of the successes -- deciding after the outcome is known. The two keep similar total volume when errors are rare, but capture wildly different fractions of the errors. Every count here is computed from these three numbers.",
+  "total_requests": 10000,
+  "error_rate": 0.02,
+  "sample_rate": 0.05
+}

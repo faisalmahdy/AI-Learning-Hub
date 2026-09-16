@@ -1,0 +1,11 @@
+{
+  "_meta": "A query vector, a document that was edited (its old and new content embeddings), and a few other documents, used to show why a changed document must be upserted in the vector index -- its old vector deleted and the new one written under the same id -- rather than having the new vector merely appended. A vector index is a set of (id, vector) entries. When a document's text changes, its embedding changes, so the correct update replaces the entry for that id. The trap is that many indexing pipelines add the new embedding without removing the old one: the write path computes the new vector and inserts it, and unless something explicitly deletes the prior vector for that id, the index now holds two vectors for one document -- the stale one (embedding of the old text) and the fresh one (embedding of the new text). Both are searchable. A query can then retrieve the stale vector and serve the document's old, outdated content, and because the old text may match the query better than the edited text, the stale vector can outrank the fresh one and win the top slot -- so the system confidently returns the pre-edit answer. The document also appears twice in the results, wasting a slot. The fix is upsert-by-id: delete any existing vector for the id, then insert the new one, so the index holds exactly one vector per document. This is distinct from index freshness (a new document not yet indexed); here the new content IS indexed, but the old content was never removed. query is the query embedding; updated_doc is the edited document's id; old_vector and new_vector are its pre- and post-edit embeddings; other_docs maps other document ids to their vectors. These are the fixture; the two index contents, the rankings, and which content each returns are computed.",
+  "query": [1, 0, 0],
+  "updated_doc": "d1",
+  "old_vector": [0.9, 0.4, 0],
+  "new_vector": [0.8, 0.0, 0.6],
+  "other_docs": {
+    "d2": [0.5, 0.5, 0],
+    "d3": [0.3, 0, 0.3]
+  }
+}

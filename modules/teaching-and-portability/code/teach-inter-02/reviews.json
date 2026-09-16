@@ -1,0 +1,28 @@
+{
+  "_meta": {
+    "what_this_is": "Review histories for five hub concepts, the kind a boss-fight recall ledger accumulates. Each concept has an ordered list of review attempts with the day it happened and whether the learner recalled it (pass) or blanked (fail). A spaced-repetition scheduler turns this history into the next review date: recall well and the concept is pushed further out; blank and it must come back soon. The whole question is whether the scheduler reads the RESULT of each review or just counts that a review happened.",
+    "data_is": "A FIXTURE. Hand-authored histories so intervals and due dates are exact and checkable. No app, no clock -- 'today' is a fixed day passed in.",
+    "format": "today: the current day; concepts [{name, history:[{day, result}]}] with result in {pass, fail}"
+  },
+  "today": 40,
+  "concepts": [
+    {"name": "attention", "history": [
+      {"day": 1, "result": "pass"}, {"day": 3, "result": "pass"},
+      {"day": 7, "result": "pass"}, {"day": 15, "result": "pass"}
+    ]},
+    {"name": "bpe-tokens", "history": [
+      {"day": 2, "result": "fail"}, {"day": 4, "result": "fail"},
+      {"day": 6, "result": "fail"}, {"day": 30, "result": "fail"}
+    ]},
+    {"name": "kv-cache", "history": [
+      {"day": 1, "result": "pass"}, {"day": 3, "result": "fail"},
+      {"day": 4, "result": "pass"}, {"day": 8, "result": "fail"}, {"day": 33, "result": "fail"}
+    ]},
+    {"name": "quantization", "history": [
+      {"day": 5, "result": "pass"}, {"day": 9, "result": "pass"}, {"day": 20, "result": "pass"}
+    ]},
+    {"name": "retrieval-recall", "history": [
+      {"day": 10, "result": "pass"}, {"day": 14, "result": "pass"}, {"day": 22, "result": "fail"}
+    ]}
+  ]
+}

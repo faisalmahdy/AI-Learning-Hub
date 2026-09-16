@@ -1,0 +1,7 @@
+{
+  "_meta": "Two pairs of equal-valued integers, used to show why `is` (identity) must never be used to compare values -- it silently agrees with `==` for small integers and disagrees for large ones, because CPython caches small integer objects. `is` asks 'are these the SAME object in memory?'; `==` asks 'do these have the same VALUE?'. For value comparison you always want `==`. The trap is that CPython pre-creates and reuses a single cached object for every small integer (the range -5 to 256), so two separately-computed small integers of the same value are literally the same object and `is` returns True -- accidentally agreeing with `==`. Outside that cached range each integer is a fresh object, so two separately-computed large integers of the same value are different objects and `is` returns False even though `==` is True. To force separate objects (not a single interned literal), each value is built by summing parts at runtime. pairs[0] sums to 256 (inside the cache) and pairs[1] sums to 257 (just outside it): `is` gives the right answer for 256 and the WRONG answer for 257, while `==` is correct for both. The cache range is an implementation detail -- it varies by interpreter and version -- which is exactly why relying on `is` for value equality is a portability bug. pairs are the fixture; every value, identity result, and equality result is computed.",
+  "pairs": [
+    {"label": "small (in the -5..256 cache)", "a_parts": [250, 6], "b_parts": [200, 56]},
+    {"label": "large (outside the cache)", "a_parts": [250, 7], "b_parts": [200, 57]}
+  ]
+}

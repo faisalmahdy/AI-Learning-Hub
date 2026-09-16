@@ -1,0 +1,8 @@
+{
+  "_meta": "Three tiny 3x3 grayscale images, each a single edge in a different orientation: a vertical edge (dark left, bright right), a horizontal edge (dark top, bright bottom), and a diagonal edge. The Sobel operator estimates the brightness gradient at the center pixel: gx (horizontal derivative) and gy (vertical derivative). The question: which edges does a single-direction gradient catch, and which does it miss?",
+  "images": {
+    "vertical":   [[0, 0, 10], [0, 0, 10], [0, 0, 10]],
+    "horizontal": [[0, 0, 0], [0, 0, 0], [10, 10, 10]],
+    "diagonal":   [[0, 0, 10], [0, 10, 10], [10, 10, 10]]
+  }
+}

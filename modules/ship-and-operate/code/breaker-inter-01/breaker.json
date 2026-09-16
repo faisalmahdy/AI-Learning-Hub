@@ -1,0 +1,6 @@
+{
+  "_meta": "A downstream dependency's health over 15 request ticks: it is DOWN for the first 10 ticks (every call to it fails, and an actual attempt costs the full timeout), then recovers and is UP for the last 5. One request arrives per tick. Two clients are compared. A client with NO circuit breaker attempts the downstream on every tick, so during the outage it pays the full timeout ten times and piles ten failed requests onto the already-failing service. A client WITH a circuit breaker watches the failures: after `threshold` consecutive failures it trips OPEN and fails fast (returns immediately without attempting the downstream) for a `cooldown`, then goes HALF_OPEN to let a single probe through -- closing again if the probe succeeds, re-opening if it fails. This turns the outage from ten wasted timeouts into a handful of probes. health is the per-tick status; threshold and cooldown are the breaker's settings. Every state transition and attempt count is computed.",
+  "health": ["down", "down", "down", "down", "down", "down", "down", "down", "down", "down", "up", "up", "up", "up", "up"],
+  "threshold": 3,
+  "cooldown": 5
+}

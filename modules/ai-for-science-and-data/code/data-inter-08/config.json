@@ -1,0 +1,10 @@
+{
+  "_meta": {
+    "what_this_is": "Configuration for a Benford's-law fabrication check. Two datasets are generated in benford.py: a genuine multi-scale dataset (values spanning many orders of magnitude, log-uniform, which naturally follows Benford's law) and a fabricated one (numbers whose first digits a person spread evenly to 'look random', which real data never does). The check tallies each dataset's leading digits, compares to Benford's expected distribution, and flags a dataset whose total deviation exceeds the threshold.",
+    "data_is": "A FIXTURE only for the sizes and the threshold; the actual numbers, their leading digits, the observed distributions, and the deviations are all generated and computed in benford.py -- nothing is precomputed. The real dataset conforms (deviation ~0.02), the fabricated one deviates (~0.47); the 0.10 threshold sits cleanly between them.",
+    "format": "n_real, n_fabricated (dataset sizes); threshold (max total deviation from Benford before a dataset is flagged as suspect)."
+  },
+  "n_real": 1200,
+  "n_fabricated": 900,
+  "threshold": 0.10
+}

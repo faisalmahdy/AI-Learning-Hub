@@ -1,0 +1,22 @@
+{
+  "_meta": {
+    "what_this_is": "A five-scene storyboard. 'anchor' is the Master Visual Anchor -- one style string every scene should share. 'scenes' are the shot actions. 'drift_styles' are what an author produced by retyping the style into each scene by hand: each paraphrases the same intent slightly differently, and only some spell the palette the canonical way ('teal-and-orange'). Composing with the anchor gives one consistent style; composing from the drift styles gives five slightly different looks, and a later palette change reaches only the scenes that spelled it canonically.",
+    "storyboard_is": "A FIXTURE. The prompt string is the stand-in for the rendered image: if the style clauses match, the shots look like one film; if they drift, they do not. drift_styles 1 and 3 paraphrase the palette so a find-and-replace on 'teal-and-orange' misses them.",
+    "format": "anchor (style string); scenes [{action}]; drift_styles [per-scene style string]"
+  },
+  "anchor": "35mm film, teal-and-orange, dusk light, shallow depth of field",
+  "scenes": [
+    {"action": "a fishing boat leaves the harbor at dawn"},
+    {"action": "the captain studies a paper map below deck"},
+    {"action": "gulls circle the mast against the sky"},
+    {"action": "a storm builds on the far horizon"},
+    {"action": "the boat returns at night, nets full"}
+  ],
+  "drift_styles": [
+    "35mm film, teal-and-orange, dusk, shallow focus",
+    "shot on film, teal and orange grade, evening light, bokeh",
+    "cinematic 35mm, teal-and-orange palette, dusk, wide aperture",
+    "filmic look, cyan-amber tones, twilight, soft background",
+    "35mm, teal-and-orange, golden dusk, shallow dof"
+  ]
+}

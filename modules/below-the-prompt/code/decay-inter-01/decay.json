@@ -1,0 +1,8 @@
+{
+  "_meta": "A one-weight model fit to a NOISY training target by gradient descent. noisy_target is what the training data says the weight should be (12), but it is corrupted by noise; true_value is where the weight should really sit to generalize (6). Weight decay adds a penalty lambda*w^2 to the loss, pulling the weight toward 0. lambdas are the decay strengths to try. The question: which lambda lands the weight nearest the true value, and does no decay overfit the noise?",
+  "noisy_target": 12.0,
+  "true_value": 6.0,
+  "lambdas": [0.0, 0.5, 1.0, 2.0, 4.0],
+  "lr": 0.05,
+  "steps": 300
+}

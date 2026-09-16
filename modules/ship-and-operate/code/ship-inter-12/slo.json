@@ -1,0 +1,20 @@
+{
+  "_meta": {
+    "what_this_is": "An SLO and two error scenarios. The SLO (99.9% success over a 30-day window) allows an error budget of 0.1% of requests. Burn rate is how fast a scenario spends that budget: error_rate / error_budget. A raw-threshold alert fires when the instantaneous error rate exceeds a fixed level; it catches a loud FAST burn but misses a quiet SLOW burn that sits just under the threshold yet runs long enough to exhaust the whole budget. Burn-rate alerting fires on both, because it measures budget consumption, not instantaneous rate.",
+    "data_is": "A FIXTURE. The SLO, window, alert thresholds, and the two scenarios (a 5% fast burn for 2 hours; a 0.3% slow burn for the whole month) are hand-authored so the slow burn exhausts 300% of the budget while sitting below the 1% raw-alert threshold, and the fast burn eats 14% of the month budget in 2 hours. Every burn rate and budget figure is computed in burn.py.",
+    "format": "slo; window_hours; raw_alert_rate: the instantaneous error rate a raw alert fires at; scenarios: {name: {error_rate, hours}}."
+  },
+  "slo": 0.999,
+  "window_hours": 720,
+  "raw_alert_rate": 0.01,
+  "scenarios": {
+    "fast_burn": {
+      "error_rate": 0.05,
+      "hours": 2
+    },
+    "slow_burn": {
+      "error_rate": 0.003,
+      "hours": 720
+    }
+  }
+}

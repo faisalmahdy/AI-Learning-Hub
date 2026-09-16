@@ -1,0 +1,8 @@
+{
+  "_meta": "A recurring daily alarm meant to fire at 9:00 local time every day, scheduled across a spring-forward daylight-saving transition, used to show that adding a calendar unit (a day) is not the same as adding a fixed number of seconds. A local calendar day is usually 86400 seconds, but on the day a zone springs forward the clocks jump from 2:00 straight to 3:00, so that local day is only 23 hours (82800 seconds); on a fall-back day it is 25 hours. Code that schedules 'the same time tomorrow' by adding 86400 seconds to a stored instant is really saying 'exactly 24 hours later', which after a spring-forward lands an hour off the intended wall-clock time -- a 9:00 alarm drifts to 10:00 and stays there. The fix is to do the arithmetic in calendar units in the zone: to get 9:00 local tomorrow, take tomorrow's date and attach 9:00 local, then convert to an absolute instant using that day's offset, rather than adding a fixed elapsed duration. The timezone is modeled explicitly here (no system database needed): offset_before_hours applies up to and including dst_after_day, offset_after_hours applies after it; a spring-forward is offset_after being one hour greater than offset_before. target_local_hour is the wall-clock hour the alarm should fire; num_days is how many days to schedule. The naive (add-86400-seconds) and calendar (recompute the local time each day) alarm instants, and the local wall-clock hour each actually fires at, are computed.",
+  "target_local_hour": 9,
+  "num_days": 4,
+  "dst_after_day": 1,
+  "offset_before_hours": -8,
+  "offset_after_hours": -7
+}

@@ -1,0 +1,65 @@
+{
+  "_meta": {
+    "what_this_is": "A snapshot of a six-agent fleet at a fixed clock time (now). Each agent has an event log -- heartbeats, task claims, completions, errors -- and some events carry the agent's own self-reported status field. 'truth' is what the agent is actually doing, the label a perfect observer would assign. The point: three agents self-report a fine status ('healthy' or 'done') while their evidence says they are stalled, failed, or incomplete.",
+    "logs_are": "A FIXTURE. Hand-authored so the emitter's label and the evidence disagree for exactly the agents that matter. Heartbeat timestamps are seconds; stale threshold is 600s. Point the deriver at your own fleet's event stream.",
+    "truth_values": "healthy / done are fine; stalled / failed / incomplete are broken",
+    "format": "now (int seconds); agents [{id, truth, events:[{ts, type, status?, result?}]}]"
+  },
+  "now": 10000,
+  "agents": [
+    {
+      "id": "nusa",
+      "truth": "healthy",
+      "events": [
+        {"ts": 9800, "type": "task_claim"},
+        {"ts": 9900, "type": "heartbeat", "status": "healthy"},
+        {"ts": 9970, "type": "progress"}
+      ]
+    },
+    {
+      "id": "manik",
+      "truth": "stalled",
+      "events": [
+        {"ts": 8600, "type": "task_claim"},
+        {"ts": 8900, "type": "heartbeat", "status": "healthy"},
+        {"ts": 8950, "type": "progress"}
+      ]
+    },
+    {
+      "id": "patti",
+      "truth": "incomplete",
+      "events": [
+        {"ts": 9700, "type": "task_claim"},
+        {"ts": 9880, "type": "heartbeat"},
+        {"ts": 9960, "type": "report", "status": "done"}
+      ]
+    },
+    {
+      "id": "juanda",
+      "truth": "failed",
+      "events": [
+        {"ts": 9820, "type": "task_claim"},
+        {"ts": 9900, "type": "heartbeat", "status": "healthy"},
+        {"ts": 9980, "type": "error"}
+      ]
+    },
+    {
+      "id": "habibie",
+      "truth": "done",
+      "events": [
+        {"ts": 9600, "type": "task_claim"},
+        {"ts": 9900, "type": "heartbeat", "status": "healthy"},
+        {"ts": 9975, "type": "task_complete", "result": "ok", "status": "done"}
+      ]
+    },
+    {
+      "id": "malaya",
+      "truth": "healthy",
+      "events": [
+        {"ts": 9850, "type": "task_claim"},
+        {"ts": 9940, "type": "heartbeat", "status": "healthy"},
+        {"ts": 9990, "type": "progress"}
+      ]
+    }
+  ]
+}

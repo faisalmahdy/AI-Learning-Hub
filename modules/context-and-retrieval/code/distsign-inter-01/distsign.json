@@ -1,0 +1,10 @@
+{
+  "_meta": "A query and a set of documents, each with both its distance to the query (an L2 / Euclidean distance, where smaller means closer and more relevant) and its similarity to the query (a cosine, where larger means more relevant), used to show why retrieval must sort in the direction that matches the metric the index actually returns. A vector index returns one of two kinds of number: a similarity, where higher is better (cosine, inner product), or a distance, where lower is better (Euclidean L2, or 1 minus cosine). Many libraries return a distance by default -- FAISS's flat and IVF indexes return L2 distance -- and it is easy to treat that number as if it were a similarity and sort it descending to take the 'highest-scoring' results. That returns the largest distances, which are the farthest, least-relevant documents: the exact reverse of what you want. The mirror mistake is sorting a similarity ascending. The bug is silent because it still returns k results with confident scores; they are simply the worst matches instead of the best. The fix is to know which the index returns and sort accordingly: smallest-first for a distance, largest-first for a similarity. query is a label; docs maps each document id to its distance and its similarity to the query. These are the fixture; the correct top-k, the reversed (buggy) top-k, and the two rankings are computed.",
+  "query": "how do I reset my password",
+  "docs": {
+    "reset_guide": {"distance": 0.2, "similarity": 0.95},
+    "login_help": {"distance": 0.5, "similarity": 0.70},
+    "billing_faq": {"distance": 0.9, "similarity": 0.40},
+    "shipping_info": {"distance": 1.4, "similarity": 0.10}
+  }
+}

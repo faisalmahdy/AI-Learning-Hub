@@ -1,0 +1,13 @@
+{
+  "_meta": "Per-example gradient vectors for one training step's batch of 6 examples. micro_batch is how many examples fit in memory at once (so accum_steps = 6 / micro_batch = 3). lr is the learning rate.",
+  "lr": 0.1,
+  "micro_batch": 2,
+  "grads": [
+    [1.0, 0.0],
+    [3.0, 0.0],
+    [0.0, 2.0],
+    [0.0, 4.0],
+    [2.0, 2.0],
+    [4.0, 4.0]
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "_meta": "A set of retrieved documents to place into a long context, used to show the 'lost in the middle' effect: a model attends most strongly to the START and END of its context and least to the MIDDLE, so a highly relevant document buried in a middle position is effectively ignored. positional_weights models that access bias as a per-position weight (U-shaped: high at the ends, low in the middle) -- the fraction of attention a document at that context position effectively receives. recall_threshold is the positional weight a document needs to be actually used by the model; below it, the document is present but 'lost'. gold is the id of the one document that contains the answer. retrieved_order is the documents in the order the retriever returned them, each with a relevance score; note the gold document d2 (relevance 9, the most relevant) sits in the MIDDLE of this order. A NAIVE pipeline places documents in retrieved_order directly, so the gold lands in a low-weight middle slot (weight 0.2 < threshold 0.4) and is lost. The FIX reorders documents by relevance to the EDGES -- highest relevance at one end, next at the other, working inward -- so the gold lands at an end (weight 1.0) and is used, and the total effective signal (sum of relevance times positional weight) rises. positional_weights, recall_threshold, gold, and retrieved_order are the fixture; every placement, positional weight, and signal total is computed.",
+  "positional_weights": [1.0, 0.5, 0.2, 0.5, 1.0],
+  "recall_threshold": 0.4,
+  "gold": "d2",
+  "retrieved_order": [
+    {"id": "d1", "relevance": 3},
+    {"id": "d3", "relevance": 5},
+    {"id": "d2", "relevance": 9},
+    {"id": "d5", "relevance": 4},
+    {"id": "d4", "relevance": 2}
+  ]
+}

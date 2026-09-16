@@ -1,0 +1,8 @@
+{
+  "_meta": "Latency measurements from three hosts of one service, each expressed as a histogram: a map from latency-in-milliseconds to the number of requests that landed in that bucket. Every host served 100 requests. web-1 and web-2 are healthy -- all 100 requests at 10ms. web-3 is partially degraded -- 90 requests at 10ms and 10 at 1000ms, a slow tail affecting a tenth of its traffic. The question a dashboard answers is 'what is the fleet-wide p99 latency?', and the trap is that you cannot average the per-host p99s to get it: a percentile is not a linear statistic, so the fleet p99 must be computed from the merged sample (equivalently, the summed histograms), not from the three per-host p99 numbers. Every percentile here is computed; the histograms are the fixture.",
+  "hosts": [
+    {"name": "web-1", "hist": {"10": 100}},
+    {"name": "web-2", "hist": {"10": 100}},
+    {"name": "web-3", "hist": {"10": 90, "1000": 10}}
+  ]
+}

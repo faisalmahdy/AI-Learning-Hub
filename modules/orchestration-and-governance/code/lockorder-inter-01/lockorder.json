@@ -1,0 +1,6 @@
+{
+  "_meta": "Two transactions that each need the same two locks, used to show that deadlock is prevented by acquiring locks in a single global order rather than detected and recovered after the fact. Transaction t1 acquires lock A then lock B; transaction t2 acquires lock B then lock A -- the same two locks in the opposite order. That opposition is the whole problem: interleave them so t1 holds A and t2 holds B, and now t1 waits for B (held by t2) while t2 waits for A (held by t1), a cycle in the wait-for graph in which neither can proceed and neither will release. The fix is not a smarter timeout or a deadlock detector; it is to impose a canonical order on the locks (here alphabetical, A before B) and require every transaction to acquire the locks it needs in that order. Once both transactions request A before B, a cycle is impossible: whichever grabs A first will get B unobstructed, and the other simply waits for A and then proceeds. locks is the canonical global order of the locks; t1_plan and t2_plan are the orders in which the two transactions naively acquire them. The deadlocking interleaving, and the count of interleavings that deadlock under the naive plans versus the ordered plans, are computed by simulating every interleaving.",
+  "locks": ["A", "B"],
+  "t1_plan": ["A", "B"],
+  "t2_plan": ["B", "A"]
+}

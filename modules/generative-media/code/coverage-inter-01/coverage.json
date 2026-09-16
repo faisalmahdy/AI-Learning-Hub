@@ -1,0 +1,9 @@
+{
+  "_meta": "A geometric edge (a straight line dividing the plane) rasterized onto a small pixel grid, used to show why an edge should be rasterized by pixel coverage -- the fraction of each pixel's area the shape covers -- rather than by a single center-inside test. Turning a continuous shape into pixels forces a decision at every pixel the edge crosses: is this pixel part of the shape or not. The naive answer tests one point, the pixel's center: inside means fully on (value 1), outside means fully off (value 0). That makes every pixel all-or-nothing, so a slanted edge becomes a staircase of hard steps -- the jaggies -- and the rendered area jumps by a whole pixel at a time as the edge moves, misestimating the true covered area. Coverage-based anti-aliasing instead asks how much of each pixel the shape covers: a pixel the edge cuts through gets a fractional value equal to the covered fraction, so the edge is a smooth ramp of partial pixels instead of a hard step, and the summed coverage equals the true area the shape covers. The coverage fraction can be computed analytically or, as here, estimated by supersampling -- testing many sub-points inside each pixel and taking the fraction inside. The edge is given as a line a*x + b*y = c, with a pixel counted inside where a*x + b*y is less than c. grid_w and grid_h are the pixel-grid size; a, b, c define the edge; supersample is the sub-samples per axis used to estimate coverage. These are the fixture; the center-test (binary) raster, the coverage raster, their ink totals, and the true covered area are computed.",
+  "grid_w": 6,
+  "grid_h": 6,
+  "a": 0.9,
+  "b": 1.0,
+  "c": 4.2,
+  "supersample": 8
+}

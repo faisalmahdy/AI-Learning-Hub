@@ -1,0 +1,7 @@
+{
+  "_meta": "A rollback-speed model. A bad version is deployed at t=0 and serves every request until the rollback completes. rate is requests per second. detect_s is how long until the bad version is noticed (monitoring lag) — this window is paid no matter how you deploy, because you cannot roll back what you have not detected. Then rollback happens two ways. In-place deploy has thrown away the old version, so rolling back means DEPLOYING AGAIN from scratch: redeploy_s seconds of build/ship/restart, during which the bad version keeps serving. Blue-green keeps the old version running in a second environment, so rollback is just flipping traffic back: flip_s seconds, essentially instant. Bad requests served = rate * (detect_s + rollback time). The detection window is shared; the rollback window is where blue-green wins.",
+  "rate": 100,
+  "detect_s": 30,
+  "redeploy_s": 300,
+  "flip_s": 2
+}

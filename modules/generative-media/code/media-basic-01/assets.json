@@ -1,0 +1,21 @@
+{
+  "_meta": {
+    "what_this_is": "A generated-media provenance fixture. 'produced' is the set of assets a pipeline generated, each with a name and its bytes (short strings standing in for image/video bytes). 'delivered' is what actually arrived to be verified against the manifest -- identical to produced except scanner.png was SWAPPED: its bytes changed while its name stayed the same. 'collision' is two genuinely different assets that happen to share a name. A name-based id verifies the swap as genuine and collides the two; a content hash catches both.",
+    "bytes_are": "Short text stand-ins for real media bytes. hashlib treats them identically to image bytes; the provenance logic does not care.",
+    "format": "produced/delivered [{name, bytes}]; collision [two assets with the same name]"
+  },
+  "produced": [
+    {"name": "hero.png",    "bytes": "a serene mountain at dawn with an orange sky"},
+    {"name": "scanner.png", "bytes": "a security scanner conveyor missing one parcel"},
+    {"name": "streak.png",  "bytes": "five free throws made in a row on a court"}
+  ],
+  "delivered": [
+    {"name": "hero.png",    "bytes": "a serene mountain at dawn with an orange sky"},
+    {"name": "scanner.png", "bytes": "a security scanner conveyor with a hidden backdoor"},
+    {"name": "streak.png",  "bytes": "five free throws made in a row on a court"}
+  ],
+  "collision": [
+    {"name": "logo.png", "bytes": "version one: a blue circle on white"},
+    {"name": "logo.png", "bytes": "version two: a red square on black"}
+  ]
+}

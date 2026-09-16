@@ -1,0 +1,13 @@
+{
+  "_meta": "A vector search with a hard metadata constraint, used to show why you should PRE-filter (restrict to the matching subset, then search) rather than POST-filter (search, then drop non-matching results): post-filtering a top-k result set can return far fewer than k when the constraint removes the highest-similarity hits. documents each have a similarity score to the query and a category; the query wants the top_k most similar documents that ALSO satisfy required_category. Documents are listed by descending similarity. required_category is 'A'; top_k is 3. Post-filtering takes the top-3 by similarity (d1,d2,d3) and then drops those whose category is not A -- leaving only d3, so it returns 1 result when 3 were requested, and it MISSES d5 and d6, which are valid category-A documents that simply had lower similarity than the category-B documents that consumed the top-3 slots. Pre-filtering restricts to the category-A documents first (d3,d5,d6) and then takes the top-3 by similarity, returning all three valid results. The lesson: apply the hard constraint before the top-k cut, not after, or the constraint silently starves the result set. documents, top_k, and required_category are the fixture; the post-filter and pre-filter result sets and counts are computed.",
+  "top_k": 3,
+  "required_category": "A",
+  "documents": [
+    {"id": "d1", "similarity": 0.9, "category": "B"},
+    {"id": "d2", "similarity": 0.8, "category": "B"},
+    {"id": "d3", "similarity": 0.7, "category": "A"},
+    {"id": "d4", "similarity": 0.6, "category": "B"},
+    {"id": "d5", "similarity": 0.5, "category": "A"},
+    {"id": "d6", "similarity": 0.4, "category": "A"}
+  ]
+}

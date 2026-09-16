@@ -1,0 +1,59 @@
+{
+  "_meta": {
+    "what_this_is": "A personal-assistant memory where three facts have changed. Each topic has an OLD note (short, so it matches the query's key words most tightly) and a NEW note (fresh and correct, with the updated detail that slightly dilutes the match). One hub 'index' page links to everything, so its backlink count dwarfs any real note. Each query wants the NEW note. The fixture is built so relevance alone serves the stale note, recency rescues the fresh one, and an unnormalised importance term lets the hub drown every query.",
+    "results_are": "A FIXTURE with hand-set ages and backlink counts standing in for file mtimes and a real link graph. Point the ranker at your own memory with real timestamps.",
+    "gold_fresh": "the current, correct note the ranker should surface",
+    "format": "docs {id: {text, age_days, backlinks}}; queries [{q, gold_fresh}]"
+  },
+  "docs": {
+    "gym_old": {
+      "text": "gym membership plan",
+      "age_days": 420,
+      "backlinks": 2
+    },
+    "gym_new": {
+      "text": "gym membership plan now premium",
+      "age_days": 8,
+      "backlinks": 2
+    },
+    "phone_old": {
+      "text": "phone number",
+      "age_days": 320,
+      "backlinks": 2
+    },
+    "phone_new": {
+      "text": "phone number now new cell",
+      "age_days": 6,
+      "backlinks": 2
+    },
+    "addr_old": {
+      "text": "home address",
+      "age_days": 500,
+      "backlinks": 2
+    },
+    "addr_new": {
+      "text": "home address now river road",
+      "age_days": 10,
+      "backlinks": 2
+    },
+    "index_hub": {
+      "text": "index gym membership phone number home address bills flights health meals notes",
+      "age_days": 120,
+      "backlinks": 20
+    }
+  },
+  "queries": [
+    {
+      "q": "what is my gym membership plan",
+      "gold_fresh": "gym_new"
+    },
+    {
+      "q": "what is my phone number",
+      "gold_fresh": "phone_new"
+    },
+    {
+      "q": "what is my home address",
+      "gold_fresh": "addr_new"
+    }
+  ]
+}

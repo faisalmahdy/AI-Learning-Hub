@@ -1,0 +1,10 @@
+{
+  "_meta": "A set of candidate models, each with a quality score and a cost, used to show why model selection should choose from the quality-cost Pareto frontier rather than ranking by quality alone. Every real model choice is a two-objective decision: higher quality is better, lower cost is better, and the two usually trade off. Ranking by quality alone collapses that to one axis and makes two mistakes. First, it always crowns the highest-quality model regardless of what its quality costs, so it will pay a large cost increase for a marginal quality gain -- the top of the quality ranking is often the worst value. Second, and worse, a quality-only ranking can place a dominated model above an efficient one: a model is dominated when another model is at least as good on quality and at least as cheap (strictly better on at least one), so choosing it is never rational -- yet if the dominated model has higher quality than some cheaper, efficient model, quality-ranking lists it higher. The Pareto frontier is the set of non-dominated models -- those for which no other model is better on both axes -- and the rational choice is always on the frontier, with the specific point picked by how much quality per unit cost you are willing to pay. models maps each model name to its quality (higher better) and cost (lower better). It is the fixture; the value ratio, the dominated set, the Pareto frontier, the quality-only ranking, and the marginal cost of the top model are computed.",
+  "models": {
+    "A": {"quality": 70, "cost": 1},
+    "B": {"quality": 85, "cost": 3},
+    "C": {"quality": 88, "cost": 10},
+    "D": {"quality": 80, "cost": 12},
+    "E": {"quality": 90, "cost": 40}
+  }
+}

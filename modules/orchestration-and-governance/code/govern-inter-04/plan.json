@@ -1,0 +1,23 @@
+{
+  "_meta": {
+    "what_this_is": "A multi-agent plan as a task DAG. Each task is a unit of work handed to a subagent; 'deps' lists tasks whose OUTPUT this task consumes, so a dependency must finish before its dependent starts. 'listed_order' is the order the tasks happen to appear in the plan file -- the order a naive scheduler would run them in. The correct order is any topological sort that respects every dependency. The cyclic_plan is a second, broken plan with a dependency cycle that no ordering can satisfy -- the scheduler must detect it, not deadlock on it.",
+    "data_is": "A FIXTURE. Hand-authored dependencies so the topological order, the naive-order violations, and the cycle are exact and checkable.",
+    "format": "tasks {id: {deps: [...]}}; listed_order [...]; cyclic_plan {tasks {...}}"
+  },
+  "tasks": {
+    "fetch_sources":   {"deps": []},
+    "clean_data":      {"deps": ["fetch_sources"]},
+    "build_index":     {"deps": ["clean_data"]},
+    "train_model":     {"deps": ["clean_data"]},
+    "evaluate":        {"deps": ["build_index", "train_model"]},
+    "write_report":    {"deps": ["evaluate"]}
+  },
+  "listed_order": ["write_report", "evaluate", "build_index", "train_model", "clean_data", "fetch_sources"],
+  "cyclic_plan": {
+    "tasks": {
+      "a": {"deps": ["c"]},
+      "b": {"deps": ["a"]},
+      "c": {"deps": ["b"]}
+    }
+  }
+}

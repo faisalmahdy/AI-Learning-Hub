@@ -1,0 +1,6 @@
+{
+  "_meta": "A rate limiter is meant to cap requests at `limit` per window of `window` seconds. A FIXED-WINDOW limiter counts requests in fixed calendar buckets [0,W), [W,2W), ... and resets the count to zero at each boundary. That reset is the flaw: a client can send the full limit at the very END of one bucket and the full limit again at the very START of the next, so 2*limit requests land in a span shorter than one window -- double the rate the limit was supposed to enforce. A SLIDING-WINDOW limiter instead counts requests in the trailing `window` seconds up to each request, so there is no boundary to exploit: the burst at the end of the old window is still inside the trailing window when the new requests arrive, so they are rejected. requests is the arrival times (seconds); this schedule clusters `limit` requests just before the boundary at W and `limit` more just after it.",
+  "limit": 5,
+  "window": 10,
+  "requests": [9, 9, 9, 9, 9, 10, 10, 10, 10, 10]
+}

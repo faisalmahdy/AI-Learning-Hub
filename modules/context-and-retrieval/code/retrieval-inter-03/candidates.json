@@ -1,0 +1,38 @@
+{
+  "_meta": {
+    "what_this_is": "The retrieved candidate chunks for three queries, already scored and sized, plus a token budget smaller than the candidates. Each query needs two facts that live in different chunks. Two queries carry a near-duplicate of the top chunk (same fact, said twice); the third has no duplicate. The budget step must choose which chunks to inject.",
+    "results_are": "A FIXTURE. Authored so a rank-order fill spends the budget on a duplicate and drops the chunk holding the second fact, while a dedup-then-cover selector keeps both. Point it at your own retrieved candidates.",
+    "budget": "max tokens the context window allows for injected chunks",
+    "format": "queries [{q, needs:[fact], chunks:[{id, score, text, facts:[fact]}]}]"
+  },
+  "budget": 40,
+  "queries": [
+    {
+      "q": "what gate and seat is my flight",
+      "needs": ["gate22", "seat14c"],
+      "chunks": [
+        {"id": "c1", "score": 0.90, "facts": ["gate22"], "text": "the flight departs from gate 22 in the main terminal please arrive early and keep the boarding pass ready now"},
+        {"id": "c2", "score": 0.85, "facts": ["gate22"], "text": "the flight departs from gate 22 in the main terminal please arrive early and keep your boarding pass handy today"},
+        {"id": "c3", "score": 0.60, "facts": ["seat14c"], "text": "your assigned seat on that flight is 14c by the window"}
+      ]
+    },
+    {
+      "q": "is autopay on and when is the bill due",
+      "needs": ["autopay_off", "due28th"],
+      "chunks": [
+        {"id": "b1", "score": 0.92, "facts": ["autopay_off"], "text": "the electric account has autopay switched off right now so nothing is paid automatically each month remember that"},
+        {"id": "b2", "score": 0.88, "facts": ["autopay_off"], "text": "the electric account has autopay switched off right now so nothing gets paid automatically every month remember this"},
+        {"id": "b3", "score": 0.55, "facts": ["due28th"], "text": "the invoice itself is due on the 28th of this month"}
+      ]
+    },
+    {
+      "q": "which day is leg day and where is the gym",
+      "needs": ["legmonday", "gym4thst"],
+      "chunks": [
+        {"id": "g1", "score": 0.90, "facts": ["legmonday"], "text": "the workout plan puts leg training on monday and pull training on friday"},
+        {"id": "g2", "score": 0.70, "facts": ["gym4thst"], "text": "the gym is on fourth street next to the bakery"},
+        {"id": "g3", "score": 0.40, "facts": [], "text": "remember to refill the water bottle before every session and stretch"}
+      ]
+    }
+  ]
+}

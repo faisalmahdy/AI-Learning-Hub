@@ -1,0 +1,11 @@
+{
+  "_meta": {
+    "what_this_is": "One row of a high-resolution image, to be downsampled by 2. The row is a smooth brightness gradient (the real scene we want to keep) plus a fine one-pixel checkerboard texture (+6, -6, +6, ... -- detail too fine to survive at half resolution). The gradient is what a correct downscale should preserve; the checker should average away to nothing. The row is built so the checker sits exactly at the Nyquist frequency, where naive every-other-pixel decimation aliases it into a false uniform brightness shift instead of averaging it out.",
+    "data_is": "A FIXTURE. gradient + checker are given separately so the ideal downsample is exact and checkable; 'row' is their sum, the actual pixels.",
+    "format": "factor; gradient [...]; checker [...]; row [...] = gradient + checker"
+  },
+  "factor": 2,
+  "gradient": [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30],
+  "checker":  [6, -6, 6, -6, 6, -6, 6, -6, 6, -6, 6, -6, 6, -6, 6, -6],
+  "row":      [6, -4, 10, 0, 14, 4, 18, 8, 22, 12, 26, 16, 30, 20, 34, 24]
+}

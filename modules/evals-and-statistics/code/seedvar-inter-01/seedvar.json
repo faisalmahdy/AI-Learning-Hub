@@ -1,0 +1,5 @@
+{
+  "_meta": "Two models, A and B, each evaluated on the SAME benchmark five times with five different random seeds (temperature > 0 decoding, so each run samples different generations and scores differently). seed_scores is the list of scores (out of 100) one per seed. The scores are constructed so the run-to-run spread is real: A scores 68..76 across seeds (mean 72), B scores 62..70 (mean 66). The aggregate gap of 6 points is statistically solid once you average over the five seeds, but any SINGLE run is noisy: because A's runs range down to 68 and B's up to 70, one unlucky pairing of single runs shows B ahead of A by 2, flipping the winner, even though A is really better on average. The lesson is to report a model's score as a mean over seeds with its spread, and to compare models by that, never by a single run. seed_scores are the fixture; every mean, standard deviation, standard error, single-run gap range, and t-statistic is computed.",
+  "model_a": {"name": "A", "seed_scores": [68, 70, 72, 74, 76]},
+  "model_b": {"name": "B", "seed_scores": [62, 64, 66, 68, 70]}
+}

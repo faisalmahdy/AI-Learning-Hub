@@ -1,0 +1,17 @@
+{
+  "_meta": "Keys distributed across a set of server nodes (for a cache or a sharded store), and what happens when a node is ADDED. Two placement schemes are compared. Modulo hashing assigns key -> node index (hash % N); it is simple but when N changes -- one node added or removed -- almost every key's (hash % N) changes, so almost every key moves to a different node (a mass cache miss / data reshuffle). Consistent hashing places both the nodes and the keys on a ring (positions 0..99 here) and sends each key to the first node clockwise; adding a node only steals the keys in the arc just before it, so only about K/N keys move and they all go to the new node -- everything else stays put. To make the fractions exact and reproducible, each key carries an explicit ring position (`pos`) and an explicit `hash` value (both standing in for real hash outputs). nodes are the four existing nodes with their ring positions; new_node is the node being added. Every assignment and move count is computed.",
+  "nodes": {"n1": 10, "n2": 35, "n3": 60, "n4": 85},
+  "new_node": {"n5": 72},
+  "keys": [
+    {"id": "k0", "pos": 5,  "hash": 20},
+    {"id": "k1", "pos": 15, "hash": 41},
+    {"id": "k2", "pos": 28, "hash": 34},
+    {"id": "k3", "pos": 42, "hash": 52},
+    {"id": "k4", "pos": 50, "hash": 66},
+    {"id": "k5", "pos": 65, "hash": 71},
+    {"id": "k6", "pos": 70, "hash": 79},
+    {"id": "k7", "pos": 78, "hash": 88},
+    {"id": "k8", "pos": 88, "hash": 93},
+    {"id": "k9", "pos": 95, "hash": 13}
+  ]
+}

@@ -1,0 +1,4 @@
+{
+  "_meta": "A service that reads a value from a downstream dependency once per tick. status[t] is 1 if the dependency is up at tick t and 0 if it is down (an outage). Each tick a request arrives. Without a fallback, a request during an outage fails. With a stale-cache fallback, the service serves the last value it successfully fetched (from the most recent up-tick), and the value's staleness is how many ticks old it is. The question: what availability and staleness does each policy give?",
+  "status": [1, 1, 1, 0, 0, 0, 0, 1, 1, 1]
+}

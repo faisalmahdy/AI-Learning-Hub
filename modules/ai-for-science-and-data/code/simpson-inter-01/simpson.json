@@ -1,0 +1,13 @@
+{
+  "_meta": "Recovery counts from a real comparison of two kidney-stone treatments (Charig et al. 1986), split by stone size. Each treatment has a 'small' and a 'large' subgroup, and each subgroup records how many patients recovered out of how many treated. Stone size is a confounder: large stones are harder to treat (lower recovery) AND were disproportionately given to treatment A, while the easier small stones went mostly to treatment B. Because of that uneven allocation, treatment A has a HIGHER recovery rate than B in the small subgroup and in the large subgroup, yet a LOWER recovery rate overall -- Simpson's paradox. The counts are the fixture; every rate, the overall reversal, and the confounder-adjusted (standardized) rate are computed.",
+  "treatments": {
+    "A": {
+      "small": {"recovered": 81, "total": 87},
+      "large": {"recovered": 192, "total": 263}
+    },
+    "B": {
+      "small": {"recovered": 234, "total": 270},
+      "large": {"recovered": 55, "total": 80}
+    }
+  }
+}

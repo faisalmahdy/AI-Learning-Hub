@@ -1,0 +1,11 @@
+{
+  "_meta": "A wait-for graph among transactions (or agents) that hold resources and block on each other. waits_for maps each transaction to the list of transactions it is waiting on (it wants a resource they hold). A deadlock is a CYCLE in this graph: if T1 waits on T2, T2 on T3, and T3 on T1, none can proceed and none will ever release, so all three wait forever. cost is how much work each transaction has already done -- the amount of progress lost if it is aborted -- used to pick the cheapest victim to break the cycle. Here T1->T2->T3->T1 is a deadlock cycle; T4 waits on T2 (so it is blocked by the deadlock but is not itself part of the cycle); T5 waits on nobody. Detecting the cycle finds exactly the deadlocked set; aborting the lowest-cost member breaks it and frees everyone waiting behind it. Every cycle and victim here is computed.",
+  "waits_for": {
+    "T1": ["T2"],
+    "T2": ["T3"],
+    "T3": ["T1"],
+    "T4": ["T2"],
+    "T5": []
+  },
+  "cost": {"T1": 50, "T2": 30, "T3": 10, "T4": 40, "T5": 5}
+}

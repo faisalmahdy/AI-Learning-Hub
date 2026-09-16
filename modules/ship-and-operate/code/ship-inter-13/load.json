@@ -1,0 +1,7 @@
+{
+  "_meta": "A burst of requests hits a server that clears `capacity` per tick. A request is good only if served within `deadline` ticks of arrival. arrivals lists each request's arrival tick; queue_cap is the shedding threshold.",
+  "capacity": 1,
+  "deadline": 3,
+  "queue_cap": 3,
+  "arrivals": [0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5]
+}

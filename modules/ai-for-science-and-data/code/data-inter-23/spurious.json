@@ -1,0 +1,7 @@
+{
+  "_meta": "Two INDEPENDENT random walks -- each is a running sum of random +/-1 steps drawn from its own seed, so neither has anything to do with the other. A random walk trends: it wanders up or down and stays there, because each value is the previous one plus a step. When you correlate the LEVELS (the walk values) of two independent walks, you get a large correlation anyway, because both are trending and two trends line up by accident far more often than two flat noise series do -- a spurious correlation. The fix is to correlate the CHANGES (first differences, step to step) instead: the differences of a random walk are just its independent steps, so the differences of two independent walks are uncorrelated, correctly showing no relationship. seed_a and seed_b make one illustrative pair; trials averages |correlation| over many independent pairs to show the effect is systematic, not a fluke.",
+  "seed_a": 131,
+  "seed_b": 1131,
+  "n": 40,
+  "trials": 200
+}

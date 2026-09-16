@@ -1,0 +1,19 @@
+{
+  "_meta": {
+    "what_this_is": "Two variants of the same extracted module. 'raw' is how it came out of the personal project: it runs perfectly on its author's machine and is full of references that resolve nowhere else -- an absolute home path, a hardcoded API token, a personal email, the IP of a box on the author's desk. 'portable' is the de-personalized version: paths become variables, secrets come from the environment, the email becomes an issue link. A portability scan should flag every blocker in raw and nothing in portable.",
+    "variants_are": "A FIXTURE. The raw variant's secret is fake but shaped like a real one so the scan's secret rule fires. Scan your own extracted module this way before publishing it.",
+    "format": "variants {raw|portable: {filename: content}}"
+  },
+  "variants": {
+    "raw": {
+      "setup.md": "Clone the repo to /home/faisal/projects/agent\nRun the setup script from there.",
+      "config.py": "API_URL = 'http://192.168.1.42:8080'\nTOKEN = 'sk-9fJ2kd0slQ8xM'\n",
+      "README.md": "Questions? Email me at faisal.mahdy@example.com\n"
+    },
+    "portable": {
+      "setup.md": "Clone the repo to $PROJECT_DIR\nRun the setup script from there.",
+      "config.py": "API_URL = os.environ['API_URL']\nTOKEN = os.environ['TOKEN']\n",
+      "README.md": "Questions? Open an issue on the repo.\n"
+    }
+  }
+}

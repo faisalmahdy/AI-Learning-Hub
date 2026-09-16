@@ -1,0 +1,10 @@
+{
+  "_meta": "A service that borrows a connection from a fixed pool for each request. arrival_rate is how many requests per second come in; hold_time is how many seconds each request keeps its connection (the downstream call's duration). A pool of N connections, each freed after hold_time, can complete at most N/hold_time requests per second (Little's law). pools are candidate pool sizes to evaluate against the demand.",
+  "arrival_rate": 60,
+  "hold_time": 2.0,
+  "pools": {
+    "by_rate": 60,
+    "by_little": 120,
+    "generous": 180
+  }
+}

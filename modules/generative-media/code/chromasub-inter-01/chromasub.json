@@ -1,0 +1,21 @@
+{
+  "_meta": "An image separated into luma (Y, brightness) and chroma (color) planes, used to show chroma subsampling -- the 4:2:0 scheme that stores full-resolution luma but half-resolution chroma to cut data ~50% with little visible loss, because human vision is far more sensitive to brightness detail than to color detail. luma is the 4x4 Y plane, always kept at full resolution. smooth_chroma is a 4x4 chroma plane whose color varies slowly (each 2x2 block is constant) -- subsampling it to 2x2 and upsampling back is lossless. sharp_chroma is a 4x4 chroma plane with a high-frequency color pattern (alternating 20/140 columns) -- a sharp color edge, the kind that appears in colored text or fine color detail; subsampling averages each 2x2 block to 80 and upsampling cannot recover the 20/140 detail, so the color edge is destroyed. The point: subsampling chroma is nearly free on the smooth color that dominates real images and only hurts sharp color edges, while luma -- which carries the detail the eye actually notices -- is never touched, so the overall image looks almost unchanged at half the chroma data. luma, smooth_chroma, and sharp_chroma are the fixture; every subsampled plane, reconstruction, error, and data ratio is computed.",
+  "luma": [
+    [30, 60, 90, 120],
+    [40, 70, 100, 130],
+    [50, 80, 110, 140],
+    [60, 90, 120, 150]
+  ],
+  "smooth_chroma": [
+    [20, 20, 60, 60],
+    [20, 20, 60, 60],
+    [100, 100, 140, 140],
+    [100, 100, 140, 140]
+  ],
+  "sharp_chroma": [
+    [20, 140, 20, 140],
+    [20, 140, 20, 140],
+    [20, 140, 20, 140],
+    [20, 140, 20, 140]
+  ]
+}

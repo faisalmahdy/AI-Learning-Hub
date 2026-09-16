@@ -1,0 +1,7 @@
+{
+  "_meta": "A load balancer spreading requests round-robin across a pool of backend replicas, one of which has gone bad and fails every request it receives (a dead disk, a corrupted deploy, a wedged process) while the rest are healthy. hosts is the pool in round-robin order; bad_host is the one replica that fails. requests is how many requests arrive. eject_threshold is how many consecutive failures on a single host cause the balancer to eject it from the pool (passive outlier detection). Without ejection the balancer keeps sending 1 of every len(hosts) requests to the bad replica forever, so those requests fail indefinitely; with ejection the balancer removes the bad replica after eject_threshold consecutive failures and reroutes its share to the healthy replicas. hosts, bad_host, requests, and eject_threshold are the fixture; every route, success/failure, and ejection is computed.",
+  "hosts": ["h0", "h1", "h2", "h3"],
+  "bad_host": "h2",
+  "requests": 24,
+  "eject_threshold": 3
+}

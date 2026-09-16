@@ -1,0 +1,10 @@
+{
+  "_meta": "A batch of tool calls the model issued to run in parallel, each touching a resource in read or write mode, used to show why the harness must serialize calls that conflict -- two calls on the same resource where at least one writes -- instead of running the whole batch concurrently. Running independent tool calls in parallel is a real speedup: calls that touch different resources, or that only read the same resource, do not interfere and can all run at once. But parallelism is only safe when the calls are independent. Two calls conflict when they touch the SAME resource and at least one of them writes it: write-write (both change the same thing, and the final state depends on a race), or read-write (the reader may see the value before, during, or after the writer, nondeterministically). Running conflicting calls concurrently is a data race: the outcome depends on timing, so the same batch can produce different results on different runs, and a read can observe a half-applied write. The fix is to schedule the batch into groups such that no group contains a conflicting pair -- independent calls still run together in parallel, but conflicting calls are split across groups and run in a defined order. calls lists each tool call with an id, the resource it touches, and its mode (read or write). It is the fixture; the conflicting pairs, the naive all-in-one-parallel-batch schedule (which contains conflicts), and a safe schedule (grouped so no group has a conflict) are computed.",
+  "calls": [
+    {"id": "c1", "resource": "A", "mode": "read"},
+    {"id": "c2", "resource": "A", "mode": "read"},
+    {"id": "c3", "resource": "B", "mode": "write"},
+    {"id": "c4", "resource": "B", "mode": "write"},
+    {"id": "c5", "resource": "B", "mode": "read"}
+  ]
+}

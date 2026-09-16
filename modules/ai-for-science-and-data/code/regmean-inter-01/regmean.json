@@ -1,0 +1,16 @@
+{
+  "_meta": "Ten subjects measured twice on the same noisy metric (a test score, a month's sales, a clinic's readings) with NO intervention between the two rounds. Each score is a stable underlying ability plus luck on the day, so an extreme score is extreme partly because the luck happened to line up -- and luck does not repeat. That means the subjects who scored highest in round 1 tend to score lower in round 2, and the lowest tend to score higher, even though nothing was done to them and the group's average is unchanged. This is regression to the mean, and it is the reason an intervention applied to the worst performers (extra coaching, a warning) looks effective and one applied to the best looks harmful: the change would have happened anyway. round1 and round2 are the two measurements per subject; every group average and change is computed. The overall mean is held constant across rounds so any group movement is regression, not a real trend.",
+  "subjects": {
+    "A": {"round1": 130, "round2": 112},
+    "B": {"round1": 122, "round2": 108},
+    "C": {"round1": 118, "round2": 104},
+    "D": {"round1": 105, "round2": 101},
+    "E": {"round1": 100, "round2": 99},
+    "F": {"round1": 98,  "round2": 102},
+    "G": {"round1": 92,  "round2": 96},
+    "H": {"round1": 85,  "round2": 99},
+    "I": {"round1": 78,  "round2": 90},
+    "J": {"round1": 72,  "round2": 89}
+  },
+  "group_size": 3
+}

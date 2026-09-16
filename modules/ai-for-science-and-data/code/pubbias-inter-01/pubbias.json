@@ -1,0 +1,5 @@
+{
+  "_meta": "Eight studies of the same treatment, which in truth has NO effect (the real effect is 0). Each study measures an effect that is just noise around 0; effects is the observed effect each study reported. A result counts as statistically significant when its magnitude reaches the threshold (|effect| >= 2). Publication is biased two ways at once: non-significant results tend not to get published (the file-drawer problem), and among significant results the ones in the hoped-for positive direction are far more likely to be written up and cited (positive-outcome bias). So the literature a meta-analyst can see is only the significant, positive studies -- here the two with effects 2 and 4. The full set of eight effects averages to 0 (the truth), but the published subset averages to 3, a phantom effect manufactured entirely by which studies were allowed to become visible. effects and threshold are the fixture; every significance flag, publication decision, and mean is computed.",
+  "effects": [-4, -2, -1, -1, 1, 1, 2, 4],
+  "threshold": 2
+}

@@ -1,0 +1,5 @@
+{
+  "_meta": "Three replicas (A, B, C) of one key in a quorum-replicated store. Each replica holds a version number for the value; a higher version is newer. A recent write reached A and B (version 2) but C missed it (still version 1) -- perhaps C was briefly unreachable. replicas maps each replica to the version it currently holds. read_contacts is the set of replicas a read will contact this time: A and C. A quorum read returns the newest version among the replicas it contacted, so it returns the correct value (2) whether or not the stale C is contacted. The question this fixture explores is what happens to C afterward: without read repair the read returns 2 and leaves C at the stale version 1, so C stays stale until some later write or a background sync fixes it; with read repair the coordinator, having seen C return the older version, writes the newest version back to C during the read, so the read itself heals the replica and the set converges. replicas and read_contacts are the fixture; every returned version, repair write, and stale count is computed.",
+  "replicas": {"A": 2, "B": 2, "C": 1},
+  "read_contacts": ["A", "C"]
+}

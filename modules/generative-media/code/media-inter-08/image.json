@@ -1,0 +1,17 @@
+{
+  "_meta": {
+    "what_this_is": "One image strip decomposed into three channels: Y (luma, brightness) and Cb, Cr (chroma, color). Each channel is deliberately given the IDENTICAL high-frequency pattern [16, 235, 16, 235, ...], so that subsampling any one of them (average adjacent pairs, then reconstruct) produces exactly the same raw reconstruction error. That isolates the one thing that actually differs between the channels: the perceptual weight -- how much the eye's acuity depends on detail in that channel. Luma dominates; each chroma channel contributes little.",
+    "data_is": "A FIXTURE. The identical patterns and the perceptual weights are hand-authored so the raw errors are exactly equal and the perceptual costs are exact and checkable; every error is computed in chroma.py. The weights (Y 0.85, Cb/Cr 0.075) reflect that the eye is far more sensitive to brightness detail than color detail -- the basis of chroma subsampling.",
+    "format": "channels: {name: samples}; weights: {name: perceptual sensitivity}; roles/order for display; luma and chroma_example name the two channels the cost view compares."
+  },
+  "order": ["Y", "Cb", "Cr"],
+  "roles": {"Y": "luma", "Cb": "chroma", "Cr": "chroma"},
+  "luma": "Y",
+  "chroma_example": "Cb",
+  "weights": {"Y": 0.85, "Cb": 0.075, "Cr": 0.075},
+  "channels": {
+    "Y":  [16, 235, 16, 235, 16, 235, 16, 235],
+    "Cb": [16, 235, 16, 235, 16, 235, 16, 235],
+    "Cr": [16, 235, 16, 235, 16, 235, 16, 235]
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "_meta": "A load test with a fixed intended request schedule and a server stall. requests is how many requests are meant to be sent, one every interval time units, at times 0, 1, 2, ... The server is instant except during a stall: it freezes at stall_start and stays frozen for stall_duration units, so any request whose intended time falls in [stall_start, stall_start+stall_duration) cannot complete until the freeze ends -- its latency is (freeze end - its intended time). A closed-loop load tester sends a request, WAITS for the response, then sends the next; so while the one request that hit the stall is stuck, the tester is blocked and never sends the requests that were scheduled during the freeze -- it omits them. Those omitted requests are exactly the ones that would have measured the tail. An open-loop / corrected measurement keeps every scheduled request and records what its latency would have been. This computes both distributions; every latency and percentile is exact.",
+  "requests": 20,
+  "interval": 1,
+  "stall_start": 5,
+  "stall_duration": 5
+}

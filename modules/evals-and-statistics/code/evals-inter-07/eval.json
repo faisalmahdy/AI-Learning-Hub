@@ -1,0 +1,13 @@
+{
+  "_meta": {
+    "what_this_is": "Two systems whose TRUE pass rates differ by a real, useful margin: A passes 70% of cases, B passes 76% -- a genuine 6-point improvement. The question is how many eval cases you need before that difference is detectable rather than lost in noise. Each sample size's minimum detectable effect (MDE) -- the smallest difference an eval of that size could distinguish from zero, roughly the 95% CI half-width on the difference -- is computed and compared to the true 6-point effect.",
+    "data_is": "A FIXTURE. The true rates are the ground truth (in reality you would not know them; that is the point -- you must reason about detectability before running). Every standard error and MDE is computed in power.py from the rates, the sample size, and z. small_n and large_n are the two sizes the self-test contrasts; z=1.96 is the 95% two-sided critical value.",
+    "format": "rate_a, rate_b (true pass rates); sample_sizes (n per system to evaluate); small_n, large_n (the contrast); z (critical value)."
+  },
+  "rate_a": 0.70,
+  "rate_b": 0.76,
+  "z": 1.96,
+  "small_n": 20,
+  "large_n": 500,
+  "sample_sizes": [20, 50, 100, 200, 500]
+}

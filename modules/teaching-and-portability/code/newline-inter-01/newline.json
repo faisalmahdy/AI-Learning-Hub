@@ -1,0 +1,4 @@
+{
+  "_meta": "The logical lines of a small text file (a CSV here). The same lines can be written two ways: with Unix line endings (LF, a single \\n after each line) or Windows line endings (CRLF, a carriage-return + line-feed \\r\\n). The visible text is identical, but the BYTES are not -- CRLF adds one extra \\r byte per line -- so a byte-length check, a hash, a diff, or a signature over the file differs between a file written on Windows and one written on Unix, even though a human sees the same content. A documented hash therefore fails to reproduce across platforms unless line endings are normalized first. This fixture builds both byte strings from the same lines and shows the divergence and the fix (normalize CRLF to LF before hashing).",
+  "lines": ["id,name", "1,alice", "2,bob"]
+}

@@ -1,0 +1,7 @@
+{
+  "_meta": "An A/B test of a change, broken down by user segment, used to show that an average treatment effect can hide a segment the change harms (heterogeneous treatment effects). segments partitions the users into groups, each with a size (number of users) and effect (the change in the metric the treatment caused for that segment, positive = better, negative = worse). Here the change HELPS new users a lot (+10 for 700 of them) but HURTS power users (-4 for 300 of them). The overall average treatment effect, weighted by segment size, is (700*10 + 300*(-4)) / 1000 = +5.8 -- clearly positive, so a team looking only at the average ships the change. But that positive average is driven by the large new-user segment and conceals real harm to power users, a valuable minority the change made worse. segments (name, size, effect) is the fixture; the overall effect, per-segment effects, and the ship decision each way are computed.",
+  "segments": [
+    {"name": "new_users", "size": 700, "effect": 10},
+    {"name": "power_users", "size": 300, "effect": -4}
+  ]
+}

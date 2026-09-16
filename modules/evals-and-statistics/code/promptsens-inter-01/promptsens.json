@@ -1,0 +1,10 @@
+{
+  "_meta": "Two models' scores on the same eval under four different but equally-fair prompt templates, used to show why a model comparison must be averaged over a set of prompt templates, not read off a single one -- because a model's score is sensitive to trivial prompt formatting (option ordering, the exact wording of the instruction, whitespace, whether the answer is requested as 'Answer:' or 'The answer is'), and two models are sensitive differently, so which template you happen to pick can decide the winner. A companion module (config parity) establishes that both models must run under the *same* template for a fair head-to-head; this is the next problem, which parity does not solve: even when every comparison is fair (both models on the identical template), the single template you chose is one arbitrary draw, and a different, equally-fair template can reverse the result. Each template here is a fair head-to-head -- both models scored on the same 20 items under that template -- yet the per-template winner disagrees across templates: template t1 favors A, templates t2 and t4 favor B, t3 ties. The swing across templates (a 7-item spread in the A-minus-B gap, out of 20 items) dwarfs the true average gap (B ahead by 1 item on average), so reporting any single template can crown either model, while averaging over all four gives the stable ranking. n_items is the number of eval items; templates maps each template name to the number of items model a and model b got right under it. These are the fixture; the per-template winners, the swing, the mean scores, and the mean gap are computed.",
+  "n_items": 20,
+  "templates": {
+    "t1": {"a": 15, "b": 12},
+    "t2": {"a": 11, "b": 14},
+    "t3": {"a": 13, "b": 13},
+    "t4": {"a": 12, "b": 16}
+  }
+}

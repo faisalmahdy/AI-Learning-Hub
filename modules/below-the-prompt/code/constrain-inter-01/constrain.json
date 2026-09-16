@@ -1,0 +1,10 @@
+{
+  "_meta": "A three-position output that must match the format digit-colon-digit (like a simple time or ratio), with the model's raw logits at each position, used to show that generation is kept valid by masking the illegal next-tokens to negative infinity BEFORE the softmax, not by sampling the full vocabulary and hoping. A language model's head produces a logit for every token in the vocabulary; softmax turns those into a distribution and decoding picks from it. Nothing in that distribution knows about a required output format, so the highest-probability token at a position can be one the format forbids -- and an unconstrained decoder will happily emit it, producing output that is not valid under the grammar the caller needs (invalid JSON, a mistyped enum, a non-numeric field). Constrained (grammar-guided) decoding fixes this at the source: at each position the grammar says which tokens are legal, and the decoder sets every illegal token's logit to negative infinity before the softmax, so those tokens get exactly zero probability and the choice is taken only among the legal ones (with the surviving probabilities renormalized). The output is then valid by construction, and the token chosen is the most probable LEGAL token -- the model's preference honored within the grammar. vocab is the token set; legal_per_pos lists the legal tokens at each of the three positions (digits, then a colon, then digits); logits_per_pos are the model's raw logits over the vocab at each position, chosen so the unconstrained argmax is illegal at every position. The unconstrained and constrained decodes, their validity, and the masked distributions are computed. Stdlib only.",
+  "vocab": ["0", "1", "2", "3", "4", ":", "x"],
+  "legal_per_pos": [["0", "1", "2", "3", "4"], [":"], ["0", "1", "2", "3", "4"]],
+  "logits_per_pos": [
+    [1.0, 2.0, 0.5, 0.3, 0.2, 0.1, 3.0],
+    [0.2, 0.3, 4.0, 0.1, 0.1, 2.0, 0.5],
+    [0.5, 0.4, 0.3, 0.2, 0.1, 3.5, 0.6]
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "_meta": "A set of dependency checks a request passes through, used to show why the behavior when a check's backing service is UNAVAILABLE must be chosen per check -- fail closed (deny) for a check whose whole point is to block, fail open (allow) for a check that only adds a nicety -- rather than applying one blanket rule to all of them. Every request runs through checks that call out to other services: an authorization check asks an auth service whether the user may proceed, a rate-limit check asks a limiter whether the user is within quota, a personalization step asks an enrichment service for recommendations. Each such call can fail -- the dependency times out or is down -- and the question is what the request should do then. 'Fail open' means proceed as if the check passed (allow); 'fail closed' means treat the failure as a rejection (deny). The right choice differs by check: a security check exists precisely to deny, so if it cannot run it must fail CLOSED, or an outage of the auth service becomes an authorization bypass; a non-critical enrichment exists only to improve the response, so if it cannot run it should fail OPEN, or an outage of a cosmetic service takes down the whole request. A single blanket rule is wrong for one side: blanket fail-open lets a critical check through during its outage (insecure), and blanket fail-closed blocks a request over a non-critical check's outage (needless unavailability). checks lists each check with a name and whether it is critical (security- or safety-enforcing, so it must fail closed). It is the fixture; the request outcome for each check under blanket fail-open, blanket fail-closed, and a deliberate per-check policy is computed.",
+  "checks": [
+    {"name": "authorization", "critical": true},
+    {"name": "rate_limit", "critical": true},
+    {"name": "recommendations", "critical": false},
+    {"name": "related_items", "critical": false}
+  ]
+}
