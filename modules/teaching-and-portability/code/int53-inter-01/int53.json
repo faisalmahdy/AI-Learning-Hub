@@ -1,0 +1,12 @@
+{
+  "_meta": "A set of integer identifiers passed through a 64-bit IEEE-754 float, used to show that any integer larger than 2^53 silently loses precision when it goes through a double -- which is what a JSON parser that decodes numbers as doubles (JavaScript's JSON.parse, and many others), a JavaScript Number, a spreadsheet cell, or a float database column all do -- so a 64-bit ID round-trips as a different, wrong number, and two distinct IDs can collapse to the same value. A double has a 52-bit mantissa plus an implicit leading bit, so it can represent every integer exactly up to 2^53 = 9007199254740992 and no further: above that the representable values step by 2, then 4, then 8, so most integers in that range are not representable and snap to the nearest one that is. An ID of 42 or 9007199254740991 (2^53 - 1, JavaScript's Number.MAX_SAFE_INTEGER) survives; 9007199254740993 (2^53 + 1) comes back as 9007199254740992; and two 19-digit snowflake-style IDs that differ by one both come back as the same even number, so a lookup by the corrupted ID hits the wrong row or none. Nothing errors -- the number is valid, just wrong. The fix is to never let a large integer ID travel as a JSON/JS number: carry it as a string (or use a parser that decodes to a big integer or decimal), so the exact digits survive and distinct IDs stay distinct. Each id has a label and an integer value; whether it survives a double round trip, whether two of them collide, and whether the string form preserves them are all computed. max_safe_int is 2^53 - 1. Stdlib only; Python's float IS the 64-bit double.",
+  "max_safe_int": 9007199254740991,
+  "ids": [
+    {"label": "small",             "value": 42},
+    {"label": "max_safe (2^53-1)", "value": 9007199254740991},
+    {"label": "2^53",              "value": 9007199254740992},
+    {"label": "2^53+1",            "value": 9007199254740993},
+    {"label": "snowflake_a",       "value": 1387496749436723201},
+    {"label": "snowflake_b",       "value": 1387496749436723202}
+  ]
+}
