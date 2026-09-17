@@ -1,0 +1,13 @@
+{
+  "_meta": "A compound query with two distinct information needs, and documents that each cover one aspect, both weakly, or neither, used to show that embedding a multi-aspect query as one vector places it at the midpoint between the aspects, where it ranks a document that is weakly about both above the documents that thoroughly cover one aspect each -- so single-vector retrieval returns a shallow compromise and misses the sources that actually answer the question, while decomposing the query into one sub-query per aspect and merging the results recovers them. A dense retriever turns a query into one vector and ranks documents by cosine similarity. When the query asks for two independent things -- 'compare the side effects of drug A and drug B', 'what are the pricing and the SLA of plan X' -- its single embedding lands between the two aspect directions, roughly their average. A document that thoroughly covers aspect A points in the A direction and has only moderate similarity to that midpoint; a document that is weakly about both points near the midpoint itself and scores highest, even though it answers neither aspect well. So the top result is a vague both-mentioning passage, and the two documents that actually contain each aspect's answer rank below it. The fix is to decompose: split the compound query into a sub-query per aspect, retrieve for each independently, and union the results, so each aspect's strong document is retrieved by its own sub-query. This is distinct from multi-hop retrieval, where the aspects are chained through a bridge entity; here they are independent parallel needs. The aspect direction vectors, the compound query, the documents (with 2-D embeddings and which aspects each thoroughly covers), and the retrieval size are the fixture; every similarity, the single-vector ranking, the decomposed retrieval, and the aspect coverage of each result set are computed. Stdlib only.",
+  "aspect_a": [1.0, 0.0],
+  "aspect_b": [0.0, 1.0],
+  "compound_query": [1.0, 1.0],
+  "top_k": 2,
+  "documents": [
+    {"id": "doc_a",    "embedding": [1.0, 0.0],  "covers": ["A"]},
+    {"id": "doc_b",    "embedding": [0.0, 1.0],  "covers": ["B"]},
+    {"id": "doc_both_weak", "embedding": [1.0, 1.0], "covers": []},
+    {"id": "doc_irrel", "embedding": [-1.0, 0.3], "covers": []}
+  ]
+}
