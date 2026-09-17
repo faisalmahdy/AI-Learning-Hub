@@ -1,0 +1,8 @@
+{
+  "_meta": "A cold-start model for a freshly deployed instance. Each request needs a connection from a pool of pool_size. On a COLD instance the pool starts empty, so the first pool_size requests each have to establish a connection, paying connect_ms on top of the base serve_ms; later requests reuse the warm connections and pay only serve_ms. A request whose total latency exceeds timeout_ms fails. WARM-UP establishes all pool_size connections BEFORE traffic is sent (during readiness, off the user's critical path), so every real request pays only serve_ms and none time out. requests is how many real requests we send. The point: sending full traffic to a cold instance times out its first pool_size requests; warming it first costs pool_size*connect_ms of preparation but zero user-facing timeouts.",
+  "pool_size": 10,
+  "connect_ms": 200,
+  "serve_ms": 50,
+  "timeout_ms": 100,
+  "requests": 100
+}

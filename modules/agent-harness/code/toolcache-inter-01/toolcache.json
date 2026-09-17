@@ -1,0 +1,12 @@
+{
+  "_meta": "A session's sequence of tool calls, used to show why an agent harness should CACHE (memoize) the results of read-only tool calls but must NOT cache mutating or time-sensitive ones. calls is the ordered list the agent made; each has a tool name, its args, and cacheable: whether the tool is a pure, read-only, deterministic operation whose result depends only on its args and does not change between calls in the session. Agents frequently re-request the same information (re-reading a file they already read, re-fetching a doc), so without caching every repeated read pays the full latency and token cost again. A CACHED harness stores each cacheable call's result keyed by (tool, args) and serves a repeat from the cache -- no re-execution -- while still executing every non-cacheable call each time. Here get_file(a) is called three times: without caching that is 3 executions; with caching it is 1 (the first) plus 2 cache hits. current_time() and write_file(a) are NOT cacheable -- current_time changes every call, and write_file has a side effect -- so they execute every time; caching them would return a stale time or skip a real write. Over the 7 calls, no caching = 7 executions; caching = 5 executions (2 saved, both repeats of get_file(a)). calls are the fixture; the executions with and without caching, the cache hits, and the non-cacheable executions are computed.",
+  "calls": [
+    {"tool": "get_file", "args": "a", "cacheable": true},
+    {"tool": "get_file", "args": "b", "cacheable": true},
+    {"tool": "get_file", "args": "a", "cacheable": true},
+    {"tool": "current_time", "args": "", "cacheable": false},
+    {"tool": "get_file", "args": "a", "cacheable": true},
+    {"tool": "current_time", "args": "", "cacheable": false},
+    {"tool": "write_file", "args": "a", "cacheable": false}
+  ]
+}

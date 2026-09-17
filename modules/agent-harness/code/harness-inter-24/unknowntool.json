@@ -1,0 +1,5 @@
+{
+  "_meta": "One agent turn's worth of tool calls against a fixed tool menu. menu is the set of tool names the harness actually exposes. calls is the sequence of tool names the model emitted this run; some match the menu and some do not, because the model misremembered a name (reed_file for read_file, serch_web for search_web) -- a hallucinated tool name, which is different from a real tool called with bad arguments. The harness must decide what to do when a call names a tool that is not on the menu. The naive dispatcher looks the name up and crashes on a miss, aborting the whole loop and discarding every call after it. The correct dispatcher returns the miss as an error observation -- naming the unknown tool, listing the menu, and suggesting the nearest real name by edit distance -- so the loop survives and the model can retry with the right name next turn. Every match and edit distance is computed; nothing is random.",
+  "menu": ["search_web", "read_file", "run_python", "list_dir"],
+  "calls": ["search_web", "reed_file", "run_python", "serch_web", "list_dir"]
+}

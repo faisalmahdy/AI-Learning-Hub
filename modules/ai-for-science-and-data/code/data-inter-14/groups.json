@@ -1,0 +1,8 @@
+{
+  "_meta": "Individual (x, y) points grouped into three units. Within each group y falls as x rises (negative), but groups with a higher mean x also have a higher mean y (positive across groups). Each point is [x, y].",
+  "groups": {
+    "region_A": [[1, 4], [2, 2], [3, 3], [4, 1]],
+    "region_B": [[5, 8], [6, 6], [7, 7], [8, 5]],
+    "region_C": [[9, 12], [10, 10], [11, 11], [12, 9]]
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "_meta": "A list of records to be sorted by two keys, used to show that multi-key sorting by successive single-key sorts relies on the sort being STABLE -- preserving the input order of records with equal keys -- and that an unstable sort silently scrambles the secondary ordering. The common way to sort by a primary key then a secondary key is two passes: first sort by the secondary key, then sort by the primary key. This is correct only if the second sort is stable, meaning records that tie on the primary key keep the order the first pass gave them. A stable sort therefore leaves records with the same primary key in secondary-key order, exactly what was wanted. An unstable sort is free to reorder equal-key records arbitrarily, so the second pass throws away the secondary ordering the first pass established, and records within a primary group come out in some other order -- here, reversed. Nothing errors: both sorts put the primary key in correct order, and only the arrangement of the ties differs, so the bug is invisible unless you look at the secondary order within a group. On this fixture five employees are sorted by department then name: the stable two-pass sort leaves each department's names in ascending order, while an unstable primary sort leaves them in the reverse of the name order. The records are the fixture; the two-pass results under a stable and an unstable primary sort, and whether each department's names are correctly ordered, are computed. Stdlib only.",
+  "primary_key": "dept",
+  "secondary_key": "name",
+  "records": [
+    {"dept": "eng", "name": "Bob"},
+    {"dept": "sales", "name": "Ann"},
+    {"dept": "eng", "name": "Ann"},
+    {"dept": "sales", "name": "Bob"},
+    {"dept": "eng", "name": "Cara"}
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "_meta": "A transaction spanning three participant databases committed with two-phase commit (2PC), used to show what 2PC guarantees (atomicity: all commit or all abort) and what it costs (blocking: a coordinator crash after the vote leaves prepared participants stuck holding locks). 2PC has two phases: PREPARE, where the coordinator asks every participant to promise it CAN commit (each votes yes or no and, if yes, locks its resources and waits), and COMMIT/ABORT, where the coordinator decides -- commit only if every vote was yes, abort if any vote was no -- and tells everyone. scenarios holds two vote sets: 'all_prepared' where A, B, C all vote yes (so the decision is commit) and 'one_aborts' where B votes no (so the decision is abort for everyone, including the yes-voters A and C). This is the atomicity guarantee: a single no forces a uniform abort, so participants never disagree. The catch is the window after participants have voted yes (and locked their resources) but before the decision arrives: if the coordinator crashes there, the yes-voters are 'in doubt' -- they have promised to commit and cannot unilaterally commit or abort, so they block, holding their locks, until the coordinator recovers. scenarios are the fixture; the decision per scenario, its uniformity across participants, and the in-doubt (blocked) set on coordinator crash are computed.",
+  "scenarios": {
+    "all_prepared": {"votes": {"A": "yes", "B": "yes", "C": "yes"}},
+    "one_aborts": {"votes": {"A": "yes", "B": "no", "C": "yes"}}
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "_meta": "One batch-normalized feature at inference time. During TRAINING, batch normalization standardizes each activation using the mean and variance of the CURRENT mini-batch, and it accumulates a running mean and running variance across training to use later. At INFERENCE the layer is supposed to switch to EVAL mode and use those fixed running statistics, so an example's output depends only on the example. The bug this fixture demonstrates is leaving the layer in TRAIN mode at inference: then each example is normalized by whatever batch it happens to be grouped with, so the SAME input produces DIFFERENT outputs depending on its batchmates, and a batch of size 1 has zero variance and collapses every input to beta. running_mean/running_var are the statistics learned during training; gamma/beta are the learned scale and shift; example is the input we score; batch_a and batch_b are two different batches the same example might land in. Every normalized output is computed.",
+  "running_mean": 0.0,
+  "running_var": 1.0,
+  "gamma": 1.0,
+  "beta": 0.0,
+  "eps": 1e-5,
+  "example": 2.0,
+  "batch_a": [2.0, 0.0, 4.0],
+  "batch_b": [2.0, 6.0, 10.0]
+}

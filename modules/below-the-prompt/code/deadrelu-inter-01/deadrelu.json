@@ -1,0 +1,4 @@
+{
+  "_meta": "A set of pre-activation values (the inputs a layer's activation function receives, one per neuron) used to contrast ReLU with a smooth activation (GELU) and show the 'dead ReLU' problem. pre_activations lists four neurons' pre-activation values; two are negative (-2 and -0.5) and two are positive (0.5 and 2). ReLU(x)=max(0,x) outputs 0 for any negative input, and its gradient (derivative) is exactly 0 there, so a neuron whose pre-activation is negative receives zero gradient and its incoming weights never update -- if it stays negative it is 'dead' and can never recover. GELU is smooth (gelu(x)=0.5*x*(1+erf(x/sqrt(2)))) and its gradient is nonzero even for negative inputs, so those neurons still receive a learning signal and are not dead. pre_activations is the fixture; every activation output, gradient, and dead-unit count is computed with math.erf.",
+  "pre_activations": [-2.0, -0.5, 0.5, 2.0]
+}

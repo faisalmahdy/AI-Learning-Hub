@@ -1,0 +1,9 @@
+{
+  "_meta": "A query vector and two document vectors in a tiny 2-D embedding space, to show why vector search must rank by DIRECTION (cosine similarity), not by raw dot product, unless the vectors are normalized. Semantic similarity is about the ANGLE between embeddings -- two texts mean the same thing when their vectors point the same way -- not about vector length, which often reflects incidental properties like document length or token frequency. doc_aligned points almost exactly along the query (high cosine, small magnitude). doc_offaxis points off to the side (lower cosine) but has a much larger magnitude. Raw dot product multiplies alignment by magnitude, so the large-but-off-axis document wins even though it is less relevant; cosine similarity divides out the magnitudes and ranks the aligned document first. gold names the document that is actually more relevant (the aligned one). The vectors are the fixture; every dot product, norm, and cosine is computed.",
+  "query": [1.0, 0.0],
+  "docs": {
+    "doc_aligned": [1.0, 0.1],
+    "doc_offaxis": [2.1, 2.1]
+  },
+  "gold": "doc_aligned"
+}

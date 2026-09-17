@@ -1,0 +1,7 @@
+{
+  "_meta": "One attention query against a set of keys and values. scores are the attention scores (query-key dot products, already scaled) for each key; values are the value vectors (scalars here for clarity). Attention output is softmax(scores) . values -- a weighted average of the values, weighted by the softmaxed scores. The usual way needs the whole scores vector in memory at once: one pass to find the max and the sum of exponentials, a second to normalize. Online (streaming) softmax computes the identical result in ONE pass over the scores, keeping only three running scalars (a running max, a running normalizer, and a running output), by rescaling the accumulators whenever a larger score appears. This is the kernel behind FlashAttention: it lets attention stream over keys in blocks without ever materializing the full score vector. large_scores and large_values repeat the setup with huge scores, where exponentiating without subtracting a max overflows to infinity. Every number here is computed.",
+  "scores": [1.0, 3.0, 2.0, 5.0, 4.0],
+  "values": [10.0, 20.0, 30.0, 40.0, 50.0],
+  "large_scores": [1000.0, 1002.0, 1001.0],
+  "large_values": [10.0, 20.0, 30.0]
+}

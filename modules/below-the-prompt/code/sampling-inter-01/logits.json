@@ -1,0 +1,9 @@
+{
+  "_meta": {
+    "what_this_is": "One decoding step: the model's raw output logits over a tiny 6-token vocabulary, before any softmax. These are the numbers temperature and top-p act on. The vocabulary is toy words so the distribution is readable; the logits are chosen so one token dominates but the tail is not negligible, which is exactly where temperature and nucleus truncation change the outcome.",
+    "data_is": "A FIXTURE standing in for a real model's logits at one position. No model, no forward pass.",
+    "format": "tokens [...]; logits [...] aligned by index"
+  },
+  "tokens": ["the", "a", "cat", "dog", "quantum", "zebra"],
+  "logits": [3.2, 2.1, 1.0, 0.5, -0.3, -1.0]
+}

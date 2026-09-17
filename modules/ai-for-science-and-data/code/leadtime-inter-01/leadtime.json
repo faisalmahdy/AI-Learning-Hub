@@ -1,0 +1,8 @@
+{
+  "_meta": "A cohort of patients with the same disease, used to show lead-time bias in cancer screening. For each patient we record three event times (in years, on a shared calendar): screen_detect is when a screening program would detect the disease early, symptom_detect is the later time when the disease would be caught from symptoms if there were no screening, and death is when the patient dies. The crucial fact in this fixture is that death is UNAFFECTED by when the disease was detected -- screening finds it earlier but does not change the time of death (the disease here is not curable by earlier detection). 'Survival from diagnosis' measured from the screen-detection date is therefore longer than measured from the symptom date, purely because the clock started earlier, not because anyone lived longer. That inflation is the lead time = symptom_detect - screen_detect. Comparing survival-from-diagnosis between a screened and an unscreened group makes screening look beneficial even when mortality (who dies, and at what age) is identical. patients is the fixture; every survival duration, mean, and lead time is computed.",
+  "patients": [
+    {"id": "p1", "screen_detect": 4, "symptom_detect": 8, "death": 10},
+    {"id": "p2", "screen_detect": 5, "symptom_detect": 9, "death": 11},
+    {"id": "p3", "screen_detect": 3, "symptom_detect": 7, "death": 9}
+  ]
+}

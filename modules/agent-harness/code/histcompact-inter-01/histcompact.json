@@ -1,0 +1,13 @@
+{
+  "_meta": "A running agent conversation that has grown past the model's context budget and must be trimmed before the next turn. Each message has a role, a token cost, and a `pin` flag marking messages that carry the agent's standing instructions and goal -- the system prompt and the original user task -- which must never be dropped. budget is the maximum tokens the next prompt may use. Two trimming strategies are compared. Naive FIFO drops the OLDEST messages until the transcript fits, which evicts the system prompt and the task first (they are oldest), so the agent forgets its instructions and goal. Pinned compaction keeps the pinned messages always and fills the remaining budget with the most RECENT turns (summarizing or dropping the middle), so the agent keeps its goal and its latest context. messages is the transcript in order; every kept set and token total is computed.",
+  "budget": 500,
+  "messages": [
+    {"id": "system", "role": "system", "tokens": 200, "pin": true},
+    {"id": "task", "role": "user", "tokens": 150, "pin": true},
+    {"id": "t1", "role": "assistant", "tokens": 100, "pin": false},
+    {"id": "t2", "role": "tool", "tokens": 100, "pin": false},
+    {"id": "t3", "role": "assistant", "tokens": 100, "pin": false},
+    {"id": "t4", "role": "tool", "tokens": 100, "pin": false},
+    {"id": "t5", "role": "assistant", "tokens": 120, "pin": false}
+  ]
+}

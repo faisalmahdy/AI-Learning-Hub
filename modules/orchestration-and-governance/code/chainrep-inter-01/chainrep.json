@@ -1,0 +1,10 @@
+{
+  "_meta": "A write propagating through three replicas as it replicates, used to show why chain replication (writes enter at the head and flow to the tail, reads are served by the tail, a write is acknowledged only once it reaches the tail) gives strongly consistent reads, whereas naive replication (acknowledge as soon as the first replica has it, read from any replica) exposes stale reads. In chain replication the replicas are ordered in a chain: head, middle(s), tail. A write is applied at the head and passed down the chain one hop at a time; it is committed and acknowledged to the client only when it reaches the tail. Because propagation is strictly head-to-tail, the set of replicas that have the new value is always a prefix of the chain ending no later than the tail -- so if the TAIL has the new value, every replica before it does too. Reads are always served by the tail, so a read returns a value that is guaranteed to be present on every replica: reads are linearizable and never stale relative to an acknowledged write. Naive replication breaks both halves: it acknowledges the write as soon as one replica (say the head) has it, before the others do, and it lets a read hit any replica -- so a read to a replica that has not yet received the write returns the old value even after the write was acknowledged, and two reads at the same instant to different replicas can disagree. propagation is the per-step value of each replica ([head, middle, tail]) as the new write flows down; tail_index marks the tail. propagation and tail_index are the fixture; the chain invariant, the chain (tail) reads, and the naive (read-any) stale reads are computed.",
+  "propagation": [
+    ["old", "old", "old"],
+    ["new", "old", "old"],
+    ["new", "new", "old"],
+    ["new", "new", "new"]
+  ],
+  "tail_index": 2
+}

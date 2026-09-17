@@ -1,0 +1,19 @@
+{
+  "_meta": {
+    "what_this_is": "One log stream from a service handling three requests (r1, r2, r3) concurrently. Each request follows the same path -- start, query, done -- and because the requests run at the same time their log lines interleave in the stream. Each event carries a correlation id (the request it belongs to); the 'without id' view drops it. The question is whether you can reconstruct any single request's path from the log: by filtering on the correlation id, or by naively chunking the id-stripped stream into groups.",
+    "data_is": "A FIXTURE. The events are hand-authored so the interleaving defeats naive chunking (the stream is start,start,start,query,query,query,done,done,done, so no group of three is a valid start-query-done path) while correlation-id filtering recovers all three exact paths. Every reconstruction is computed in trace.py.",
+    "format": "expected_path: the step sequence a real request follows; events: [{t, id, step}] where t is the timestamp, id the correlation id, step the stage."
+  },
+  "expected_path": ["start", "query", "done"],
+  "events": [
+    {"t": 1, "id": "r1", "step": "start"},
+    {"t": 2, "id": "r2", "step": "start"},
+    {"t": 3, "id": "r3", "step": "start"},
+    {"t": 4, "id": "r1", "step": "query"},
+    {"t": 5, "id": "r2", "step": "query"},
+    {"t": 6, "id": "r3", "step": "query"},
+    {"t": 7, "id": "r1", "step": "done"},
+    {"t": 8, "id": "r2", "step": "done"},
+    {"t": 9, "id": "r3", "step": "done"}
+  ]
+}

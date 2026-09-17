@@ -1,0 +1,8 @@
+{
+  "_meta": "A small table of rows whose fields contain the very characters that make comma-separated values ambiguous -- a comma inside a field and a newline inside a field -- used to show why you must write CSV with a real CSV writer that quotes such fields, not by joining fields with commas and rows with newlines. CSV looks trivial: put commas between the fields and a newline between the rows. That works until a field itself contains a comma or a newline, which real data does all the time -- an address 'Paris, France', a note that spans two lines. A naive writer that does ','.join(fields) then '\\n'.join(rows) emits those characters raw, and now the structure is corrupted: a field with a comma looks like two fields, so the row gains a phantom column, and a field with a newline looks like the end of the row, so one row becomes two. The reader downstream splits on the delimiters and gets the wrong number of columns and the wrong number of rows -- silently, because the output is still valid-looking text. The fix is to let a CSV library write and read the data: it quotes any field containing a delimiter, a quote, or a newline (wrapping it in double quotes and doubling internal quotes), so the special characters are carried literally and the round-trip returns exactly the original rows. rows is the table; each inner list is one row's fields. rows is the fixture; the naive-written text and how it re-parses (with the wrong shape), the CSV-written text, and the correct round-trip are computed.",
+  "rows": [
+    ["name", "city", "role"],
+    ["Ada", "Paris, France", "engineer"],
+    ["Bo", "Rome", "wri\nter"]
+  ]
+}

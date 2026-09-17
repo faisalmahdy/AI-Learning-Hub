@@ -1,0 +1,9 @@
+{
+  "_meta": "A tiny document corpus and a query, used to show why a lexical (keyword) search must run the query through the SAME text analyzer used to build the inverted index -- lowercasing, tokenizing, and stemming the same way -- or a word that is literally present in a document will not match. A lexical index does not store raw text; it stores analyzed terms. An analyzer takes a document's text and turns it into a normalized token stream: it lowercases, splits on whitespace and punctuation, and often stems words to a root form (so 'running', 'runs', and 'ran' all collapse toward 'run', and plurals lose their trailing s). The inverted index then maps each analyzed term to the documents that contain it. At query time the query text must be put through the identical analyzer, because the index contains only analyzed terms -- searching the index for the raw word 'Running' finds nothing, since the index stores the stemmed, lowercased 'run', not 'Running'. This is the lexical counterpart of using one embedding-model version for both the corpus and the query: the two sides must be processed the same way or they live in different spaces. When the query is not analyzed (or is analyzed differently from the index), a term that appears verbatim in a document silently fails to match, and the search returns nothing or the wrong documents. docs is the corpus (each an id and its text); query is the search string. These are the fixture; the analyzed index, the raw-query search (which misses), and the analyzed-query search (which matches) are computed.",
+  "docs": [
+    {"id": "d1", "text": "Running shoes for athletes"},
+    {"id": "d2", "text": "A cooking guide"},
+    {"id": "d3", "text": "The runner trains daily"}
+  ],
+  "query": "Running"
+}

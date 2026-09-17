@@ -1,0 +1,15 @@
+{
+  "_meta": {
+    "what_this_is": "A simple learner simulation to compare item-difficulty policies. The learner has a skill level; an item has a difficulty; the chance of solving it is the logistic of (skill - difficulty). The learning signal from an item is largest when the outcome is most uncertain -- when success probability is near one half -- and near zero when the item is trivially easy or hopelessly hard. Three policies pick item difficulty relative to the learner CURRENT skill: too_easy stays well below it, too_hard well above it, targeted sits right at it (even odds).",
+    "data_is": "A FIXTURE. The policy offsets, learning rate, item count, and starting skill are hand-chosen so the targeted policy reaches skill 3.000 while the too-easy and too-hard policies both stall at 0.841 -- the symmetry showing both extremes waste the item equally. Every skill trajectory and gain is computed in difficulty.py.",
+    "format": "policies: {name: difficulty_offset from current skill}; start_skill; items; learning_rate."
+  },
+  "start_skill": 0.0,
+  "items": 30,
+  "learning_rate": 0.4,
+  "policies": {
+    "too_easy": -2.5,
+    "targeted": 0.0,
+    "too_hard": 2.5
+  }
+}

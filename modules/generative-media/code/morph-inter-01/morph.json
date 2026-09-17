@@ -1,0 +1,13 @@
+{
+  "_meta": "A binary image (1 = foreground, 0 = background) as a grid of rows. It holds one solid 3x3 blob (the real object) at rows 1-3, cols 1-3, plus a single isolated foreground pixel at row 4, col 4 (salt noise). Morphological operations use a 3x3 structuring element (a pixel and its 8 neighbors); out-of-bounds pixels count as 0. EROSION keeps a foreground pixel only if ALL 9 cells in its neighborhood are foreground, so it peels one layer off every shape and deletes anything smaller than the element — it removes the speck but also shrinks the blob. DILATION sets a pixel foreground if ANY neighbor is, growing every shape by a layer. OPENING is erosion then dilation: the erosion deletes the speck (nothing to grow back from) while the following dilation regrows the blob to its original size. speck_at names the noise pixel; blob_area is the object's true pixel count.",
+  "grid": [
+    [0, 0, 0, 0, 0, 0],
+    [0, 1, 1, 1, 0, 0],
+    [0, 1, 1, 1, 0, 0],
+    [0, 1, 1, 1, 0, 0],
+    [0, 0, 0, 0, 1, 0],
+    [0, 0, 0, 0, 0, 0]
+  ],
+  "speck_at": [4, 4],
+  "blob_area": 9
+}

@@ -1,0 +1,6 @@
+{
+  "_meta": "A batch of requests, each served by a replica. primary_ms is how long each request's first replica takes; backup_ms is how long a second replica would take if we also asked it. One request (index 4) hits a slow replica -- a straggler at 200ms while the rest are ~12ms. hedge_delay_ms is how long we wait before sending a backup request: if the primary has not answered by then, we ask a second replica and take whichever returns first.",
+  "primary_ms": [10, 12, 11, 13, 200, 14, 12, 11, 13, 12],
+  "backup_ms":  [15, 15, 15, 15, 15, 15, 15, 15, 15, 15],
+  "hedge_delay_ms": 20
+}

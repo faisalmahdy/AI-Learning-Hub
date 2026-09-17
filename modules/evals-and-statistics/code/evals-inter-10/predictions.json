@@ -1,0 +1,175 @@
+{
+ "_meta": {
+  "what_this_is": "Predictions from two models on the same 20-item eval, each with the confidence the model reported and whether it was correct. Both models have the SAME overall accuracy (14/20 = 0.70). Model A is calibrated: when it says 0.9 it is right ~90% of the time, when it says 0.5 it is right ~50%. Model B is overconfident: it says 0.9 on everything but is right only 70% of the time. Accuracy cannot tell them apart; calibration error can.",
+  "data_is": "A FIXTURE. The predictions are hand-authored so the two models have identical accuracy but very different calibration -- A has expected calibration error 0, B has 0.20. Every accuracy, bin, and ECE is computed in calibration.py.",
+  "format": "models: {name: [{conf, correct}]}; accept_threshold: the confidence above which predictions are auto-accepted; n_bins: confidence bins for ECE."
+ },
+ "accept_threshold": 0.9,
+ "n_bins": 5,
+ "models": {
+  "A_calibrated": [
+   {
+    "conf": 0.9,
+    "correct": true
+   },
+   {
+    "conf": 0.9,
+    "correct": true
+   },
+   {
+    "conf": 0.9,
+    "correct": true
+   },
+   {
+    "conf": 0.9,
+    "correct": true
+   },
+   {
+    "conf": 0.9,
+    "correct": true
+   },
+   {
+    "conf": 0.9,
+    "correct": true
+   },
+   {
+    "conf": 0.9,
+    "correct": true
+   },
+   {
+    "conf": 0.9,
+    "correct": true
+   },
+   {
+    "conf": 0.9,
+    "correct": true
+   },
+   {
+    "conf": 0.9,
+    "correct": false
+   },
+   {
+    "conf": 0.5,
+    "correct": true
+   },
+   {
+    "conf": 0.5,
+    "correct": true
+   },
+   {
+    "conf": 0.5,
+    "correct": true
+   },
+   {
+    "conf": 0.5,
+    "correct": true
+   },
+   {
+    "conf": 0.5,
+    "correct": true
+   },
+   {
+    "conf": 0.5,
+    "correct": false
+   },
+   {
+    "conf": 0.5,
+    "correct": false
+   },
+   {
+    "conf": 0.5,
+    "correct": false
+   },
+   {
+    "conf": 0.5,
+    "correct": false
+   },
+   {
+    "conf": 0.5,
+    "correct": false
+   }
+  ],
+  "B_overconfident": [
+   {
+    "conf": 0.9,
+    "correct": true
+   },
+   {
+    "conf": 0.9,
+    "correct": true
+   },
+   {
+    "conf": 0.9,
+    "correct": true
+   },
+   {
+    "conf": 0.9,
+    "correct": true
+   },
+   {
+    "conf": 0.9,
+    "correct": true
+   },
+   {
+    "conf": 0.9,
+    "correct": true
+   },
+   {
+    "conf": 0.9,
+    "correct": true
+   },
+   {
+    "conf": 0.9,
+    "correct": true
+   },
+   {
+    "conf": 0.9,
+    "correct": true
+   },
+   {
+    "conf": 0.9,
+    "correct": true
+   },
+   {
+    "conf": 0.9,
+    "correct": true
+   },
+   {
+    "conf": 0.9,
+    "correct": true
+   },
+   {
+    "conf": 0.9,
+    "correct": true
+   },
+   {
+    "conf": 0.9,
+    "correct": true
+   },
+   {
+    "conf": 0.9,
+    "correct": false
+   },
+   {
+    "conf": 0.9,
+    "correct": false
+   },
+   {
+    "conf": 0.9,
+    "correct": false
+   },
+   {
+    "conf": 0.9,
+    "correct": false
+   },
+   {
+    "conf": 0.9,
+    "correct": false
+   },
+   {
+    "conf": 0.9,
+    "correct": false
+   }
+  ]
+ }
+}

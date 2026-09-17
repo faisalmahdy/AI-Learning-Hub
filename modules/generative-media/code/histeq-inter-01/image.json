@@ -1,0 +1,5 @@
+{
+  "_meta": "A low-contrast grayscale image as a flat list of pixel values on a levels-level scale (0..levels-1). The values are bunched around a dominant mid-dark tone, so contrast is poor.",
+  "levels": 8,
+  "pixels": [2, 2, 3, 3, 3, 3, 4, 5]
+}

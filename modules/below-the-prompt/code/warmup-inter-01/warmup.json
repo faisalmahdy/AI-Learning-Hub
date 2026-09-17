@@ -1,0 +1,7 @@
+{
+  "_meta": "Gradient descent on the toy loss f(x) = x^4 (minimum at 0), whose gradient 4x^3 is HUGE far from the minimum and tiny near it -- a stand-in for the large gradients at the start of training. x0 is the starting point (far out, steep). target_lr is the full learning rate. warmup_steps is how many steps a warmup schedule takes to ramp the learning rate linearly from a small value up to target_lr. total_steps is how long to run. The question: does a full learning rate from step 0 survive the steep start?",
+  "x0": 3.0,
+  "target_lr": 0.1,
+  "warmup_steps": 5,
+  "total_steps": 8
+}

@@ -1,0 +1,6 @@
+{
+  "_meta": "Five models with identical true skill, so every difference is measurement noise. selection_eval is the run used to pick a winner; holdout_eval is a fresh independent run on new data.",
+  "true_skill": {"model_a": 0.70, "model_b": 0.70, "model_c": 0.70, "model_d": 0.70, "model_e": 0.70},
+  "selection_eval": {"model_a": 0.72, "model_b": 0.68, "model_c": 0.78, "model_d": 0.69, "model_e": 0.71},
+  "holdout_eval": {"model_a": 0.71, "model_b": 0.70, "model_c": 0.69, "model_d": 0.72, "model_e": 0.70}
+}

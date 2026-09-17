@@ -1,0 +1,13 @@
+{
+  "_meta": "A burst of requests to a server whose capacity is smaller than the demand, used to show why, under overload, a server should SHED low-priority requests first rather than admitting requests in arrival order. capacity is how many requests the server can serve in this window; here it is 4. requests is the burst in arrival order, each with a priority (high = must-serve, e.g. a checkout or a health probe; low = best-effort, e.g. a prefetch or an analytics ping). There are 7 requests for 4 slots, so 3 must be turned away no matter what -- the only question is WHICH 3. A NAIVE server admits in arrival order (FIFO): it fills the 4 slots with the first 4 requests regardless of priority, which here serves 2 of the 3 high-priority requests and drops 1 high-priority request (r6) while spending a slot on a low-priority one (r3). A LOAD-SHEDDING server, when demand exceeds capacity, drops low-priority requests first: it serves all 3 high-priority requests plus the earliest low-priority one, dropping only low-priority requests. Both serve exactly 4 -- shedding does not add capacity, it spends the same capacity on the requests that matter. capacity and requests are the fixture; every admission decision, served set, and dropped set is computed.",
+  "capacity": 4,
+  "requests": [
+    {"id": "r1", "priority": "low"},
+    {"id": "r2", "priority": "high"},
+    {"id": "r3", "priority": "low"},
+    {"id": "r4", "priority": "high"},
+    {"id": "r5", "priority": "low"},
+    {"id": "r6", "priority": "high"},
+    {"id": "r7", "priority": "low"}
+  ]
+}

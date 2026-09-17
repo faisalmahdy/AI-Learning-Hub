@@ -1,0 +1,12 @@
+{
+  "_meta": {
+    "what_this_is": "Three logit vectors of the kind that come out of a language model's final layer, right before the softmax that turns them into next-token probabilities. 'moderate' has ordinary small logits where the textbook softmax works fine. 'large' has logits near 800 -- well above exp's overflow threshold of about 709 -- which is exactly where the naive formula breaks. 'shifted' is 'moderate' plus a large constant, to show shift-invariance.",
+    "data_is": "A FIXTURE. The logit values are hand-authored so the overflow, the NaN, and the shift-invariance are exact and checkable; every exp, sum, and division is computed in softmax.py, nothing is precomputed here.",
+    "format": "logits: list of {name, logits:[float]}."
+  },
+  "logits": [
+    {"name": "moderate", "logits": [2.0, 1.0, 0.1, -0.5]},
+    {"name": "large", "logits": [800.0, 801.0, 802.0, 799.5]},
+    {"name": "shifted", "logits": [102.0, 101.0, 100.1, 99.5]}
+  ]
+}

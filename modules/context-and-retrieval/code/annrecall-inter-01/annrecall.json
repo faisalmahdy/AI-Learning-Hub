@@ -1,0 +1,13 @@
+{
+  "_meta": "A small vector index in 2-D to show why approximate nearest-neighbor (ANN) search trades recall for speed. Exact nearest-neighbor search compares the query to every point (accurate but O(N)). An IVF (inverted-file) index instead partitions the points into clusters around centroids and, at query time, searches only the `nprobe` clusters nearest the query -- fast, because it skips most points, but it can MISS a true nearest neighbor that happens to sit in a cluster it did not search. That happens near cluster boundaries: a point just across the boundary from the query is one of the closest points overall, yet belongs to a different cluster than the query's own. query is the search vector; centroids define the clusters; points are the indexed vectors (each assigned to its nearest centroid); k is how many neighbors to return. Every distance, assignment, exact result, and IVF result is computed.",
+  "query": [4.5, 0.0],
+  "k": 3,
+  "centroids": {"c0": [0.0, 0.0], "c1": [10.0, 0.0]},
+  "points": {
+    "p1": [4.0, 0.0],
+    "p2": [5.5, 0.0],
+    "p3": [3.0, 0.0],
+    "p4": [1.0, 0.0],
+    "p5": [9.0, 0.0]
+  }
+}

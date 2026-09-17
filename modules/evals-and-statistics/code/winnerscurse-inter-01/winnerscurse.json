@@ -1,0 +1,9 @@
+{
+  "_meta": "Four experiment variants, each with a TRUE effect and the OBSERVED (measured) effect from a noisy experiment, used to show the winner's curse: when you run many variants and ship the one with the highest observed lift, its measured effect is biased upward, because selecting the maximum preferentially selects the variant that got lucky noise -- so the winner underdelivers in production. Each variant's observed effect is its true effect plus a measurement noise term (given, so this is deterministic). true_effect is what the variant would deliver in the long run; observed_effect is this experiment's noisy estimate. Here v2 has a small true effect (1) but a large positive noise draw (+4), giving the highest observed effect (5); a team that ships the highest observed variant picks v2 expecting +5 and gets +1. Worse, v3 -- which has the highest TRUE effect (3) -- is not the one selected, because its observed effect (3) lost to v2's lucky 5. The observed effect of the selected winner overstates its true effect (the classic winner's curse), and the fix is to re-measure the chosen winner on a FRESH holdout (which sees the true effect, not the lucky noise) before trusting the estimate or committing to the launch. variants (true and observed effects) are the fixture; the selected winner, its inflation, and the true-best comparison are computed.",
+  "variants": [
+    {"id": "v1", "true_effect": 2, "observed_effect": 2},
+    {"id": "v2", "true_effect": 1, "observed_effect": 5},
+    {"id": "v3", "true_effect": 3, "observed_effect": 3},
+    {"id": "v4", "true_effect": 2, "observed_effect": 4}
+  ]
+}

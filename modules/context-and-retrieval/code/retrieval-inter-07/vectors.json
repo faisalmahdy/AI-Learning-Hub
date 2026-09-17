@@ -1,0 +1,15 @@
+{
+  "_meta": {
+    "what_this_is": "A query embedding and four document embeddings, the setup a dense retriever scores. Relevance is alignment with the query's DIRECTION -- two docs point the same way as the query (on-topic), two point elsewhere. One on-topic doc is deliberately small in magnitude and one off-topic doc is deliberately large, so the raw dot product (which multiplies alignment by magnitude) ranks them wrong while cosine (alignment only) ranks them right.",
+    "data_is": "A FIXTURE. The vectors are hand-authored so the dot-product and cosine rankings, and the small-doc rescue, are exact and checkable; every dot, norm, and cosine is computed in cosine.py. d_big is off-topic but large (wins by dot), d_rel and d_small are on-topic (win by cosine), d_med is partly aligned.",
+    "format": "query: the query vector; docs: [{id, vec, relevant}]; small_relevant: the id of the small on-topic doc the dot product buries."
+  },
+  "query": [1, 1, 0],
+  "small_relevant": "d_small",
+  "docs": [
+    {"id": "d_rel",   "vec": [2, 2, 0], "relevant": true},
+    {"id": "d_big",   "vec": [5, 1, 8], "relevant": false},
+    {"id": "d_med",   "vec": [1, 0, 1], "relevant": false},
+    {"id": "d_small", "vec": [0.5, 0.5, 0], "relevant": true}
+  ]
+}

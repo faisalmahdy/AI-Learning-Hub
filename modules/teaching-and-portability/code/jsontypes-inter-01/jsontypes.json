@@ -1,0 +1,7 @@
+{
+  "_meta": "A small data structure that does not survive a round trip through JSON unchanged, used to show that JSON has a narrow type model and json.loads(json.dumps(x)) is not the identity function: integer dictionary keys come back as strings and tuples come back as lists, so code that assumes a JSON round trip preserves types is silently wrong. JSON keys are always strings -- the format has no notion of an integer key -- so when you serialize a dict whose keys are integers, they are coerced to their string form on the way out, and on the way back in they stay strings; a later lookup by the original integer key then misses. JSON also has only one sequence type, the array, so a Python tuple is serialized as an array and deserialized as a list, changing its type (and losing the immutability and any tuple-specific meaning). JSON has no set, bytes, or datetime either. The consequence is that persisting or transmitting data through JSON is lossy for types even when it is lossless for values: the numbers and strings are intact, but the containers and key types can change underneath you. counts is a dict with integer keys; point is a tuple; tags is a plain list of strings (which does survive). These describe the fixture built in code; the JSON text, the round-tripped structure, and the specific type changes are computed.",
+  "counts_keys": [1, 2],
+  "counts_values": [10, 20],
+  "point": [3, 4],
+  "tags": ["a", "b"]
+}

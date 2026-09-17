@@ -1,0 +1,12 @@
+{
+  "_meta": "A charge endpoint under at-least-once delivery. A client sends a charge; the response is lost to a network timeout, so the client retries the SAME logical request. The retry carries the same idempotency key -- a client-generated id that names the intended operation, not the transport attempt -- so the server can recognize the retry as a duplicate of an operation it already performed and NOT perform it again. start_balance is the account balance before any charge. 'requests' is the original charge followed by its retry, both carrying key req-abc (one logical operation, sent twice). 'distinct' is two genuinely different operations with different keys, which must both apply -- dedup must suppress retries without suppressing distinct requests. Every balance here is computed; the amounts, keys, and start balance are the fixture.",
+  "start_balance": 100.0,
+  "requests": [
+    {"key": "req-abc", "amount": 30.0, "note": "original charge"},
+    {"key": "req-abc", "amount": 30.0, "note": "client retry after a lost response (SAME key)"}
+  ],
+  "distinct": [
+    {"key": "req-abc", "amount": 30.0, "note": "one operation"},
+    {"key": "req-xyz", "amount": 25.0, "note": "a different operation"}
+  ]
+}

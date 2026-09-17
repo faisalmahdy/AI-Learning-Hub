@@ -1,0 +1,29 @@
+{
+  "_meta": {
+    "what_this_is": "A tiny wiki-memory corpus for a personal assistant: ten short notes plus one long 'weekly-log' junk-drawer page that mentions a little of everything. Each query has one gold-relevant note id. The long page is the trap: raw term-overlap scoring inflates it because it repeats many common words, so it out-ranks the short, on-topic note the query actually wants.",
+    "docs_are": "A FIXTURE. Hand-authored so length bias is visible: doc d00 (the weekly log) is long and touches every topic; the on-topic notes are short. Point the retriever at your own notes.",
+    "gold": "the note id that actually answers the query",
+    "format": "docs: {id: text}; queries: [{q, gold}]"
+  },
+  "docs": {
+    "d00": "weekly log monday coffee then gym legs day. tuesday work on the retrieval project and coffee. wednesday gym push day and a dentist reminder. thursday flight booking research and coffee again. friday gym pull day, groceries, and pay the electric bill. saturday laundry and call mom. sunday meal prep coffee beans and plan the gym week ahead. general notes about work, coffee, gym, flights, bills, and the dentist all live here in this long running log.",
+    "d01": "coffee: I take it black, no sugar. a light roast in the morning and sometimes a second cup after lunch.",
+    "d02": "gym schedule: monday is leg day, wednesday is push day, friday is pull day. rest on the weekend.",
+    "d03": "dentist: appointment is on the 14th at 9am with dr. lin. bring the insurance card.",
+    "d04": "flight to jakarta: leaves 6pm on the 20th, seat 14c, terminal 3. check in online the night before.",
+    "d05": "electric bill: due on the 28th, autopay is off, pay it from the joint account.",
+    "d06": "mom birthday: the 9th. she likes tulips and a hand-written card, not a gift card.",
+    "d07": "passwords: the wifi is stored in the vault under home-network, rotate it every spring.",
+    "d08": "groceries: oat milk, eggs, coffee beans, spinach, rice, and dish soap.",
+    "d09": "meal prep: cook rice sunday, roast vegetables, portion into five containers for the week.",
+    "d10": "car: oil change every 8000 km, tire rotation with it, the mechanic is on 4th street."
+  },
+  "queries": [
+    {"q": "when is my gym leg day", "gold": "d02"},
+    {"q": "what time is the dentist appointment", "gold": "d03"},
+    {"q": "when does my flight leave", "gold": "d04"},
+    {"q": "when is the electric bill due", "gold": "d05"},
+    {"q": "what does mom want for her birthday", "gold": "d06"},
+    {"q": "how do i take my coffee", "gold": "d01"}
+  ]
+}

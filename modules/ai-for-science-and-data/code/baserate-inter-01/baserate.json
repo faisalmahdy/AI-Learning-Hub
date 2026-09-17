@@ -1,0 +1,8 @@
+{
+  "_meta": "A screening test for a rare disease, described by three numbers. prevalence is the base rate -- the fraction of the population that actually has the disease. sensitivity is P(test positive | has disease) -- the true-positive rate. specificity is P(test negative | healthy) -- the true-negative rate, so 1 - specificity is the false-positive rate. The question is the one people get wrong: given a POSITIVE test, what is the probability the person actually has the disease (the positive predictive value, PPV)? The intuitive answer is 'about the sensitivity, 99%', which ignores the base rate. The correct answer counts actual people: in a large population the tiny sick group produces a few true positives, but the huge healthy group -- even at a 1% false-positive rate -- produces just as many false positives, so a positive result is far less informative than the test accuracy suggests. population is the cohort size used to count in whole people; prevalence_sweep are base rates to compare. Every count and probability is computed.",
+  "population": 100000,
+  "prevalence": 0.01,
+  "sensitivity": 0.99,
+  "specificity": 0.99,
+  "prevalence_sweep": [0.001, 0.01, 0.1]
+}

@@ -1,0 +1,8 @@
+{
+  "_meta": "Two pairs of 8-bit sRGB-encoded pixel values to blend 50/50, used to show why averaging colors in gamma-encoded space (the values as stored in an image file) gives a wrong, too-dark result, and why the average must be taken in LINEAR light. Pixel values in an image file are gamma-encoded (approximately sRGB): the stored 8-bit number is not proportional to the physical light intensity but to intensity raised to about 1/2.2, a perceptual encoding that gives more code values to darks where the eye is more sensitive. Physical light adds linearly, so any operation that mixes light -- blending two colors, resizing, alpha compositing, anti-aliasing -- must be done on linear intensities, not on the gamma-encoded values. Averaging the encoded values directly is wrong because the encoding is non-linear: the arithmetic mean of two encoded values does not correspond to the encoded value of the mean intensity. The visible symptom is that naive blends come out too dark -- a 50/50 mix of black and white in gamma space gives mid-gray 128, but the physically-correct mix (average the two linear intensities, then re-encode) is 186, much lighter. The correct procedure is: decode each value to linear (linear = (v/255)^gamma), average the linear values, then encode the result back (encoded = 255 * avg^(1/gamma)). gamma is the encoding exponent (2.2 here, the standard approximation to sRGB); pairs are the 8-bit encoded value pairs to blend at weight 0.5 each. gamma and pairs are the fixture; every decoded linear value, the naive gamma-space average, and the correct linear-space blend are computed.",
+  "gamma": 2.2,
+  "pairs": [
+    {"a": 0, "b": 255},
+    {"a": 64, "b": 192}
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "_meta": "An event log from two processes (p1, p2) whose wall clocks are skewed: p2's clock runs behind p1's. Events are listed in TRUE causal order. kind is local, send, or recv; msg links a send to the recv that receives it. wall is the local clock reading when the event happened. The question: can you recover the causal order from the wall-clock readings, or do you need logical clocks?",
+  "events": [
+    {"id": "e1", "proc": "p1", "wall": 100, "kind": "local"},
+    {"id": "e2", "proc": "p1", "wall": 101, "kind": "send", "msg": "m1"},
+    {"id": "e3", "proc": "p2", "wall": 95,  "kind": "recv", "msg": "m1"},
+    {"id": "e4", "proc": "p2", "wall": 96,  "kind": "send", "msg": "m2"},
+    {"id": "e5", "proc": "p1", "wall": 110, "kind": "recv", "msg": "m2"}
+  ]
+}

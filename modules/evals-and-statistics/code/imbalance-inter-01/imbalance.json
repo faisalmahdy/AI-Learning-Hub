@@ -1,0 +1,9 @@
+{
+  "_meta": "A binary classifier evaluated on an IMBALANCED test set: 50 positive examples (the rare class we care about, e.g. fraud or a disease) and 950 negative, out of 1000. Two classifiers are scored as confusion counts (tp true positives, fp false positives, fn false negatives, tn true negatives). majority_negative is the degenerate classifier that predicts 'negative' for everything -- it catches no positives at all. real_model is a genuine classifier that catches 40 of the 50 positives (recall 0.8) at the cost of 50 false positives. The trap: accuracy = (tp+tn)/total rewards the majority classifier (0.95) OVER the useful one (0.94), because on a 95%-negative set 'always negative' is right 95% of the time while doing nothing. Precision, recall, F1, and balanced accuracy -- which weight the rare class -- correctly rank the real model far above the do-nothing baseline. The counts are the fixture; every metric is computed.",
+  "positives": 50,
+  "negatives": 950,
+  "classifiers": {
+    "majority_negative": {"tp": 0, "fp": 0, "fn": 50, "tn": 950},
+    "real_model": {"tp": 40, "fp": 50, "fn": 10, "tn": 900}
+  }
+}

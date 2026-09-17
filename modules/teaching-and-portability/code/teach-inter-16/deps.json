@@ -1,0 +1,14 @@
+{
+  "_meta": "A library with two released versions (each with a release day and a behavior it produces). specs are two ways to depend on it: loose (a lower-bound range) and pinned (an exact version). early_day/late_day are two install dates; documented_behavior is what the lesson printed against the version it tested.",
+  "versions": {
+    "1.4.0": {"released_day": 10, "behavior": "A"},
+    "1.5.0": {"released_day": 20, "behavior": "B"}
+  },
+  "specs": {
+    "loose": {"type": "range", "min": "1.0"},
+    "pinned": {"type": "exact", "version": "1.4.0"}
+  },
+  "early_day": 15,
+  "late_day": 25,
+  "documented_behavior": "A"
+}

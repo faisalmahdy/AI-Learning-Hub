@@ -1,0 +1,11 @@
+{
+  "_meta": "A small grayscale image and a separable 1-D blur kernel, used to show that a 2-D convolution with a SEPARABLE kernel equals two cheap 1-D passes -- the same result at a fraction of the cost. image is a 5x5 grayscale image (a symmetric bump). kernel_1d is the 1-D blur weights [1,2,1]/4; its outer product with itself is the full 3x3 2-D kernel [[1,2,1],[2,4,2],[1,2,1]]/16. A NAIVE blur convolves the image with the full 2-D kernel, doing k*k = 9 multiply-adds per output pixel. Because the kernel is separable (the 2-D kernel is exactly the outer product of the 1-D kernel with itself), the SAME blur is produced by two 1-D passes -- convolve each row with kernel_1d, then convolve each column of that result with kernel_1d -- costing only 2*k = 6 multiply-adds per pixel and giving a byte-identical output. The saving grows with kernel size: a k=11 blur costs 121 ops per pixel done as 2-D versus 22 done separably. image and kernel_1d are the fixture; the 2-D kernel, both blurred outputs, their difference, and the operation counts are computed.",
+  "image": [
+    [10, 10, 10, 10, 10],
+    [10, 20, 20, 20, 10],
+    [10, 20, 40, 20, 10],
+    [10, 20, 20, 20, 10],
+    [10, 10, 10, 10, 10]
+  ],
+  "kernel_1d": [0.25, 0.5, 0.25]
+}

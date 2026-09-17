@@ -1,0 +1,13 @@
+{
+  "_meta": {
+    "what_this_is": "A booking workflow as a saga: an ordered list of steps, each with a forward action that changes shared state and a compensating action that undoes it. Steps have real side effects (a seat held, a card charged), so you cannot just abort on failure -- the effects already happened. If a step fails, a correct saga compensates the steps that ALREADY COMPLETED, in reverse order, and leaves the failed and not-yet-run steps alone. The fixture is built so step 3 (issue_ticket) fails after steps 1-2 committed.",
+    "state_is": "A running effect ledger: seats_held, balance, tickets. Each forward action adds its 'effect'; each compensation adds the negation. A fully-reverted saga returns every field to 0.",
+    "format": "initial_state; steps [{name, effect:{field:delta}, fails:bool}]"
+  },
+  "initial_state": {"seats_held": 0, "balance": 0, "tickets": 0},
+  "steps": [
+    {"name": "reserve_seat", "effect": {"seats_held": 1},  "fails": false},
+    {"name": "charge_card",  "effect": {"balance": -100},  "fails": false},
+    {"name": "issue_ticket", "effect": {"tickets": 1},     "fails": true}
+  ]
+}

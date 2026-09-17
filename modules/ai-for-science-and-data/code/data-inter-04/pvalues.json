@@ -1,0 +1,10 @@
+{
+  "_meta": {
+    "what_this_is": "A family of 20 p-values from 20 hypothesis tests where the truth is that NOTHING is real -- every effect tested is null. Under the null, a p-value is uniform on [0,1], so this family is spread roughly evenly across the range, with the smallest two dipping below 0.05 purely by chance. The point: run enough tests and some cross any fixed significance threshold even when there is nothing to find, so a 'significant' result picked from many tests is not evidence until you correct for how many you ran.",
+    "data_is": "A FIXTURE. 20 p-values hand-authored to look like a null family (approximately uniform), with two below 0.05 by chance. No random seed needed; the numbers ARE the experiment.",
+    "format": "alpha (per-test threshold); pvalues [...] (one per experiment)"
+  },
+  "alpha": 0.05,
+  "pvalues": [0.03, 0.048, 0.11, 0.19, 0.23, 0.31, 0.37, 0.42, 0.50, 0.55,
+              0.61, 0.66, 0.72, 0.77, 0.81, 0.85, 0.89, 0.93, 0.96, 0.99]
+}

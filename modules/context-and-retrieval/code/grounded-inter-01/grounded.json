@@ -1,0 +1,12 @@
+{
+  "_meta": "A set of retrieved passages and a candidate answer decomposed into atomic claims, used to show that a retrieval-augmented answer must be checked for groundedness -- each claim verified against the retrieved passages -- because a model can add a claim no passage supports even when retrieval succeeded. Retrieval-augmented generation is often assumed safe once the retriever returns relevant passages: the model has the facts in front of it, so surely it answers from them. But the generation step is still a language model, and it will fluently produce a plausible statement that was not in the context -- a remembered fact, an averaged-over prior, a smooth continuation -- and present it alongside the supported claims with the same confidence. That unsupported claim is a hallucination, and it is not a retrieval failure: the passages here do support most of the answer, so the retriever did its job; the defect is in the answer. The fix is a groundedness check that decomposes the answer into atomic claims and verifies each against the retrieved passages, keeping the supported claims and flagging (or dropping, or forcing a re-answer for) the unsupported one. Here support is modeled as the claim appearing among the passages' facts -- a stylized stand-in for a real entailment/NLI check, but faithful to the mechanism: a grounded answer says only what the sources say. passages maps each retrieved passage id to the atomic facts it states; answer_claims is the candidate answer broken into atomic claims. Which claims are supported, the naive (unchecked) answer, and the grounded answer are computed. Stdlib only.",
+  "passages": {
+    "p1": ["drug_x causes nausea", "drug_x causes headache"],
+    "p2": ["drug_x dose is 200mg daily"]
+  },
+  "answer_claims": [
+    "drug_x causes nausea",
+    "drug_x dose is 200mg daily",
+    "drug_x is safe during pregnancy"
+  ]
+}

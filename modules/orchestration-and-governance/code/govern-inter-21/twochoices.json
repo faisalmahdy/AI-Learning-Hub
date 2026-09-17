@@ -1,0 +1,8 @@
+{
+  "_meta": "A load-balancing simulation. tasks are dispatched one at a time to workers. Under d=1 (one random choice) each task goes to a uniformly random worker. Under d=2 (power of two choices) each task samples two random workers and goes to the LESS loaded of the two. The MAX load — the busiest worker — sets the tail, so that is what we measure. A single trial is noisy, so --max and --check average the max load over `trials` independent runs (seed = base_seed + trial). --dispatch shows one representative trial (example_seed) so the per-worker loads are concrete. The classic result: going from d=1 to d=2 cuts the expected max from about log n / log log n toward log log n, a large drop for one extra sample.",
+  "tasks": 100,
+  "workers": 20,
+  "base_seed": 1000,
+  "trials": 300,
+  "example_seed": 1009
+}

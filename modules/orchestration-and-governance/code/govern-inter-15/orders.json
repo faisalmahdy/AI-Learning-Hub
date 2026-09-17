@@ -1,0 +1,5 @@
+{
+  "_meta": "Orders processed one at a time. Each order must both commit to the database and publish an 'order created' event. crash_at is the order index during which the process crashes (between its two writes).",
+  "crash_at": 2,
+  "orders": ["order_0", "order_1", "order_2", "order_3"]
+}

@@ -1,0 +1,13 @@
+{
+  "_meta": "A single retrieved chunk, split into sentences (each a list of tokens), plus the query tokens and the answer token the user actually needs. Retrieval returns whole chunks, but most of a chunk is filler that does not address the query -- an intro line, an unrelated aside, a sign-off. Injecting the whole chunk spends context budget (and the model's attention) on that filler. Contextual compression scores each sentence by its overlap with the query and keeps only the sentences that clear a threshold, dropping the rest BEFORE the chunk enters the prompt. The answer sentence, which contains the query terms, is kept; the filler is dropped. answer_token is the specific detail the kept text must still contain.",
+  "query": ["refund", "time"],
+  "answer_token": "30",
+  "threshold": 1,
+  "sentences": [
+    ["our", "store", "values", "customers"],
+    ["a", "refund", "completes", "within", "30", "days"],
+    ["shipping", "is", "separate", "from", "returns"],
+    ["refund", "time", "is", "30", "days", "after", "receipt"],
+    ["contact", "support", "for", "help"]
+  ]
+}

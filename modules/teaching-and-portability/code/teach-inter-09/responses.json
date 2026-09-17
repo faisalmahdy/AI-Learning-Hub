@@ -1,0 +1,111 @@
+{
+  "_meta": {
+    "what_this_is": "A learners response record on a 20-item, 4-choice quiz used to decide whether they are ready to advance. Each item records whether the learner actually KNEW the answer (ground truth) and whether they got it CORRECT. Known items are always correct; the 8 items they did not know were guesses, and with 4 choices exactly 2 came up lucky-correct while 6 were wrong. Raw accuracy counts the lucky guesses as knowledge; a guessing correction removes them.",
+    "data_is": "A FIXTURE. The known flags are ground truth and the lucky-guess count (2 of 8, i.e. guessed/choices) is set to match the guessing-correction formula exactly, so the corrected score recovers the true known count on the nose. Every score and decision is computed in guessing.py.",
+    "format": "items: [{item, known, correct}]; choices: options per item; advance_threshold: mastery needed to advance."
+  },
+  "choices": 4,
+  "advance_threshold": 0.65,
+  "items": [
+    {
+      "item": "q01",
+      "known": true,
+      "correct": true
+    },
+    {
+      "item": "q02",
+      "known": true,
+      "correct": true
+    },
+    {
+      "item": "q03",
+      "known": true,
+      "correct": true
+    },
+    {
+      "item": "q04",
+      "known": true,
+      "correct": true
+    },
+    {
+      "item": "q05",
+      "known": true,
+      "correct": true
+    },
+    {
+      "item": "q06",
+      "known": true,
+      "correct": true
+    },
+    {
+      "item": "q07",
+      "known": true,
+      "correct": true
+    },
+    {
+      "item": "q08",
+      "known": true,
+      "correct": true
+    },
+    {
+      "item": "q09",
+      "known": true,
+      "correct": true
+    },
+    {
+      "item": "q10",
+      "known": true,
+      "correct": true
+    },
+    {
+      "item": "q11",
+      "known": true,
+      "correct": true
+    },
+    {
+      "item": "q12",
+      "known": true,
+      "correct": true
+    },
+    {
+      "item": "q13",
+      "known": false,
+      "correct": true
+    },
+    {
+      "item": "q14",
+      "known": false,
+      "correct": true
+    },
+    {
+      "item": "q15",
+      "known": false,
+      "correct": false
+    },
+    {
+      "item": "q16",
+      "known": false,
+      "correct": false
+    },
+    {
+      "item": "q17",
+      "known": false,
+      "correct": false
+    },
+    {
+      "item": "q18",
+      "known": false,
+      "correct": false
+    },
+    {
+      "item": "q19",
+      "known": false,
+      "correct": false
+    },
+    {
+      "item": "q20",
+      "known": false,
+      "correct": false
+    }
+  ]
+}

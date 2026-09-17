@@ -1,0 +1,21 @@
+{
+  "_meta": {
+    "what_this_is": "A set of color patches, each an [R, G, B] byte triple, used to compare two ways of collapsing a color to a single brightness: the naive unweighted average (R+G+B)/3 and the perceptual Rec. 709 luma 0.2126R + 0.7152G + 0.0722B. The three primaries (red, green, blue) are the crux: the average gives all three the identical value 85, while luma spreads them across their true perceived range. A short colored image strip is included to show grayscale conversion.",
+    "data_is": "A FIXTURE. The colors are hand-authored so the collapse (all primaries to 85 under the average) and the perceptual ordering (green > red > blue under luma) are exact and checkable; every brightness is computed in luma.py from the Rec. 709 weights, nothing is precomputed.",
+    "format": "patches: [{name, rgb}]; image: a list of [R,G,B] pixels for the grayscale demo."
+  },
+  "patches": [
+    {"name": "red",     "rgb": [255, 0, 0]},
+    {"name": "green",   "rgb": [0, 255, 0]},
+    {"name": "blue",    "rgb": [0, 0, 255]},
+    {"name": "yellow",  "rgb": [255, 255, 0]},
+    {"name": "cyan",    "rgb": [0, 255, 255]},
+    {"name": "magenta", "rgb": [255, 0, 255]}
+  ],
+  "image": [
+    [255, 0, 0],
+    [0, 255, 0],
+    [0, 0, 255],
+    [255, 255, 0]
+  ]
+}

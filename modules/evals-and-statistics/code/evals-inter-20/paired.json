@@ -1,0 +1,8 @@
+{
+  "_meta": "Two models (A and B) run on the SAME eval items, tallied into a 2x2 table: both_correct, a_only (A right, B wrong), b_only (A wrong, B right), both_wrong. The two scenarios have the same discordant counts (a_only, b_only) but very different concordant counts (both_correct, both_wrong). The question: does the comparison between A and B depend on the items they agree on, or only on the ones they disagree on?",
+  "n": 100,
+  "scenarios": {
+    "high_agreement": {"both_correct": 90, "a_only": 3, "b_only": 1, "both_wrong": 6},
+    "low_agreement":  {"both_correct": 40, "a_only": 3, "b_only": 1, "both_wrong": 56}
+  }
+}

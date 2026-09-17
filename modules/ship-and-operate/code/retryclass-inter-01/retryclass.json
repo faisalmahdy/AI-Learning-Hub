@@ -1,0 +1,12 @@
+{
+  "_meta": "A set of failed requests with their error status codes and a retry limit, used to show why a retry policy must classify errors first -- retry only the transient ones (which can succeed on a later attempt) and fail fast on the permanent ones (which will fail identically no matter how many times you try) -- rather than blindly retrying every failure. A retry helps only when the failure was temporary: a 503 from an overloaded service, a 500 from a transient glitch, a 429 rate-limit, a timeout or a dropped connection can all succeed on a second attempt once the transient condition clears. A permanent failure will not: a 400 malformed request, a 401 unauthorized, a 403 forbidden, a 404 not-found are deterministic properties of the request itself, so retrying them produces the exact same error every time. A policy that retries everything wastes its attempts on the permanent failures -- burning the retry budget, adding latency before the inevitable error, and hammering a backend with requests it has already definitively rejected -- while gaining nothing, because those requests never succeed. Classifying by status code (transient: 5xx and 429 and network errors; permanent: most 4xx) retries what can recover and fails the rest immediately. requests lists each failed request with an id and its status code; max_retries is how many extra attempts the policy allows a retryable request. These are the fixture; each request's classification, the attempts and wasted retries under a blind retry-everything policy vs a classify-first policy, are computed.",
+  "requests": [
+    {"id": "q1", "code": 503},
+    {"id": "q2", "code": 500},
+    {"id": "q3", "code": 429},
+    {"id": "q4", "code": 400},
+    {"id": "q5", "code": 404},
+    {"id": "q6", "code": 401}
+  ],
+  "max_retries": 3
+}

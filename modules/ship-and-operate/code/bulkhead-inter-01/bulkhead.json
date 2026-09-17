@@ -1,0 +1,14 @@
+{
+  "_meta": "A stream of requests arriving at a service that calls two downstream dependencies, A and B, sharing one pool of concurrency slots (threads, connections). Dependency A has gone slow -- each call holds its slot for 10 ticks. Dependency B is healthy -- each call holds its slot for 1 tick. total_slots is the size of the shared pool; bulkhead_caps is the per-dependency cap when the pool is partitioned into bulkheads. The scenario: four A calls arrive at once and, in a shared pool, occupy every slot for 10 ticks, so the healthy B calls that arrive next find no free slot and are rejected -- A's saturation starves an unrelated, healthy dependency. A bulkhead caps each dependency to its own share of the pool, so A can only exhaust its own partition and B always has slots. requests is the ordered fixture of (id, arrival, dep, service); every admit/reject outcome is computed by the simulation.",
+  "total_slots": 4,
+  "bulkhead_caps": {"A": 2, "B": 2},
+  "requests": [
+    {"id": 1, "arrival": 0, "dep": "A", "service": 10},
+    {"id": 2, "arrival": 0, "dep": "A", "service": 10},
+    {"id": 3, "arrival": 0, "dep": "A", "service": 10},
+    {"id": 4, "arrival": 0, "dep": "A", "service": 10},
+    {"id": 5, "arrival": 1, "dep": "B", "service": 1},
+    {"id": 6, "arrival": 2, "dep": "B", "service": 1},
+    {"id": 7, "arrival": 3, "dep": "B", "service": 1}
+  ]
+}

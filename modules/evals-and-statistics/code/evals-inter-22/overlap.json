@@ -1,0 +1,6 @@
+{
+  "_meta": "Two systems' eval scores as a mean and a standard error each. A common shortcut is to draw each system's 95% confidence interval (mean +/- 1.96*SE) and, if the two intervals OVERLAP, conclude the difference is not significant. That shortcut is wrong. The right test is on the DIFFERENCE of the means, whose standard error is sqrt(SE_a^2 + SE_b^2) -- smaller than the sum of the two individual margins, because independent errors add in quadrature, not linearly. So two intervals can overlap while the difference's own interval excludes zero, meaning the difference IS significant. z is the 95% multiplier. This fixture is tuned so the two CIs overlap yet the difference is significant.",
+  "system_a": {"mean": 0.80, "se": 0.02},
+  "system_b": {"mean": 0.87, "se": 0.02},
+  "z": 1.96
+}

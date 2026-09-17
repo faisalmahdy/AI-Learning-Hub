@@ -1,0 +1,9 @@
+{
+  "_meta": "Two A/B experiments, each intended to split traffic 50/50 between arm A and arm B. For each we record how many units actually landed in each arm. The intended split is expected_fraction (0.5 each). experiments is the fixture: 'healthy' got 5030 vs 4970 (a normal chance wobble around 5000/5000), 'broken' got 5200 vs 4800. A sample ratio mismatch (SRM) check tests, with a chi-square goodness-of-fit test on the assignment counts, whether the observed split is farther from the intended one than chance allows. The healthy split passes; the broken split's 5200/4800 is 4 standard errors off (the standard error of the count is sqrt(N*p*(1-p)) = sqrt(10000*0.25) = 50, so 200/50 = 4), which is a roughly 1-in-16000 event, so it fails the SRM check and signals that the randomization or logging is broken -- meaning every downstream metric from that experiment is untrustworthy no matter how significant it looks. experiments and the intended split are the fixture; every chi-square statistic, p-value, and verdict is computed.",
+  "expected_fraction": 0.5,
+  "srm_threshold": 0.001,
+  "experiments": [
+    {"name": "healthy", "a": 5030, "b": 4970},
+    {"name": "broken", "a": 5200, "b": 4800}
+  ]
+}

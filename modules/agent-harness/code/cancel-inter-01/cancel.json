@@ -1,0 +1,9 @@
+{
+  "_meta": "A set of parallel tool calls in progress when a turn is aborted, used to show why the harness must actively cancel the still-running calls -- not just stop waiting on them -- because outstanding calls left running keep consuming budget and, if they have side effects, apply changes the run no longer wants. A harness often issues several tool calls at once and waits for them. Then something ends the turn early: the user interrupts, a deadline expires, an error aborts the loop, or one call returns a result that makes the others unnecessary (a fan-out that only needed the first hit). At that instant some calls have completed and some are still running. A harness that merely stops awaiting the results -- fire-and-forget -- leaves the running calls executing to completion in the background: they finish their work, spend their tokens or API quota, and, crucially, any call with a side effect (send an email, charge a card, write a file, place an order) carries that effect out even though the run that requested it has been abandoned. Actively cancelling the outstanding calls stops the wasted work and, for effectful calls, prevents the unwanted side effect (or triggers its compensation). calls lists each in-flight call with an id, whether it had completed by the abort (done) or was still running, and whether it is effectful (performs a side effect). These are the fixture; under a fire-and-forget policy vs an active-cancel policy, the calls that keep running, the wasted work, and the unwanted side effects applied are computed.",
+  "calls": [
+    {"id": "t1", "done": true, "effectful": false},
+    {"id": "t2", "done": false, "effectful": true},
+    {"id": "t3", "done": false, "effectful": true},
+    {"id": "t4", "done": false, "effectful": false}
+  ]
+}

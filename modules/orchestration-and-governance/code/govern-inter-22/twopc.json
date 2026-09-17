@@ -1,0 +1,9 @@
+{
+  "_meta": "A two-phase commit timeline. The coordinator sends PREPARE; each participant votes YES and enters the PREPARED state, holding its locks; the coordinator logs the COMMIT decision once all vote yes; then it delivers the decision to each participant, which finally commits and releases locks. A participant is in its WINDOW OF UNCERTAINTY from the moment it votes YES until the moment it learns the decision: during that window it has promised it can commit (so it may not unilaterally abort) but does not know whether the others agreed (so it may not unilaterally commit) — it can only wait. If the coordinator crashes while a participant is in that window, the participant BLOCKS, holding its locks, until the coordinator recovers. Times are logical ticks. crash_times is the sweep of coordinator-crash moments to test.",
+  "participants": ["p1", "p2"],
+  "prepare_sent": 0,
+  "votes_yes": {"p1": 1, "p2": 2},
+  "decision_logged": 3,
+  "decision_delivered": {"p1": 4, "p2": 5},
+  "crash_times": [0, 2, 4, 6]
+}

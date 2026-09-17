@@ -1,0 +1,7 @@
+{
+  "_meta": "Two raters (or an LLM judge and a gold label, or two annotators) each label the same 100 items yes/no, summarized as a 2x2 confusion of counts: both_yes, r1_yes_r2_no, r1_no_r2_yes, both_no. The question is how much the two raters AGREE. Raw agreement -- the fraction of items they labeled the same -- is misleading when the labels are imbalanced, because two raters who both just say 'no' most of the time will agree most of the time BY CHANCE, without any real shared judgment. Cohen's kappa corrects for this: it subtracts the agreement expected from the raters' marginal rates and rescales, so kappa = 0 means agreement no better than chance and kappa = 1 means perfect. Two scenarios are given. chance_agreement is two raters whose 'yes' labels are independent (no real agreement) on an imbalanced set: high raw agreement, kappa 0. real_agreement is two raters who genuinely agree above chance: high raw agreement AND high kappa. The counts are the fixture; every agreement figure and kappa is computed.",
+  "scenarios": {
+    "chance_agreement": {"both_yes": 1, "r1_yes_r2_no": 9, "r1_no_r2_yes": 9, "both_no": 81},
+    "real_agreement":   {"both_yes": 14, "r1_yes_r2_no": 3, "r1_no_r2_yes": 3, "both_no": 80}
+  }
+}

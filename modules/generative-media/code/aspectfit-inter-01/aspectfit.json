@@ -1,0 +1,8 @@
+{
+  "_meta": "A source image and a target box of a different aspect ratio, used to show that resizing an image to exactly the target's width and height -- the one-line default of almost every thumbnail and preview path -- stretches it, because forcing both dimensions to the target applies a different scale factor to width and to height whenever the two aspect ratios differ. Aspect ratio is width divided by height; a 800x600 photo is 1.333 and a 400x400 box is 1.000. Resize-to-fill computes scale_x = target_w / src_w and scale_y = target_h / src_h and uses each on its own axis, so when scale_x != scale_y the image is squashed on one axis and stretched on the other: a circle becomes an ellipse, a face gets fat or thin, and nothing errors -- the output is exactly the requested size, just the wrong shape. The fix is to pick ONE uniform scale for both axes so the aspect ratio is preserved, and then decide what to do with the leftover: 'fit' (contain) uses scale = min(scale_x, scale_y) so the whole image lands inside the box with padding bars on the short axis (letterbox), and 'cover' uses scale = max(scale_x, scale_y) so the box is completely filled and the overflow on the long axis is cropped. Both keep the shape; they trade padding against cropping. src_w, src_h and target_w, target_h are the fixture; every scale factor, output dimension, aspect ratio, and the ellipse axes of a unit circle carried through each strategy are computed. Stdlib only.",
+  "src_w": 800,
+  "src_h": 600,
+  "target_w": 400,
+  "target_h": 400,
+  "circle_radius": 100
+}

@@ -1,0 +1,7 @@
+{
+  "_meta": "A dice-rolling task. n_dice rolls are summed. fixed_seed is the reproducible seed; clock_seeds model an unseeded run drawing its start state from a varying clock across two runs; documented_sum is the answer the lesson prints (the seeded result).",
+  "n_dice": 5,
+  "fixed_seed": 42,
+  "clock_seeds": [13, 99],
+  "documented_sum": 20
+}

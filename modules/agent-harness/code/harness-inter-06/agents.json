@@ -1,0 +1,16 @@
+{
+  "_meta": {
+    "what_this_is": "Configuration for an agent loop and three agent behaviors. The loop advances a 'state' toward a goal each step; how it advances is the agent's policy. 'productive' moves one step closer to the goal every iteration and finishes. 'stuck' never moves (a fixed point -- retrying a call that always returns the same failure). 'oscillating' bounces between two states without ever reaching the goal. The loop parameters decide how long each variant of the loop will run before giving up.",
+    "data_is": "A FIXTURE. The policies are deterministic (defined in terminate.py) and the limits are hand-authored so every loop's step count is exact and checkable. goal/start set the task; max_steps is the step budget; ceiling stands in for 'unbounded' (a large safety cap so the runaway case terminates for measurement); patience is how many steps without progress the detector tolerates before declaring the agent stuck.",
+    "format": "goal, start (the task); max_steps (step budget); ceiling (unbounded safety cap); patience (no-progress tolerance); agents: [{name, kind}]."
+  },
+  "goal": 8,
+  "start": 0,
+  "max_steps": 50,
+  "ceiling": 1000,
+  "patience": 8,
+  "agents": [
+    {"name": "solver", "kind": "productive"},
+    {"name": "looper", "kind": "stuck"}
+  ]
+}

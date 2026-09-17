@@ -1,0 +1,12 @@
+{
+  "_meta": "An agent has a file tool that takes a path argument, and the harness must confine every access to a sandbox root directory so the model cannot read or write outside it. root is the allowed sandbox directory. requests is the list of path arguments the model proposes, relative to (or, dangerously, escaping) the root: some are plainly inside (notes.txt, sub/data.csv), one contains a '..' segment that still resolves inside (sub/../notes.txt), two use '..' to escape the root (../secrets.env, ../../etc/passwd), and one is an absolute path pointing entirely outside (/etc/shadow). The point is that a naive containment check -- join the path to the root and test whether the resulting string starts with the root -- is fooled by '..' because it never normalizes the path, so '/work/project/../secrets.env' textually starts with '/work/project' and is wrongly allowed even though it resolves to '/work/secrets.env', outside the sandbox. The correct check normalizes (resolves the '..' segments) FIRST and then tests containment. root and requests are the fixture; every joined path, resolved path, and allow/deny verdict is computed.",
+  "root": "/work/project",
+  "requests": [
+    "notes.txt",
+    "sub/data.csv",
+    "sub/../notes.txt",
+    "../secrets.env",
+    "../../etc/passwd",
+    "/etc/shadow"
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "_meta": "A document split into fixed-size chunks for retrieval, used to show why chunks should OVERLAP: a fact whose evidence spans a chunk boundary is cut in half by non-overlapping chunks, so no single chunk contains the whole answer and retrieval that fetches one chunk misses it. sentences is the document as a list of sentences (indexed 0..11). chunk_size is how many sentences per chunk (4). overlap is how many sentences adjacent chunks share (2). answer_span is [start, end] sentence indices that must appear together in one chunk to answer the query -- here sentences 3 and 4, which straddle the boundary between the first and second non-overlapping chunks. With NO overlap the chunks are [0-3], [4-7], [8-11]: sentence 3 is in the first chunk and sentence 4 in the second, so no single chunk contains both and the answer is split. With overlap 2 (chunks step by chunk_size - overlap = 2): [0-3], [2-5], [4-7], [6-9], [8-11] -- the chunk [2-5] contains both 3 and 4, so the answer survives whole in one chunk. Overlap costs more chunks (5 vs 3) and duplicated text, the price of not slicing facts in half. sentences, chunk_size, overlap, and answer_span are the fixture; every chunk range and whether it contains the whole span is computed.",
+  "chunk_size": 4,
+  "overlap": 2,
+  "answer_span": [3, 4],
+  "sentences": [
+    "s0: intro", "s1: background", "s2: setup",
+    "s3: the dose was 5mg", "s4: given twice daily",
+    "s5: results", "s6: discussion", "s7: caveats",
+    "s8: related work", "s9: limitations", "s10: future", "s11: conclusion"
+  ]
+}

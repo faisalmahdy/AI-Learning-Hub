@@ -1,0 +1,13 @@
+{
+  "_meta": {
+    "what_this_is": "The parameters that size a transformer KV cache, and three attention variants that differ only in how many key/value heads they keep. During generation every layer caches a key and a value vector per KV head per token, so the cache grows with the number of KV heads. Multi-Head Attention (MHA) gives every one of the query heads its own K/V head. Multi-Query Attention (MQA) shares a single K/V head across all query heads. Grouped-Query Attention (GQA) is the middle ground: the query heads are split into a few groups that each share one K/V head. The query heads are unchanged in all three -- only the K/V heads, and thus the cache, shrink.",
+    "data_is": "A FIXTURE. The model dimensions (32 layers, 32 query heads, head_dim 128, 4096-token context, fp16) and the GQA group count (8) are hand-authored so MHA needs a 2 GB KV cache, GQA needs 512 MB (4x less), and MQA needs 64 MB (32x less). Every byte count is computed in gqa.py.",
+    "format": "num_layers; num_query_heads; head_dim; seq_len; bytes_per_elem; gqa_groups: the number of K/V heads GQA keeps."
+  },
+  "num_layers": 32,
+  "num_query_heads": 32,
+  "head_dim": 128,
+  "seq_len": 4096,
+  "bytes_per_elem": 2,
+  "gqa_groups": 8
+}

@@ -1,0 +1,21 @@
+{
+  "_meta": {
+    "what_this_is": "Training points sampled from a saturating relationship y = 100*x/(x+50) over the window x in [10, 50], where the curve bends only gently so a straight line fits it well. Plus query points -- two inside the fitted window and two far beyond it -- each with its true y from the same curve, so the extrapolation error is exact and checkable. The point: a line fit on [10, 50] is excellent there and predicts nonsense at x = 200, where the true curve has saturated toward 100 but the line keeps climbing.",
+    "data_is": "A FIXTURE. The (x, y) points are the true curve's values (rounded), and the least-squares fit, predictions, residuals, and support check are all computed in extrapolate.py. tolerance is the in-range error bar the fit is expected to stay under; the far queries deliberately exceed it many times over.",
+    "format": "train: [[x, y]]; queries: [{x, true_y}]; tolerance: the acceptable in-range error."
+  },
+  "tolerance": 3.0,
+  "train": [
+    [10, 16.67],
+    [20, 28.57],
+    [30, 37.5],
+    [40, 44.44],
+    [50, 50.0]
+  ],
+  "queries": [
+    {"x": 25, "true_y": 33.33},
+    {"x": 35, "true_y": 41.18},
+    {"x": 100, "true_y": 66.67},
+    {"x": 200, "true_y": 80.0}
+  ]
+}

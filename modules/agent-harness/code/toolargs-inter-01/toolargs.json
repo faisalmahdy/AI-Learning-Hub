@@ -1,0 +1,18 @@
+{
+  "_meta": "A tool the agent can call and a batch of tool calls the model proposed for it. The tool get_weather has a declared schema: city is a required string, units is an optional string restricted to the enum ['c','f'], and days is an optional integer. A language model proposes tool calls as free-form JSON, and it does not always produce arguments that match the schema -- it omits required fields, gets a type wrong, invents an argument the tool does not have, or picks a value outside an enum. The harness must VALIDATE each proposed call against the schema BEFORE dispatching it to the tool: an unvalidated bad call reaches the tool and crashes or silently misbehaves, while a validated harness rejects it and returns a structured error the model can correct from. The schema and the proposed calls are the fixture; which calls pass validation, and why each fails, are computed.",
+  "schema": {
+    "name": "get_weather",
+    "params": {
+      "city": {"type": "str", "required": true},
+      "units": {"type": "str", "required": false, "enum": ["c", "f"]},
+      "days": {"type": "int", "required": false}
+    }
+  },
+  "proposed_calls": [
+    {"label": "valid", "args": {"city": "paris", "units": "c", "days": 3}},
+    {"label": "missing_required", "args": {"units": "f"}},
+    {"label": "wrong_type", "args": {"city": "paris", "days": "three"}},
+    {"label": "unknown_arg", "args": {"city": "paris", "country": "france"}},
+    {"label": "bad_enum", "args": {"city": "paris", "units": "kelvin"}}
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "_meta": {
+    "what_this_is": "A sequence of writes to a shared resource during a leadership change. nodeA was the leader (epoch 1) and got partitioned away; nodeB was elected the new leader (epoch 2). Because nodeA is cut off it does not know it was replaced, so it keeps issuing writes tagged with its old epoch 1. The writes arrive in this order, and nodeA's stale write lands LAST, after nodeB's. Applied without fencing, the stale write wins; applied with fencing (reject any epoch below the highest seen), it is refused.",
+    "data_is": "A FIXTURE. The write sequence and epochs are hand-authored so the split-brain corruption (without fencing) and its prevention (with fencing) are exact and checkable; every applied state is computed in fencing.py. deposed names the leader that lost its lease but keeps writing (nodeA, epoch 1); the current leader is nodeB (epoch 2), whose last write x=3 is the true state.",
+    "format": "deposed: the leader that was replaced but keeps writing; writes: [{leader, epoch, value}] in arrival order."
+  },
+  "deposed": "nodeA",
+  "writes": [
+    {"leader": "nodeA", "epoch": 1, "value": "x=1"},
+    {"leader": "nodeB", "epoch": 2, "value": "x=2"},
+    {"leader": "nodeB", "epoch": 2, "value": "x=3"},
+    {"leader": "nodeA", "epoch": 1, "value": "x=99"}
+  ]
+}

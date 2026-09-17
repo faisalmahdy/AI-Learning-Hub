@@ -1,0 +1,5 @@
+{
+  "_meta": "A one-pixel-tall grayscale row to be quantized to just two levels (0 = black, 255 = white), as when printing to a 1-bit device or reducing an image to a tiny palette. The row is a uniform mid-gray of 128 -- exactly between black and white. Naive quantization rounds each pixel to the nearest level independently: every 128 rounds to 255 (128 is a hair closer to 255 than to 0 under this rule), so the whole region becomes solid white, its true mid-gray brightness completely lost. Error-diffusion dithering instead carries each pixel's rounding error forward to the next pixel, so the errors cancel over the region and the average brightness is preserved -- the mid-gray renders as an alternating black/white pattern whose local average is ~128. levels are the two output values; row is the input. Every quantized output and its average brightness is computed.",
+  "row": [128, 128, 128, 128, 128, 128],
+  "levels": [0, 255]
+}
