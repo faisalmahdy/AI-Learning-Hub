@@ -1,0 +1,12 @@
+{
+  "_meta": {
+    "what_this_is": "A request with a total deadline that fans out to a chain of downstream calls, each taking some time. The deadline is a promise to the caller: respond within deadline_ms no matter what. Correct handling propagates the REMAINING budget to each hop (deadline minus time already spent); the buggy handling hands each hop the FULL original timeout, so no hop knows the global deadline and a slow chain runs right past it. Two chains: 'slow' overruns the deadline if uncorrected, 'fast' fits either way (so the bug hides on it).",
+    "data_is": "A FIXTURE. deadline and per-hop durations in milliseconds, hand-picked so the slow chain sums past the deadline and the fast one does not.",
+    "format": "deadline_ms; chains {name: [hop durations in ms]}"
+  },
+  "deadline_ms": 100,
+  "chains": {
+    "slow": [30, 40, 50],
+    "fast": [20, 25, 15]
+  }
+}

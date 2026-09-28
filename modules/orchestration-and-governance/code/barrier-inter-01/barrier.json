@@ -1,0 +1,8 @@
+{
+  "_meta": "A barrier that N workers reach at the end of each phase before any proceeds to the next, reused across two phases, to show that a 'count arrivals and reset' barrier works the first time and silently breaks on reuse -- a worker released from phase 1 that loops back to the barrier for phase 2 sees the stale 'released' flag still set and passes straight through, so phase 2 has no synchronization and a worker races ahead before the others arrive. A barrier's whole job is that no worker crosses until all N have arrived. The naive implementation keeps a count and a released flag: each arrival increments the count, and the arrival that makes the count reach N sets released=true and resets the count to zero so the barrier can be used again. The reset zeroes the count but not the released flag, so at the next phase the flag is still true and the first worker to arrive is told to proceed immediately -- the barrier is open when only one of N has arrived. Nothing errors; the workers just desynchronize, and whatever invariant phase 2 assumed (all of phase 1's output is ready) is violated. The fix is a generation number instead of a boolean: each time the count reaches N the barrier advances its generation, and a waiting worker proceeds only when the generation it arrived under has been superseded, so every phase is a fresh episode and a fast re-entrant cannot ride a previous phase's flag. The number of workers, and a schedule of two phases of arrivals, are the fixture; for each barrier the arrival count at which the barrier first opens in each phase is computed -- a correct barrier opens only at N. Stdlib only.",
+  "n": 3,
+  "phases": [
+    ["w0", "w1", "w2"],
+    ["w0", "w1", "w2"]
+  ]
+}

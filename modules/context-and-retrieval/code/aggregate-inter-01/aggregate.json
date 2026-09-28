@@ -1,0 +1,15 @@
+{
+  "_meta": "A corpus of passages scored for relevance to a counting query ('how many security incidents in 2023'), where each relevant passage describes one distinct incident, used to show that a fixed small top-k retrieval systematically undercounts an aggregation query -- one whose answer is spread across every relevant passage, not concentrated in the few most relevant. Top-k retrieval is built for a needle query: 'what is X', where the answer sits in the single best passage or two, so returning the top few is exactly right. An aggregation query -- 'how many X', 'list all Y', 'what are every Z' -- is different: the answer is the whole set of relevant passages, and every one of them contributes a piece (here, one incident each). A fixed top-k that is smaller than the number of relevant passages returns a subset, so the count comes out short and the list is incomplete, and nothing errors: the retriever returned its k best passages, they are all genuinely relevant, and the answer is still wrong because k was the wrong stopping rule for this kind of question. The fix is to stop by relevance, not by rank: retrieve every passage above a relevance threshold (or otherwise adapt k to the query), so an aggregation query gets all its evidence, not just the top slice. Each passage has incident=true if it describes a distinct 2023 incident (contributing one to the true count) and a relevance score; top_k is the fixed retrieval size, relevance_threshold is the cutoff for threshold retrieval, and true_count is how many incidents actually exist. What each retrieval strategy returns and counts is computed. Stdlib only.",
+  "true_count": 5,
+  "top_k": 3,
+  "relevance_threshold": 0.5,
+  "passages": [
+    {"id": "p1", "incident": true, "relevance": 0.90},
+    {"id": "p2", "incident": true, "relevance": 0.88},
+    {"id": "p3", "incident": true, "relevance": 0.85},
+    {"id": "p4", "incident": true, "relevance": 0.83},
+    {"id": "p5", "incident": true, "relevance": 0.80},
+    {"id": "p6", "incident": false, "relevance": 0.30},
+    {"id": "p7", "incident": false, "relevance": 0.25}
+  ]
+}

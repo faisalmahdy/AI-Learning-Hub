@@ -1,0 +1,10 @@
+{
+  "_meta": {
+    "what_this_is": "The grayscale pixel values of a small image, to be reduced to a k-level palette. The values cluster in two groups -- a dark region near 30 and a bright region near 220 -- with almost nothing in the middle, which is typical of real images (their colors are not spread evenly across the range). The question is where to place the k palette levels: on a fixed uniform grid, or adaptively where the pixels actually are (median cut).",
+    "data_is": "A FIXTURE. The pixel values and the palette size k are hand-authored so the uniform grid strands a level in the empty middle and the adaptive palette clusters its levels on the data, making the error comparison exact and checkable; both palettes and their quantization errors are computed in palette.py. Ten values near 30, ten near 220.",
+    "format": "k: the number of palette levels; pixels: the grayscale values (0-255)."
+  },
+  "k": 4,
+  "pixels": [25, 28, 30, 32, 35, 27, 33, 29, 31, 26,
+             215, 218, 220, 222, 225, 217, 223, 219, 221, 224]
+}

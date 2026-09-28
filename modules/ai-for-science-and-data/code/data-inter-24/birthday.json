@@ -1,0 +1,6 @@
+{
+  "_meta": "The birthday problem, and its lesson for collisions. days is the number of equally-likely slots (365 for birthdays). people is the classic group size (23). The probability that at least two of n people share a slot is 1 - product over i of (days-i)/days -- the chance that all n are distinct, subtracted from 1. The surprise is how FEW people it takes: the count crosses 50% at just 23, far below 365, because what matters is not people-versus-days but PAIRS-versus-days, and n people make n*(n-1)/2 pairs, which grows quadratically. The 50% point lands near the square root of days, not near days. id_bits applies the same math to random identifiers: with id_bits-bit random IDs there are 2^id_bits slots, and a collision becomes likely after only about sqrt(2^id_bits) = 2^(id_bits/2) IDs -- so 32-bit IDs collide around 65 thousand, not 4 billion.",
+  "days": 365,
+  "people": 23,
+  "id_bits": 32
+}

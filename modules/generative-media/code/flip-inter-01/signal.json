@@ -1,0 +1,8 @@
+{
+  "_meta": "A 1D signal and two kernels, to compare correlation with true convolution. A kernel is 3 weights at offsets [-1, 0, +1] around each output position. Correlation slides the kernel as written: out[i] = sum_d signal[i+d]*kernel[d]. Convolution FLIPS the kernel first: out[i] = sum_d signal[i-d]*kernel[d], which equals correlation with the reversed kernel. asym is an asymmetric kernel (weight on the left neighbor only) so flipping changes the result; sym is a symmetric blur so flipping is a no-op. Out-of-range signal samples are 0 (zero padding).",
+  "signal": [0, 0, 1, 0, 0],
+  "kernels": {
+    "asym": [1, 0, 0],
+    "sym": [1, 2, 1]
+  }
+}

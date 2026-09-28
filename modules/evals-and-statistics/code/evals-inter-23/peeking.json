@@ -1,0 +1,7 @@
+{
+  "_meta": "A peeking simulation for a running A/B test under the NULL hypothesis (the two variants are truly identical, so any 'significant' result is a false positive). Each trial streams standard-normal samples of the difference; after reaching each sample count in `peeks`, we compute the z-statistic (running mean times sqrt(n)) and test |z| > z_cutoff (1.96 for a 5% two-sided test). A DISCIPLINED analysis looks only once, at the final sample count, and its false-positive rate is the nominal alpha. A PEEKING analysis checks at every peek and stops the moment any check crosses -- so it gets many chances at the 5% event, and its false-positive rate climbs far above alpha. trials averages over many independent runs; base_seed seeds them. The samples are drawn under the null, so every 'significant' is a false alarm.",
+  "peeks": [100, 200, 300, 400, 500],
+  "z_cutoff": 1.96,
+  "trials": 3000,
+  "base_seed": 0
+}

@@ -1,0 +1,26 @@
+{
+  "_meta": "The p-values from an A/A test: the SAME system was compared against itself on 20 different metrics, so there is no true difference on any of them -- every 'significant' result is a false positive by construction. Under the null hypothesis a p-value is uniform on [0,1], so these 20 values are 20 uniform draws (seed 7), representing 20 independent metric comparisons where nothing really changed. The trap: testing each at the usual 0.05 threshold, the chance that AT LEAST ONE clears 0.05 by luck is 1-(0.95)^20 = 0.64, so a false 'winner' is more likely than not. alpha is the per-test significance level. The p-values and alpha are the fixture; the family-wise error rate, the Bonferroni threshold, and which metrics each method flags are computed.",
+  "alpha": 0.05,
+  "metric_pvalues": {
+    "metric_01": 0.0375,
+    "metric_02": 0.0580,
+    "metric_03": 0.0699,
+    "metric_04": 0.0724,
+    "metric_05": 0.0907,
+    "metric_06": 0.1238,
+    "metric_07": 0.1508,
+    "metric_08": 0.2232,
+    "metric_09": 0.3238,
+    "metric_10": 0.3657,
+    "metric_11": 0.3967,
+    "metric_12": 0.4245,
+    "metric_13": 0.4336,
+    "metric_14": 0.5074,
+    "metric_15": 0.5359,
+    "metric_16": 0.5771,
+    "metric_17": 0.6274,
+    "metric_18": 0.6509,
+    "metric_19": 0.8269,
+    "metric_20": 0.9477
+  }
+}

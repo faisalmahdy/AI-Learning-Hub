@@ -1,0 +1,27 @@
+{
+  "_meta": "A tool observation that is too large for the observation budget. An agent called a log-search tool and it returned 20 lines; the harness can only fit `budget` lines back into the model's context, so it must truncate. The agent is looking for the term `query` (here 'ERROR') -- the one line that answers its question. The needle is a single ERROR line sitting in the MIDDLE of the result (line 10 of 20), so head-truncation (keep the first `budget` lines) and tail-truncation (keep the last `budget` lines) both drop it, while a relevance-aware truncation that keeps the matching line plus context preserves the answer under the SAME budget. The lines, the query, and the budget are the fixture; which lines survive each strategy is computed.",
+  "query": "ERROR",
+  "budget": 6,
+  "lines": [
+    "line 01: service started, pid 4120",
+    "line 02: config loaded from /etc/app.conf",
+    "line 03: connected to database replica-2",
+    "line 04: cache warm complete (812 keys)",
+    "line 05: handled request GET /health 200",
+    "line 06: handled request GET /items 200",
+    "line 07: handled request POST /items 201",
+    "line 08: background job compaction started",
+    "line 09: handled request GET /items 200",
+    "line 10: ERROR write failed: disk full on /var/data",
+    "line 11: retrying write in 2s",
+    "line 12: handled request GET /health 200",
+    "line 13: background job compaction finished",
+    "line 14: handled request GET /items 200",
+    "line 15: cache eviction ran (removed 40 keys)",
+    "line 16: handled request GET /metrics 200",
+    "line 17: handled request GET /items 200",
+    "line 18: connected to database replica-3",
+    "line 19: handled request POST /items 201",
+    "line 20: handled request GET /health 200"
+  ]
+}

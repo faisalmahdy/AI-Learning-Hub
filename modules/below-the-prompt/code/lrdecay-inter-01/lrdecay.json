@@ -1,0 +1,9 @@
+{
+  "_meta": "A noisy (SGD-style) descent on the simple loss x^2, whose minimum is at x=0. The true gradient is 2x, but each step uses a NOISY gradient 2x + gaussian(0, sigma) to model the minibatch noise of real training. With a CONSTANT learning rate, the noise keeps kicking x around the minimum and it never settles: it bounces inside a 'noise ball' whose size is set by the learning rate, so the loss plateaus at a floor. DECAYING the learning rate (cosine schedule, from lr0 down to ~0) shrinks the step size over training, so the noise ball shrinks too and x settles much closer to the minimum, reaching a far lower final loss. steps is the run length, lr0 the starting rate, sigma the gradient-noise scale; trials averages over independent noise seeds; window is how many final steps to average the loss over.",
+  "steps": 300,
+  "lr0": 0.1,
+  "sigma": 1.0,
+  "trials": 200,
+  "window": 30,
+  "base_seed": 0
+}

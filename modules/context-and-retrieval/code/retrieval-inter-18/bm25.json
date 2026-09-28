@@ -1,0 +1,7 @@
+{
+  "_meta": "A single query term and how a lexical scorer weights a document by how many times that term appears (its term frequency, tf). A naive scorer uses tf directly -- linear, unbounded. BM25 saturates tf with tf*(k1+1)/(tf+k1), so the score approaches a ceiling of k1+1 as tf grows. k1 controls how fast it saturates. tf_values are the counts to score; relevant_tf and stuffed_tf are a genuinely-relevant doc vs a keyword-stuffed one.",
+  "k1": 1.2,
+  "tf_values": [0, 1, 3, 10, 50],
+  "relevant_tf": 3,
+  "stuffed_tf": 50
+}

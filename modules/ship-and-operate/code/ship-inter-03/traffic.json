@@ -1,0 +1,10 @@
+{
+  "_meta": {
+    "what_this_is": "A token-bucket rate limiter's configuration and the request stream it must police. capacity is the most requests allowed in a burst; refill_per_sec is how fast tokens replenish. requests is a list of arrival times in seconds. The stream is designed to expose the classic bug: an initial burst, then a long idle gap, then a bigger burst -- during the idle a correct bucket saturates at capacity while a buggy one accumulates tokens without bound, so the post-idle burst floods straight through the buggy limiter.",
+    "data_is": "A FIXTURE. Arrival times are hand-authored so allowed/denied counts and the post-idle burst are exact and checkable. No clock, no server -- time is the timestamps.",
+    "format": "capacity; refill_per_sec; requests: list of arrival times (seconds)"
+  },
+  "capacity": 3,
+  "refill_per_sec": 1.0,
+  "requests": [0, 0, 0, 0, 10, 10, 10, 10, 10, 11, 12]
+}

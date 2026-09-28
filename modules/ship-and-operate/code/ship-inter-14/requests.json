@@ -1,0 +1,5 @@
+{
+  "_meta": "Requests hitting a hot key that has just expired (cold cache). arrivals are the request times; refill is how long an origin fetch takes to repopulate the cache. Six requests arrive together at expiry (t=0), two more during the refill.",
+  "refill": 5,
+  "arrivals": [0, 0, 0, 0, 0, 0, 3, 7]
+}

@@ -1,0 +1,38 @@
+{
+  "_meta": {
+    "what_this_is": "Five queries, each with a handful of candidate documents. Every candidate carries a 'cheap' score (what a fast approximate first-stage retriever assigns) and a 'precise' score (what an expensive cross-encoder reranker assigns). 'gold' is the truly best document -- and by construction it always has the highest precise score, so the reranker would pick it IF it is in the pool. But its cheap score ranks it 1st, 2nd, or 3rd depending on the query, so whether the pipeline finds it depends on how many candidates the first stage keeps (k).",
+    "scores_are": "A FIXTURE standing in for real ANN retrieval scores and reranker scores. Authored so first-stage recall@1 is 2/5, recall@2 is 4/5, recall@3 is 5/5, and the reranker nails the gold whenever it is in the pool.",
+    "format": "queries [{q, gold, candidates:[{id, cheap, precise}]}]"
+  },
+  "queries": [
+    {"q": "which gym day", "gold": "b", "candidates": [
+      {"id": "a", "cheap": 0.90, "precise": 0.30},
+      {"id": "b", "cheap": 0.80, "precise": 0.95},
+      {"id": "c", "cheap": 0.50, "precise": 0.40},
+      {"id": "d", "cheap": 0.20, "precise": 0.20}
+    ]},
+    {"q": "coffee preference", "gold": "a", "candidates": [
+      {"id": "a", "cheap": 0.92, "precise": 0.90},
+      {"id": "b", "cheap": 0.60, "precise": 0.50},
+      {"id": "c", "cheap": 0.40, "precise": 0.55},
+      {"id": "d", "cheap": 0.10, "precise": 0.10}
+    ]},
+    {"q": "flight departure time", "gold": "c", "candidates": [
+      {"id": "a", "cheap": 0.88, "precise": 0.35},
+      {"id": "b", "cheap": 0.77, "precise": 0.42},
+      {"id": "c", "cheap": 0.66, "precise": 0.93},
+      {"id": "d", "cheap": 0.30, "precise": 0.25}
+    ]},
+    {"q": "bill due date", "gold": "a", "candidates": [
+      {"id": "a", "cheap": 0.95, "precise": 0.88},
+      {"id": "b", "cheap": 0.50, "precise": 0.60},
+      {"id": "c", "cheap": 0.30, "precise": 0.30}
+    ]},
+    {"q": "dentist appointment time", "gold": "b", "candidates": [
+      {"id": "a", "cheap": 0.85, "precise": 0.45},
+      {"id": "b", "cheap": 0.75, "precise": 0.91},
+      {"id": "c", "cheap": 0.55, "precise": 0.50},
+      {"id": "d", "cheap": 0.25, "precise": 0.22}
+    ]}
+  ]
+}

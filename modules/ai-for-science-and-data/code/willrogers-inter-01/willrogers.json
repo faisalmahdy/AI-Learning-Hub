@@ -1,0 +1,9 @@
+{
+  "_meta": "Two patient groups by cancer stage with their survival times, used to show the Will Rogers phenomenon (stage-migration bias): RECLASSIFYING a borderline case from one group to another can raise the average of BOTH groups even though no individual's outcome changed at all. metric names what the numbers are (survival in months). groups holds each stage's patients' survival times: 'localized' (early stage, better prognosis) and 'advanced' (late stage, worse prognosis). reclassify describes the move: a better diagnostic scanner finds micro-metastases in one borderline patient (survival 5) previously counted as localized, so they are re-labeled advanced -- their survival number does not change, only their group. That patient is BELOW the localized average (so removing them raises the localized mean) but ABOVE the advanced average (so adding them raises the advanced mean). The result: both stages report improved average survival, the overall average across all patients is unchanged (no one lived longer), and a naive before/after comparison would credit a treatment or a scanner with an improvement that is pure reclassification. groups and reclassify are the fixture; every before/after group mean, the overall mean, and the move conditions are computed.",
+  "metric": "survival_months",
+  "groups": {
+    "localized": [5, 6, 7],
+    "advanced": [1, 2, 3]
+  },
+  "reclassify": {"value": 5, "from": "localized", "to": "advanced"}
+}

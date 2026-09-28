@@ -1,0 +1,5 @@
+{
+  "_meta": "A trip in segments, each with a distance (miles) and the speed driven on it (mph). The true average speed is total distance divided by total time -- not the average of the segment speeds. When the segments are EQUAL distance, the correct average of the speeds is the harmonic mean, which the arithmetic mean overstates. The question: which mean equals the real total-distance-over-total-time speed?",
+  "distances": [60, 60],
+  "speeds": [60, 20]
+}

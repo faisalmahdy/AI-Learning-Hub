@@ -1,0 +1,66 @@
+{
+  "_meta": {
+    "what_this_is": "A tiny retrieval index over three support topics (billing, shipping, returns) as orthogonal vectors, and four queries. Two queries are in scope (a refund question near returns, an invoice question near billing) and match a document strongly. Two are out of scope (a weather question, a stock tip) and match every document weakly. A retriever that always returns its top hit hands back a document even for the out-of-scope queries -- injecting irrelevant context that can mislead the model. A relevance threshold lets it return nothing when even the best match is too weak.",
+    "data_is": "A FIXTURE. The document and query vectors are hand-authored so the two in-scope queries have best-match cosine ~0.99 and the two out-of-scope queries ~0.1-0.2, cleanly split by a 0.5 threshold. Every cosine and decision is computed in threshold.py.",
+    "format": "docs: {id: vector}; queries: {id: {vec, in_scope}}; threshold: minimum cosine to inject a document rather than abstain."
+  },
+  "threshold": 0.5,
+  "docs": {
+    "d_billing": [
+      1,
+      0,
+      0,
+      0
+    ],
+    "d_shipping": [
+      0,
+      1,
+      0,
+      0
+    ],
+    "d_returns": [
+      0,
+      0,
+      1,
+      0
+    ]
+  },
+  "queries": {
+    "q_refund": {
+      "vec": [
+        0.1,
+        0.1,
+        0.95,
+        0
+      ],
+      "in_scope": true
+    },
+    "q_invoice": {
+      "vec": [
+        0.95,
+        0.1,
+        0.1,
+        0
+      ],
+      "in_scope": true
+    },
+    "q_weather": {
+      "vec": [
+        0.1,
+        0.1,
+        0.1,
+        0.98
+      ],
+      "in_scope": false
+    },
+    "q_stocktip": {
+      "vec": [
+        0.2,
+        0.15,
+        0.15,
+        0.95
+      ],
+      "in_scope": false
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "_meta": {
+    "what_this_is": "Two ways to spend the same study time on the same material. 'restudy' re-reads the text; 'test' does retrieval practice (recall from memory). Each exposure adds memory strength, but retrieval adds more than re-reading (retrieving a memory strengthens it). Retention is a saturating function of strength, decayed over the delay before the final test. Fluency is how easy the method feels DURING study -- re-reading feels fluent, retrieval feels effortful -- and it is the misleading signal a learner is tempted to choose by.",
+    "data_is": "A FIXTURE, and the model is a STYLIZED account of a robust, replicated finding (the testing effect / retrieval practice). Constants: gain is memory strength added per exposure by each method; retention_decay is the fraction of learned strength surviving to the delayed test; fluency is the in-the-moment ease each method produces. Every retention is computed in testing.py from these numbers.",
+    "format": "exposures (same for both, = same time); gain: {method: strength per exposure}; retention_decay; fluency: {method: felt ease}; restudy/test name the two methods."
+  },
+  "exposures": 4,
+  "retention_decay": 0.9,
+  "restudy": "restudy",
+  "test": "test",
+  "order": ["restudy", "test"],
+  "gain": {"restudy": 0.25, "test": 0.55},
+  "fluency": {"restudy": 0.90, "test": 0.40}
+}

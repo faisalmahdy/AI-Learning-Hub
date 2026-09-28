@@ -1,0 +1,8 @@
+{
+  "_meta": {
+    "what_this_is": "Pairs of 8-bit grayscale pixel values (0-255, sRGB-encoded, as stored in every ordinary image file) to be blended 50/50 -- the operation underneath resizing, alpha blending, and antialiasing. The catch every graphics engineer eventually learns: pixel values are sRGB-encoded (perceptually spaced), not linear light, so averaging them directly is wrong. You must decode to linear light, average there, and re-encode. The black+white pair is the vivid case: its true 50% blend is a bright 188, not the 128 that averaging the stored bytes gives.",
+    "data_is": "A FIXTURE. Hand-picked pairs so the sRGB-vs-linear blend gap is exact and checkable. No image file, just the numbers.",
+    "format": "pairs [[a, b], ...] of sRGB byte values to blend 50/50"
+  },
+  "pairs": [[0, 255], [64, 192], [0, 128], [100, 200]]
+}

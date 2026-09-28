@@ -1,0 +1,9 @@
+{
+  "_meta": "A single query token that needs to gather information from TWO different tokens for two different reasons, used to show why attention uses multiple heads instead of one. values are the value vectors of three tokens the query can attend to: token 0 carries 'signal A' (the vector [1,0]), token 2 carries 'signal B' (the vector [0,1]), and token 1 carries nothing ([0,0]). The query needs BOTH signal A (from token 0) and signal B (from token 2). A single attention head produces ONE softmax distribution over the tokens and returns the weighted average of their value vectors -- so the best a single head can do to include both targets is split its weight between them (single_head_weights [0.5, 0, 0.5]), which returns the blend [0.5,0.5] that is neither A nor B cleanly. Two heads each produce their OWN distribution: head A attends fully to token 0 (head_a_weights [1,0,0]) and head B fully to token 2 (head_b_weights [0,0,1]), so their outputs, concatenated, carry both signals at full strength. values and the per-head weights are the fixture; every weighted output and signal recovery is computed.",
+  "values": [[1, 0], [0, 0], [0, 1]],
+  "single_head_weights": [0.5, 0.0, 0.5],
+  "head_a_weights": [1.0, 0.0, 0.0],
+  "head_b_weights": [0.0, 0.0, 1.0],
+  "signal_a": [1, 0],
+  "signal_b": [0, 1]
+}

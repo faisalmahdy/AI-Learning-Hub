@@ -1,0 +1,15 @@
+{
+  "_meta": {
+    "what_this_is": "A query and three document embeddings in a 6-dimensional concept space. The relevant document d_rel covers concepts A, B, C (the first three dimensions). The user's RAW query is vague -- it carries only concept A plus a spurious bit of concept D -- so it lands near the off-topic distractor d1 (which also has A and D) rather than near d_rel. The EXPANDED query grows the vague query into the full A,B,C language the answer actually uses (as query expansion or the HyDE hypothetical-answer trick would), so it lands right on d_rel.",
+    "data_is": "A FIXTURE. The vectors are hand-authored so the raw query's miss (a distractor outranks the relevant doc) and the expanded query's hit (relevant doc first) are exact and checkable; every cosine and rank is computed in expand.py. raw = [1,0,0,0.5,0,0], expanded = [1,1,1,0,0,0]; d_rel = [1,1,1,0,0,0].",
+    "format": "relevant: the id of the answer document; raw/expanded: the two query vectors; docs: [{id, vec}]."
+  },
+  "relevant": "d_rel",
+  "raw": [1, 0, 0, 0.5, 0, 0],
+  "expanded": [1, 1, 1, 0, 0, 0],
+  "docs": [
+    {"id": "d_rel", "vec": [1, 1, 1, 0, 0, 0]},
+    {"id": "d1",    "vec": [1, 0, 0, 1, 1, 0]},
+    {"id": "d2",    "vec": [0, 0, 0, 1, 1, 1]}
+  ]
+}

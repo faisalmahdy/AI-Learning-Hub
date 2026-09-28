@@ -1,0 +1,15 @@
+{
+  "_meta": "A query and two documents embedded by two different models, used to show that shrinking an embedding by keeping only its first k dimensions is safe only if the model was trained to front-load its information (a Matryoshka / MRL embedding); truncating an ordinary embedding, whose signal is spread across all dimensions, can scramble the ranking and return the wrong document. Cutting the vector store's dimension in half is a real lever for cost and memory, and the tempting way is to slice each stored vector to its first k dimensions. Whether that works is a property of the embedding model, not of the slice. A Matryoshka-trained model packs the most important directions into the leading dimensions, so a prefix of the vector is still a usable embedding and the ranking survives truncation. An ordinary model spreads the discriminating signal across the whole vector, so a prefix throws away whichever dimensions happened to carry the answer, and the truncated ranking can flip. On this fixture both models rank the relevant document first at full dimension (cosine 0.923 vs 0.588), so at full width they are indistinguishable. Truncated to the first 3 of 6 dimensions, the ordinary model flips -- the distractor now scores 1.000 and the relevant document 0.000 -- while the Matryoshka model still ranks the relevant document first (1.000 vs 0.577). A second, separate point: truncating a unit-length vector leaves it no longer unit length, so any index that ranks by raw dot product (rather than cosine) must renormalize after truncation or the scores are silently rescaled. dim, k, and the two embedding sets (query, relevant, distractor) are the fixture; every full and truncated cosine, ranking, and the norm change are computed. Stdlib only.",
+  "dim": 6,
+  "k": 3,
+  "ordinary": {
+    "query":    [1, 0, 0, 2, 2, 2],
+    "relevant": [0, 1, 0, 2, 2, 2],
+    "distractor": [1, 0, 0, 0, 0, 1]
+  },
+  "matryoshka": {
+    "query":    [2, 2, 2, 1, 0, 0],
+    "relevant": [2, 2, 2, 0, 1, 0],
+    "distractor": [0, 0, 1, 1, 0, 0]
+  }
+}

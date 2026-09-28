@@ -1,0 +1,14 @@
+{
+  "_meta": {
+    "what_this_is": "Pairs of answers to judge, for an LLM-as-judge pairwise eval. Each pair gives the TRUE quality of answer A and answer B (a fixture stand-in for ground truth) and the truly-better label. The judge we model has a position bias: it adds a bonus to whichever answer is presented FIRST. So its verdict depends on presentation order, not just quality. The point: judging in a single fixed order credits position, not merit -- run both orders and a pair whose verdict flips is one the judge cannot actually call.",
+    "data_is": "A FIXTURE. Qualities and the position_bias are hand-authored so the flips, abstentions, and the single-order errors are exact and checkable.",
+    "format": "position_bias (bonus to the first-presented answer); pairs [{id, a_quality, b_quality, truly_better}]"
+  },
+  "position_bias": 2.0,
+  "pairs": [
+    {"id": "p1", "a_quality": 8.0, "b_quality": 3.0, "truly_better": "A"},
+    {"id": "p2", "a_quality": 5.0, "b_quality": 5.0, "truly_better": "tie"},
+    {"id": "p3", "a_quality": 5.0, "b_quality": 6.0, "truly_better": "B"},
+    {"id": "p4", "a_quality": 2.0, "b_quality": 9.0, "truly_better": "B"}
+  ]
+}

@@ -1,0 +1,5 @@
+{
+  "_meta": "The Monty Hall setup, as parameters for an exact enumeration -- no simulation. There are `doors` doors; a car sits behind one (uniformly at random) and goats behind the rest. The player picks a door. Then the host opens a door and offers a switch. Everything about the answer hinges on HOW the host chooses which door to open, so two host policies are compared. Under the 'knowing' host (the real Monty Hall), the host always opens a door that is neither the player's pick nor the car -- his choice is constrained by knowing where the car is, and that constraint is information. Under the 'ignorant' host, the host opens a uniformly random door among those the player did not pick, so he can accidentally reveal the car; we then condition on the runs where he happened to reveal a goat. The two policies produce different switch probabilities from the same visible outcome, which is the whole lesson. Every probability is computed exactly with fractions.",
+  "doors": 3,
+  "host_policies": ["knowing", "ignorant"]
+}

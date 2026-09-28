@@ -1,0 +1,13 @@
+{
+  "_meta": "Six clients that all fail at the same instant and retry after an exponential backoff, used to show why the backoff delay needs JITTER (randomization). When a shared dependency briefly fails, every client's request fails at once; each then waits the same backoff delay and retries -- so without jitter, all the retries land at the SAME moment, recreating the exact load spike that caused the failure (a thundering herd), and the dependency is hammered again just as it tries to recover. base_delay is the exponential backoff delay (4 time units). num_buckets divides the retry window [0, base_delay) into equal time slots (here 1 unit each) for counting how many retries land together. clients each carry a jitter_frac: the (deterministic, pre-drawn for reproducibility) random fraction in [0,1) that FULL JITTER would use to pick a retry time uniformly in [0, base_delay) -- retry_time = jitter_frac * base_delay. Without jitter every client retries at exactly base_delay, so all 6 retries hit at once (peak concurrency 6). With full jitter the retry times spread across the window into buckets [2,1,1,2], so the peak concurrency drops to 2 -- the same 6 retries, spread out instead of synchronized. Jitter does not reduce the number of retries; it de-synchronizes them so the recovering dependency sees a smooth trickle instead of a wall. base_delay, num_buckets, and the clients' jitter fractions are the fixture; every retry time, bucket, and peak is computed.",
+  "base_delay": 4,
+  "num_buckets": 4,
+  "clients": [
+    {"id": "c1", "jitter_frac": 0.1},
+    {"id": "c2", "jitter_frac": 0.9},
+    {"id": "c3", "jitter_frac": 0.3},
+    {"id": "c4", "jitter_frac": 0.6},
+    {"id": "c5", "jitter_frac": 0.2},
+    {"id": "c6", "jitter_frac": 0.8}
+  ]
+}

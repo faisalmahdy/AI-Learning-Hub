@@ -1,0 +1,9 @@
+{
+  "_meta": "Four candidate tool-call strings the model emitted, as raw text. A strict JSON parser accepts only perfectly-formed JSON, but models routinely wrap the call in a Markdown code fence, leave a trailing comma, or make a similar surface-level mistake -- syntactically invalid JSON that nonetheless expresses a perfectly clear call. Aborting the whole turn on such a string wastes the step. A lightweight REPAIR pass (strip code fences, remove trailing commas) recovers the common malformations before parsing, without any model round-trip. It does not fix everything: 'missing_comma' is a structural error simple repair cannot mend, and it stays broken -- repair recovers the easy cases, not all cases. Each candidate is the exact raw string; kind labels why it is malformed.",
+  "candidates": [
+    {"id": "valid",          "raw": "{\"tool\": \"read\", \"path\": \"a.txt\"}"},
+    {"id": "fenced",         "raw": "```json\n{\"tool\": \"read\", \"path\": \"a.txt\"}\n```"},
+    {"id": "trailing_comma", "raw": "{\"tool\": \"read\", \"path\": \"a.txt\",}"},
+    {"id": "missing_comma",  "raw": "{\"tool\": \"read\" \"path\": \"a.txt\"}"}
+  ]
+}

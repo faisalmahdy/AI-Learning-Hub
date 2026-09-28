@@ -1,0 +1,10 @@
+{
+  "_meta": "A small binary image (1 = foreground, 0 = background) whose foreground pixels form blobs we want to count and label. image is the grid. The count of connected components depends on what 'connected' means: 4-connectivity joins pixels that share an edge (up, down, left, right); 8-connectivity also joins pixels that touch only at a corner (the four diagonals). This image is built so the choice matters: a top-left 2x2 block, a lone center pixel, and a bottom-right 2x2 block sit on a diagonal chain, so under 4-connectivity they are three separate components, but under 8-connectivity the diagonal corner-touches chain them into one. Labeling is done with union-find, which merges the temporary labels that turn out to belong to the same component -- the equivalence resolution a naive single raster pass would miss. Every count and label here is computed.",
+  "image": [
+    [1, 1, 0, 0, 0],
+    [1, 1, 0, 0, 0],
+    [0, 0, 1, 0, 0],
+    [0, 0, 0, 1, 1],
+    [0, 0, 0, 1, 1]
+  ]
+}

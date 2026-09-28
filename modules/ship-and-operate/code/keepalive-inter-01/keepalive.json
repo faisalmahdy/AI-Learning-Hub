@@ -1,0 +1,6 @@
+{
+  "_meta": "A client making a burst of requests to the same server, measured in network round-trips. Every new connection must first complete a HANDSHAKE before any request can be sent -- a TCP three-way handshake plus a TLS handshake -- costing handshake_round_trips round-trips (here 3: roughly 1 for TCP, 2 for TLS). Once a connection is established, each request/response costs request_round_trips (here 1). num_requests is how many requests the client makes (10). The contrast: WITHOUT connection reuse (keep-alive off, a fresh connection per request) every request pays the full handshake again, so the total is num_requests * (handshake + request) round-trips. WITH keep-alive (one connection reused for all requests) the handshake is paid once and then only the per-request cost repeats, so the total is handshake + num_requests * request. num_requests, handshake_round_trips, and request_round_trips are the fixture; every total, handshake count, and saving is computed.",
+  "num_requests": 10,
+  "handshake_round_trips": 3,
+  "request_round_trips": 1
+}

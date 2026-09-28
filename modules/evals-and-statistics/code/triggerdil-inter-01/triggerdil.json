@@ -1,0 +1,11 @@
+{
+  "_meta": "An A/B test where only a fraction of users actually experience the feature, used to show why measuring the effect over ALL users dilutes a real, large effect toward zero, and why the effect must be measured on the TRIGGERED population -- the users who could have been affected. In many experiments the change under test only fires on a code path a minority of users reach: a new checkout flow only for users who reach checkout, a fix for an error that only some sessions hit, a recommendation only shown when a shelf renders. Users who never trigger the feature are, by construction, unaffected -- their metric is identical in both arms. If the analysis averages the metric over every assigned user, the treatment effect on the few who triggered is spread across the many who did not, and the measured lift is the true effect multiplied by the trigger rate: a real +0.20 effect at a 20% trigger rate shows up as a diluted +0.04, five times too small, and can be dismissed as noise or fail to reach significance. The fix is trigger-based analysis: log the trigger condition in BOTH arms (so you can identify the control users who WOULD have triggered), and compute the effect only among triggered users in treatment versus would-have-triggered users in control. treatment and control each give the counts and conversions split by whether the user triggered the feature: n is the number of users, conv is how many converted. treatment.triggered are the users who experienced the feature; control.triggered are the counterfactual users who met the same trigger condition but got the baseline. All counts and conversions are the fixture; the overall (diluted) effect, the triggered-only effect, the trigger rate, and the dilution relationship are computed.",
+  "treatment": {
+    "triggered": {"n": 20, "conv": 6},
+    "not_triggered": {"n": 80, "conv": 8}
+  },
+  "control": {
+    "triggered": {"n": 20, "conv": 2},
+    "not_triggered": {"n": 80, "conv": 8}
+  }
+}

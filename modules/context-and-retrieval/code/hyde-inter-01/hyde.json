@@ -1,0 +1,10 @@
+{
+  "_meta": "A retrieval fixture showing question-answer asymmetry. query is what the user asks, tokenized. hypothetical is a pseudo-answer the LLM writes to the query BEFORE any retrieval — it is written in the style and vocabulary of an answer, and it need not be factually correct (here it says 'business days', the real passage says 'thirty days'). passages are the candidate documents. We embed each text as its set of tokens and score similarity by cosine over token presence: overlap / sqrt(|a|*|b|). The point: the query shares its words with the wrong passage (the FAQ, which is itself a question), while the hypothetical answer shares its words with the right passage (the actual answer), so searching with the hypothetical retrieves better than searching with the query.",
+  "query": ["how", "long", "until", "refund"],
+  "hypothetical": ["refund", "processed", "within", "business", "days"],
+  "passages": {
+    "p_correct": ["refund", "processed", "within", "thirty", "days", "receipt"],
+    "p_faq": ["how", "to", "request", "refund", "form"],
+    "p_shipping": ["shipping", "takes", "several", "business", "days"]
+  }
+}

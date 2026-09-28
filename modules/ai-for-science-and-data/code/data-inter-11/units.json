@@ -1,0 +1,30 @@
+{
+  "_meta": {
+    "what_this_is": "Several units (clinics, counties, stores -- whatever) each reporting how many of n trials were successes, all drawn from the SAME underlying success rate of 0.10. Because a small sample has high variance, the units with the most extreme observed RATES are the small ones -- both the highest and the lowest -- not because they are special but because small n is noisy. The honest signal is not the raw rate but how many standard errors it sits from the baseline: a modest rate over a huge sample can be a far stronger anomaly than an extreme rate over a tiny one.",
+    "data_is": "A FIXTURE. The counts are hand-authored so the extreme raw rates (0.30 and 0.00) come from the smallest samples (n=20, n=25) and are within noise of the 0.10 baseline, while a large sample (n=5000) with an unremarkable 0.13 rate is by far the strongest signal. Every rate, standard error, and z-score is computed in smallnum.py.",
+    "format": "baseline_rate; units: {name: {n, successes}}."
+  },
+  "baseline_rate": 0.1,
+  "units": {
+    "A": {
+      "n": 20,
+      "successes": 6
+    },
+    "B": {
+      "n": 25,
+      "successes": 0
+    },
+    "C": {
+      "n": 5000,
+      "successes": 650
+    },
+    "D": {
+      "n": 1000,
+      "successes": 100
+    },
+    "E": {
+      "n": 30,
+      "successes": 7
+    }
+  }
+}

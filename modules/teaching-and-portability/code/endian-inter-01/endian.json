@@ -1,0 +1,5 @@
+{
+  "_meta": "An integer that a program serializes to raw bytes (to write to a binary file, a network packet, or to hash), used to show the endianness portability trap. value is the integer (1); width_bytes is how many bytes it is stored in (4, a 32-bit integer). A multi-byte integer can be laid out in memory or a file two ways: BIG-ENDIAN puts the most-significant byte first (1 becomes 00 00 00 01), LITTLE-ENDIAN puts the least-significant byte first (1 becomes 01 00 00 00). CPUs differ: x86 is little-endian, some others and the network standard ('network byte order') are big-endian. If a program serializes with the machine's NATIVE byte order, the bytes it writes depend on which CPU wrote them, so a file written on a little-endian machine and read on a big-endian one (or vice versa) reads the wrong number -- reading the big-endian bytes of 1 as little-endian yields 16777216. The fix is to pick an explicit byte order on both the write and the read. value and width_bytes are the fixture; the big/little-endian encodings and every cross-read are computed.",
+  "value": 1,
+  "width_bytes": 4
+}

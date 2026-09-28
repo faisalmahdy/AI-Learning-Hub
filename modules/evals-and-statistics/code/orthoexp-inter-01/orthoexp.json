@@ -1,0 +1,8 @@
+{
+  "_meta": "Two A/B experiments, X and Y, run on the same users at the same time, described by how many users fall in each cell of the 2x2 (X-arm by Y-arm), used to show that concurrent experiments must be randomized independently (orthogonally) or they confound each other's estimates. Each experiment measures its effect as treated-mean minus control-mean. That difference is only the experiment's own effect if its two arms are balanced on everything else -- including the other experiment. If assignment to X and assignment to Y are correlated (users in X's treatment are disproportionately also in Y's treatment), then X's treated group carries more of Y's treatment than X's control group does, so Y's effect leaks into X's measured effect, and vice versa. The bias in X's estimate is exactly the imbalance in Y-treatment fraction between X's arms times Y's true effect. Orthogonal randomization -- assign X and Y by independent coins -- makes each experiment's arms contain the same fraction of the other's treatment, so the other effect is equal in both arms and cancels in the difference. base is the baseline outcome; effect_x and effect_y are the true effects; correlated_cells and orthogonal_cells give the user counts in the four cells [X-treat & Y-treat, X-treat & Y-control, X-control & Y-treat, X-control & Y-control] under a correlated and an orthogonal assignment. The cell outcomes, each experiment's measured effect under each design, and the arm imbalance are computed. Stdlib only.",
+  "base": 10.0,
+  "effect_x": 2.0,
+  "effect_y": 5.0,
+  "correlated_cells": {"xt_yt": 40, "xt_yc": 10, "xc_yt": 10, "xc_yc": 40},
+  "orthogonal_cells": {"xt_yt": 25, "xt_yc": 25, "xc_yt": 25, "xc_yc": 25}
+}

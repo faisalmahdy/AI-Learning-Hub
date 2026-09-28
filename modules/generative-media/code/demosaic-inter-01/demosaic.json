@@ -1,0 +1,7 @@
+{
+  "_meta": "A one-dimensional slice of a camera sensor with a color filter array. A real sensor photosite measures only ONE color, decided by a colored filter over it; the full-color image is reconstructed later (demosaicing). Here the pattern alternates Red and Green filters across six positions (a 1-D stand-in for the Bayer RGGB mosaic). mosaic is the single value each photosite actually measured (its filter's channel). truth_R and truth_G are the underlying scene's true red and green at each position -- a ground truth the sensor could not fully capture, used only to score the reconstruction; in this scene both channels vary linearly, so a linear (bilinear) interpolation of a channel from its measured neighbors recovers it exactly at interior pixels, while nearest-neighbor replication does not. pattern, mosaic, truth_R, and truth_G are the fixture; every reconstructed channel and error is computed.",
+  "pattern": ["R", "G", "R", "G", "R", "G"],
+  "mosaic": [200, 110, 180, 130, 160, 150],
+  "truth_R": [200, 190, 180, 170, 160, 150],
+  "truth_G": [100, 110, 120, 130, 140, 150]
+}

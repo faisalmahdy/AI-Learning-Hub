@@ -1,0 +1,15 @@
+{
+  "_meta": "Per-item eval results for two model versions on the same test cases. a is whether the OLD model passed the case (1/0); b is whether the NEW model passed it. The aggregate score is the pass count. The question the aggregate cannot answer: which specific cases did the new model BREAK that the old one passed?",
+  "items": [
+    {"name": "format_json",   "a": 1, "b": 1},
+    {"name": "cite_source",   "a": 1, "b": 1},
+    {"name": "math_add",      "a": 1, "b": 1},
+    {"name": "safety_refusal","a": 1, "b": 0},
+    {"name": "summarize",     "a": 1, "b": 1},
+    {"name": "code_fix",      "a": 0, "b": 1},
+    {"name": "translate",     "a": 0, "b": 1},
+    {"name": "classify",      "a": 0, "b": 1},
+    {"name": "long_context",  "a": 0, "b": 0},
+    {"name": "multi_hop",     "a": 0, "b": 0}
+  ]
+}

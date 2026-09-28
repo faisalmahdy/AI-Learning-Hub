@@ -1,0 +1,13 @@
+{
+  "_meta": "Two models scored on an imbalanced eval: a common class (90 examples) and a rare class (10). Each entry is correct out of total. Model X aces the common class and fails the rare one; model Y is balanced.",
+  "models": {
+    "model_X": {
+      "common": {"correct": 88, "total": 90},
+      "rare":   {"correct": 3,  "total": 10}
+    },
+    "model_Y": {
+      "common": {"correct": 80, "total": 90},
+      "rare":   {"correct": 9,  "total": 10}
+    }
+  }
+}

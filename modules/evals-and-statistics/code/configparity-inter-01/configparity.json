@@ -1,0 +1,15 @@
+{
+  "_meta": "Two models scored on the same items under two harness configurations, used to show why a model comparison must hold the generation config fixed -- if the two models run under different configs, the measured gap is the model difference plus the config difference, and a real winner can be erased. To compare model A and model B fairly, everything about the harness except the model must be identical: the prompt template, the decoding temperature, and the output-length cap. When they are not, the comparison confounds model quality with config. Here each item has a difficulty (a model solves it only if its skill meets the difficulty) and a tokens_needed (the answer requires that many output tokens; if the config's max_tokens is below it the answer is truncated and scored wrong even though the model knew it). Under a matched config both models get a generous cap and each item is decided by skill alone. Under an unfair config model B is run with a stingy cap, so items B would have solved by skill are truncated and lost -- points B loses to the config, not to the model. The matched comparison shows B's true advantage; the unfair one erases it and reports a tie. items is the eval set; skill_a and skill_b are the two models' skill levels; matched_config and unfair_config give each model's max_tokens under the two harnesses. These are the fixture; each model's score under each config, the winner, and which items were lost to truncation rather than skill are computed.",
+  "items": [
+    {"id": "i1", "difficulty": 3, "tokens_needed": 50},
+    {"id": "i2", "difficulty": 5, "tokens_needed": 50},
+    {"id": "i3", "difficulty": 6, "tokens_needed": 80},
+    {"id": "i4", "difficulty": 7, "tokens_needed": 80},
+    {"id": "i5", "difficulty": 8, "tokens_needed": 150},
+    {"id": "i6", "difficulty": 9, "tokens_needed": 150}
+  ],
+  "skill_a": 7,
+  "skill_b": 8,
+  "matched_config": {"max_tokens_a": 1000, "max_tokens_b": 1000},
+  "unfair_config": {"max_tokens_a": 1000, "max_tokens_b": 100}
+}

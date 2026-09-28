@@ -1,0 +1,6 @@
+{
+  "_meta": "A 1D slice of (already-thinned) edge magnitudes. A single threshold on edge strength forces a bad choice: set it HIGH and you keep only the strongest pixels, so a real edge whose strength dips in the middle breaks into disconnected fragments; set it LOW and you admit every faint pixel, including isolated noise. Hysteresis (double) thresholding uses TWO thresholds. Pixels at or above `high` are STRONG and always kept. Pixels between `low` and `high` are WEAK and kept only if they connect, through a chain of kept pixels, to a strong pixel -- so a weak stretch that continues a real edge is linked in, while an isolated weak pixel (noise) with no strong neighbor is dropped. magnitudes is the profile; index 5 (value 4) is an isolated weak noise pixel, and indices 2-3 are a weak continuation of the strong edge at index 1.",
+  "magnitudes": [0, 8, 5, 6, 0, 4, 0],
+  "high": 7,
+  "low": 3
+}

@@ -1,0 +1,22 @@
+{
+  "_meta": {
+    "what_this_is": "Five personal-assistant notes, each ~30 tokens, each holding one two-token gold fact that answers one query. Two facts are placed to straddle a 12-token boundary: chunk the note into abutting 12-token windows and the two tokens of the fact land in different windows, so no single chunk answers. Overlapping windows, or a bigger window, keep the fact whole.",
+    "docs_are": "A FIXTURE. Hand-authored so 2 of 5 facts split at a 12-token no-overlap boundary and all 5 sit whole inside a 12-token/overlap-6 window. Point the chunker at your own notes.",
+    "gold": "the tokens that must all appear in one chunk for it to answer the query",
+    "format": "docs {id: text}; queries [{q, gold_doc, gold: [tok, tok]}]"
+  },
+  "docs": {
+    "d_flight": "trip notes for the jakarta visit next week the assigned seat is 14c on the evening flight from terminal three at six pm check in online the night before and bring the passport",
+    "d_health": "health log sleep fine meals on plan gym three days this week so far hydration steady mood good today quick reminder that the dentist appointment is at 9am on the fourteenth with lin bring insurance",
+    "d_bill": "the electric bill is due on the 28th autopay is currently off pay it from the joint checking account this month and forward the receipt to the shared family email address",
+    "d_gym": "gym schedule note monday is leg day wednesday is push day friday is pull day weekends are rest keep the routine steady through the whole month and log each session afterwards",
+    "d_mom": "birthday plans for mom on the ninth she likes tulips and a hand written card not a gift card maybe dinner at the italian place she mentioned to me last month"
+  },
+  "queries": [
+    {"q": "which seat is on my flight", "gold_doc": "d_flight", "gold": ["seat", "14c"]},
+    {"q": "what time is the dentist appointment", "gold_doc": "d_health", "gold": ["dentist", "9am"]},
+    {"q": "when is the electric bill due", "gold_doc": "d_bill", "gold": ["electric", "28th"]},
+    {"q": "which day is gym leg day", "gold_doc": "d_gym", "gold": ["leg", "monday"]},
+    {"q": "what does mom want for her birthday", "gold_doc": "d_mom", "gold": ["mom", "tulips"]}
+  ]
+}

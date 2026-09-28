@@ -1,0 +1,12 @@
+{
+  "_meta": {
+    "what_this_is": "A two-step next-token probability tree, the kind a language model induces over short continuations. From the start there are two first tokens: A with probability 0.55 (the local favorite) and B with 0.45. But A's continuations are mediocre (0.5, 0.5) while B's are lopsided (0.95, 0.05), so the best A-sequence totals 0.275 and the best B-sequence totals 0.4275. Greedy takes A and is stuck; beam keeps B alive and finds the more probable B-B1.",
+    "data_is": "A FIXTURE. The probabilities are hand-authored so greedy's locally-best first token leads to a globally worse sequence, making the greedy/beam gap exact and checkable. Every full-sequence probability and both decoders are computed in beam.py from this tree.",
+    "format": "beam_width; tree: {token: {p, next: {token: {p, next?}}}} -- each node's p is its conditional probability given the prefix; a leaf has no next."
+  },
+  "beam_width": 2,
+  "tree": {
+    "A": {"p": 0.55, "next": {"A1": {"p": 0.5}, "A2": {"p": 0.5}}},
+    "B": {"p": 0.45, "next": {"B1": {"p": 0.95}, "B2": {"p": 0.05}}}
+  }
+}

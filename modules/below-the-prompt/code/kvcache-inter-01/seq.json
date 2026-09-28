@@ -1,0 +1,15 @@
+{
+  "_meta": {
+    "what_this_is": "A five-token sequence with a fixed 4-dimensional embedding per token, standing in for the vectors a real model would compute. Small integers so every dot product is checkable by hand. The point is not the specific numbers but the structure: self-attention lets each position mix in every other position, and unless a causal mask forbids it, an early position mixes in tokens that come after it -- the future it must not see if it is going to predict the next token.",
+    "emb_is": "A FIXTURE. Hand-picked distinct vectors so attention is non-uniform and the future leak is visible. Real embeddings are learned and high-dimensional; the mask lesson is identical.",
+    "format": "tokens [labels]; emb [[vector per token]]"
+  },
+  "tokens": ["the", "cat", "sat", "on", "mat"],
+  "emb": [
+    [2, 0, 1, 0],
+    [1, 2, 0, 0],
+    [0, 1, 2, 1],
+    [0, 0, 1, 2],
+    [1, 0, 0, 2]
+  ]
+}

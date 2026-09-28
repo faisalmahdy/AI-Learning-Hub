@@ -1,0 +1,9 @@
+{
+  "_meta": "A one-dimensional noisy optimization -- a quadratic loss whose minimum is at zero, optimized by SGD with a large constant learning rate and a deterministic per-step gradient noise -- used to show why a model should be evaluated with an average of its weights across the late training steps (a stochastic weight average, or an exponential moving average) rather than with the weights from the single last step. With gradient noise and a learning rate that does not shrink to zero, SGD does not converge to a point; it reaches a stationary distribution and then orbits the minimum, each step kicked in a different direction by the noise. The last iterate is therefore wherever the final kick happened to leave it -- a sample from that orbit, off the true minimum by a random amount -- so evaluating the last checkpoint measures a noisy point, and the score varies from step to step for no real reason. Averaging the iterates cancels the noise: the kicks are centered on the minimum, so their average lands near it, and the averaged weights sit lower on the loss and in a flatter, better-generalizing region than any single late iterate. This is distinct from decaying the learning rate (a companion module): decay shrinks the orbit by shrinking every step, trading exploration for a quieter endpoint; averaging keeps the large steps (and their exploration) and recovers the center for free. The noise is a fixed deterministic sequence so the run is reproducible. x0 is the starting point; lr is the constant learning rate; noise_amp scales the per-step gradient noise; steps is the number of SGD steps; burn_in is how many early steps to skip before averaging. These are the fixture; the trajectory, the last iterate, the tail (SWA) average, the EMA, and their losses are computed.",
+  "x0": 3.0,
+  "lr": 0.25,
+  "noise_amp": 1.5,
+  "steps": 60,
+  "burn_in": 30,
+  "ema_beta": 0.9
+}

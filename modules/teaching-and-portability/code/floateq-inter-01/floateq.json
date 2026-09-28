@@ -1,0 +1,12 @@
+{
+  "_meta": "Values for testing floating-point equality. Most decimal fractions cannot be represented exactly in binary floating point -- 0.1, 0.2, and 0.3 are all stored as the nearest available binary value, slightly off -- so arithmetic that should be exact in decimal is off by a tiny amount, and comparing the result with == fails. a + b is meant to equal `expected` (0.1 + 0.2 = 0.3) but does not, under ==. accumulate_value added accumulate_times times is meant to equal accumulate_target (0.1 x 10 = 1.0) but does not, because the tiny per-operation error compounds. dyadic_a + dyadic_b is meant to equal dyadic_expected (0.5 + 0.25 = 0.75) and DOES, because those values are exact in binary (sums of powers of two). The operands are the fixture; every sum, its stored value, and the equality/closeness results are computed.",
+  "a": 0.1,
+  "b": 0.2,
+  "expected": 0.3,
+  "accumulate_value": 0.1,
+  "accumulate_times": 10,
+  "accumulate_target": 1.0,
+  "dyadic_a": 0.5,
+  "dyadic_b": 0.25,
+  "dyadic_expected": 0.75
+}

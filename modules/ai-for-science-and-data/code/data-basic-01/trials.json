@@ -1,0 +1,11 @@
+{
+  "_meta": {
+    "what_this_is": "The classic kidney-stone treatment study (Charig et al. 1986), the textbook example of Simpson's paradox. Two treatments, A and B, each scored on small stones and large stones as (successes, cases). Treatment A has the higher success rate on small stones AND on large stones, yet a lower overall rate -- because A was used on far more of the hard (large-stone) cases, which have lower success for everyone. The confounder is stone size, unevenly distributed between the treatments.",
+    "counts_are": "The published study counts, used as a fixture. The same segmentation applies to any A/B rate with an uneven confounder -- model-vs-model on easy/hard prompts, agent-vs-agent on simple/complex tasks.",
+    "format": "treatments {A|B: {segment: [successes, cases]}}"
+  },
+  "treatments": {
+    "A": {"small": [81, 87], "large": [192, 263]},
+    "B": {"small": [234, 270], "large": [55, 80]}
+  }
+}

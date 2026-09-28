@@ -1,0 +1,8 @@
+{
+  "_meta": "Two RGBA pixels being averaged into one, as happens when an image with transparency is downscaled, blurred, or mipmapped -- every output pixel is a weighted average of input pixels. opaque_red is a fully opaque red pixel (alpha 1.0). transparent_blue is a FULLY TRANSPARENT pixel (alpha 0.0) that still carries a leftover color of blue in its RGB channels -- which is normal, because the color of a 0-alpha pixel is invisible and undefined, so authoring tools leave whatever was there. The trap: averaging the RGB channels and the alpha channel SEPARATELY (straight, non-premultiplied) lets the transparent pixel's invisible blue leak into the result, producing a purple fringe. The fix is to premultiply each pixel's color by its alpha BEFORE averaging (so a transparent pixel contributes zero color), average, then un-premultiply. background is a backdrop to composite the averaged result over, to show the fringe. The pixel colors and alphas are the fixture; every average and composite is computed.",
+  "pixels": [
+    {"name": "opaque_red", "rgb": [255, 0, 0], "alpha": 1.0},
+    {"name": "transparent_blue", "rgb": [0, 0, 255], "alpha": 0.0}
+  ],
+  "background": [255, 255, 255]
+}

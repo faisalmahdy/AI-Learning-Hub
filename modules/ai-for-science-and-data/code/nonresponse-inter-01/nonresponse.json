@@ -1,0 +1,8 @@
+{
+  "_meta": "A customer-satisfaction survey sent to a whole population of 100 customers, used to show nonresponse (self-selection) bias. groups partitions the population by their true satisfaction score: 60 customers are happy (score 5), 30 are neutral (score 3), 10 are unhappy (score 1). Each group has a different response_rate -- the fraction of that group that actually answers the survey -- and here response correlates with dissatisfaction: unhappy customers answer at 80% (they want to complain), neutral at 20%, happy at only 10% (they are content and ignore it). So respondents per group = population * response_rate: 6 happy, 6 neutral, 8 unhappy = 20 respondents. The true population mean satisfaction is 4.0, but the naive mean over the 20 respondents is only 2.8, because the unhappy group -- 10% of the population -- is 40% of the respondents. Inverse-probability weighting (weight each respondent by 1/response_rate for their group) reconstructs the population and recovers the true mean of 4.0. groups (score, population, response_rate) is the fixture; every respondent count, mean, and weighted estimate is computed.",
+  "groups": [
+    {"score": 5, "population": 60, "response_rate": 0.10},
+    {"score": 3, "population": 30, "response_rate": 0.20},
+    {"score": 1, "population": 10, "response_rate": 0.80}
+  ]
+}

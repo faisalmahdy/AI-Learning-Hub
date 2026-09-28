@@ -1,0 +1,12 @@
+{
+  "_meta": "Each tool is classified by the reversibility of its effect: read (no effect), reversible (undoable write), or irreversible (no undo). run is the sequence of tool calls the agent made.",
+  "tools": {
+    "read_file": "read",
+    "list_dir": "read",
+    "read_config": "read",
+    "update_record": "reversible",
+    "delete_record": "irreversible",
+    "send_email": "irreversible"
+  },
+  "run": ["read_file", "list_dir", "update_record", "delete_record", "send_email", "read_config"]
+}

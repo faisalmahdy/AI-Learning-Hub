@@ -1,0 +1,12 @@
+{
+  "_meta": "A stream of events being aggregated into fixed event-time windows of width window_size (here 10, so window 0 covers event-times [0,10), window 1 covers [10,20)). Each event has an event-time t (when it actually happened) and a value; events is the list in ARRIVAL order, which is deliberately out of order relative to t -- event-time 7 arrives after event-time 12. The question is when to close (emit) a window given that late events can still arrive. A naive stream closes a window the instant it sees any event whose event-time reaches the window's end, so a later-arriving event that belongs to the just-closed window is dropped. A watermark-based stream tracks a watermark = (max event-time seen) - allowed_lateness, an assertion that no event earlier than the watermark will still arrive, and closes a window only once the watermark passes the window's end -- so an out-of-order event within the lateness bound is still counted. events, window_size, and allowed_lateness are the fixture; every window count, watermark value, and drop is computed.",
+  "window_size": 10,
+  "allowed_lateness": 5,
+  "events": [
+    {"t": 2, "value": "a"},
+    {"t": 5, "value": "b"},
+    {"t": 12, "value": "c"},
+    {"t": 7, "value": "d"},
+    {"t": 15, "value": "e"}
+  ]
+}

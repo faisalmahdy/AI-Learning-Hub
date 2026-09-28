@@ -1,0 +1,17 @@
+{
+  "_meta": {
+    "what_this_is": "A recall ledger for six curriculum modules at a fixed clock (now = day 200). Each module has an authoring status and a list of dated closed-book recall passes (as day numbers). 'authored' is the teacher's checkmark (status ready); 'retained' is the learner's, computed as a recall pass within the 60-day retention window. The fixture is built so authoring overcounts retention: one module was never recall-tested, one passed only long ago (decayed), and one is still a draft.",
+    "ledger_is": "A FIXTURE. Day numbers stand in for dates so the module is deterministic. Point it at your own recall ledger with real dates.",
+    "retention": "a pass older than 60 days no longer counts as retained",
+    "format": "now (day int); modules [{id, status, passes:[day ints]}]"
+  },
+  "now": 200,
+  "modules": [
+    {"id": "evals-basic",   "status": "ready", "passes": [190]},
+    {"id": "evals-inter",   "status": "ready", "passes": [110]},
+    {"id": "harness-basic", "status": "ready", "passes": []},
+    {"id": "retr-basic",    "status": "ready", "passes": [196]},
+    {"id": "retr-inter",    "status": "draft", "passes": []},
+    {"id": "govern-basic",  "status": "ready", "passes": [40, 160]}
+  ]
+}

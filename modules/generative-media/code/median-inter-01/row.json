@@ -1,0 +1,8 @@
+{
+  "_meta": "One row of grayscale pixels with a real step edge from 10 to 80 between indices 3 and 4. A salt speck replaces the pixel at speck_index with speck_value. window is the filter width (3 = each pixel plus its two neighbors).",
+  "clean": [10, 10, 10, 10, 80, 80, 80, 80],
+  "speck_index": 1,
+  "speck_value": 200,
+  "edge_index": 4,
+  "window": 3
+}

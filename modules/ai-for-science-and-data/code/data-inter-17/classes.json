@@ -1,0 +1,4 @@
+{
+  "_meta": "The sizes of the classes at a small school. Two questions get two different averages: the administrator averages over CLASSES (each class counts once); a randomly chosen student experiences the average over STUDENTS (each class counts as many times as it has students). Because a big class contains more students to be sampled, the student-experienced average is pulled up -- length-biased sampling.",
+  "sizes": [10, 10, 40]
+}

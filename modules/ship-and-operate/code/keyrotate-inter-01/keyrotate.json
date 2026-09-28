@@ -1,0 +1,14 @@
+{
+  "_meta": "A set of signed tokens issued around the moment a signing key is rotated, used to show that a hard cutover -- swap the verifier to the new key and drop the old one at the instant of rotation -- rejects every unexpired token that was signed with the old key, causing mass auth failures for users who did nothing wrong, while an overlap keyset (accept BOTH keys during a window) keeps those tokens valid until they expire on their own. A token is a small message (id, issued_at, ttl) plus an HMAC signature made with whatever key was current when it was issued; verification recomputes the HMAC with a key and checks the signature matches AND the token has not expired (issued_at + ttl > now). Rotation introduces a new secret v2 at rotation_time. The bug is treating rotation as a swap: the verifier's key set becomes {v2} only, so a token signed with v1 fails the signature check even though its ttl has not run out -- it is a valid, unexpired session that suddenly cannot authenticate. The fix is to treat rotation as an ADD, not a swap: the verifier keeps a set {v1, v2}, new tokens are signed with v2, old tokens keep verifying against v1 until they expire, and v1 is retired only after the last token that could have been signed with it (issued just before rotation_time) has expired -- at rotation_time + max_ttl. The overlap keyset still enforces expiry, so a genuinely expired v1 token is still rejected; it only stops rejecting the unexpired ones. secrets, rotation_time, now, and the tokens (with which key signed each and each token's issued_at and ttl) are the fixture; every signature, expiry decision, and accept/reject under each strategy is computed with stdlib hmac. Stdlib only.",
+  "secret_v1": "old-signing-secret-v1",
+  "secret_v2": "new-signing-secret-v2",
+  "rotation_time": 100,
+  "now": 110,
+  "max_ttl": 30,
+  "tokens": [
+    {"id": "sess-1", "issued_at": 85,  "ttl": 30, "signed_with": "v1"},
+    {"id": "sess-2", "issued_at": 95,  "ttl": 30, "signed_with": "v1"},
+    {"id": "sess-3", "issued_at": 60,  "ttl": 30, "signed_with": "v1"},
+    {"id": "sess-4", "issued_at": 105, "ttl": 30, "signed_with": "v2"}
+  ]
+}

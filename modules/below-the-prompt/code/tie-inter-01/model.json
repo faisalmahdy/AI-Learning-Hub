@@ -1,0 +1,15 @@
+{
+  "_meta": "A tiny model's vocabulary matrices. embed is the input embedding (one row per token, dim columns). unembed is a SEPARATE output projection (the untied case) chosen to be unrelated to embed. Tying sets the unembedding equal to embed.",
+  "embed": [
+    [2, 0, 0],
+    [0, 2, 0],
+    [0, 0, 2],
+    [1, 1, 1]
+  ],
+  "unembed": [
+    [0, 0, 3],
+    [3, 0, 0],
+    [0, 1, 0],
+    [1, 1, 0]
+  ]
+}

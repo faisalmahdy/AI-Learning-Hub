@@ -1,0 +1,10 @@
+{
+  "_meta": "A query carrying a negated constraint -- 'muscle pain relief without ibuprofen' -- run against three documents, used to show that a dense retriever is blind to negation: it encodes the content tokens present in the query and all but ignores the function word 'without' (or 'not'), so the negated term 'ibuprofen' stays in the query's representation with positive weight and pulls retrieval toward the very document the user meant to exclude. Documents and the query are modeled here as sets of content tokens, and dense similarity as the cosine over those token sets (intersection over the geometric mean of the sizes). This is a stylized stand-in for a real sentence embedder, but it captures the mechanism faithfully: an embedder represents which content words are present, and short function words like 'not' and 'without' shift the vector only slightly, so a document that literally contains the negated term scores as a near-perfect match. On this fixture the query's content tokens are muscle, pain, relief, and ibuprofen; the ibuprofen document matches all four and tops the dense ranking, while the acetaminophen document -- the one that actually relieves the pain without ibuprofen, the intended answer -- matches only three and ranks second. The negated term is exactly what promotes the wrong document. The fix is to parse the negation out of the free-text query and enforce it as a hard structured filter (a NOT clause / metadata exclusion) before ranking, so documents containing the excluded term are removed and the positive terms rank the survivors. query_positive are the content tokens the user wants; query_negated are the tokens introduced under a negation; documents maps each id to its content-token set. The cosine scores, the dense ranking, and the filtered ranking are computed.",
+  "query_positive": ["muscle", "pain", "relief"],
+  "query_negated": ["ibuprofen"],
+  "documents": {
+    "ibuprofen_doc": ["muscle", "pain", "relief", "ibuprofen"],
+    "acetaminophen_doc": ["muscle", "pain", "relief", "acetaminophen"],
+    "laptop_doc": ["battery", "charge", "laptop"]
+  }
+}

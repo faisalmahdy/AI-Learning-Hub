@@ -1,0 +1,5 @@
+{
+  "_meta": "Two replicas of the same key-value store that have drifted apart. Both hold the same n_keys keys (k00..k63) mapping to values; replica B is identical to replica A except on the keys listed in diverged, where B missed a write during a partition and holds a stale value. The code builds both replicas from these parameters, so the fixture stays small. The task is anti-entropy: find exactly which keys differ so only those need repair, without shipping every key across the network. The naive way is to compare all n_keys keys directly (or ship all their hashes). A Merkle tree hashes the sorted keys into a binary tree of digests, so two replicas compare root digests first: equal roots mean identical data in one comparison, and unequal roots are walked downward, descending only the subtrees whose digests differ, to reach the differing leaves in about tree-depth comparisons per difference instead of n_keys. Every hash here is computed with sha256; nothing is random.",
+  "n_keys": 64,
+  "diverged": ["k27", "k29"]
+}

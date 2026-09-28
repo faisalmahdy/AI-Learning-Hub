@@ -1,0 +1,9 @@
+{
+  "_meta": "A multi-step distributed transaction (booking a trip) run as a SAGA, used to show how a saga keeps distributed state consistent without the locks and blocking of two-phase commit: each step has a compensating action, and if a later step fails, the completed steps are undone by running their compensations in reverse order. steps is the ordered list; each has a name (its forward action) and a compensate action that reverses it. fails_at names the step that fails (charge_card). A NAIVE pipeline with no compensation runs the steps until one fails and then just stops, leaving the effects of the already-completed steps in place -- here reserve_flight and reserve_hotel have run, so a flight and a hotel are reserved but never paid for, two orphaned side effects that leak money and inventory. A SAGA instead reacts to the failure by executing the compensating actions for exactly the completed steps, in REVERSE order (cancel_hotel, then cancel_flight), returning the system to a consistent state with no orphaned effects. The failing step itself is not compensated because it never completed. The trade versus two-phase commit: a saga never holds locks across steps (so it does not block), but it is only eventually consistent -- there is a window where the partial effects exist before compensation runs -- and each compensation must be a real, possible action (you can cancel a reservation; you cannot always un-send an email). steps and fails_at are the fixture; the completed set, the naive orphans, and the compensation sequence are computed.",
+  "steps": [
+    {"name": "reserve_flight", "compensate": "cancel_flight"},
+    {"name": "reserve_hotel", "compensate": "cancel_hotel"},
+    {"name": "charge_card", "compensate": "refund_card"}
+  ],
+  "fails_at": "charge_card"
+}

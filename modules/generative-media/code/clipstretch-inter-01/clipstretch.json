@@ -1,0 +1,5 @@
+{
+  "_meta": "A one-dimensional row of pixel values (0-255) used to show why min-max contrast stretching is fragile and percentile clipping fixes it. The scene's real content lives in a narrow band, 100 to 140 (nine pixels), but the row also contains two OUTLIERS: a 0 (a dark speck / dead pixel) and a 255 (a specular highlight -- a tiny bright glint). A naive contrast stretch maps the row's min (0) and max (255) to 0 and 255, but since the min and max ARE the outliers, the stretch does nothing to the content: the 100-140 band stays in a 40-wide slice of the range and the image still looks flat. Percentile clipping first discards the extreme clip_percentile% at each end (here 10%, which removes the two outliers), then stretches the remaining robust range (100-140) to the full 0-255, so the real content gains full contrast. row and clip_percentile are the fixture; every stretched value, inlier spread, and contrast is computed.",
+  "row": [0, 100, 105, 110, 115, 120, 125, 130, 135, 140, 255],
+  "clip_percentile": 10
+}

@@ -1,0 +1,9 @@
+{
+  "_meta": "Two parameters with different Adam second-moment estimates, used to show why weight decay must be DECOUPLED from the gradient (AdamW) rather than added to the loss as L2, because Adam's per-parameter adaptive scaling divides the L2 decay term by each parameter's running gradient RMS, so parameters with large gradients get less effective decay. Adam adapts the step size per parameter: it divides the update by sqrt(v), the running average of squared gradients (the second moment), so a parameter with historically large gradients takes proportionally smaller steps. Weight decay is meant to pull every weight toward zero by a fixed fraction each step -- a uniform regularization. The classic mistake is to implement weight decay as an L2 penalty added to the LOSS: that adds a term (wd * w) to the gradient, which then flows through Adam's per-parameter scaling and gets divided by sqrt(v) along with everything else. So the decay a weight actually receives is (lr * wd * w) / sqrt(v): large for low-gradient parameters and small for high-gradient ones, the opposite of the uniform decay intended. AdamW fixes this by applying the decay directly to the weights (w -= lr * wd * w), outside the adaptive scaling, so every weight decays by the same fraction regardless of its gradient history. lr is the learning rate; wd is the weight-decay coefficient; params gives each parameter its weight w and its Adam second-moment estimate v (so sqrt(v) is its gradient RMS). Here 'steep' has a large v (big gradients) and 'flat' a small v; both start at the same weight. lr, wd, and params are the fixture; the decay each parameter receives under Adam+L2 (coupled) and under AdamW (decoupled) is computed.",
+  "lr": 0.1,
+  "wd": 0.1,
+  "params": {
+    "steep": {"w": 1.0, "v": 16.0},
+    "flat": {"w": 1.0, "v": 1.0}
+  }
+}

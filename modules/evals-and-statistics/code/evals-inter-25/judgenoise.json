@@ -1,0 +1,7 @@
+{
+  "_meta": "Two models scored by a stochastic LLM judge on the same set of items. The judge is not deterministic: grade the same answer twice and it can pass one time and fail the next, so each per-item score is a noisy measurement, not a fixed fact. n_items is how many items each model was scored on. For each model, true_score is its real pass rate (the score the judge would report if you averaged infinitely many gradings), and grader_var is the average per-grade variance the judge adds -- the mean of p*(1-p) over items, where p is the judge's pass probability on an item; grader_var is 0 for a perfectly consistent judge and up to 0.25 for a judge that is a coin flip. replicates is how many independent gradings were averaged per item (1 = grade once). The eval reports the difference between the two models; the question is whether that difference is larger than the noise the judge itself injects. Every SEM here is computed from these parameters.",
+  "n_items": 40,
+  "model_a": {"true_score": 0.70, "grader_var": 0.20},
+  "model_b": {"true_score": 0.78, "grader_var": 0.20},
+  "replicates": 1
+}

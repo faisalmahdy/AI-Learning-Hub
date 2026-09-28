@@ -1,0 +1,8 @@
+{
+  "_meta": "A batch of two variable-length sequences padded to a common length, used to show why the cross-entropy loss must MASK the padding positions. To batch sequences of different lengths into one rectangular tensor, the shorter ones are PADDED with a filler token up to padded_len; those padding positions are not real data and must not affect the loss or the gradient. Each sequence gives its real_len (how many leading positions are real tokens) and token_losses (the per-token cross-entropy already computed at every position, including the padded ones -- padding is trivially predictable, so its loss is low). A NAIVE loss averages token_losses over ALL padded_len positions, so the easy, low-loss padding positions dilute the average downward and, worse, contribute gradient at positions the model should ignore. A MASKED loss averages only the positions before each sequence's real_len. Here sequence A is length 2 (real losses 2.0, 4.0) padded with two positions (losses 1.0, 1.0), and B is length 4 (losses 3.0 each): the naive mean is 20/8 = 2.5 over 8 positions, while the correct masked mean is 18/6 = 3.0 over the 6 real tokens. padded_len and batch are the fixture; every mask, count, and mean is computed.",
+  "padded_len": 4,
+  "batch": [
+    {"id": "A", "real_len": 2, "token_losses": [2.0, 4.0, 1.0, 1.0]},
+    {"id": "B", "real_len": 4, "token_losses": [3.0, 3.0, 3.0, 3.0]}
+  ]
+}

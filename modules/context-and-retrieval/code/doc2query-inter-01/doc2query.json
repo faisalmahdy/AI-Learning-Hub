@@ -1,0 +1,11 @@
+{
+  "_meta": "A tiny corpus for lexical retrieval, where the answer passage and the query use different words for the same thing. Each document has text (the passage a lexical retriever indexes) and expansions (short predicted questions a doc2query step generates from the passage -- the questions a user would ask that this passage answers). In a real system a small model generates the expansions; here they are a fixture standing in for that step. The gold document is the one that actually answers the query. The point: the query shares almost no vocabulary with the gold passage's text, so ranking by the text alone puts a lexically-overlapping but wrong document on top; appending the predicted questions to the indexed text closes the vocabulary gap from the document side and lifts the gold document to rank 1. cosine similarity is over term-count vectors; every score is computed.",
+  "query": "how do plants make food from light",
+  "gold": "A",
+  "stop": ["a", "an", "the", "of", "in", "into", "from", "for", "and", "to", "do", "does", "on", "with"],
+  "docs": [
+    {"id": "A", "text": "photosynthesis converts sunlight energy inside chloroplasts producing glucose", "expansions": "how plants make food light energy leaf turns"},
+    {"id": "B", "text": "food processor makes quick work chopping vegetables meal", "expansions": "kitchen appliance chopping blender"},
+    {"id": "C", "text": "solar panels generate electricity sunlight rooftop inverter", "expansions": "renewable power photovoltaic grid"}
+  ]
+}

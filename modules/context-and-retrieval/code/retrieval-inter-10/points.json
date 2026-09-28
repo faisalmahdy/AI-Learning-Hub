@@ -1,0 +1,101 @@
+{
+  "_meta": {
+    "what_this_is": "A tiny 2D vector index for approximate nearest-neighbor (ANN) retrieval. Documents live in three clusters; each is assigned to its nearest centroid, which is how an IVF-style index buckets vectors. A query is answered by probing only the nprobe centroids nearest the query and searching the documents in those buckets -- fast, but it can miss a document that sits near a cluster boundary in a bucket the query did not probe. Exhaustive search checks every document and always finds the true nearest.",
+    "data_is": "A FIXTURE. The centroids, document positions, and queries are hand-placed in 2D so that two of the five queries have their true nearest document one bucket away -- the exact boundary case ANN misses at nprobe=1 and recovers at nprobe=2. Every distance, assignment, and recall is computed in search.py.",
+    "format": "centroids: {name:[x,y]}; docs: {id:[x,y]}; queries: {id:[x,y]}. Distances are Euclidean."
+  },
+  "centroids": {
+    "A": [
+      0,
+      0
+    ],
+    "B": [
+      10,
+      0
+    ],
+    "C": [
+      5,
+      8
+    ]
+  },
+  "docs": {
+    "a1": [
+      0,
+      0
+    ],
+    "a2": [
+      1,
+      1
+    ],
+    "a3": [
+      -1,
+      0
+    ],
+    "a4": [
+      0,
+      -1
+    ],
+    "b1": [
+      10,
+      0
+    ],
+    "b2": [
+      9,
+      1
+    ],
+    "b3": [
+      11,
+      0
+    ],
+    "b4": [
+      10,
+      -1
+    ],
+    "c1": [
+      5,
+      8
+    ],
+    "c2": [
+      4,
+      7
+    ],
+    "c3": [
+      6,
+      8
+    ],
+    "c4": [
+      5,
+      9
+    ],
+    "x1": [
+      5,
+      0.5
+    ],
+    "x2": [
+      5,
+      7
+    ]
+  },
+  "queries": {
+    "q1": [
+      6,
+      0.5
+    ],
+    "q2": [
+      4.5,
+      0.5
+    ],
+    "q3": [
+      5,
+      6.5
+    ],
+    "q4": [
+      2,
+      4
+    ],
+    "q5": [
+      6,
+      -0.5
+    ]
+  }
+}

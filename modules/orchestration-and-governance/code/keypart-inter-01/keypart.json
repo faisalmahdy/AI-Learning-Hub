@@ -1,0 +1,12 @@
+{
+  "_meta": "A stream of ordered events per account, processed by a pool of parallel workers, used to show that round-robin load balancing across workers destroys per-key ordering, while partitioning by a hash of the key preserves it. Each account has a running balance and receives operations that do NOT commute -- a 'bonus' that adds 100 and a 'double' that multiplies by 2, so bonus-then-double (150 then 300) differs from double-then-bonus (100 then 200) on a base of 50. The correct final balance requires applying each account's operations in sequence order. Round-robin assigns event i to worker i mod num_workers to spread load evenly, which scatters a single account's two operations across two workers that run concurrently; because the workers have different backlogs, the later-sequence operation can finish before the earlier one, so the operations are applied to the account out of order and the final balance is wrong -- and nothing errors, every event was processed exactly once. Partitioning assigns each event to worker hash(key) mod num_workers, so all of an account's events land on ONE worker that processes them sequentially in arrival (sequence) order, preserving per-key ordering; different accounts still hash to different workers, so throughput across accounts is retained. Each event has a key, a sequence number, an operation, and a processing cost; a worker completes an event at its cumulative cost, and the global apply order is the order events complete. base, num_workers, and the event stream are the fixture; every assignment, completion order, apply order, and final balance is computed. Stdlib only.",
+  "base": 50,
+  "num_workers": 2,
+  "keys": ["acct-A", "acct-D"],
+  "events": [
+    {"key": "acct-A", "seq": 1, "kind": "add", "by": 100, "cost": 3},
+    {"key": "acct-A", "seq": 2, "kind": "double", "cost": 1},
+    {"key": "acct-D", "seq": 1, "kind": "add", "by": 100, "cost": 1},
+    {"key": "acct-D", "seq": 2, "kind": "double", "cost": 1}
+  ]
+}

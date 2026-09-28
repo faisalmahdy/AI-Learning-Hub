@@ -1,0 +1,10 @@
+{
+  "_meta": "A loop of tool calls, each with how long it takes in seconds. `hang` models a call that never usefully returns (a wedged subprocess, a network read with no deadline) as a very large duration. The loop runs the calls in order. Without a per-call timeout, the loop waits the full duration of every call, so the hang blocks it for effectively forever. With a per-call timeout of `timeout_s`, each call is cancelled once it exceeds the limit and returns a timeout observation, so its effective time is min(duration, timeout_s) and the loop moves on. Note this is a DIFFERENT guard from the loop-iteration bound: the iteration bound stops an agent that keeps stepping without progress, but a single hung call never even returns control to the loop, so only a per-call timeout can rescue it.",
+  "calls": [
+    {"id": "read_file", "secs": 2},
+    {"id": "search", "secs": 5},
+    {"id": "fetch_url", "secs": 6},
+    {"id": "hang", "secs": 600}
+  ],
+  "timeout_s": 8
+}

@@ -1,0 +1,9 @@
+{
+  "_meta": "A stream of requests that differ along two dimensions (a resource and a locale), both of which affect the response, used to show why a cache key must include EVERY input that affects the output: if the key omits an input, the first request's variant is cached under a key shared with requests that differ only on the omitted input, so those requests get served the wrong variant. A cache maps a key to a stored response. The assumption baked into the key is that any two requests with the same key deserve the same response. That holds only if the key captures every input the response depends on. Here the response depends on both the resource (which page) and the locale (which language), so the correct key is the pair; keying on the resource alone means the first requester's locale wins the cache slot, and every later request for that resource -- regardless of its locale -- is served that first locale's response. Nothing errors: the response is a real, valid response, just for the wrong locale, which is exactly the kind of cross-variant contamination that is hard to notice in testing (where one locale dominates) and confusing in production (a French user sees English). The fix is to compose the key from all response-affecting inputs. requests is the sequence, each with a resource and a locale; the correct response for a request is the pair (resource, locale). These are the fixture; under a key of resource-only vs a key of (resource, locale), each request's served response and whether it matches the correct one are computed.",
+  "requests": [
+    {"resource": "A", "locale": "en"},
+    {"resource": "A", "locale": "fr"},
+    {"resource": "B", "locale": "fr"},
+    {"resource": "A", "locale": "en"}
+  ]
+}

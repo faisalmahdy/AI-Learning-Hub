@@ -1,0 +1,9 @@
+{
+  "_meta": "A request that fans out through a chain of backend hops, each taking some service time, under a single end-to-end deadline (budget_ms). Used to show why each hop having its OWN fixed timeout wastes work, and why PROPAGATING the remaining deadline down the chain makes a doomed request fail fast. budget_ms is the client's total deadline for the whole request. chain is the ordered list of hops the request must complete in sequence; each hop's cost_ms is how long that service takes. Here the costs sum to 120ms against a 100ms budget, so the request is doomed: the last hop (db) would start at elapsed 70ms with only 30ms of budget left but needs 50ms, so it cannot finish in time. With independent per-hop timeouts, db runs its full 50ms anyway and produces a result at 120ms that the client abandoned at 100ms -- 50ms of doomed downstream work. With deadline propagation, gateway passes the remaining budget down; db sees 30ms remaining < its 50ms cost and refuses to start, doing zero doomed work and freeing the backend at 70ms instead of 120ms. Deadline propagation does not rescue the request (it was always going to miss the deadline) -- it stops the system from spending resources on work whose result will arrive too late. budget_ms and chain are the fixture; every start time, wasted-work total, and outcome is computed.",
+  "budget_ms": 100,
+  "chain": [
+    {"service": "gateway", "cost_ms": 30},
+    {"service": "auth", "cost_ms": 40},
+    {"service": "db", "cost_ms": 50}
+  ]
+}

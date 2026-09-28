@@ -1,0 +1,6 @@
+{
+  "_meta": "A 1D slice of gradient magnitude across an edge. An edge detector (Sobel and the like) outputs the gradient magnitude at every pixel; where the image steps from dark to light the magnitude rises to a peak and falls again, so a true one-pixel edge shows up as a RIDGE several pixels wide. Thresholding the magnitude keeps every pixel on the ridge above the cutoff, giving a thick, fuzzy edge several pixels across. Non-maximum suppression thins it: keep a pixel only if its magnitude is a local maximum (>= both neighbors along the gradient direction, here the 1D neighbors) AND above the threshold, so only the ridge's peak survives -- a crisp one-pixel edge at the true location. magnitudes is the profile; threshold is the cutoff; peak_index is where the real edge is.",
+  "magnitudes": [0, 2, 4, 7, 5, 2, 0],
+  "threshold": 3,
+  "peak_index": 3
+}

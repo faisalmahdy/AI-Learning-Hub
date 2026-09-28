@@ -1,0 +1,16 @@
+{
+  "_meta": {
+    "what_this_is": "A service receiving a shutdown signal (a deploy, a scale-down) while it has in-flight requests still being processed and new requests still arriving. Each in-flight request needs some more ticks of work to finish. A graceful shutdown DRAINS: stop accepting new requests (reject them cleanly so the client retries another instance), let the in-flight ones finish up to a drain deadline, then exit. A hard shutdown just exits now, dropping every in-flight request -- those clients get a connection error and their work is lost. The drain deadline bounds the wait: a request still running past it is force-terminated, so shutdown cannot hang forever.",
+    "data_is": "A FIXTURE. ticks_remaining per in-flight request and the drain_deadline are hand-authored so the completed, force-dropped, and hard-dropped counts are exact and checkable.",
+    "format": "drain_deadline (ticks); in_flight [{id, ticks_remaining}]; new_requests (count arriving during shutdown)"
+  },
+  "drain_deadline": 5,
+  "new_requests": 3,
+  "in_flight": [
+    {"id": "r1", "ticks_remaining": 2},
+    {"id": "r2", "ticks_remaining": 3},
+    {"id": "r3", "ticks_remaining": 1},
+    {"id": "r4", "ticks_remaining": 4},
+    {"id": "r5", "ticks_remaining": 9}
+  ]
+}

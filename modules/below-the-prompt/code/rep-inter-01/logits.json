@@ -1,0 +1,6 @@
+{
+  "_meta": "A model's next-token logits over a tiny vocabulary, held static across steps (the context barely changes). X is most favored, then Y, then Z. penalty divides an already-emitted token's logit by penalty**(times emitted); length is how many tokens to decode.",
+  "penalty": 2.0,
+  "length": 8,
+  "logits": {"X": 3.0, "Y": 2.5, "Z": 1.0}
+}

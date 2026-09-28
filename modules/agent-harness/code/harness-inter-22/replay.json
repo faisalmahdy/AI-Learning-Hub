@@ -1,0 +1,9 @@
+{
+  "_meta": "A recorded agent run plus the current world for a live re-run. recording is the original run: each step is a tool call (tool + arg) and the output that tool returned AT THE TIME. get_time is a non-deterministic tool -- it returns the world's clock, which changes between runs. double is a pure tool -- it returns 2*arg, the same forever. recorded_time is the clock value when the run was first recorded; current_time is the clock now, later, when someone tries to reproduce the run. Replaying from the recording returns the recorded outputs, so the run reproduces exactly. Re-running live reads the CURRENT world, so get_time returns current_time instead of recorded_time and the run diverges -- the bug you were chasing no longer reproduces.",
+  "recorded_time": 5,
+  "current_time": 9,
+  "recording": [
+    {"tool": "get_time", "arg": 0, "output": 5},
+    {"tool": "double", "arg": 3, "output": 6}
+  ]
+}

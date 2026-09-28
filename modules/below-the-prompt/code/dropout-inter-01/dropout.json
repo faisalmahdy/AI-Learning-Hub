@@ -1,0 +1,5 @@
+{
+  "_meta": "A layer of units, each with an activation value, feeding a sum downstream. During training, dropout keeps each unit with probability keep_prob and zeros it otherwise. At test time all units are active. Because the population of units is small, we enumerate EVERY dropout mask and weight it by its probability to compute the EXACT expected activation -- no sampling. The question: does the expected activation during training match the full activation at test, and what does forgetting to rescale do?",
+  "units": [1, 2, 3, 4],
+  "keep_prob": 0.5
+}

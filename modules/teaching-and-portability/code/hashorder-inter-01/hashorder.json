@@ -1,0 +1,5 @@
+{
+  "_meta": "A set of string labels serialized two ways. tags is a collection of category strings that a pipeline builds into a Python set and then writes out -- a manifest, a cache key, a hash of the config. Python randomizes the hashing of str objects per process (PYTHONHASHSEED), so the ITERATION ORDER of a set of strings changes from run to run. Serialize the set directly and the same tags produce different output -- and a different digest -- on the next run or on a colleague's machine. Sort before you serialize and the order is fixed, so the output and its digest are reproducible. This fixture drives two child processes with fixed but different PYTHONHASHSEED values to make the non-determinism visible and deterministic to test.",
+  "tags": ["vision", "audio", "text", "tabular", "graph", "timeseries", "reinforcement", "generative", "retrieval"],
+  "seeds": [1, 2]
+}

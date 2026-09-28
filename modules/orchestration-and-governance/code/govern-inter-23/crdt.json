@@ -1,0 +1,5 @@
+{
+  "_meta": "Two replicas of a shopping cart, updated concurrently while partitioned (neither saw the other's write). Replica A added 'milk' at timestamp 1; replica B added 'eggs' at timestamp 2. Each replica's cart is the set of items it knows about, tagged with the timestamp of its last write. Two ways to reconcile when the partition heals: LAST-WRITE-WINS treats the whole cart as one value and keeps the replica with the higher timestamp, discarding the other entirely -- so one add is lost. A CRDT grow-only set (G-Set) merges by UNION, keeping every item any replica ever added -- so both adds survive. The union merge is also commutative, idempotent, and associative, so replicas converge to the same set no matter the order or number of times they merge.",
+  "replica_a": {"items": ["milk"], "ts": 1},
+  "replica_b": {"items": ["eggs"], "ts": 2}
+}

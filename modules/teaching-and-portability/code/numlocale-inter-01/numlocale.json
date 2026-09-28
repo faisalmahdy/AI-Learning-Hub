@@ -1,0 +1,9 @@
+{
+  "_meta": "A number and the conventions different locales use to write it. value is the number. locales gives each locale's decimal separator and thousands separator: US writes a period for the decimal and a comma for thousands (1,234.5), while DE (German/French-style) writes a comma for the decimal and a period for thousands (1.234,5). Same number, different text -- and the two are ambiguous: '1.234' is one-thousand-two-hundred-thirty-four in DE but one-point-two-three-four in US. A program that FORMATS or PARSES numbers using the machine's locale writes data one machine cannot read on another, and worse, mis-reads it as a different value without any error. The fix is a fixed, locale-independent format for any number that will be stored, transmitted, or compared -- a period decimal, no thousands separator (1234.5), parsed the same way everywhere. The code models each locale's separators as data (no global locale state), so every format and parse is deterministic.",
+  "value": 1234.5,
+  "locales": {
+    "US": {"decimal": ".", "thousands": ","},
+    "DE": {"decimal": ",", "thousands": "."}
+  },
+  "fixed": {"decimal": ".", "thousands": ""}
+}

@@ -1,0 +1,12 @@
+{
+  "_meta": "A small grayscale image and some rectangular regions to sum. image is a grid of pixel intensities. A box blur (or any box filter) replaces each pixel with the average over a square window around it, which means summing every pixel in that window -- naively k*k additions per output pixel for a k-wide window, so cost grows with the window area. A summed-area table (integral image) precomputes, once, the sum of every top-left rectangle, so afterwards the sum over ANY rectangle is four array lookups via inclusion-exclusion, independent of the rectangle's size. windows lists (row0, col0, row1, col1) half-open rectangles to sum both ways and confirm they agree. blur_sizes lists window widths k for the cost comparison. Every sum and operation count here is computed exactly.",
+  "image": [
+    [5, 2, 3, 4, 1],
+    [1, 5, 4, 2, 3],
+    [2, 2, 1, 3, 4],
+    [4, 1, 5, 2, 2],
+    [3, 3, 2, 1, 5]
+  ],
+  "windows": [[0, 0, 2, 2], [1, 1, 4, 4], [0, 2, 3, 5], [2, 0, 5, 3]],
+  "blur_sizes": [3, 5, 9, 15]
+}

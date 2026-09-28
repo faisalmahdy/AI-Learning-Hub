@@ -1,0 +1,9 @@
+{
+  "_meta": "Precomputed unit embeddings for a query (embedded two ways) and two documents, used to show why asymmetric retrieval embedding models require an instruction prefix ('query:' for queries, 'passage:' for documents) and why embedding a query WITHOUT its prefix -- as if it were a passage -- puts it in the wrong region of the space and retrieves the wrong document. Many modern retrieval embedding models (E5, BGE, GTE, Nomic and others) are ASYMMETRIC: they are trained with a short instruction prefix that tells the model whether a text is a search query or a document to be searched, because queries and documents have different shapes (a short question vs a long passage) and the model learns to map a correctly-prefixed query near the passages that ANSWER it, not near the passages that merely resemble it. Drop the query prefix -- a very common mistake, since the prefix feels like a cosmetic detail -- and the model embeds the query as though it were a passage, landing it in a different part of the vector space, so nearest-neighbor search returns documents that look like the query rather than documents that answer it. The vectors here are unit-length and 2-D so every cosine is a hand-checkable dot product. q_correct is the query embedded with its 'query:' prefix; q_no_prefix is the same query embedded with no prefix (as a passage); d1 is the document that answers the query and d2 is a distractor. All embeddings are the fixture (they are model outputs); the cosine of each query variant to each document and the resulting ranking are computed.",
+  "q_correct": [1.0, 0.0],
+  "q_no_prefix": [0.5, 0.866],
+  "documents": [
+    {"id": "d1", "answer": true, "emb": [0.8, 0.6]},
+    {"id": "d2", "answer": false, "emb": [0.6, 0.8]}
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "_meta": "A sequential agent plan: steps run in order, each is a tool call. fails_first marks a step whose tool fails on its first attempt but succeeds if retried (a transient error -- a timeout, a rate limit, a flaky network). max_retries is how many extra attempts the recovering harness will give a failing step. The question: what happens to the already-completed steps when step 2 fails?",
+  "steps": [
+    {"name": "read_config", "fails_first": false},
+    {"name": "fetch_data", "fails_first": true},
+    {"name": "transform", "fails_first": false},
+    {"name": "write_output", "fails_first": false}
+  ],
+  "max_retries": 2
+}

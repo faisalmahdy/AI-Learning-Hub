@@ -1,0 +1,6 @@
+{
+  "_meta": "A fleet of instances behind a load balancer, all sharing one downstream dependency (a database, say). Each instance is locally healthy: its process is up and it can serve requests, possibly in a degraded mode (stale cache, a fallback) if the dependency is slow. The load balancer routes only to instances whose readiness check passes. Two readiness designs: a CASCADING check returns unhealthy whenever the shared dependency is unhealthy, so if the dependency degrades, EVERY instance fails its check at once and the balancer pulls the whole fleet -- a partial degradation becomes a total outage. A LOCAL check reports only whether THIS instance can serve, so a dependency blip leaves every instance in rotation, serving degraded but up. instances is the fleet size; local_ok is each instance's own health; dependency_ok is the shared dependency's status.",
+  "instances": 6,
+  "local_ok": true,
+  "dependency_ok": false
+}

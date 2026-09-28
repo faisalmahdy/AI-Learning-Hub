@@ -1,0 +1,14 @@
+{
+  "_meta": {
+    "what_this_is": "A coarse 1D signal (4 samples of a smooth curve) and an upscale factor. Upsampling to a higher resolution can be done two ways. NEAREST-NEIGHBOR copies each output position from the closest input sample, so the output is a staircase of flat runs -- it only ever emits the original values and jumps between them, which reads as blocky pixels. BILINEAR interpolates linearly between the two nearest input samples, filling the gaps with intermediate values, so the output is a smooth ramp. The lesson is the same in 2D (bilinear replaces the blocky nearest with a smooth blend); 1D makes it exact.",
+    "data_is": "A FIXTURE. The coarse samples and factor are hand-authored so nearest upsampling has a max adjacent jump of 60 (the largest gap between coarse samples) while bilinear cuts it to 15 (that gap divided by the factor), and nearest emits only the 4 original values while bilinear emits 12 distinct ones. Every upsampled value is computed in upsample.py.",
+    "format": "coarse: the low-resolution samples; factor: the integer upscale factor (endpoints aligned)."
+  },
+  "coarse": [
+    10,
+    30,
+    90,
+    50
+  ],
+  "factor": 4
+}

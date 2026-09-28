@@ -1,0 +1,9 @@
+{
+  "_meta": "A batch of parallel tool calls the agent issued at once. Each has an id, an ok flag, and (if it failed) an error message. Three succeed; one fails with a timeout.",
+  "batch": [
+    {"id": "fetch_doc_a", "ok": true},
+    {"id": "fetch_doc_b", "ok": true},
+    {"id": "fetch_doc_c", "ok": false, "error": "timeout after 30s"},
+    {"id": "fetch_doc_d", "ok": true}
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "_meta": {
+    "what_this_is": "Scores for two systems A and B on the SAME 12 eval cases. Each case has its own difficulty, so scores swing widely from case to case (43 to 95) -- and that case-to-case swing hits A and B together. On every case B beats A by a small, steady margin (2 to 4 points). The question is whether B is really better; the answer depends entirely on whether you compare the two systems case-by-case (paired) or as two separate piles of numbers (unpaired).",
+    "data_is": "A FIXTURE. The per-case scores are hand-authored so the between-case variance is large and the per-case A-to-B gap is small and consistent -- exactly the situation where an unpaired test is fooled and a paired test is not. Every statistic is computed in paired.py.",
+    "format": "cases: [{case, A, B}] -- A and B are the two systems scored on the same case."
+  },
+  "t_crit_95": {
+    "df11_paired": 2.201,
+    "df22_unpaired": 2.074
+  },
+  "cases": [
+    {
+      "case": "c01",
+      "A": 55,
+      "B": 58
+    },
+    {
+      "case": "c02",
+      "A": 82,
+      "B": 84
+    },
+    {
+      "case": "c03",
+      "A": 61,
+      "B": 65
+    },
+    {
+      "case": "c04",
+      "A": 90,
+      "B": 93
+    },
+    {
+      "case": "c05",
+      "A": 48,
+      "B": 50
+    },
+    {
+      "case": "c06",
+      "A": 73,
+      "B": 76
+    },
+    {
+      "case": "c07",
+      "A": 88,
+      "B": 92
+    },
+    {
+      "case": "c08",
+      "A": 52,
+      "B": 54
+    },
+    {
+      "case": "c09",
+      "A": 67,
+      "B": 70
+    },
+    {
+      "case": "c10",
+      "A": 79,
+      "B": 82
+    },
+    {
+      "case": "c11",
+      "A": 43,
+      "B": 47
+    },
+    {
+      "case": "c12",
+      "A": 95,
+      "B": 97
+    }
+  ]
+}

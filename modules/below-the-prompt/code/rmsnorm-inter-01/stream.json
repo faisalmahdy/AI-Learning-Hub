@@ -1,0 +1,15 @@
+{
+  "_meta": {
+    "what_this_is": "A tiny residual stream: 3 token positions, each a 4-feature activation vector, as it might look a few layers into a transformer -- one token (t1) has grown ten times larger than another (t0), which is exactly the magnitude spread RMSNorm exists to remove. Plus a learned per-feature gain, and a perturbation (add delta to one token) used to test whether normalizing one token disturbs another.",
+    "data_is": "A FIXTURE. The activations are hand-authored so the per-token and across-token normalizations, the unit-RMS property, and the leak test are exact and checkable. t0 has RMS 1, t1 has RMS 10 (the hot token), t2 has RMS 2. The RMS values, both normalizations, and the leak are all computed in rmsnorm.py, not stored.",
+    "format": "stream: list of token vectors (rows are tokens, columns are features); gain: per-feature learned scale; perturb_token/perturb_delta: the leak test's edit."
+  },
+  "stream": [
+    [1.0, 1.0, 1.0, 1.0],
+    [10.0, 10.0, 10.0, 10.0],
+    [2.0, -2.0, 2.0, -2.0]
+  ],
+  "gain": [1.2, 0.8, 1.0, 1.0],
+  "perturb_token": 1,
+  "perturb_delta": 5.0
+}

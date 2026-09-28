@@ -1,0 +1,8 @@
+{
+  "_meta": "One agent run's tool-call demand against a budget. intended_calls is how many times the agent would call each tool if nothing stopped it -- here it wants to call search 12 times (a retry loop that keeps not finding what it wants) and read and write once each. request_order is the order the agent issues calls; it front-loads the searches. total_budget is the run's overall cap on tool calls. per_tool_caps is a separate cap on how many times each individual tool may be called. required is the set of tools the task must actually invoke to succeed (it has to read and write). The point: a total-only budget, spent greedily, is consumed entirely by the runaway search before read and write ever run, so the task fails; a per-tool cap bounds search and leaves budget for the tools the task needs. Every allocation here is computed.",
+  "intended_calls": {"search": 12, "read": 1, "write": 1},
+  "request_order": ["search", "read", "write"],
+  "total_budget": 10,
+  "per_tool_caps": {"search": 5, "read": 3, "write": 3},
+  "required": ["read", "write"]
+}

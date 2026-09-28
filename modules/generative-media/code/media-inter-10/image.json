@@ -1,0 +1,65 @@
+{
+  "_meta": {
+    "what_this_is": "A 6x6 grayscale image and a 1D Gaussian kernel [1,4,6,4,1]. A 2D Gaussian blur can be done two ways: convolve with the full 5x5 outer-product kernel (25 taps per pixel), or convolve the rows with the 1D kernel and then the columns with the same 1D kernel (5+5=10 taps per pixel). Because the 2D Gaussian is separable -- its 5x5 kernel is exactly the outer product of the 1D kernel with itself -- the two methods produce the identical image, but the separable one does far less work.",
+    "data_is": "A FIXTURE. The image and the 1D kernel are hand-authored; the 5x5 kernel, both blurred images, and the operation counts are all computed in separable.py. Integer arithmetic is kept until the final divide so the two methods compare exactly.",
+    "format": "image: HxW grayscale 0..255; kernel1d: the 1D Gaussian taps (unnormalized integers); norm: their sum for normalizing one pass."
+  },
+  "kernel1d": [
+    1,
+    4,
+    6,
+    4,
+    1
+  ],
+  "norm": 16,
+  "image": [
+    [
+      10,
+      10,
+      10,
+      90,
+      10,
+      10
+    ],
+    [
+      10,
+      10,
+      10,
+      90,
+      10,
+      10
+    ],
+    [
+      10,
+      10,
+      10,
+      90,
+      10,
+      10
+    ],
+    [
+      90,
+      90,
+      90,
+      90,
+      90,
+      90
+    ],
+    [
+      10,
+      10,
+      10,
+      90,
+      10,
+      10
+    ],
+    [
+      10,
+      10,
+      10,
+      90,
+      10,
+      10
+    ]
+  ]
+}

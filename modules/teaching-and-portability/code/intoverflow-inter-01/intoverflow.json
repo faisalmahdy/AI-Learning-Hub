@@ -1,0 +1,7 @@
+{
+  "_meta": "A classic string hash (the DJB2 algorithm) defined to run on FIXED-WIDTH 32-bit unsigned integers: start at seed 5381, and for each byte set hash = hash * multiplier + byte, keeping only the low 32 bits (wrapping around on overflow, exactly as an unsigned 32-bit integer does in C, Java, or JavaScript). The subtlety is the language you port it to: C/Java/JS integers wrap at 2**32 automatically, but Python integers are arbitrary-precision and NEVER wrap, so a direct translation that omits the wrap grows without bound and produces a totally different final value than the reference implementation -- so a string hashed in C will not match the same string hashed in the ported Python, silently breaking any cross-language check that relies on the hashes agreeing. The fix is to mask each step with & 0xFFFFFFFF, which reproduces the 32-bit wraparound and, because arithmetic mod 2**32 distributes over + and *, equals taking the full-precision result mod 2**32. text, seed, multiplier, and width_bits are the fixture; every hash value is computed.",
+  "text": "portable",
+  "seed": 5381,
+  "multiplier": 33,
+  "width_bits": 32
+}

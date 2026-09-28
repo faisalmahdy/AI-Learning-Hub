@@ -1,0 +1,13 @@
+{
+  "_meta": "A ranked list of retrieved chunks, each from some source document, used to show why the top-k results must be diversified across documents (a cap of at most so many chunks per document) rather than taken purely by score, when a question needs evidence from several documents. Retrieval scores chunks and a naive selector takes the top k by score. But one comprehensive document can produce several of the highest-scoring chunks -- each a genuinely different, non-duplicate passage -- and fill every slot, so a question that needs a fact from a second or third document never sees those documents at all. This is distinct from removing near-duplicate content (the crowding chunks here are content-distinct, each covering a different fact, so a novelty/MMR filter keeps them); the problem is that they all come from ONE source and crowd out OTHER sources. Capping the number of chunks per document -- keeping the best few from each and letting lower-scoring chunks from other documents into the remaining slots -- spreads the results across sources, so a multi-document question gets at least one chunk from each relevant document. chunks lists each retrieved chunk with an id, its source document, its relevance score, and the fact it carries; required is the set of facts the question needs (spread across documents); top_k is how many chunks are selected; per_doc_cap is the maximum chunks allowed from one document. These are the fixture; the pure top-k selection, the per-document-capped selection, which sources each spans, and how many required facts each covers are computed.",
+  "chunks": [
+    {"id": "A1", "doc": "A", "score": 0.90, "fact": "f1"},
+    {"id": "A2", "doc": "A", "score": 0.88, "fact": "f2"},
+    {"id": "A3", "doc": "A", "score": 0.86, "fact": "f3"},
+    {"id": "B1", "doc": "B", "score": 0.84, "fact": "f4"},
+    {"id": "C1", "doc": "C", "score": 0.82, "fact": "f5"}
+  ],
+  "required": ["f1", "f4", "f5"],
+  "top_k": 3,
+  "per_doc_cap": 1
+}

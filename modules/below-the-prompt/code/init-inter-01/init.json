@@ -1,0 +1,11 @@
+{
+  "_meta": "A deep stack of plain linear layers, each with fan_in inputs, and three ways to pick the standard deviation of the initial random weights. For a linear layer with iid weights, the output std equals the input std times sqrt(fan_in)*w_std -- so that factor is the per-layer GAIN. depth is how many layers the signal passes through; input_std is the magnitude entering layer 1. The question: what is the signal's magnitude after all the layers, for each choice of w_std?",
+  "fan_in": 100,
+  "depth": 10,
+  "input_std": 1.0,
+  "inits": {
+    "too_small": 0.03,
+    "too_big": 0.3,
+    "scaled": 0.1
+  }
+}

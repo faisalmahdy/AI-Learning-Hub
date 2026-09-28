@@ -1,0 +1,16 @@
+{
+  "_meta": "A short document as a sequence of sentences, each with a small embedding vector and a ground-truth topic label (the label is only for checking purity; the chunkers never see it). The document runs topic A (3 sentences), then a short topic B (2 sentences), then back to topic A (3 sentences). Fixed-size chunking groups every fixed_size sentences regardless of meaning, so the short B topic is split across two A-dominated chunks and its embedding is diluted. Semantic chunking cuts only where the cosine similarity between adjacent sentences drops below split_threshold -- at the real topic boundaries -- so B lands in its own coherent chunk. query is a question about topic B; the test is which chunking lets a retriever match it. Every cosine and centroid here is computed.",
+  "sentences": [
+    {"topic": "A", "vec": [1.0, 0.0]},
+    {"topic": "A", "vec": [1.0, 0.0]},
+    {"topic": "A", "vec": [1.0, 0.0]},
+    {"topic": "B", "vec": [0.0, 1.0]},
+    {"topic": "B", "vec": [0.0, 1.0]},
+    {"topic": "A", "vec": [1.0, 0.0]},
+    {"topic": "A", "vec": [1.0, 0.0]},
+    {"topic": "A", "vec": [1.0, 0.0]}
+  ],
+  "fixed_size": 4,
+  "split_threshold": 0.5,
+  "query": {"about": "B", "vec": [0.0, 1.0]}
+}

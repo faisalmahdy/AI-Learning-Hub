@@ -1,0 +1,13 @@
+{
+  "_meta": "A connection-pool size and a sequence of requests, some of which fail partway through, used to show why a pooled resource must be released on every path -- in a finally block or a context manager -- not only on the success path. A connection pool hands out a fixed number of reusable connections; each request acquires one, uses it, and must return it so the next request can. The bug is releasing the connection only when the work succeeds: if the work raises before the release line, control skips the release, and that connection is never returned -- it is leaked. One leak is invisible. But every failing request leaks another connection, so the pool's available count ratchets downward and never recovers, and once it hits zero the pool is exhausted: the very next request cannot acquire a connection and is rejected, even though that request is perfectly healthy and would have succeeded. So a handful of failures on one code path silently converts into a total outage on all paths, and the symptom (healthy requests rejected for lack of connections) points nowhere near the cause (an unreleased connection on an unrelated error path). The fix is to release in a finally block (or use a with-statement / context manager) so the connection returns to the pool whether the work succeeded or threw. pool_size is the number of connections; requests is the sequence, each flagged ok or error. These are the fixture; the available-connection count over time, the leaked count, and the rejected healthy requests under each release strategy are computed.",
+  "pool_size": 3,
+  "requests": [
+    {"id": "r1", "error": false},
+    {"id": "r2", "error": true},
+    {"id": "r3", "error": false},
+    {"id": "r4", "error": true},
+    {"id": "r5", "error": false},
+    {"id": "r6", "error": true},
+    {"id": "r7", "error": false}
+  ]
+}

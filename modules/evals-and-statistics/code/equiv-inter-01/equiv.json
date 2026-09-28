@@ -1,0 +1,9 @@
+{
+  "_meta": "A comparison meant to establish that a cheaper model is 'as good as' a strong one. difference is the estimated accuracy gap (cheap minus strong) from an eval; ci_low and ci_high are the confidence interval on that gap. margin is the equivalence margin: the largest gap we would still call practically the same (here 0.05 = 5 points). To CLAIM equivalence you must show the whole confidence interval lies inside [-margin, +margin] -- that is the two-one-sided-tests (TOST) procedure. The naive move is to notice the difference is 'not statistically significant' (its CI includes 0) and declare the models equivalent, which is wrong: a wide CI can include both 0 and a difference far larger than the margin, so it is consistent with equivalence AND with a real, meaningful gap -- it just means the eval was too small to tell. tight_ci_low and tight_ci_high are the same difference measured with a larger eval (a narrower CI) to show what actually establishing equivalence looks like. Every verdict here is computed from these numbers.",
+  "difference": 0.01,
+  "ci_low": -0.08,
+  "ci_high": 0.10,
+  "margin": 0.05,
+  "tight_ci_low": -0.03,
+  "tight_ci_high": 0.04
+}

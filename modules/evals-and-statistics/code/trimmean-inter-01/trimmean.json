@@ -1,0 +1,16 @@
+{
+  "_meta": "Per-item quality scores for two systems on the same eval set, used to show that aggregating a comparison by the MEAN of a continuous per-item score lets a single anomalous item flip which system wins, disagreeing with the item-level majority and with robust aggregates. Two systems A and B are scored 0-100 on each of the same items (an LLM-judge quality score, a graded rubric total, any continuous per-item metric). B scores a little higher than A on almost every item. On one item A has a wild outlier score of 200 -- a judge glitch, a lucky easy case, a mis-scaled grade -- and because the mean gives that one item unbounded leverage, the mean of A is pulled above the mean of B, so a leaderboard ranked by mean crowns A. Every robust summary disagrees: B wins on the median, B wins on a 10%-trimmed mean, and B wins the item-by-item head-to-head on 9 of the 10 items. The mean is not wrong arithmetic -- it is a non-robust aggregate, and its breakdown to a single point is exactly what a comparison metric must not have. The fix is to aggregate with a robust statistic (median or trimmed mean) or to report the paired per-item win rate, so one pathological item cannot decide the leaderboard. Each item has an A score and a B score; every aggregate (mean, median, trimmed mean), the per-item win counts, and the effect of dropping the single outlier item are computed. Stdlib only.",
+  "trim_frac": 0.1,
+  "items": [
+    {"id": "q1",  "A": 60,  "B": 70},
+    {"id": "q2",  "A": 62,  "B": 72},
+    {"id": "q3",  "A": 58,  "B": 68},
+    {"id": "q4",  "A": 65,  "B": 75},
+    {"id": "q5",  "A": 61,  "B": 71},
+    {"id": "q6",  "A": 59,  "B": 69},
+    {"id": "q7",  "A": 63,  "B": 73},
+    {"id": "q8",  "A": 64,  "B": 74},
+    {"id": "q9",  "A": 60,  "B": 70},
+    {"id": "q10", "A": 200, "B": 66}
+  ]
+}

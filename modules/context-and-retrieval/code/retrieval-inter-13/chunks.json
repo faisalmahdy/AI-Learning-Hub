@@ -1,0 +1,20 @@
+{
+  "_meta": {
+    "what_this_is": "A query and two candidate chunks, each with its bare text and the document context it came from. A chunk pulled out of its document loses the context that named its subject: the right chunk says revenue rose 20 percent but never repeats which company or year, so a query naming the company and year barely matches it -- and a wrong chunk that happens to mention the company and year outscores it. Contextual augmentation prepends a short context blurb (the document title/subject) to each chunk before embedding, restoring the entity and year terms so the right chunk matches. Similarity is bag-of-words cosine here; the same effect holds for dense embeddings.",
+    "data_is": "A FIXTURE. The query, chunk texts, and context blurbs are hand-authored so bare retrieval ranks the wrong chunk first (0.436 vs 0.218) while augmenting every chunk with its context flips the top result to the right chunk (0.500 vs 0.480). Every similarity is computed in context.py.",
+    "format": "query; chunks: {id: {bare, context, answer}} where answer marks the chunk that truly answers the query."
+  },
+  "query": "acme 2023 revenue",
+  "chunks": {
+    "right": {
+      "bare": "revenue rose 20 percent in the quarter",
+      "context": "acme corp 2023 annual report",
+      "answer": true
+    },
+    "wrong": {
+      "bare": "acme opened a new office in 2023",
+      "context": "acme newsroom press release",
+      "answer": false
+    }
+  }
+}

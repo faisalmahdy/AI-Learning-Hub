@@ -1,0 +1,7 @@
+{
+  "_meta": "A write to a key replicated across three nodes (A, B, C), where one replica is temporarily unreachable at the moment of the write. replicas is the full replica set; the write should place the value on all three. down_during_write names the replica that is down when the write arrives (C). value is what is being written. hint_holder is the healthy node that will hold a HINT on the down replica's behalf (A). Without hinted handoff, the write goes only to the reachable replicas (A and B) and the copy destined for C is simply lost, so even after C comes back it never has this write until some later anti-entropy process fixes it -- the key is under-replicated (2 of 3). With hinted handoff, the coordinator writes to A and B AND stores a hint on A that says 'this value belongs to C'; when C recovers, A replays the hint to C, so C receives the write and the key returns to full replication (3 of 3) automatically. replicas, down_during_write, value, and hint_holder are the fixture; every stored copy, hint, and post-recovery state is computed.",
+  "replicas": ["A", "B", "C"],
+  "down_during_write": "C",
+  "value": "v1",
+  "hint_holder": "A"
+}

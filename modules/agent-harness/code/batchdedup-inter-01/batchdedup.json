@@ -1,0 +1,10 @@
+{
+  "_meta": "One turn in which the model emitted a BATCH of parallel tool calls -- and some of them are exact duplicates (same tool name, same arguments). calls is the ordered list the model produced: call 0 searches 'weather', call 1 gets the time in NYC, call 2 searches 'weather' again (a duplicate of call 0), call 3 searches 'news', and call 4 gets the time in NYC again (a duplicate of call 1). A naive harness dispatches all five calls, executing the search-for-weather and the get-time-NYC twice each -- wasted latency and budget, and for a tool with side effects, a doubled effect. A dedup harness computes a signature (tool + arguments) for each call, executes each UNIQUE signature exactly once, and fans the single result back to every call slot that shares that signature, so all five positions still receive an answer while only three executions happen. calls is the fixture; every signature, execution, and fan-out is computed.",
+  "calls": [
+    {"tool": "search", "args": {"q": "weather"}},
+    {"tool": "get_time", "args": {"city": "NYC"}},
+    {"tool": "search", "args": {"q": "weather"}},
+    {"tool": "search", "args": {"q": "news"}},
+    {"tool": "get_time", "args": {"city": "NYC"}}
+  ]
+}

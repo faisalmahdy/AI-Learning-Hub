@@ -1,0 +1,9 @@
+{
+  "_meta": "A single two-arm comparison whose true effect is small relative to the noise of the measurement, used to show that a statistically significant result from an underpowered study is not reassuring but alarming -- conditional on clearing the significance bar, the reported effect exaggerates the truth (a Type M, magnitude, error) and a nonzero fraction of the significant results point the wrong way (a Type S, sign, error). The estimator itself is unbiased: averaged over every possible run its expected value equals the true effect. The distortion is introduced not by the estimator but by the filter -- we only publish, act on, or believe an estimate once it is 'significant', and that selection keeps only the runs where noise happened to push the estimate far from zero. In an underpowered design the only way to clear the bar is to get lucky with a large-magnitude estimate, so every survivor is large, and some survivors are large in the wrong direction. true_effect is the real difference between the two arms; standard_error is the standard error of the estimated difference (the noise of one run); z_threshold is the two-sided significance cutoff (1.96 for 95%); the sampling distribution of the estimate is Normal(true_effect, standard_error), integrated here on a fixed grid so every number is deterministic. grid_lo, grid_hi, grid_step define that integration grid. The power (chance of significance), the unconditional mean of the estimate, the mean estimate conditional on significance, the exaggeration ratio (Type M), and the sign-error rate (Type S) are all computed from these.",
+  "true_effect": 0.5,
+  "standard_error": 1.0,
+  "z_threshold": 1.96,
+  "grid_lo": -12.0,
+  "grid_hi": 12.0,
+  "grid_step": 0.002
+}

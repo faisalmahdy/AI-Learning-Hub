@@ -1,0 +1,9 @@
+{
+  "_meta": "A population of disease cases of two kinds, fast-progressing and slow-progressing, used to show LENGTH-TIME BIAS in screening: a screening program preferentially detects slow-progressing cases (they spend longer in the detectable-but-asymptomatic window), so screen-detected patients appear to survive longer even if screening changes no one's outcome. metric names the numbers (survival in years). groups holds the two case types: 'fast' cases have a short detectable window (1) and low survival (2 years), 'slow' cases have a long window (3) and high survival (8 years); there are equal counts (12 each) in the population. A screening program samples cases roughly uniformly over time, so it catches a case with probability proportional to how long that case sits in the detectable window -- modeled as screen_detection_rate_per_window times the window. With rate 0.25, fast cases are detected at 0.25 and slow at 0.75 (a 3x higher chance, matching the 3x window). This ENRICHES the screen-detected group for slow, high-survival cases: of the 24 cases, screening catches 3 fast and 9 slow (75% slow, versus 50% slow in the population), so the screen-detected mean survival (6.5) far exceeds the clinically-detected mean (3.5) and even the overall mean (5) -- purely because screening skims the indolent cases, not because it helps anyone. Comparing screen-detected survival to clinically-detected survival therefore overstates screening's benefit. groups and the detection rate are the fixture; every detected count, group composition, and mean survival is computed.",
+  "metric": "survival_years",
+  "groups": {
+    "fast": {"window": 1, "survival": 2, "count": 12},
+    "slow": {"window": 3, "survival": 8, "count": 12}
+  },
+  "screen_detection_rate_per_window": 0.25
+}

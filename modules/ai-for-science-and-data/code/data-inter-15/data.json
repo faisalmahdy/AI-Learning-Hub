@@ -1,0 +1,6 @@
+{
+  "_meta": "A perfect linear relationship y = 2x. noise is a measurement error, uncorrelated with x, that is added to the predictor (x+noise) or the response (y+noise) to show the asymmetry.",
+  "x": [1, 2, 3, 4, 5],
+  "y": [2, 4, 6, 8, 10],
+  "noise": [1, -1, 0, -1, 1]
+}

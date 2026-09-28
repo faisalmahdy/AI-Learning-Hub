@@ -1,0 +1,6 @@
+{
+  "_meta": "A 1D brightness scanline: a flat region around 10 with a little noise, a sharp step up to a flat region around 30 with a little noise. The edge is between index 2 (value 10) and index 3 (value 30). spatial_kernel is a [1,2,1] smoothing weight; range_threshold is the maximum brightness difference for which a neighbor still counts in the bilateral filter (neighbors across the big edge exceed it and are dropped).",
+  "signal": [10, 12, 10, 30, 28, 30],
+  "spatial_kernel": [1, 2, 1],
+  "range_threshold": 10
+}

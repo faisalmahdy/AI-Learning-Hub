@@ -1,0 +1,5 @@
+{
+  "_meta": "Three floating-point values whose exact sum is 1.0. They span huge magnitudes: a large positive, its large negative, and a small 1.0. Floating-point addition is NOT associative: a 64-bit float has ~16 significant digits, so adding 1.0 to 1e16 rounds the 1.0 completely away (1e16 + 1.0 == 1e16), but adding the two big values first cancels them to 0.0 and then the 1.0 survives. So the SAME three numbers summed in different orders give different totals. A documented result that prints one order's total is not reproducible by a reader who sums in another order — or whose optimized/parallel library reorders the additions. true_sum is the mathematically exact total.",
+  "values": [1.0, 1e16, -1e16],
+  "true_sum": 1.0
+}

@@ -1,0 +1,13 @@
+{
+  "_meta": {
+    "what_this_is": "A stream of 20 requests a service sends to a downstream dependency that is DOWN for the first 10 requests (each call times out) and UP for the last 10 (each call is fast). Without a circuit breaker every request during the outage is sent and eats a full timeout, piling load on the struggling dependency and tying up workers. A circuit breaker trips OPEN after a few consecutive failures and fast-fails subsequent requests without calling downstream, probing occasionally (HALF_OPEN) to see if it has recovered, then closing when it has.",
+    "data_is": "A FIXTURE. The outage window (recover_at) and the breaker parameters are hand-set so the breaker sheds most of the outage load and still recovers on the first request after the dependency comes back. Every call, cost, and state transition is computed in breaker.py.",
+    "format": "requests: number of requests in the stream; recover_at: index at which downstream comes back up; fail_threshold: consecutive failures before OPEN; cooldown: requests to wait while OPEN before a HALF_OPEN probe; timeout_cost: cost of a call that times out; ok_cost: cost of a successful call."
+  },
+  "requests": 20,
+  "recover_at": 10,
+  "fail_threshold": 3,
+  "cooldown": 4,
+  "timeout_cost": 30,
+  "ok_cost": 1
+}

@@ -1,0 +1,5 @@
+{
+  "_meta": "A client calling a rate-limited server. The server is rate-limiting until time limit_until (in seconds on a shared clock): any request before then is rejected with HTTP 429 (Too Many Requests) and a Retry-After header telling the client how many seconds to wait; a request at or after limit_until succeeds. limit_until is 5. backoff_schedule is the fixed exponential-backoff wait sequence a client uses when it IGNORES the server's Retry-After header and just backs off on its own (1, 2, 4, 8, 16 seconds). The scenario contrasts two clients: one honors the Retry-After header (waits exactly the time the server asked), the other ignores it and uses its own backoff schedule. The honoring client retries once at exactly the moment the limit lifts; the ignoring client keeps retrying on its own schedule -- landing before the limit lifts (wasted 429s) and then overshooting past it. limit_until and backoff_schedule are the fixture; every request time, response, request count, and success time is computed.",
+  "limit_until": 5,
+  "backoff_schedule": [1, 2, 4, 8, 16]
+}

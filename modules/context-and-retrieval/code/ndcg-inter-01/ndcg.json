@@ -1,0 +1,7 @@
+{
+  "_meta": "Two orderings of the same retrieved results, each result carrying a graded relevance score, used to show why retrieval ranking should be scored with nDCG (normalized discounted cumulative gain) rather than a set metric like recall or hit-rate: because recall counts only WHETHER relevant items were retrieved, two rankings that return the identical set score identically under recall even when one puts the best result first and the other buries it last, whereas nDCG rewards putting the most relevant results at the top. Real relevance is graded, not binary -- a result can be exactly right (grade 3), useful (2), marginal (1), or irrelevant (0) -- and for a reader who scans top-down, a highly relevant result at rank 1 is worth far more than the same result at rank 4. nDCG captures both: it weights each result by its graded relevance and discounts that gain by position (dividing by log2 of the rank+1), sums to get DCG, then normalizes by the DCG of the ideal ordering (IDCG) so the score lands in 0..1, where 1 is the perfect ordering. A set metric is blind to order and so cannot tell a good ranking from a bad one that retrieved the same items. relevances_by_rank gives, for each named ordering, the graded relevance of the result at each rank position (rank 1 first). These are the fixture; each ordering's DCG, the ideal DCG, and its nDCG, along with the order-blind recall, are computed.",
+  "orderings": {
+    "good": [3, 2, 1, 0],
+    "bad": [0, 1, 2, 3]
+  }
+}

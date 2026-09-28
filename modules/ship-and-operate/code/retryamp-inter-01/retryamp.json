@@ -1,0 +1,5 @@
+{
+  "_meta": "A chain of services that call each other: the frontend calls the api, which calls storage, which calls the disk layer beneath it. Each layer, on a failure from the layer below, retries up to `attempts` times. The trap is that retries at every layer MULTIPLY: if each of D layers retries a times, one top-level request can turn into a^D requests at the bottom, because each retry at a layer re-drives the whole subtree beneath it. During an incident -- exactly when the bottom layer is already failing -- this multiplication turns a struggling service into an overwhelmed one, a retry storm that prevents recovery. layers names the call chain from top to bottom; attempts is the per-layer retry count (1 = no retry, just the single attempt). The load reaching each layer and the amplification factor are computed.",
+  "layers": ["frontend", "api", "storage", "disk"],
+  "attempts": [3, 3, 3]
+}

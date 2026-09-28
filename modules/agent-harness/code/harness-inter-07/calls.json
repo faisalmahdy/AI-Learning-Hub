@@ -1,0 +1,19 @@
+{
+  "_meta": {
+    "what_this_is": "Two tool schemas and six tool calls a model proposed. Each schema lists the tool's required arguments and their types. Each call names a tool and supplies arguments. One call is well-formed; the other five are each malformed in a different way -- an unknown tool, a missing required argument, two wrong-type arguments, and an unexpected extra argument -- exactly the ways a model's structured output goes wrong. A validating harness checks each call against its schema and rejects the malformed ones before executing.",
+    "data_is": "A FIXTURE. The schemas and calls are hand-authored so the one valid call and the five distinct rejection reasons are exact and checkable; every validation is computed in validate.py. Note booleans are rejected where an int is required (a common trap, since bool is a subclass of int in Python).",
+    "format": "schemas: {tool: {param: type}} with types str/int/bool/float; calls: [{id, tool, args}]."
+  },
+  "schemas": {
+    "search":     {"query": "str", "limit": "int"},
+    "send_email": {"to": "str", "body": "str"}
+  },
+  "calls": [
+    {"id": "c1", "tool": "search",       "args": {"query": "rope scaling", "limit": 5}},
+    {"id": "c2", "tool": "search",       "args": {"query": "kv cache"}},
+    {"id": "c3", "tool": "transfer_all", "args": {"account": "999"}},
+    {"id": "c4", "tool": "send_email",   "args": {"to": "a@b.com", "body": 123}},
+    {"id": "c5", "tool": "search",       "args": {"query": "attention", "limit": "ten"}},
+    {"id": "c6", "tool": "send_email",   "args": {"to": "a@b.com", "body": "hi", "cc": "x@y.com"}}
+  ]
+}

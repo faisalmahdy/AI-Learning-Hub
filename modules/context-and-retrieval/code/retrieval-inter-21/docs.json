@@ -1,0 +1,9 @@
+{
+  "_meta": "A document section (parent P) split into two small chunks. query is the terms the user searches for; context_needed is the tokens the answer actually requires (the specific detail). Each small chunk lists its tokens and its parent. Retrieval score is keyword-overlap divided by chunk length, so a short precise chunk scores higher than a long diluted one. Completeness is the fraction of context_needed present in the returned text. The question: which chunk matches the query, and which text must be RETURNED to answer it?",
+  "query": ["refund", "policy"],
+  "context_needed": ["30", "days"],
+  "chunks": [
+    {"id": "c_match",  "parent": "P", "tokens": ["refund", "policy", "process"]},
+    {"id": "c_detail", "parent": "P", "tokens": ["within", "30", "days", "receipt"]}
+  ]
+}

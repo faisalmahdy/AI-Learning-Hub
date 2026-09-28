@@ -1,0 +1,18 @@
+{
+  "_meta": {
+    "what_this_is": "Candidate chunks retrieved for a query that needs several sub-topics answered (a drug question needing dosage, side effects, and interactions). Each chunk has a relevance score to the query and a topic label. Three of the chunks are about dosage and near-duplicates of each other. Pure top-k by relevance picks the three dosage chunks -- highest scores, but redundant -- and never surfaces side effects or interactions, so the answer built from them is incomplete. MMR (maximal marginal relevance) balances relevance against novelty and covers the distinct sub-topics.",
+    "data_is": "A FIXTURE. Relevance scores and topics hand-authored so the top-k redundancy and the MMR coverage are exact and checkable. Similarity is 1.0 within a topic, low across topics.",
+    "format": "k (how many to select); lambda (MMR relevance-vs-novelty weight); needed_topics; chunks [{id, relevance, topic}]"
+  },
+  "k": 3,
+  "lambda": 0.5,
+  "needed_topics": ["dosage", "side_effects", "interactions"],
+  "chunks": [
+    {"id": "c1", "relevance": 0.95, "topic": "dosage"},
+    {"id": "c2", "relevance": 0.90, "topic": "dosage"},
+    {"id": "c3", "relevance": 0.88, "topic": "dosage"},
+    {"id": "c4", "relevance": 0.80, "topic": "side_effects"},
+    {"id": "c5", "relevance": 0.75, "topic": "interactions"},
+    {"id": "c6", "relevance": 0.60, "topic": "storage"}
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "_meta": "A sequence of deploys, each shipping one feature into a single deployable artifact, where the first feature turns out to be buggy, used to show that shipping features behind runtime flags lets you disable one bad feature in place, while the only alternative -- rolling the deploy back to before that feature -- also reverts every good feature shipped since. When release is coupled to deploy, a feature goes live the instant its code deploys and the only off-switch is another deploy. So to disable the buggy feature you roll the artifact back to the version before it was introduced -- but every feature deployed after it lives in later versions of that same artifact, so rolling back past the bug also removes those unrelated, working features. The bug is gone and so is a week of good work, or you must instead build and ship a forward fix, which takes time the incident does not have. A feature flag decouples release from deploy: the feature's code is deployed but gated behind a runtime flag, so turning it off is a configuration change, not a deploy -- it disables exactly that feature and leaves every other deployed feature, flagged or not, running. deploys lists the features in the order they were deployed into the artifact; buggy marks the one that must be disabled (here the first). The features left live after a rollback to before the bug, versus after flipping the bug's flag off, and the good features each approach loses, are computed. Stdlib only.",
+  "deploys": [
+    {"name": "checkout_v2", "buggy": true},
+    {"name": "search_filters", "buggy": false},
+    {"name": "dark_mode", "buggy": false}
+  ]
+}
